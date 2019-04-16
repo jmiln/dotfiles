@@ -1,0 +1,66 @@
+#.\e[A.  UP         .\e[13~. F1
+#.\e[B.  DOWN       .\e[14~. F2
+#.\e[C.  LEFT       .\e[15~. F3
+#.\e[D.  RIGHT      .\e[16~. F4
+#.\e[1~. INSERT     .\e[17~. F5
+#.\e[2~. DELETE     .\e[18~. F6
+#.\e[3~. HOME       .\e[19~. F7
+#.\e[4~. END        .\e[20~. F8
+#.\e[5~. PAGE UP    .\e[21~. F9
+#.\e[6~. PAGE DOWN  .\e[22~. F10
+#.\C-a.  CTRL+a     .\e[23~. F11
+#.\\.    backslash  .\e[24~. F12
+#
+#In this part,
+#.\e. An escape character
+#.\C. Control prefix
+#.\M. Meta prefix
+
+
+set completion-ignore-case On
+set bell-style none
+set show-all-if-ambiguous on
+
+#.\t.: menu-complete
+
+# set meta-flag on
+# set input-meta on
+# set convert-meta off
+# set output-meta on
+"\e[1~": beginning-of-line     # Home key
+"\e[4~": end-of-line           # End key
+"\e[5~": beginning-of-history  # PageUp key
+"\e[6~": end-of-history        # PageDown key
+"\e[3~": delete-char           # Delete key
+"\e[2~": quoted-insert         # Insert key
+"\eOD": backward-word          # Ctrl + Left Arrow key
+"\eOC": forward-word           # Ctrl + Right Arrow key
+
+
+
+"\e[3~": delete-char
+"[B": history-search-forward
+"[A": history-search-backward
+"\M-s": menu-complete
+
+"\eOc": forward-word
+"\eOd": backward-word
+
+# ctrl + left/right arrow jumps to the beginning/end of line
+"\e[4~": end-of-line
+"\e[1~": beginning-of-line
+
+set match-hidden-files Off
+set visible-stats on
+set mark-directories on
+set mark-symlinked-directories on
+
+set completion-query-items 30
+set show-all-if-ambiguous on
+
+$include /etc/inputrc
+
+
+#####################
+###### Tests ######
+#####################

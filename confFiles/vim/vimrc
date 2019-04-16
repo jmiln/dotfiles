@@ -1,0 +1,575 @@
+filetype off
+
+set nocompatible
+
+" Enable filetype plugins and indention
+filetype on
+filetype plugin on
+filetype plugin indent on       " Turn on filetype specific options
+
+let g:html_indent_inctags = "html,body,head,tbody"
+
+"======================================
+"              Settings
+"=======================================
+
+set backspace=indent,eol,start " Enable backspacing over autoindent, EOL, and BOL"
+set clipboard=unnamed
+set complete=.,w,b,u,t,i
+set completeopt=menu,longest
+set encoding=utf-8              " Default encoding
+set foldmethod=manual
+set formatoptions=t             " Fix formatting (line width) when editing"
+set hid                         " Enable changing buffers without saving
+set history=10000               " Sets the amount of commands that I can scroll back through to 10000
+set laststatus=2
+set listchars=tab:.\ ,eol:¬,trail:.,extends:.,precedes:.
+set magic                       " Enable magic (Not really sure...)
+set mat=2                       " Time to show matching parens
+set matchpairs+=<:>             " Allow matching of brackets too!
+set modeline                    " Allow vim options to be embedded in files
+set modelines=5                 " they must be within the first or last 5 lines"
+set noautoread                  " Don't automatically re-read changed files."
+set noautowrite                 " Never write a file unless I request it.
+set noautowriteall              " NEVER.
+set norelativenumber
+set noswapfile                  " Turn off annoying swapfiles
+set nowrap                      " Lets the lines wrap when the line gets to long
+set number                      " Sets it so there are numbered lines in vim
+set numberwidth=2               " Default width of line numbering"
+set omnifunc=syntaxcomplete#Complete
+set ruler                       " Keeps the block at the bottom right corner that tells what line and column you are on
+set scrolloff=1
+set shell=/bin/zsh              " My shell
+set shortmess=s
+set showbreak=.                 " What to show a line wrap as
+set showmatch                   " Highlight matching parens
+set showmode                    " Shows the mode for when in insert etc..
+set smartcase
+set smartindent
+set smarttab
+set splitbelow
+set t_ut=                       " Turns off the bells (I think)
+set title                       " Sets the window title so it shows what file you are in
+" set undofile                    " Turns on persistent undo (more problems that it is worth...)
+" set undodir=$HOME/.vim/undo
+set undolevels=1000             " Keeps the last 1000 modifications to undo
+set whichwrap+=b,s,h,l,<,>,[,]  " Lets you move the cursor through line breaks
+set wildmenu                                        " Enable wild menu
+set wildmode=longest,list,full                      " Extended wild menu"
+set winminheight=0
+set wrapscan                    " Sets it to wrap searches from bottom to top
+
+" Session Settings
+set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help  "
+
+let no_buffers_menu=1
+
+
+" Backup Settings
+set backupdir=~/.vim/backup/ " backups
+set backup " enable backup
+
+" Tab Settings
+set tabstop=4                   " Sets TAB to the same space as four spaces  not seem to be working though)
+set expandtab                   " Makes all the tabs turn to spaces
+set shiftwidth=4
+
+" Search Settings
+set hlsearch                    " Sets it to highlight each word that matches the search
+set incsearch                   " Sets it to show the search results as the word is typed in
+set ignorecase                  " Sets the search to ignore the case so it will show capitalized results when only lowercase is typed in
+
+" These next two use some of the highlighting lower down
+set cursorline                  " Sets it to highlight the row that I am on
+set cursorcolumn                " Sets it to highlight the column that I am on
+
+" Better modes. Remember where we are, support yankring
+set viminfo=!,'100,\"100,:20,<50,s10,h,n~/.viminfo>'
+
+" Sets it so there is no beeping or screen flashes
+set vb t_vb="
+
+let mapleader=";"               " Set leader key to comma
+
+" Setting the statusilne formatting
+set statusline  =
+set statusline +=%1*\ %n\ %*     " Buffer number
+set statusline +=[%{&ff}\ -\ %{&fenc}\ -\ %y]  " FileFormat, encoding, fileType
+set statusline +=%4*\ %<%f%*     " Full path
+set statusline +=%2*%m%*         " Modified flag
+" set statusline +=\ \ Fug:%{fugitive#statusline()}
+set statusline +=%=              " Right align everything after this
+set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
+
+" Remember last location in a file for when you re-open it
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+
+" Reload vim when .vimrc is written (very useful for when testing)
+autocmd! bufwritepost .vimrc source %   " When .vimrc is written, reload it
+
+" Some hopeful settings for php
+au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent
+set indentkeys=0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:
+
+"============================================
+"              Abbreviations
+"============================================
+
+" Easy shortcuts for the top of C files
+ab #i #include
+ab #d #define
+
+" Common bits for js/ node
+ab reqins const {inspect} = require("util");
+ab nounused // eslint-disable-line no-unused-vars
+ab inspectdepth inspect(, {depth: 5})
+ab mslang message.language.get()
+ab embedsep '=============================='
+
+" Other shortcuts for splitting/ marking stuff
+abb dotlin ……………………………………………………………………………………………………………………………………………………………………………………………
+abb cdotlin /*…………………………………………………………………………………………………………………………………………………………………………………*/
+abb fdotlin •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+abb cfdotlin /*•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/
+abb dlin =======================================================================
+abb cdlin /*===================================================================*/
+abb lin -----------------------------------------------------------------------
+abb clin /*-------------------------------------------------------------------*/
+abb ulin _______________________________________________________________________
+abb culin /*___________________________________________________________________*/
+abb Ulin ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+abb cUlin /*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*/
+
+"====================================
+"               Syntax
+"====================================
+syntax on   " Turns the syntax highlighting on
+
+set t_Co=256      " Let vim know that terminal has 256 colors"
+set background=dark
+hi Comment          cterm=none          ctermfg=red         ctermbg=none
+hi Constant         cterm=none          ctermfg=grey        ctermbg=none
+hi ColorColumn      cterm=none          ctermfg=none        ctermbg=none
+hi Error            cterm=none          ctermfg=white       ctermbg=red
+hi Folded           cterm=none          ctermfg=blue        ctermbg=grey
+hi Identifier       cterm=none          ctermfg=grey        ctermbg=none
+hi LineNr           cterm=none          ctermfg=darkgrey    ctermbg=none
+hi NonText          cterm=none          ctermfg=darkred     ctermbg=none
+hi Normal           cterm=none          ctermfg=grey        ctermbg=none
+hi PreProc          cterm=none          ctermfg=DarkGreen   ctermbg=none
+hi Search           cterm=none          ctermfg=white       ctermbg=lightblue
+hi Special          cterm=none          ctermfg=magenta     ctermbg=none
+hi Split            cterm=none          ctermfg=blue        ctermbg=grey
+hi Statement        cterm=none          ctermfg=darkgreen   ctermbg=none
+hi Statusline       cterm=none          ctermfg=grey        ctermbg=none
+hi TabLineFill      cterm=none          ctermfg=none        ctermbg=none
+hi Type             cterm=bold          ctermfg=green       ctermbg=none
+hi VertSplit        cterm=none          ctermfg=blue        ctermbg=grey
+hi Visual           cterm=reverse       ctermfg=none        ctermbg=none
+
+" C specific colors
+hi cStorageClass    cterm=none          ctermfg=darkgreen
+hi cString          cterm=none          ctermfg=blue
+hi cNumber          cterm=none          ctermfg=darkblue
+hi cConstant        cterm=none          ctermfg=none
+hi cStatement       cterm=none          ctermfg=darkgreen
+
+" Python specific colors
+hi pythonString     cterm=bold          ctermfg=green
+hi pythonDocstring  cterm=bold          ctermfg=green
+
+" SpellCheck specific colors
+hi SpellBad         cterm=underline     ctermfg=darkRed     ctermbg=none
+hi SpellCap         cterm=underline                         ctermbg=none
+hi SpellRare        cterm=underline                         ctermbg=none
+hi SpellLocal       cterm=underline                         ctermbg=none
+
+" Completion menu colors
+hi Pmenu            cterm=none          ctermfg=Cyan        ctermbg=none
+hi PmenuSel         cterm=Bold          ctermfg=Black       ctermbg=darkgrey
+" hi PmenuSbar        cterm=none          ctermfg=cyan       ctermbg=Cyan
+hi PmenuThumb       cterm=none          ctermfg=White       ctermbg=none
+
+" Cursor specific colores
+hi CursorLine       cterm=none          ctermfg=none        ctermbg=none
+hi CursorColumn     cterm=none          ctermfg=none        ctermbg=none
+hi CursorLineNr     cterm=none          ctermfg=lightgrey   ctermbg=none
+
+" Easymotion plugin highlighting
+hi link EasyMotionTarget        Type
+hi link EasyMotionShade         LineNr
+hi link EasyMotionTarget2First  Type
+hi link EasyMotionTarget2Second Type
+
+" Highlighting for *.ejs files, so they look like html
+au BufNewFile,BufRead *.ejs set filetype=html
+
+"=========================
+"       Mapping
+"=========================
+
+nnoremap <C-e> <C-w>
+
+" " Remove trailing whitespace
+" nnoremap <silent><C-e> :%s/\s\+$//<CR> :nohlsearch<CR>
+"
+" " Swap tabs for spaces
+" nnoremap <silent><C-S-e>  :%s/\t/    /g<CR> :nohlsearch<CR>
+"
+" " Select All
+" nnoremap <silent><leader>a ggVG
+
+" Makes the arrow keys work in vim, not sure why they had stopped in the first place
+" though  still mess up when trying to search)
+set t_ku=OA
+set t_kd=OB
+set t_kr=OC
+set t_kl=OD
+
+map OA <up>
+map OB <down>
+map OC <right>
+map OD <left>
+
+imap <ESC>oA <ESC>ki
+imap <ESC>oB <ESC>ji
+imap <ESC>oC <ESC>li
+imap <ESC>oD <ESC>hi
+
+" Bubble single lines
+nmap <C-K> ddkP
+nmap <C-J> ddp
+
+" Bubble multiple lines
+vmap <C-K> xkP`[V`]
+vmap <C-J> xp`[V`]
+
+" turns off the search highlighting
+map <silent> <Space> :nohlsearch <CR>
+
+" Makes it easier to redo
+map <silent> r <C-R>
+
+" Toggle spellcheck
+" map <silent> ss :set spell!<CR>
+
+" For local replace
+nnoremap gr gd[{V%:s/<C-R>///gc<left><left><left>
+
+" For global replace
+nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+
+" Tagbar binding
+nnoremap <silent><F2> :TagbarToggle<CR>
+
+nmap <silent> <F3> :set number!<CR>
+
+" Toggles word wrap
+map <silent> <F4> :set invwrap <CR>
+
+" Toggles the mouse so you can use it for visual mode
+" and then back to being able to use it for copy/ paste (does not seem to work on mac)
+nnoremap <silent> <F5> :call ToggleMouse()<CR>
+function! ToggleMouse()
+    if &mouse == 'a'
+        set mouse=
+    else
+        set mouse=a
+    endif
+endfunction
+
+" Toggle pate with <F6>, default is off
+set pastetoggle=off
+set pastetoggle=<F6>
+
+" Toggles the syntax highlighting
+map <silent> <F7> :if exists("syntax_on") <Bar>
+            \   syntax off <Bar>
+            \ else <Bar>
+            \   syntax enable <Bar>
+            \ endif <CR>
+
+" Tells me what syntax attribute is under the cursor
+nnoremap <F8> :call SyntaxAttr()<CR>
+
+" Toggle the invisible stuff
+nnoremap <silent><F9> :set invlist<CR>
+
+"=========================================================
+"                   Plugin links etc.
+"=========================================================
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Use :BundleInstall or :BundleUpdate
+" Need (sudo apt install build-essential cmake python3-dev) for YouCompleteMe
+
+" let Vundle manage Vundle (required)
+Bundle 'gmarik/vundle'
+
+" Github repos
+Bundle 'airblade/vim-gitgutter'
+Bundle 'Raimondi/delimitMate.git'
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Bundle 'klen/python-mode.git'
+" Bundle 'kien/rainbow_parentheses.vim.git'
+Bundle 'rstacruz/sparkup'
+Bundle 'ervandew/supertab.git'
+" Plugin 'vim-syntastic/syntastic'
+" Bundle 'majutsushi/tagbar.git'
+Bundle 'tomtom/tcomment_vim.git'
+Bundle 'marijnh/tern_for_vim'
+Bundle 'SirVer/ultisnips'
+Bundle 'tpope/vim-abolish.git'
+Bundle 'tpope/vim-surround'
+Bundle 'MarcWeber/vim-addon-mw-utils.git'
+" Bundle 'Lokaltog/vim-easymotion'
+Bundle 'tpope/vim-fugitive'
+" Bundle 'millermedeiros/vim-statline.git'
+Bundle 'Valloric/YouCompleteMe.git'
+
+" vim-scripts repos
+Bundle 'Align'
+" Bundle 'a.vim.git'
+Bundle 'Emmet.vim'
+" Bundle 'Gundo'
+Bundle 'L9'
+Bundle 'ragtag.vim'
+Bundle 'SearchComplete'
+" Bundle 'SyntaxAttr.vim'
+" Bundle 'vimspell'
+" Bundle 'matchit'
+
+Plugin 'w0rp/ale'
+
+"=========================================================
+"                   Plugin Settings
+"=========================================================
+
+" restore vim - helping keep settings after closing it
+set viewoptions=options,cursor,folds,slash,unix 
+au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
+au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
+
+" Tmux clipboard binding (should let me yank and paste between vim tmux
+" windows but doesnt normally on the lab server)
+if $TMUX == ''
+    set clipboard+=unnamed
+endif
+
+" Toggles comments using the tComment plugin
+map <C-/> <c-_><c-_>
+imap <C-/> <ESC><c-_><c-_>
+" Toggle block comment
+map <C-B> <c-_>b
+
+let g:tcommentLineC='// %s'
+
+    "Delimitmate
+let delimitMate_expand_cr = 1
+
+" Pydiction location
+" let pydiction_location='~/.vim/bundle/Pydiction/complete-dict'
+
+" Disable pylint checking every save
+" let g:pymode_lint_on_write = 0
+" let g:pymode_folding = 0
+
+" Supertab settings
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabLongestHighlight = 1
+
+" Easy-motion
+" map  <leader><leader>w <Plug>(easymotion-bd-w)
+" let g:EasyMotion_smartcase = 1
+
+"  Ale
+    " Enable completion where available.
+let g:ale_completion_enabled = 1
+
+    " Disable checking code unless I save it
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+
+    " Check & fix JavaScript code with ESlint
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\}
+
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_open_list = 1
+" let g:ale_keep_list_window_open = 1
+
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? ' OK' : printf(
+                \   ' %dW %dE',
+                \   all_non_errors,
+                \   all_errors
+                \)
+endfunction
+
+set statusline+=%{LinterStatus()}
+
+
+" Syntastic
+"     " Set the syntax checkers for each language
+" let g:syntastic_c_checkers=['gcc', 'make']
+" let g:syntastic_cpp_checkers=['gcc', 'cpplint']
+" let g:syntastic_python_checkers=['pylint', 'python', 'pyflakes']
+" let g:syntastic_js_checkers=['eslint']
+"
+"     "Tells it to highlight syntax errors when possible
+" let g:syntastic_enable_highlighting = 1
+"
+    " Statusline - Shows how many warnings/ errors
+" let g:syntastic_stl_format = '[Syntax: line:%F (E:%e, W:%w)]'
+"
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_javascript_eslint_exe = 'npm run lint --'
+" " let g:syntastic_javascript_eslint_exe = '$(npm bin)/eslint'
+
+" Tagbar
+let g:tagbar_usearrows = 1
+let g:tagbar_singleclick = 1
+let g:tagbar_autofocus = 1
+
+" Gundo
+nnoremap <silent><F11> :GundoToggle<CR>
+let g:gundo_width = 30
+let g:gundo_preview_height = 15
+let g:gundo_right = 0
+let g:gundo_preview_bottom = 1
+
+" Nerd Tree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
+let NERDTreeShowHidden = 1
+
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+nnoremap <silent><F12> :NERDTreeToggle<cr>
+nnoremap <silent><leader>tb :NERDTreeFromBookmark
+nnoremap <silent><leader>tf :NERDTreeFind )
+
+"====================
+"       tests
+"====================
+
+" function! NeatFoldText()
+"   let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+"   let lines_count = v:foldend - v:foldstart + 1
+"   let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+"   let foldchar = matchstr(&fillchars, 'fold:\zs.')
+"   let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+"   let foldtextend = lines_count_text . repeat(foldchar, 8)
+"   let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+"   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+" endfunction
+" set foldtext=NeatFoldText()
+
+
+" Tells vim that everything useful is above this
+finish
+
+
+"##############################################################################
+"#########################  Key Mappings/ Codes  ##############################
+"##############################################################################
+
+" These names for keys are used in the documentation.  They can also be used
+" with the ":map" command (insert the key name by pressing CTRL-K and then the
+" key you want the name for).
+"
+" notation  meaning         equivalent  decimal value(s)    ~
+"-----------------------------------------------------------------------
+" <Nul>     zero            CTRL-@    0 (stored as 10) *<Nul>*
+" <BS>      backspace       CTRL-H    8                 *backspace*
+" <Tab>     tab             CTRL-I    9                 *tab* *Tab*
+"                           *linefeed*
+" <NL>      linefeed        CTRL-J   10                 (used for <Nul>)
+" <FF>      formfeed        CTRL-L   12                 *formfeed*
+" <CR>      car return      CTRL-M   13                 *carriage-return*
+" <Return>  same as <CR>                                *<Return>*
+" <Enter>   same as <CR>                                *<Enter>*
+" <Esc>     escape          CTRL-[   27                 *escape* *<Esc>*
+" <Space>   space                    32                 *space*
+" <lt>      less-than       <        60                 *<lt>*
+" <Bslash>  backslash       \        92                 *backslash* *<Bslash>*
+" <Bar>     vertical bar    |       124                 *<Bar>*
+" <Del>     delete                  127
+"
+" <EOL>     end-of-line (can be <CR>, <LF> or <CR><LF>,
+"           depends on system and 'fileformat')             *<EOL>*
+"
+" <Up>      cursor-up                                   *cursor-up* *cursor_up*
+" <Down>    cursor-down                                 *cursor-down* *cursor_down*
+" <Left>    cursor-left                                 *cursor-left* *cursor_left*
+" <Right>   cursor-right                                *cursor-right* *cursor_right*
+" <S-Up>    shift-cursor-up
+" <S-Down>  shift-cursor-down
+" <S-Left>  shift-cursor-left
+" <S-Right> shift-cursor-right
+" <C-Left>  control-cursor-left
+" <C-Right> control-cursor-right
+" <F1> - <F12>  function keys 1 to 12                   *function_key* *function-key*
+" <S-F1> - <S-F12> shift-function keys 1 to 12          *<S-F1>*
+" <Help>        help key
+" <Undo>        undo key
+" <Insert>  insert key
+" <Home>        home                                        *home*
+" <End>     end                                         *end*
+" <PageUp>  page-up                                     *page_up* *page-up*
+" <PageDown>    page-down                                   *page_down* *page-down*
+" <kHome>   keypad home (upper left)                    *keypad-home*
+" <kEnd>        keypad end (lower left)                     *keypad-end*
+" <kPageUp> keypad page-up (upper right)                *keypad-page-up*
+" <kPageDown>keypad page-down (lower right)             *keypad-page-down*
+" <kPlus>   keypad +                                    *keypad-plus*
+" <kMinus>  keypad -                                    *keypad-minus*
+" <kMultiply>keypad *                                   *keypad-multiply*
+" <kDivide> keypad /                                    *keypad-divide*
+" <kEnter>  keypad Enter                                *keypad-enter*
+" <kPoint>  keypad Decimal point                        *keypad-point*
+" <k0> - <k9>keypad 0 to 9                              *keypad-0* *keypad-9*
+" <S-...>   shift-key                                   *shift* *<S-*
+" <C-...>   control-key                                 *control* *ctrl* *<C-*
+" <A-...>   same as <M-...>                             *<A-*
+" <t_xx>        key with "xx" entry in termcap
+
+"##############################################################################
+
+" The ':map' command creates a key map that works in normal, visual, select and operator pending modes.
+" The ':map!' command creates a key map that works in insert and command-line mode.

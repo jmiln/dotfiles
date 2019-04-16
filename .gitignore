@@ -1,0 +1,5 @@
+# Ignore backup files from vim
+confFiles/vim/.vim/backup/*
+
+# Ignore various stuff from some plugins
+confFiles/vim/.vim/bundle/*

@@ -1,0 +1,81 @@
+alias sound='alsamixer -V=all'
+
+# Brightness for school moniters (between 0 and 1, otherwise it goes all sorts of funky)
+alias brightness='xrandr --output eDP --brightness '
+
+# Basic app customization
+alias mkdirp='mkdir -p'
+alias man='man -P "less -X"'
+alias less='less -X'
+alias grep='grep --color=auto'  #
+
+# Detect which `ls` flavor is in use
+if ls --color > /dev/null 2>&1; then # GNU `ls`
+    lsFlags="-C --group-directories-first --color"
+else # macOS `ls`
+    lsFlags="-G"
+fi
+
+alias ls="ls -CF ${lsFlags}"
+alias l='ls'
+alias la='ls -A'
+alias lla='clear; ls -la'
+alias ll='clear; ls -l'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias path='echo -e ${PATH//:/\\n}'
+alias du='du -kh'           # Makes a more readable output.
+alias df='df -kTh'
+alias mkdir='mkdir -p'      # Create directories as needed
+alias mv='mv -iv'           # Prompts before overwrite
+alias rm='rm -v'
+alias ap='apropos'          # Use to search for commands
+alias m='more'
+
+# Some quick dotfile aliases
+alias .aliases='vim ~/.aliases'
+alias .bashrc='vim ~/.bashrc'
+alias .functions='vim ~/.functions'
+alias .inputrc='vim ~/.inputrc'
+alias .profile='vim ~/.profile'
+alias .screenrc='vim ~/.screenrc'
+alias .tmux='vim ~/.tmux.conf'
+alias .vimrc='vim ~/.vimrc'
+alias .zshrc='vim ~/.zshrc'
+
+alias xs='cd'                   # For when I misstype
+alias untar='tar xvf'
+alias reload='source ~/.zshrc'  # reloads the .zshrc file
+
+alias todo='vim ~/.todo'
+
+#alias py='python'
+#alias i='ipython'
+
+### Network aliases ###
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"   # Show the current IP
+
+### Git aliases ###
+alias gitchanged='git diff master@{1} master'
+alias gits='git status'
+
+alias gb='git branch'
+alias gl='git log'
+alias glo='git log --oneline'
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+alias gcam='git commit --amend'
+alias gd='git diff'
+alias gp='git pull'
+alias gpr='git pull --rebase'
+alias gpu='git push'
+alias gst='git status'
+alias gss='git stash save'
+alias gsa='git stash apply'
+alias gsp='git stash pop'
+alias gsl='git stash list'
+alias grc='git rebase --continue'
+alias gri='git rebase --interactive'

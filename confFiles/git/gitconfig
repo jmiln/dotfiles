@@ -1,0 +1,19 @@
+[color]
+    ui = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = blue bold
+    frag = yellow bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = green
+    changed = yellow
+    deleted = black red
+    untracked = red
+[user]
+	name = Jeff Milner
+	email = j.milner359@gmail.com
