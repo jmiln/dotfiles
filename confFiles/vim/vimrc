@@ -108,6 +108,9 @@ au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|
 " Reload vim when .vimrc is written (very useful for when testing)
 autocmd! bufwritepost .vimrc source %   " When .vimrc is written, reload it
 
+" Remove trailing spaces when you save a file
+autocmd BufWritePre * :%s/\s\+$//e
+
 " Some hopeful settings for php
 au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent
 set indentkeys=0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:
