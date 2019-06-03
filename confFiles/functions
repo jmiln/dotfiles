@@ -1,0 +1,202 @@
+##########################################
+############## My Functions ##############
+##########################################
+
+
+# Various C compiler functions
+
+#------------------------------------------------------
+#---------- Various C compiler functions ---------- {{{
+#------------------------------------------------------
+function c() {
+    gcc -g -o ${1} ${1}.c
+}
+
+function cm() {
+    gcc -lm -g -o ${1} ${1}.c
+}
+
+function cmall() {
+    gcc -lm -Wall -pedantic -g  -o ${1} ${1}.c
+}
+
+function call() {
+    gcc -Wall -pedantic -g  -o ${1} ${1}.c
+}
+
+function c99() {
+    gcc -std=c99 -g -o ${1} ${1}.c
+}
+
+function cm99() {
+    gcc -lm -std=c99 -g -o ${1} ${1}.c
+}
+
+function c99all() {
+    gcc -Wall -pedantic -g -std=c99 -o ${1} ${1}.c
+}
+
+function cm99all() {
+    gcc -lm -Wall -pedantic -g -std=c99 -o ${1} ${1}.c
+}
+
+
+#---------------------------------------
+#---------- Language Help ---------- {{{
+#---------------------------------------
+
+# Python help
+py-help27() { python2.7 -c "help('$1')" ;}
+
+# Vim help
+function :h { vim +":h $1" +'wincmd o' +'nnoremap q :q!<CR>' ;}
+
+
+#--------------------------------------------
+#---------- Number Conversions ---------- {{{
+#--------------------------------------------
+
+# Hex to Decimal
+h2d(){ echo "ibase=16; $@"|bc }
+
+# Decimal to Hex
+d2h(){ echo "obase=16; $@"|bc }
+
+# Deximal to Binary
+d2b(){ echo "obase=2; $@"| bc }
+
+# Binary to Decimal
+b2d(){ echo "ibase=2; $@"| bc }
+
+# Hex to Binary
+h2b(){ echo "obase=2; ibase=F; $@ "|bc }
+
+# Binary to Hex
+b2h(){ echo "obase=F; ibase=2; ; $@ "|bc }
+
+
+#--------------------------------------------
+#---------- System Information ---------- {{{
+#--------------------------------------------
+m-hardware() { inxi -F ;}  # display full system specs
+m-sound() { echo "Examples: hw:0,0    hw:0,1    hw:0,2"; cat /proc/asound/pcm ;} #List audio capture card
+m-distro() { uname -a && lsb_release -a ;}
+
+# uses ip or ifconfig, good on older or newer system
+m-ip() {
+        echo "--------------- Network Information ---------------"
+    # newer system like arch
+    ip addr | awk '/global/ {print $1,$2}' | cut -d\/ -f1
+    ip addr | awk '/global/ {print $3,$4}'
+    ip addr | awk '/ether/ {print $1,$2}'
+    ip addr | awk '/scope link/ {print $1,$2}' | cut -d\/ -f1
+    # older system like debian
+    ifconfig | awk '/inet addr/ {print $1,$2}' | awk -F: '{print $1,$2}'
+    ifconfig | awk '/Bcast/ {print $3}' | awk -F: '{print $1,$2}'
+    ifconfig | awk '/inet addr/ {print $4}' | awk -F: '{print $1,$2}'
+    ifconfig | awk '/HWaddr/ {print $4,$5}'
+    ifconfig | awk '/Scope:Link/ {print $1,$3}' | cut -d\/ -f1
+    echo Current IP $(curl -s http://checkip.dyndns.org/ | grep -o "[[:digit:].]\+")
+    echo "---------------------------------------------------"
+}
+
+
+#-------------------------------------------
+#---------- File Manipulation ---------- {{{
+#-------------------------------------------
+
+function swap() { # Swap 2 filenames around, if they exist
+    local TMPFILE=tmp.$$
+
+    [ $# -ne 2 ] && echo "swap: 2 arguments needed" && return 1
+    [ ! -e $1 ] && echo "swap: $1 does not exist" && return 1
+    [ ! -e $2 ] && echo "swap: $2 does not exist" && return 1
+
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
+}
+
+
+function extract() { # Handy Extract Program.
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1    ;;
+            *.tar.gz)    tar xvzf $1    ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       rar x $1       ;;
+            *.cbr)       rar x -ad $1   ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xvf $1     ;;
+            *.cbt)       tar xvf $1     ;;
+            *.tbz2)      tar xvjf $1    ;;
+            *.tgz)       tar xvzf $1    ;;
+            *.zip)       unzip $1       ;;
+            *.cbz)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *.cb7)       7z x $1        ;;
+            *.deb)       ar vx $1     ;;
+            *) echo "'$1' cannot be extracted via >extract<" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+
+# Usage: smartcompress <file> (<type>)
+# Description: compresses files or a directory.  Defaults to tar.gz
+smartcompress()
+{
+if [ '$2' ];
+then
+    case '$2' in
+        tgz | tar.gz)   tar -zcvf$1.$2  '$1' ;;
+        tbz2 | tar.bz2) tar -jcvf$1.$2  '$1' ;;
+        tar.Z)          tar -Zcvf$1.$2  '$1' ;;
+        tar)            tar -cvf$1.$2   '$1' ;;
+        gz | gzip)      gzip            '$1' ;;
+        bz2 | bzip2)    bzip2           '$1' ;;
+        *)
+    echo "Error: $2 is not a valid compression type" ;;
+    esac
+else
+    smartcompress '$1' tar.gz
+fi
+}
+
+#}}}
+
+function most_useless_use_of_zsh {
+   local lines columns colour a b p q i pnew
+   ((columns=COLUMNS-1, lines=LINES-1, colour=0))
+   for ((b=-1.5; b<=1.5; b+=3.0/lines)) do
+       for ((a=-2.0; a<=1; a+=3.0/columns)) do
+           for ((p=0.0, q=0.0, i=0; p*p+q*q < 4 && i < 32; i++)) do
+               ((pnew=p*p-q*q+a, q=2*p*q+b, p=pnew))
+           done
+           ((colour=(i/4)%8))
+            echo -n "\\e[4${colour}m "
+        done
+        echo
+    done
+}
+
+
+function ii() { # Get current host related info.
+    echo -e "\nYou are logged on ${RED}$HOST"
+    echo -e "\nAdditionnal information:$NC " ; uname -a
+    echo -e "\n${red}Users logged on:$NC " ; w -h
+    echo -e "\n${red}Current date :$NC " ; date
+    echo -e "\n${red}Machine stats :$NC " ; uptime
+    echo -e "\n${red}Memory stats :$NC " ; free
+    my_ip 2>&- ;
+    echo -e "\n${red}Local IP Address :$NC" ; echo ${MY_IP:-"Not connected"}
+    echo -e "\n${red}ISP Address :$NC" ; echo ${MY_ISP:-"Not connected"}
+    echo -e "\n${red}Open connections :$NC "; netstat -pan --inet;
+    echo
+}
+
+
+zombie-process() { ps aux | awk '{ print $8 " " $2 }' | grep -w Z ;}
