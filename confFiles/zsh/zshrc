@@ -4,6 +4,8 @@ colors
 compinit -i
 promptinit
 
+export TZ=US/Pacific
+
 setopt AUTO_PARAM_SLASH
 setopt AUTO_PUSHD
 setopt CORRECT

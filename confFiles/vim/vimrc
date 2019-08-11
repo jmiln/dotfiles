@@ -115,6 +115,9 @@ autocmd BufWritePre * :%s/\s\+$//e
 au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent
 set indentkeys=0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:
 
+" Set .ejs files to be like html
+au BufNewFile,BufRead *.ejs set filetype=html
+
 "============================================
 "              Abbreviations
 "============================================
@@ -328,6 +331,7 @@ Bundle 'SirVer/ultisnips'
 Bundle 'tpope/vim-abolish.git'
 Bundle 'tpope/vim-surround'
 Bundle 'MarcWeber/vim-addon-mw-utils.git'
+Bundle 'alvan/vim-closetag'
 " Bundle 'Lokaltog/vim-easymotion'
 Bundle 'tpope/vim-fugitive'
 " Bundle 'millermedeiros/vim-statline.git'
@@ -352,7 +356,7 @@ Plugin 'w0rp/ale'
 "=========================================================
 
 " restore vim - helping keep settings after closing it
-set viewoptions=options,cursor,folds,slash,unix 
+set viewoptions=options,cursor,folds,slash,unix
 au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
 au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
 
