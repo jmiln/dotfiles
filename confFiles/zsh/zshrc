@@ -184,13 +184,17 @@ _myos="$(uname)"
 case $_myos in
    Linux)
        if which tmux 2>&1 >/dev/null; then
-           # if no session is started, start a new session
-           test -z ${TMUX} && tmux
-
-           # when quitting tmux, try to attach
-           while test -z ${TMUX}; do
-               tmux attach || break
-           done
+           if [ -z "$TMUX" ] && [ ${UID} != 0 ]
+           then
+               tmux new-session -A -s main
+           fi
+           #     # if no session is started, start a new session
+           #     test -z ${TMUX} && tmux
+           #
+           #     # when quitting tmux, try to attach
+           #     while test -z ${TMUX}; do
+           #         tmux attach || break
+           #     done
        fi
        ;;
    Darwin)
