@@ -3,7 +3,7 @@ filetype off
 set nocompatible
 
 " Enable filetype plugins and indention
-filetype on
+filetype off
 filetype plugin on
 filetype plugin indent on       " Turn on filetype specific options
 
@@ -51,8 +51,6 @@ set smarttab
 set splitbelow
 set t_ut=                       " Turns off the bells (I think)
 set title                       " Sets the window title so it shows what file you are in
-" set undofile                    " Turns on persistent undo (more problems that it is worth...)
-" set undodir=$HOME/.vim/undo
 set undolevels=1000             " Keeps the last 1000 modifications to undo
 set whichwrap+=b,s,h,l,<,>,[,]  " Lets you move the cursor through line breaks
 set wildmenu                                        " Enable wild menu
@@ -67,8 +65,7 @@ let no_buffers_menu=1
 
 
 " Backup Settings
-set backupdir=~/.vim/backup/ " backups
-set backup " enable backup
+set nobackup " disable backup
 
 " Tab Settings
 set tabstop=4                   " Sets TAB to the same space as four spaces  not seem to be working though)
@@ -90,15 +87,12 @@ set viminfo=!,'100,\"100,:20,<50,s10,h,n~/.viminfo>'
 " Sets it so there is no beeping or screen flashes
 set vb t_vb="
 
-let mapleader=";"               " Set leader key to comma
-
 " Setting the statusilne formatting
 set statusline  =
 set statusline +=%1*\ %n\ %*     " Buffer number
 set statusline +=[%{&ff}\ -\ %{&fenc}\ -\ %y]  " FileFormat, encoding, fileType
 set statusline +=%4*\ %<%f%*     " Full path
 set statusline +=%2*%m%*         " Modified flag
-" set statusline +=\ \ Fug:%{fugitive#statusline()}
 set statusline +=%=              " Right align everything after this
 set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
 
@@ -202,12 +196,6 @@ hi CursorLine       cterm=none          ctermfg=none        ctermbg=none
 hi CursorColumn     cterm=none          ctermfg=none        ctermbg=none
 hi CursorLineNr     cterm=none          ctermfg=lightgrey   ctermbg=none
 
-" Easymotion plugin highlighting
-hi link EasyMotionTarget        Type
-hi link EasyMotionShade         LineNr
-hi link EasyMotionTarget2First  Type
-hi link EasyMotionTarget2Second Type
-
 " Highlighting for *.ejs files, so they look like html
 au BufNewFile,BufRead *.ejs set filetype=html
 
@@ -216,15 +204,6 @@ au BufNewFile,BufRead *.ejs set filetype=html
 "=========================
 
 nnoremap <C-e> <C-w>
-
-" " Remove trailing whitespace
-" nnoremap <silent><C-e> :%s/\s\+$//<CR> :nohlsearch<CR>
-"
-" " Swap tabs for spaces
-" nnoremap <silent><C-S-e>  :%s/\t/    /g<CR> :nohlsearch<CR>
-"
-" " Select All
-" nnoremap <silent><leader>a ggVG
 
 " Makes the arrow keys work in vim, not sure why they had stopped in the first place
 " though  still mess up when trying to search)
@@ -266,9 +245,6 @@ nnoremap gr gd[{V%:s/<C-R>///gc<left><left><left>
 " For global replace
 nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 
-" Tagbar binding
-nnoremap <silent><F2> :TagbarToggle<CR>
-
 nmap <silent> <F3> :set number!<CR>
 
 " Toggles word wrap
@@ -305,51 +281,68 @@ nnoremap <silent><F9> :set invlist<CR>
 "=========================================================
 "                   Plugin links etc.
 "=========================================================
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-" Use :BundleInstall or :BundleUpdate
-" Need (sudo apt install build-essential cmake python3-dev) for YouCompleteMe
+" Use :PluginInstall or :PluginUpdate
+"   Need (sudo apt install build-essential cmake python3-dev) for YouCompleteMe
+"   cd ~/.vim/bundle/YouCompleteMe
+"   python3 install.py --ts-completer
 
 " let Vundle manage Vundle (required)
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 " Github repos
-Bundle 'airblade/vim-gitgutter'
-Bundle 'Raimondi/delimitMate.git'
-" Plugin 'scrooloose/nerdtree'
-" Plugin 'Xuyuanp/nerdtree-git-plugin'
-" Bundle 'klen/python-mode.git'
-" Bundle 'kien/rainbow_parentheses.vim.git'
-Bundle 'rstacruz/sparkup'
-Bundle 'ervandew/supertab.git'
-" Plugin 'vim-syntastic/syntastic'
-" Bundle 'majutsushi/tagbar.git'
-Bundle 'tomtom/tcomment_vim.git'
-Bundle 'marijnh/tern_for_vim'
-Bundle 'SirVer/ultisnips'
-Bundle 'tpope/vim-abolish.git'
-Bundle 'tpope/vim-surround'
-Bundle 'MarcWeber/vim-addon-mw-utils.git'
-Bundle 'alvan/vim-closetag'
-" Bundle 'Lokaltog/vim-easymotion'
-Bundle 'tpope/vim-fugitive'
-" Bundle 'millermedeiros/vim-statline.git'
-Bundle 'Valloric/YouCompleteMe.git'
+Plugin 'dense-analysis/ale'
+Plugin 'Raimondi/delimitMate.git'
+Plugin 'kien/rainbow_parentheses.vim.git'
+Plugin 'rstacruz/sparkup'
+Plugin 'ervandew/supertab.git'
+Plugin 'tomtom/tcomment_vim.git'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'tpope/vim-abolish.git'
+Plugin 'MarcWeber/vim-addon-mw-utils.git'
+Plugin 'alvan/vim-closetag'
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-surround'
+Plugin 'Valloric/YouCompleteMe.git'
 
 " vim-scripts repos
-Bundle 'Align'
-" Bundle 'a.vim.git'
-Bundle 'Emmet.vim'
-" Bundle 'Gundo'
-Bundle 'L9'
-Bundle 'ragtag.vim'
-Bundle 'SearchComplete'
-" Bundle 'SyntaxAttr.vim'
-" Bundle 'vimspell'
-" Bundle 'matchit'
+Plugin 'Align'
+Plugin 'Emmet.vim'
+Plugin 'L9'
+Plugin 'ragtag.vim'
+Plugin 'SearchComplete'
 
-Plugin 'w0rp/ale'
+
+" Quickly swap between files & their header files (C langs mainly)
+" Plugin 'a.vim.git'
+
+" Graphical undo list
+" Plugin 'Gundo'
+
+" Check check for spelling errors
+" Plugin 'vimspell'
+
+" Displays the syntax attributes of the character under the cursor
+" Plugin 'SyntaxAttr.vim'o
+
+" Lets you use % to jump between matching html tags too
+" Plugin 'matchit'
+
+" Gives you a taglist to jump between functions
+" Plugin 'majutsushi/tagbar.git'
+
+" Give you an IDE-like file tree
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+" Useful for when workingon python
+" Plugin 'klen/python-mode.git'
+
+call vundle#end()
 
 "=========================================================
 "                   Plugin Settings
@@ -360,17 +353,9 @@ set viewoptions=options,cursor,folds,slash,unix
 au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
 au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
 
-" Tmux clipboard binding (should let me yank and paste between vim tmux
-" windows but doesnt normally on the lab server)
-if $TMUX == ''
-    set clipboard+=unnamed
-endif
-
 " Toggles comments using the tComment plugin
 map <C-/> <c-_><c-_>
 imap <C-/> <ESC><c-_><c-_>
-" Toggle block comment
-map <C-B> <c-_>b
 
 let g:tcommentLineC='// %s'
 
@@ -381,16 +366,15 @@ let delimitMate_expand_cr = 1
 " let pydiction_location='~/.vim/bundle/Pydiction/complete-dict'
 
 " Disable pylint checking every save
-" let g:pymode_lint_on_write = 0
 " let g:pymode_folding = 0
 
 " Supertab settings
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabLongestHighlight = 1
 
-" Easy-motion
-" map  <leader><leader>w <Plug>(easymotion-bd-w)
-" let g:EasyMotion_smartcase = 1
+" Enable Emmet for just the files it's useful in
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,ejs EmmetInstall
 
 "  Ale
     " Enable completion where available.
@@ -429,67 +413,46 @@ endfunction
 
 set statusline+=%{LinterStatus()}
 
-
-" Syntastic
-"     " Set the syntax checkers for each language
-" let g:syntastic_c_checkers=['gcc', 'make']
-" let g:syntastic_cpp_checkers=['gcc', 'cpplint']
-" let g:syntastic_python_checkers=['pylint', 'python', 'pyflakes']
-" let g:syntastic_js_checkers=['eslint']
-"
-"     "Tells it to highlight syntax errors when possible
-" let g:syntastic_enable_highlighting = 1
-"
-    " Statusline - Shows how many warnings/ errors
-" let g:syntastic_stl_format = '[Syntax: line:%F (E:%e, W:%w)]'
-"
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_javascript_eslint_exe = 'npm run lint --'
-" " let g:syntastic_javascript_eslint_exe = '$(npm bin)/eslint'
-
 " Tagbar
-let g:tagbar_usearrows = 1
-let g:tagbar_singleclick = 1
-let g:tagbar_autofocus = 1
+" let g:tagbar_usearrows = 1
+" let g:tagbar_singleclick = 1
+" let g:tagbar_autofocus = 1
+"
+" Tagbar binding
+" nnoremap <silent><F2> :TagbarToggle<CR>
+
 
 " Gundo
-nnoremap <silent><F11> :GundoToggle<CR>
-let g:gundo_width = 30
-let g:gundo_preview_height = 15
-let g:gundo_right = 0
-let g:gundo_preview_bottom = 1
+" nnoremap <silent><F11> :GundoToggle<CR>
+" let g:gundo_width = 30
+" let g:gundo_preview_height = 15
+" let g:gundo_right = 0
+" let g:gundo_preview_bottom = 1
 
 " Nerd Tree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
-let NERDTreeShowHidden = 1
-
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
-
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-
-nnoremap <silent><F12> :NERDTreeToggle<cr>
-nnoremap <silent><leader>tb :NERDTreeFromBookmark
-nnoremap <silent><leader>tf :NERDTreeFind )
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
+" let NERDTreeShowHidden = 1
+"
+" let g:NERDTreeIndicatorMapCustom = {
+"     \ "Modified"  : "✹",
+"     \ "Staged"    : "✚",
+"     \ "Untracked" : "✭",
+"     \ "Renamed"   : "➜",
+"     \ "Unmerged"  : "═",
+"     \ "Deleted"   : "✖",
+"     \ "Dirty"     : "✗",
+"     \ "Clean"     : "✔︎",
+"     \ 'Ignored'   : '☒',
+"     \ "Unknown"   : "?"
+"     \ }
+"
+" let g:NERDTreeDirArrowExpandable = '▸'
+" let g:NERDTreeDirArrowCollapsible = '▾'
+"
+" nnoremap <silent><F12> :NERDTreeToggle<cr>
+" nnoremap <silent><leader>tb :NERDTreeFromBookmark
+" nnoremap <silent><leader>tf :NERDTreeFind )
 
 "====================
 "       tests
