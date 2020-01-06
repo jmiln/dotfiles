@@ -38,6 +38,9 @@ fi
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # List directories when changing directories
+chpwd() {
+    ls
+}
 preexec() {
     ODIR="$(pwd)"
 }
@@ -45,7 +48,6 @@ preexec() {
 precmd() {
     [[ "$(pwd)" != $ODIR ]] \
     && [[ "$(pwd)" != $HOME ]] \
-    && ls \
     && ODIR="$(pwd)"
 }
 

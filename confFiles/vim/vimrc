@@ -105,7 +105,7 @@ autocmd! bufwritepost .vimrc source %   " When .vimrc is written, reload it
 " Remove trailing spaces when you save a file
 autocmd BufWritePre * :%s/\s\+$//e
 
-" Some hopeful settings for php
+" Some hopeful settings for php/ html etc.
 au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent
 set indentkeys=0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:
 
@@ -239,6 +239,9 @@ map <silent> r <C-R>
 " Toggle spellcheck
 " map <silent> ss :set spell!<CR>
 
+" Select current line, without the indentation
+nnoremap vv ^vg_
+
 " For local replace
 nnoremap gr gd[{V%:s/<C-R>///gc<left><left><left>
 
@@ -300,6 +303,8 @@ Plugin 'rstacruz/sparkup'
 Plugin 'ervandew/supertab.git'
 Plugin 'tomtom/tcomment_vim.git'
 Plugin 'marijnh/tern_for_vim'
+Plugin 'tmux-plugins/vim-tmux'
+Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'SirVer/ultisnips'
 Plugin 'tpope/vim-abolish.git'
 Plugin 'MarcWeber/vim-addon-mw-utils.git'
@@ -307,6 +312,7 @@ Plugin 'alvan/vim-closetag'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-surround'
+Plugin 'roxma/vim-tmux-clipboard'
 Plugin 'Valloric/YouCompleteMe.git'
 
 " vim-scripts repos
@@ -375,6 +381,11 @@ let g:SuperTabLongestHighlight = 1
 " Enable Emmet for just the files it's useful in
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,ejs EmmetInstall
+
+" Enable ycm for only the filestypes it's useful in so it stops screwing with
+" stuff here
+let g:ycm_filetype_whitelist = {'js': 1, 'json': 1}
+" let g:ycm_filetype_blacklist = {'vimrc': 1}
 
 "  Ale
     " Enable completion where available.
