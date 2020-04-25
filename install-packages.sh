@@ -16,14 +16,9 @@ else
     echo "curl FAILED TO INSTALL!!!" >> $log_file
 fi
 
-# ---
-# Install a package manager for Vim
-# --
-git clone https://github.com/VundleVim/Vundle.vim.git ~/dotfiles/confFiles/vim/.vim/bundle/Vundle.vim
-
 
 # ---
-# Install a package manager for Vim
+# Install a package manager for tmux
 # --
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 

@@ -9,16 +9,17 @@ filetype plugin indent on       " Turn on filetype specific options
 
 let g:html_indent_inctags = "html,body,head,tbody"
 
-"======================================
-"              Settings
-"=======================================
+"=========================================================
+"                   Settings
+"=========================================================
+"{{{
 
 set backspace=indent,eol,start " Enable backspacing over autoindent, EOL, and BOL"
 set clipboard=unnamed
 set complete=.,w,b,u,t,i
 set completeopt=menu,longest
 set encoding=utf-8              " Default encoding
-set foldmethod=manual
+set foldmethod=marker
 set formatoptions=t             " Fix formatting (line width) when editing"
 set hid                         " Enable changing buffers without saving
 set history=10000               " Sets the amount of commands that I can scroll back through to 10000
@@ -97,7 +98,11 @@ set statusline +=%=              " Right align everything after this
 set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
 
 " Remember last location in a file for when you re-open it
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+" au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+" :au BufReadPost *
+"    \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+"    \ |   exe "normal! g`\""
+"    \ | endif
 
 " Reload vim when .vimrc is written (very useful for when testing)
 autocmd! bufwritepost .vimrc source %   " When .vimrc is written, reload it
@@ -112,9 +117,11 @@ set indentkeys=0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:
 " Set .ejs files to be like html
 au BufNewFile,BufRead *.ejs set filetype=html
 
-"============================================
-"              Abbreviations
-"============================================
+" }}}
+"=========================================================
+"                   Abbreviations
+"=========================================================
+" {{{
 
 " Easy shortcuts for the top of C files
 ab #i #include
@@ -140,10 +147,11 @@ abb ulin _______________________________________________________________________
 abb culin /*___________________________________________________________________*/
 abb Ulin ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 abb cUlin /*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*/
-
-"====================================
-"               Syntax
-"====================================
+" }}}
+"=========================================================
+"                   Syntax
+"=========================================================
+" {{{
 syntax on   " Turns the syntax highlighting on
 
 set t_Co=256      " Let vim know that terminal has 256 colors"
@@ -198,11 +206,11 @@ hi CursorLineNr     cterm=none          ctermfg=lightgrey   ctermbg=none
 
 " Highlighting for *.ejs files, so they look like html
 au BufNewFile,BufRead *.ejs set filetype=html
-
-"=========================
-"       Mapping
-"=========================
-
+" }}}
+"=========================================================
+"                   Mapping
+"=========================================================
+" {{{
 nnoremap <C-e> <C-w>
 
 " Makes the arrow keys work in vim, not sure why they had stopped in the first place
@@ -281,79 +289,100 @@ nnoremap <F8> :call SyntaxAttr()<CR>
 " Toggle the invisible stuff
 nnoremap <silent><F9> :set invlist<CR>
 
+" }}}
 "=========================================================
 "                   Plugin links etc.
 "=========================================================
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" {{{
 
-" Use :PluginInstall or :PluginUpdate
+" Install vim-plug if it's not already there
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/bundle')
+
+" Use :PlugInstall or :PlugUpdate
 "   Need (sudo apt install build-essential cmake python3-dev) for YouCompleteMe
 "   cd ~/.vim/bundle/YouCompleteMe
 "   python3 install.py --ts-completer
 
-" let Vundle manage Vundle (required)
-Plugin 'VundleVim/Vundle.vim'
-
 " Github repos
-Plugin 'dense-analysis/ale'
-Plugin 'Raimondi/delimitMate.git'
-Plugin 'kien/rainbow_parentheses.vim.git'
-Plugin 'rstacruz/sparkup'
-Plugin 'ervandew/supertab.git'
-Plugin 'tomtom/tcomment_vim.git'
-Plugin 'marijnh/tern_for_vim'
-Plugin 'tmux-plugins/vim-tmux'
-Plugin 'tmux-plugins/vim-tmux-focus-events'
-Plugin 'SirVer/ultisnips'
-Plugin 'tpope/vim-abolish.git'
-Plugin 'MarcWeber/vim-addon-mw-utils.git'
-Plugin 'alvan/vim-closetag'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-surround'
-Plugin 'roxma/vim-tmux-clipboard'
-Plugin 'Valloric/YouCompleteMe.git'
+Plug 'airblade/vim-gitgutter'
+Plug 'alvan/vim-closetag'
+Plug 'dense-analysis/ale'
+" Plug 'ervandew/supertab'
+Plug 'farmergreg/vim-lastplace'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'lilydjwg/colorizer'
+Plug 'marijnh/tern_for_vim'
+Plug 'mattn/emmet-vim', {'for': ['html', 'ejs', 'css', 'scss']}
+" Plug 'majutsushi/tagbar'
+Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Raimondi/delimitMate'
+Plug 'roxma/vim-tmux-clipboard'
+Plug 'rstacruz/sparkup'
+Plug 'sheerun/vim-polyglot'
+" Plug 'simnalamburt/vim-mundo'
+" Plug 'SirVer/ultisnips'
+Plug 'tmhedberg/matchit'
+Plug 'tmux-plugins/vim-tmux'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-ragtag/'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'unkiwii/vim-nerdtree-sync'
+" Plug 'Valloric/YouCompleteMe'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+
+" Autocomplete/ stuff
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g:coc_global_extensions = [ 'coc-eslint', 'coc-prettier', 'coc-css', 'coc-json' ]
+
+" Vim Coc config
+" {{{
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" }}}
+
+
 
 " vim-scripts repos
-Plugin 'Align'
-Plugin 'Emmet.vim'
-Plugin 'L9'
-Plugin 'ragtag.vim'
-Plugin 'SearchComplete'
-
-
-" Quickly swap between files & their header files (C langs mainly)
-" Plugin 'a.vim.git'
-
-" Graphical undo list
-" Plugin 'Gundo'
-
-" Check check for spelling errors
-" Plugin 'vimspell'
+Plug 'vim-scripts/Align'
+Plug 'vim-scripts/L9'
 
 " Displays the syntax attributes of the character under the cursor
-" Plugin 'SyntaxAttr.vim'o
+" Plugin 'SyntaxAttr.vim'
 
-" Lets you use % to jump between matching html tags too
-" Plugin 'matchit'
+call plug#end()
+" call vundle#end()
 
-" Gives you a taglist to jump between functions
-" Plugin 'majutsushi/tagbar.git'
-
-" Give you an IDE-like file tree
-" Plugin 'scrooloose/nerdtree'
-" Plugin 'Xuyuanp/nerdtree-git-plugin'
-
-" Useful for when workingon python
-" Plugin 'klen/python-mode.git'
-
-call vundle#end()
-
+" }}}
 "=========================================================
 "                   Plugin Settings
 "=========================================================
-
+" {{{
 " restore vim - helping keep settings after closing it
 set viewoptions=options,cursor,folds,slash,unix
 au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
@@ -365,14 +394,20 @@ imap <C-/> <ESC><c-_><c-_>
 
 let g:tcommentLineC='// %s'
 
-    "Delimitmate
+" Delimitmate
 let delimitMate_expand_cr = 1
+let delimitMate_matchpairs = "(:),[:],{:}"
 
-" Pydiction location
-" let pydiction_location='~/.vim/bundle/Pydiction/complete-dict'
+" Emmet
+    " Use emmet only for html and css files
+autocmd FileType html,ejs,css,scss EmmetInstall
+let g:user_emmet_leader_key=','
+let g:user_emmet_install_global = 0
+" Make it so emmet doesn't conflict with other tab completion stuff
+autocmd FileType html,ejs,css iunmap <tab>
+autocmd FileType html,ejs,css imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
-" Disable pylint checking every save
-" let g:pymode_folding = 0
+
 
 " Supertab settings
 let g:SuperTabDefaultCompletionType = "context"
@@ -385,7 +420,7 @@ autocmd FileType html,css,ejs EmmetInstall
 " Enable ycm for only the filestypes it's useful in so it stops screwing with
 " stuff here
 let g:ycm_filetype_whitelist = {'js': 1, 'json': 1}
-" let g:ycm_filetype_blacklist = {'vimrc': 1}
+
 
 "  Ale
     " Enable completion where available.
@@ -394,12 +429,14 @@ let g:ale_completion_enabled = 1
     " Disable checking code unless I save it
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
+let g:ale_fix_on_save = 1
 
     " Check & fix JavaScript code with ESlint
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \}
 let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
 \}
 
@@ -407,7 +444,15 @@ let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_open_list = 1
-" let g:ale_keep_list_window_open = 1
+
+" Close the error window if it's all that's left?
+augroup CloseLoclistWindowGroup
+	autocmd!
+	autocmd QuitPre * if empty(&buftype) | lclose | endif
+augroup END
+
+
+
 
 function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
@@ -433,54 +478,56 @@ set statusline+=%{LinterStatus()}
 " nnoremap <silent><F2> :TagbarToggle<CR>
 
 
-" Gundo
-" nnoremap <silent><F11> :GundoToggle<CR>
-" let g:gundo_width = 30
-" let g:gundo_preview_height = 15
-" let g:gundo_right = 0
-" let g:gundo_preview_bottom = 1
 
 " Nerd Tree
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-" let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
-" let NERDTreeShowHidden = 1
-"
-" let g:NERDTreeIndicatorMapCustom = {
-"     \ "Modified"  : "✹",
-"     \ "Staged"    : "✚",
-"     \ "Untracked" : "✭",
-"     \ "Renamed"   : "➜",
-"     \ "Unmerged"  : "═",
-"     \ "Deleted"   : "✖",
-"     \ "Dirty"     : "✗",
-"     \ "Clean"     : "✔︎",
-"     \ 'Ignored'   : '☒',
-"     \ "Unknown"   : "?"
-"     \ }
-"
-" let g:NERDTreeDirArrowExpandable = '▸'
-" let g:NERDTreeDirArrowCollapsible = '▾'
-"
-" nnoremap <silent><F12> :NERDTreeToggle<cr>
-" nnoremap <silent><leader>tb :NERDTreeFromBookmark
-" nnoremap <silent><leader>tf :NERDTreeFind )
 
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+	return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+	if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+		NERDTreeFind
+		wincmd p
+	endif
+endfunction
+
+" Close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+let g:NERDTreeDirArrowExpandable = '⯈'
+let g:NERDTreeDirArrowCollapsible = '⯆'
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+nnoremap <silent><F11> :NERDTreeFind<cr>
+nnoremap <silent><F12> :NERDTreeToggle<cr>
+
+
+" Highlight currently open buffer in NERDTree
+autocmd BufRead * call SyncTree()
+
+" Open NERDTree when you open a file
+" autocmd VimEnter * if argc() == 1 | NERDTreeFind | wincmd p | else | NERDTreeFind | endif
+
+
+" }}}
 "====================
 "       tests
 "====================
-
-" function! NeatFoldText()
-"   let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
-"   let lines_count = v:foldend - v:foldstart + 1
-"   let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
-"   let foldchar = matchstr(&fillchars, 'fold:\zs.')
-"   let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-"   let foldtextend = lines_count_text . repeat(foldchar, 8)
-"   let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-"   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-" endfunction
-" set foldtext=NeatFoldText()
-
 
 " Tells vim that everything useful is above this
 finish

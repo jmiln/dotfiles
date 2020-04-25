@@ -1,0 +1,17 @@
+Directions:
+
+Run install-packages.sh
+Run createLinks.sh
+
+Tmux plugin manager:
+ - https://github.com/tmux-plugins/tpm#installation
+
+NVM (Node version manager):
+ - https://github.com/nvm-sh/nvm#installing-and-updating
+ - Run `nvm install node`
+
+Generally after node is installed, I install eslint & pm2
+ - npm i -g eslint pm2
+
+
+

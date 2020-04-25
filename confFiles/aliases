@@ -20,7 +20,7 @@ alias ls="ls -CF ${lsFlags}"
 alias l='ls'
 alias la='ls -A'
 alias lla='clear; ls -la'
-alias ll='clear; ls -l'
+alias ll='clear; ls -lh'
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -57,6 +57,7 @@ alias todo='vim ~/.todo'
 
 ### Network aliases ###
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"   # Show the current IP
+alias ipListen="sudo lsof -i -P -n | grep LISTEN"  # Show the IP/ ports that are being listened to
 
 ### Git aliases ###
 alias gitchanged='git diff master@{1} master'
