@@ -22,6 +22,8 @@ setopt NO_HIST_BEEP
 setopt NO_MAIL_WARNING
 setopt prompt_subst     # Allows for functions in the prompt
 
+TERM=xterm-256color
+
 autoload -U colors && colors # Enable colors in promptetopt SHARE_HISTORY
 
 # import .aliases
@@ -154,6 +156,12 @@ typeset -A key
 
 # key[PageUp]=${terminfo[kpp]}
 # key[PageDown]=${terminfo[knp]}
+
+bindkey '^[OH' beginning-of-line
+bindkey '^[OF' end-of-line
+
+# bindkey '\e[1~' beginning-of-line
+# bindkey '\e[4~' end-of-line
 
 [[ -n "${terminfo[khome]}"    ]]  && bindkey  "${terminfo[khome]}"  beginning-of-line                   # Home key
 [[ -n "${terminfo[kend]}"     ]]  && bindkey  "${terminfo[kend]}"   end-of-line                         # End key

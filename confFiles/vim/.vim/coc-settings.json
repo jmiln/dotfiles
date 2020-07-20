@@ -1,3 +1,7 @@
 {
-      "coc.preferences.diagnostic.enable": false
+    "javascript.validate.enable": false,
+    "typescript.validate.enable": false,
+    "javascript.suggestionActions.enabled": false,
+    "typescript.suggestionActions.enabled": false,
+    "diagnostic.enable": false
 }

@@ -1,4 +1,12 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/home/j_milner359/swgoh-services/common/core'
-let g:netrw_dirhist_2='/home/j_milner359/swgohBot/languages'
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/home/j_milner359/swgohBot/events'
+let g:netrw_dirhist_9='/home/j_milner359/swgohBot/base'
+let g:netrw_dirhist_8='/home/j_milner359/swgohBot/commands'
+let g:netrw_dirhist_7='/home/j_milner359/swgohBot/node_modules/request'
+let g:netrw_dirhist_6='/home/j_milner359/swgohBot/node_modules'
+let g:netrw_dirhist_5='/home/j_milner359/swgohBot/node_modules/request'
+let g:netrw_dirhist_4='/home/j_milner359/swgohBot/node_modules'
+let g:netrw_dirhist_3='/home/j_milner359/quiz/buzzer/views'
+let g:netrw_dirhist_2='/home/j_milner359/arenaChecker'
+let g:netrw_dirhist_1='/home/j_milner359/swgohBot/templates'
