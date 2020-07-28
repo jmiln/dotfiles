@@ -35,7 +35,7 @@ abb culin /*___________________________________________________________________*
 abb Ulin ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 abb cUlin /*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*/
 " }}}
-"                   Colorscheme/ Syntax Settings {{{
+"                   Colorscheme / Syntax Settings {{{
 "=========================================================
 set background=dark
 set t_Co=256      " Let vim know that terminal has 256 colors"
@@ -315,6 +315,34 @@ let g:tcommentLineC='// %s'
 let delimitMate_expand_cr = 1
 let delimitMate_matchpairs = "(:),[:],{:}"
 
+" EasyAlign
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+let g:easy_align_delimiters = {
+\ '>': { 'pattern': '>>\|=>\|>' },
+\ '/': {
+\     'pattern':         '//\+\|/\*\|\*/',
+\     'delimiter_align': 'l',
+\     'ignore_groups':   ['!Comment'] },
+\ ']': {
+\     'pattern':       '[[\]]',
+\     'left_margin':   0,
+\     'right_margin':  0,
+\     'stick_to_left': 0
+\   },
+\ ')': {
+\     'pattern':       '[()]',
+\     'left_margin':   0,
+\     'right_margin':  0,
+\     'stick_to_left': 0
+\   },
+\ 'd': {
+\     'pattern':      ' \(\S\+\s*[;=]\)\@=',
+\     'left_margin':  0,
+\     'right_margin': 0
+\   }
+\ }
+
 " Emmet
 let g:user_emmet_leader_key=','
 let g:user_emmet_install_global = 0
@@ -443,13 +471,48 @@ autocmd BufRead * call SyncTree()
 "                   Settings {{{
 "=========================================================
 
+" Fold settings
+set foldcolumn=1                " Defines 1 col at window left, to indicate folding
+set foldmethod=marker
+set foldnestmax=2               " Don't nest folds
+set foldlevelstart=99           " Start with all folds open
+
+" This will make the folds look nice and neat, with the number of folded lines
+" on the right edge
+function! MyFoldText()
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * max([&numberwidth, strlen(line('$'))])
+    let windowwidth = winwidth(0) - nucolwidth - 6
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " Expand tabs into spaces
+    let onetab = strpart(' ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    " Clean up the folds for in .vimrc
+    " Replace the comment ", and any extra spaces before the title
+    let line = substitute(line, '\"\s*', onetab, 'g')
+    " Replace the 3 { brackets that mark the fold
+    let line = substitute(line, repeat("{", 3), '', 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . repeat(" ",fillcharcount) . foldedlinecount . '    '
+endfunction
+set foldtext=MyFoldText()
+
+" Set the .vimrc file to close all relevant folds on open
+au BufRead,BufNewFile .vimrc set foldlevel=0
+
+" Set folding to be based on syntax for js files
+au BufNewFile,BufRead *.js set foldmethod=syntax
+
 set backspace=indent,eol,start " Enable backspacing over autoindent, EOL, and BOL"
 set clipboard=unnamed
 set complete=.,w,b,u,t,i
 set completeopt=menu,longest
 set encoding=utf-8              " Default encoding
-set foldcolumn=1                " Defines 1 col at window left, to indicate folding
-set foldmethod=marker
 set formatoptions=t             " Fix formatting (line width) when editing"
 set hid                         " Enable changing buffers without saving
 set history=10000               " Sets the amount of commands that I can scroll back through to 10000
