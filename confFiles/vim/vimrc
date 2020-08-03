@@ -1,5 +1,3 @@
-filetype off
-
 set nocompatible
 
 " Enable filetype plugins and indention

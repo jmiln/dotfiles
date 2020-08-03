@@ -65,7 +65,7 @@ alias gits='git status'
 
 alias gb='git branch'
 alias gl='git log'
-alias glo='git log --oneline'
+alias glo='git log --pretty=oneline --abbrev-commit --graph --decorate --all'
 alias gc='git commit -v'
 alias gca='git commit -v -a'
 alias gcam='git commit --amend'
