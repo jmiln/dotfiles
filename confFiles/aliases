@@ -56,7 +56,7 @@ alias todo='vim ~/.todo'
 #alias i='ipython'
 
 ### Network aliases ###
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"   # Show the current IP
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"   # Show the current IP
 alias ipListen="sudo lsof -i -P -n | grep LISTEN"  # Show the IP/ ports that are being listened to
 
 ### Git aliases ###

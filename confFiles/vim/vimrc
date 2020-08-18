@@ -252,7 +252,7 @@ Plug 'mattn/emmet-vim', {'for': ['html', 'ejs', 'css', 'scss']}
 " Plug 'majutsushi/tagbar'
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Raimondi/delimitMate'
-Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+"Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'sheerun/vim-polyglot'
 Plug 'tmhedberg/matchit'
 Plug 'tomtom/tcomment_vim'

@@ -84,9 +84,6 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
-# Zsh syntax highlighting (https://github.com/zsh-users/zsh-syntax-highlighting || apt-get install zsh-syntax-highlighting)
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # Everyone likes a pretty PS1
 export PS1="%{$fg[green]%}%n%{$fg[blue]%}@%{$reset_color%}%{$fg[lightgrey]%}%M%{$reset_color%}:%{$fg[blue]%}%B%2~%b %B$%b "
 
@@ -231,3 +228,6 @@ esac
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Zsh syntax highlighting (https://github.com/zsh-users/zsh-syntax-highlighting || apt-get install zsh-syntax-highlighting)
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
