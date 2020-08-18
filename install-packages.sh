@@ -7,7 +7,9 @@ else
     echo "zsh FAILED TO INSTALL!!!" >> $log_file
 fi
 
-sudo apt-get install zsh-syntax-highlighting
+cd /usr/share
+sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+# sudo apt-get install zsh-syntax-highlighting
 
 sudo apt-get -y install curl
 if type -p curl > /dev/null; then
