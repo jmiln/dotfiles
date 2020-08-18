@@ -120,6 +120,14 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " <Leader> sv for sourcing vimrc
 nnoremap <leader>sv :RefreshConfig<cr>
 
+" Search for a word under the cursor in the current dir
+map <leader>* :grep -R <cword> * --exclude-dir={.git,tmp,log,node_modules}<CR><CR>
+
+" Search for a word under the cursor in the current git project
+" map <leader>* :Ggrep --untracked <cword><CR><CR>
+
+" Show commit that introduced current line
+nmap <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<CR>
 
 " Some QoL mappings for the autocomplete menu
 imap     <expr> <CR>       pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
