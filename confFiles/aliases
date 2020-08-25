@@ -52,6 +52,8 @@ alias reload='source ~/.zshrc'  # reloads the .zshrc file
 
 alias todo='vim ~/.todo'
 
+alias mtmux='tmux new-session -A -s main'
+
 #alias py='python'
 #alias i='ipython'
 
