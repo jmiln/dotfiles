@@ -242,26 +242,23 @@ Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 " Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
-" Plug 'ervandew/supertab'
 Plug 'farmergreg/vim-lastplace'
 Plug 'junegunn/vim-easy-align'
-Plug 'kien/rainbow_parentheses.vim'
 " Plug 'lilydjwg/colorizer'
 " Plug 'marijnh/tern_for_vim'
-Plug 'mattn/emmet-vim', {'for': ['html', 'ejs', 'css', 'scss']}
 " Plug 'majutsushi/tagbar'
-Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'mattn/emmet-vim', {'for': ['html', 'ejs', 'css', 'scss']}
+" Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Raimondi/delimitMate'
-"Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'sheerun/vim-polyglot'
 Plug 'tmhedberg/matchit'
 Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-ragtag/'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-surround'
-Plug 'unkiwii/vim-nerdtree-sync'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'unkiwii/vim-nerdtree-sync'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Displays the syntax attributes of the character under the cursor
 Plug 'vim-scripts/SyntaxAttr.vim'
@@ -296,8 +293,11 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " }}}
 
 " vim-scripts repos
-" Plug 'vim-scripts/Align'
 Plug 'vim-scripts/L9'
+
+" Disabled
+" Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+" Plug 'ervandew/supertab'
 
 call plug#end()
 
