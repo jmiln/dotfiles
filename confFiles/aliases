@@ -9,18 +9,29 @@ alias man='man -P "less -X"'
 alias less='less -X'
 alias grep='grep --color=auto'  #
 
+
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
-    lsFlags="-C --group-directories-first --color"
+    lsFlags="-Cp --group-directories-first --color"
 else # macOS `ls`
     lsFlags="-G"
 fi
 
-alias ls="ls -CF ${lsFlags}"
-alias l='ls'
-alias la='ls -A'
-alias lla='clear; ls -la'
-alias ll='clear; ls -lh'
+# If exa is installed, alias ls to use it
+if command -v exa &> /dev/null; then
+    alias ls='exa -F --group-directories-first'
+    alias l='ls'
+    alias la='l -a'
+    alias ll='l -lh --git'
+    alias lla='ll -a'
+else
+    alias ls="ls -CF ${lsFlags}"
+    alias l='ls'
+    alias la='ls -A'
+    alias ll='ls -lh'
+    alias lla='ls -la'
+fi
+
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -54,6 +65,9 @@ alias todo='vim ~/.todo'
 
 alias mtmux='tmux new-session -A -s main'
 
+# Lets you use aliases with sudo
+alias sudo='sudo '
+
 #alias py='python'
 #alias i='ipython'
 
@@ -61,10 +75,16 @@ alias mtmux='tmux new-session -A -s main'
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"   # Show the current IP
 alias ipListen="sudo lsof -i -P -n | grep LISTEN"  # Show the IP/ ports that are being listened to
 
+## Hardware aliases ##
+alias ram='ps axch -o cmd:15,%mem --sort=-%mem | head'
+alias cpu='ps axch -o cmd:15,%cpu --sort=-%cpu | head'
+
 ### Git aliases ###
 alias gitchanged='git diff master@{1} master'
 alias gits='git status'
 
+alias ga='git add'
+alias ga.='git add .'
 alias gb='git branch'
 alias gl='git log'
 alias glo='git log --pretty=oneline --abbrev-commit --graph --decorate --all'

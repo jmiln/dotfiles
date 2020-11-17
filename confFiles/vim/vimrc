@@ -244,6 +244,7 @@ Plug 'alvan/vim-closetag'
 Plug 'dense-analysis/ale'
 Plug 'farmergreg/vim-lastplace'
 Plug 'junegunn/vim-easy-align'
+Plug 'Konfekt/FastFold'
 " Plug 'lilydjwg/colorizer'
 " Plug 'marijnh/tern_for_vim'
 " Plug 'majutsushi/tagbar'
@@ -251,17 +252,18 @@ Plug 'mattn/emmet-vim', {'for': ['html', 'ejs', 'css', 'scss']}
 " Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Raimondi/delimitMate'
 Plug 'sheerun/vim-polyglot'
-Plug 'tmhedberg/matchit'
+Plug 'andymass/vim-matchup'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-ragtag'
+Plug 'tpope/vim-ragtag', {'for': ['html', 'ejs', 'css', 'scss']}
 Plug 'tpope/vim-surround'
 " Plug 'unkiwii/vim-nerdtree-sync'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'zhimsel/vim-stay'
 
 " Displays the syntax attributes of the character under the cursor
-Plug 'vim-scripts/SyntaxAttr.vim'
+" Plug 'vim-scripts/SyntaxAttr.vim'
 
 " Autocomplete/ stuff
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -293,7 +295,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " }}}
 
 " vim-scripts repos
-Plug 'vim-scripts/L9'
+" Plug 'vim-scripts/L9'
 
 " Disabled
 " Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
@@ -306,10 +308,6 @@ call plug#end()
 "                   Plugin Settings {{{
 "=========================================================
 
-" restore vim - helping keep settings after closing it
-set viewoptions=options,cursor,folds,slash,unix
-au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
-au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
 
 " Toggles comments using the tComment plugin
 map <C-/> <c-_><c-_>
@@ -476,44 +474,6 @@ autocmd BufRead * call SyncTree()
 " }}}
 "                   Settings {{{
 "=========================================================
-
-" Fold settings
-set foldcolumn=1                " Defines 1 col at window left, to indicate folding
-set foldmethod=marker
-set foldnestmax=2               " Don't nest folds
-set foldlevelstart=99           " Start with all folds open
-
-" This will make the folds look nice and neat, with the number of folded lines
-" on the right edge
-function! MyFoldText()
-    let line = getline(v:foldstart)
-
-    let nucolwidth = &fdc + &number * max([&numberwidth, strlen(line('$'))])
-    let windowwidth = winwidth(0) - nucolwidth - 6
-    let foldedlinecount = v:foldend - v:foldstart
-
-    " Expand tabs into spaces
-    let onetab = strpart(' ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
-
-    " Clean up the folds for in .vimrc
-    " Replace the comment ", and any extra spaces before the title
-    let line = substitute(line, '\"\s*', onetab, 'g')
-    " Replace the 3 { brackets that mark the fold
-    let line = substitute(line, repeat("{", 3), '', 'g')
-
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . repeat(" ",fillcharcount) . foldedlinecount . '    '
-endfunction
-set foldtext=MyFoldText()
-
-" Set the .vimrc file to close all relevant folds on open
-au BufRead,BufNewFile .vimrc set foldlevel=0
-
-" Set folding to be based on syntax for js files
-au BufNewFile,BufRead *.js set foldmethod=syntax
-
 set backspace=indent,eol,start " Enable backspacing over autoindent, EOL, and BOL"
 set clipboard=unnamed
 set complete=.,w,b,u,t,i
@@ -618,6 +578,54 @@ set indentkeys=0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:
 au BufNewFile,BufRead *.ejs set filetype=html
 
 " }}}
+
+"                   Folding {{{
+"=========================================================
+" Fold settings
+set foldcolumn=1                " Defines 1 col at window left, to indicate folding
+set foldmethod=marker
+set foldnestmax=2               " Don't nest folds
+set foldlevelstart=99           " Start with all folds open
+
+" This will make the folds look nice and neat, with the number of folded lines
+" on the right edge
+function! MyFoldText()
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * max([&numberwidth, strlen(line('$'))])
+    let windowwidth = winwidth(0) - nucolwidth - 6
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " Expand tabs into spaces
+    let onetab = strpart(' ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    " Clean up the folds for in .vimrc
+    " Replace the comment ", and any extra spaces before the title
+    let line = substitute(line, '\"\s*', onetab, 'g')
+    " Replace the 3 { brackets that mark the fold
+    let line = substitute(line, repeat("{", 3), '', 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . repeat(" ",fillcharcount) . foldedlinecount . '    '
+endfunction
+set foldtext=MyFoldText()
+
+" Set the .vimrc file to close all relevant folds on open
+au BufRead,BufNewFile .vimrc set foldlevel=0
+
+" Set folding to be based on syntax for js files
+au BufNewFile,BufRead *.js set foldmethod=syntax
+let g:javaScript_fold = 1
+
+" restore vim - helping keep settings after closing it
+set viewoptions=options,cursor,folds,slash,unix
+au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
+au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
+
+" }}}
+
 "====================
 "       tests
 "====================
