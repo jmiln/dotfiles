@@ -14,8 +14,13 @@ ab #d #define
 
 " Common bits for js/ node
 ab reqins const {inspect} = require("util");
-ab nounused // eslint-disable-line no-unused-vars
 ab inspectdepth inspect(, {depth: 5})
+
+" Useful for eslint
+ab nounused // eslint-disable-line no-unused-vars
+ab noundef  // eslint-disable-line no-undef
+
+" Useful ones for Discord stuff
 ab mslang message.language.get()
 ab embedsep '=============================='
 
