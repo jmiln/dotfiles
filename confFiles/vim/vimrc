@@ -115,6 +115,8 @@ let g:html_indent_inctags = "html,body,head,tbody"
 "                   Mapping {{{
 "=========================================================
 
+cmap ww w !sudo tee > /dev/null %
+
 let mapleader=","
 
 " Make easy editing and sourcing vimrc
@@ -248,6 +250,7 @@ Plug 'alvan/vim-closetag'
 " Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
 Plug 'farmergreg/vim-lastplace'
+Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'Konfekt/FastFold'
 " Plug 'lilydjwg/colorizer'

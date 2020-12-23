@@ -1,5 +1,11 @@
 [core]
     whitespace = -trailing-space,-indent-with-non-tab,-tab-in-indent
+    editor = vim
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+[difftool]
+    prompt = false
 [color]
     ui = auto
 [color "branch"]
