@@ -117,7 +117,7 @@ let g:html_indent_inctags = "html,body,head,tbody"
 
 cmap ww w !sudo tee > /dev/null %
 
-let mapleader=","
+let mapleader=" "
 
 " Make easy editing and sourcing vimrc
 command! RefreshConfig source $MYVIMRC <bar> echo "Refreshed vimrc!"
@@ -390,7 +390,7 @@ let g:ale_linters = {
             \   'javascript': ['eslint'],
             \}
 let g:ale_fixers = {
-            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   '*': ['remove_trailing_lines'],
             \}
 
 let g:ale_echo_msg_error_str = 'E'
@@ -504,6 +504,7 @@ set norelativenumber
 set noswapfile                  " Turn off annoying swapfiles
 set nowrap                      " Lets the lines wrap when the line gets to long
 set number                      " Sets it so there are numbered lines in vim
+set signcolumn=yes
 set numberwidth=2               " Default width of line numbering"
 set omnifunc=syntaxcomplete#Complete
 set ruler                       " Keeps the block at the bottom right corner that tells what line and column you are on
@@ -514,7 +515,6 @@ set showbreak=.                 " What to show a line wrap as
 set showmatch                   " Highlight matching parens
 set showmode                    " Shows the mode for when in insert etc..
 set smartcase
-set smartindent
 set smarttab
 set splitbelow
 set splitright
@@ -535,11 +535,15 @@ let no_buffers_menu=1
 
 " Backup Settings
 set nobackup " disable backup
+set noswapfile
+set undodir=~/.vim/undodir
+set undofile
 
 " Tab Settings
-set tabstop=4                   " Sets TAB to the same space as four spaces  not seem to be working though)
+set tabstop=4 softtabstop=4     " Sets TAB to the same space as four spaces  not seem to be working though)
 set expandtab                   " Makes all the tabs turn to spaces
 set shiftwidth=4
+set smartindent
 
 " Search Settings
 set hlsearch                    " Sets it to highlight each word that matches the search
@@ -576,7 +580,7 @@ set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
 autocmd! bufwritepost .vimrc source %   " When .vimrc is written, reload it
 
 " Remove trailing spaces when you save a file
-autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufWritePre * :call TrimWhitespace()       " :%s/\s\+$//e
 
 " Some hopeful settings for php/ html etc.
 au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent
@@ -631,6 +635,16 @@ let g:javaScript_fold = 1
 set viewoptions=options,cursor,folds,slash,unix
 au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
 au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
+
+" }}}
+
+"                   Functions {{{
+"=========================================================
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
 
 " }}}
 
