@@ -59,7 +59,14 @@ alias .zshrc='vim ~/.zshrc'
 
 alias xs='cd'                   # For when I misstype
 alias untar='tar xvf'
-alias reload='source ~/.zshrc'  # reloads the .zshrc file
+
+if [[ "$SHELL" == "/bin/zsh" ]]; then
+    alias reload='source ~/.zshrc; echo "Reloading .zshrc"'
+else
+    if [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
+        alias reload='source ~/.bashrc; echo "Reloading .bashrc"'
+    fi
+fi
 
 alias todo='vim ~/.todo'
 

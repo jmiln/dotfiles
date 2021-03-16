@@ -117,7 +117,7 @@ let g:html_indent_inctags = "html,body,head,tbody"
 
 cmap ww w !sudo tee > /dev/null %
 
-let mapleader=" "
+let mapleader=","
 
 " Make easy editing and sourcing vimrc
 command! RefreshConfig source $MYVIMRC <bar> echo "Refreshed vimrc!"
@@ -265,6 +265,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-ragtag', {'for': ['html', 'ejs', 'css', 'scss']}
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Plug 'unkiwii/vim-nerdtree-sync'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -363,6 +364,8 @@ autocmd FileType html,ejs,css,scss EmmetInstall
 " Make it so emmet doesn't conflict with other tab completion stuff
 autocmd FileType html,ejs,css iunmap <tab>
 autocmd FileType html,ejs,css imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
+au BufNewFile,BufRead .bashrc,.aliases set filetype=bash
 
 " Supertab settings
 let g:SuperTabDefaultCompletionType = "context"
