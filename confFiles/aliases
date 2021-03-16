@@ -62,10 +62,8 @@ alias untar='tar xvf'
 
 if [[ "$SHELL" == "/bin/zsh" ]]; then
     alias reload='source ~/.zshrc; echo "Reloading .zshrc"'
-else
-    if [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
-        alias reload='source ~/.bashrc; echo "Reloading .bashrc"'
-    fi
+elif [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
+    alias reload='source ~/.bashrc; echo "Reloading .bashrc"'
 fi
 
 alias todo='vim ~/.todo'
