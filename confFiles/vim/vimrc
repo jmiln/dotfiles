@@ -37,6 +37,11 @@ abb ulin _______________________________________________________________________
 abb culin /*___________________________________________________________________*/
 abb Ulin ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 abb cUlin /*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*/
+
+" Typos
+cnoreabbrev Q q
+cnoreabbrev W w
+
 " }}}
 "                   Colorscheme / Syntax Settings {{{
 "=========================================================
@@ -115,7 +120,8 @@ let g:html_indent_inctags = "html,body,head,tbody"
 "                   Mapping {{{
 "=========================================================
 
-cmap ww w !sudo tee > /dev/null %
+cmap ww w !sudo tee > /dev/null
+cnoremap w!! w !sudo tee % >/dev/null
 
 let mapleader=","
 
@@ -488,8 +494,9 @@ autocmd BufRead * call SyncTree()
 set backspace=indent,eol,start " Enable backspacing over autoindent, EOL, and BOL"
 set clipboard=unnamed
 set complete=.,w,b,u,t,i
-set completeopt=menu,longest
+set completeopt=menuone,longest,preview
 set encoding=utf-8              " Default encoding
+set esckeys                     " Allow the cursor keys to work
 set formatoptions=t             " Fix formatting (line width) when editing"
 set hid                         " Enable changing buffers without saving
 set history=10000               " Sets the amount of commands that I can scroll back through to 10000
@@ -504,7 +511,6 @@ set noautoread                  " Don't automatically re-read changed files."
 set noautowrite                 " Never write a file unless I request it.
 set noautowriteall              " NEVER.
 set norelativenumber
-set noswapfile                  " Turn off annoying swapfiles
 set nowrap                      " Lets the lines wrap when the line gets to long
 set number                      " Sets it so there are numbered lines in vim
 set signcolumn=yes
@@ -525,8 +531,6 @@ set t_ut=                       " Turns off the bells (I think)
 set title                       " Sets the window title so it shows what file you are in
 set undolevels=1000             " Keeps the last 1000 modifications to undo
 set whichwrap+=b,s,h,l,<,>,[,]  " Lets you move the cursor through line breaks
-set wildmenu                                        " Enable wild menu
-set wildmode=longest,list,full                      " Extended wild menu"
 set winminheight=0
 set wrapscan                    " Sets it to wrap searches from bottom to top
 
@@ -535,12 +539,26 @@ set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help  "
 
 let no_buffers_menu=1
 
+" Enhance command-line completion.
+if exists("+wildmenu")
+  set wildmenu
+  " type of wildmenu
+  set wildmode=longest:full,list:full
+endif
 
 " Backup Settings
 set nobackup " disable backup
 set noswapfile
 set undodir=~/.vim/undodir
 set undofile
+
+" Disable bell
+set visualbell                  " Disable visual bell
+set noerrorbells                " Disable error bell
+
+" Joining
+set nojoinspaces                " Only one space when joining lines
+set formatoptions+=j            " Remove comment leader when joining lines
 
 " Tab Settings
 set tabstop=4 softtabstop=4     " Sets TAB to the same space as four spaces  not seem to be working though)
@@ -573,11 +591,16 @@ set statusline +=%=              " Right align everything after this
 set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
 
 " Remember last location in a file for when you re-open it
-" au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
-" :au BufReadPost *
-"    \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-"    \ |   exe "normal! g`\""
-"    \ | endif
+if has('viminfo')
+  if has('autocmd')
+     autocmd BufReadPost *\(.git/COMMIT_EDITMSG\)\@<!
+      \ if line("'\"") > 0 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
+  endif
+  " Remember info about open buffers on close.
+  set viminfo^=%
+endif
 
 " Reload vim when .vimrc is written (very useful for when testing)
 autocmd! bufwritepost .vimrc source %   " When .vimrc is written, reload it
@@ -592,8 +615,10 @@ set indentkeys=0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:
 " Set .ejs files to be like html
 au BufNewFile,BufRead *.ejs set filetype=html
 
-" }}}
+" Set json files to show nicely
+au BufRead,BufNewFile *.json set filetype=json syntax=javascript
 
+" }}}
 "                   Folding {{{
 "=========================================================
 " Fold settings
@@ -640,7 +665,6 @@ au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, et
 au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
 
 " }}}
-
 "                   Functions {{{
 "=========================================================
 fun! TrimWhitespace()

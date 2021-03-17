@@ -39,7 +39,7 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias path='echo -e ${PATH//:/\\n}'
 alias du='du -kh'           # Makes a more readable output.
-alias df='df -kTh'
+alias df='df -kTh --total'
 alias mkdir='mkdir -p'      # Create directories as needed
 alias mv='mv -iv'           # Prompts before overwrite
 alias rm='rm -v'
@@ -60,6 +60,7 @@ alias .zshrc='vim ~/.zshrc'
 alias xs='cd'                   # For when I misstype
 alias untar='tar xvf'
 
+# Reload the shell config
 if [[ "$SHELL" == "/bin/zsh" ]]; then
     alias reload='source ~/.zshrc; echo "Reloading .zshrc"'
 elif [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
@@ -68,12 +69,17 @@ fi
 
 alias todo='vim ~/.todo'
 
+# Reconnect to the main tmux session
 alias mtmux='tmux new-session -A -s main'
 
 # Lets you use aliases with sudo
 alias sudo='sudo '
 
-#alias py='python'
+### JS aliases ###
+alias nfresh="rm -rf node_modules/ package-lock.json && npm install"
+
+### Python aliases ###
+alias py='python'
 #alias i='ipython'
 
 ### Network aliases ###
