@@ -26,6 +26,8 @@ set -o ignoreeof
 
 if [ -d "$HOME/.zshrc" ]; then
     "$HOME/.zshrc"
+elif [ -d "$HOME/.bashrc" ]; then
+    "$HOME/.bashrc"
 fi
 
 if [ -n "$DISPLAY" ]; then

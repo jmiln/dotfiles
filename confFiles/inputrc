@@ -1,3 +1,61 @@
+# Make Tab autocomplete regardless of filename case
+set completion-ignore-case on
+
+# List all matches in case multiple possible completions are possible
+set show-all-if-ambiguous on
+
+# Shut up the terminal bells if possible
+set bell-style none
+
+"\e[1~": beginning-of-line     # Home key
+"\e[4~": end-of-line           # End key
+"\e[5~": beginning-of-history  # PageUp key
+"\e[6~": end-of-history        # PageDown key
+"\e[3~": delete-char           # Delete key
+"\e[2~": quoted-insert         # Insert key
+
+# Flip through autocompletion matches with Shift-Tab.
+"\e[Z": menu-complete
+
+# Filtered history search
+"\e[A": history-search-backward
+"\eOA": history-search-backward
+"[A":   history-search-backward
+"\e[B": history-search-forward
+"\eOB": history-search-forward
+"[B":   history-search-forward
+
+
+set match-hidden-files Off
+
+# Show extra file information when completing, like `ls -F` does
+set visible-stats on
+
+# Add a trailing slash when autocompleting symlinks to directories
+set mark-directories on
+set mark-symlinked-directories on
+
+# If there are more than 100 possible completions for a word, ask to show them all
+set completion-query-items 100
+
+# Allow UTF-8 input and output, instead of showing stuff like $'\0123\0456'
+set input-meta on
+set output-meta on
+set convert-meta off
+
+$include /etc/inputrc
+
+
+#####################
+###### Tests ######
+#####################
+
+
+
+
+
+
+
 #.\e[A.  UP         .\e[13~. F1
 #.\e[B.  DOWN       .\e[14~. F2
 #.\e[C.  LEFT       .\e[15~. F3
@@ -15,52 +73,3 @@
 #.\e. An escape character
 #.\C. Control prefix
 #.\M. Meta prefix
-
-
-set completion-ignore-case On
-set bell-style none
-set show-all-if-ambiguous on
-
-#.\t.: menu-complete
-
-# set meta-flag on
-# set input-meta on
-# set convert-meta off
-# set output-meta on
-"\e[1~": beginning-of-line     # Home key
-"\e[4~": end-of-line           # End key
-"\e[5~": beginning-of-history  # PageUp key
-"\e[6~": end-of-history        # PageDown key
-"\e[3~": delete-char           # Delete key
-"\e[2~": quoted-insert         # Insert key
-"\eOD": backward-word          # Ctrl + Left Arrow key
-"\eOC": forward-word           # Ctrl + Right Arrow key
-
-
-
-"\e[3~": delete-char
-"[B": history-search-forward
-"[A": history-search-backward
-"\M-s": menu-complete
-
-"\eOc": forward-word
-"\eOd": backward-word
-
-# ctrl + left/right arrow jumps to the beginning/end of line
-"\e[4~": end-of-line
-"\e[1~": beginning-of-line
-
-set match-hidden-files Off
-set visible-stats on
-set mark-directories on
-set mark-symlinked-directories on
-
-set completion-query-items 30
-set show-all-if-ambiguous on
-
-$include /etc/inputrc
-
-
-#####################
-###### Tests ######
-#####################
