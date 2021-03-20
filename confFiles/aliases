@@ -1,13 +1,13 @@
-alias sound='alsamixer -V=all'
+alias sound="alsamixer -V=all"
 
 # Brightness for school moniters (between 0 and 1, otherwise it goes all sorts of funky)
-alias brightness='xrandr --output eDP --brightness '
+alias brightness="xrandr --output eDP --brightness "
 
 # Basic app customization
-alias mkdirp='mkdir -p'
-alias man='man -P "less -X"'
-alias less='less -X'
-alias grep='grep --color=auto'  #
+alias mkdirp="mkdir -p"
+alias man="man -P "less -X""
+alias less="less -X"
+alias grep="grep --color=auto"  #
 
 
 # Detect which `ls` flavor is in use
@@ -19,98 +19,107 @@ fi
 
 # If exa is installed, alias ls to use it
 if command -v exa &> /dev/null; then
-    alias ls='exa -F --group-directories-first'
-    alias l='ls'
-    alias la='l -a'
-    alias ll='l -lh --git'
-    alias lla='ll -a'
+    alias ls="exa -F --group-directories-first"
+    alias l="ls"
+    alias la="l -a"
+    alias ll="l -lh --git"
+    alias lla="ll -a"
 else
     alias ls="ls -CF ${lsFlags}"
-    alias l='ls'
-    alias la='ls -A'
-    alias ll='ls -lh'
-    alias lla='ls -la'
+    alias l="ls"
+    alias la="ls -A"
+    alias ll="ls -lh"
+    alias lla="ls -la"
 fi
 
 
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 alias -- -="cd -"           # Go to previous dir with -
-alias path='echo -e ${PATH//:/\\n}'
-alias du='du -kh'           # Makes a more readable output.
-alias df='df -kTh --total'
-alias mkdir='mkdir -p'      # Create directories as needed
-alias mv='mv -iv'           # Prompts before overwrite
-alias rm='rm -v'
-alias ap='apropos'          # Use to search for commands
-alias m='more'
+alias path="echo -e ${PATH//:/\\n}"
+alias du="du -kh"           # Makes a more readable output.
+alias df="df -kTh --total"
+alias mkdir="mkdir -p"      # Create directories as needed
+alias mv="mv -iv"           # Prompts before overwrite
+alias rm="rm -v"
+alias ap="apropos"          # Use to search for commands
+alias m="more"
+alias h="history"
+
+# Use Vim if possible
+if which vim >/dev/null 2>&1; then
+    alias vi="vim"
+else
+    alias vim="vi"
+fi
+
 
 # Some quick dotfile aliases
-alias .aliases='vim ~/.aliases'
-alias .bashrc='vim ~/.bashrc'
-alias .functions='vim ~/.functions'
-alias .inputrc='vim ~/.inputrc'
-alias .profile='vim ~/.profile'
-alias .screenrc='vim ~/.screenrc'
-alias .tmux='vim ~/.tmux.conf'
-alias .vimrc='vim ~/.vimrc'
-alias .zshrc='vim ~/.zshrc'
+alias .aliases="$EDITOR ~/.aliases"
+alias .bashrc="$EDITOR ~/.bashrc"
+alias .functions="$EDITOR ~/.functions"
+alias .inputrc="$EDITOR ~/.inputrc"
+alias .profile="$EDITOR ~/.profile"
+alias .screenrc="$EDITOR ~/.screenrc"
+alias .tmux="$EDITOR ~/.tmux.conf"
+alias .vimrc="$EDITOR ~/.vimrc"
+alias .zshrc="$EDITOR ~/.zshrc"
 
-alias xs='cd'                   # For when I misstype
-alias untar='tar xvf'
+alias xs="cd"                   # For when I misstype
+alias untar="tar xvf"
 
 # Reload the shell config
 if [[ "$SHELL" == "/bin/zsh" ]]; then
-    alias reload='source ~/.zshrc; echo "Reloading .zshrc"'
+    alias reload="source ~/.zshrc; echo "Reloading .zshrc""
 elif [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
-    alias reload='source ~/.bashrc; echo "Reloading .bashrc"'
+    alias reload="source ~/.bashrc; echo "Reloading .bashrc""
 fi
 
-alias todo='vim ~/.todo'
+alias todo="vim ~/.todo"
 
 # Reconnect to the main tmux session
-alias mtmux='tmux new-session -A -s main'
+alias mtmux="tmux new-session -A -s main"
 
 # Lets you use aliases with sudo
-alias sudo='sudo '
+alias sudo="sudo "
 
 ### JS aliases ###
 alias nfresh="rm -rf node_modules/ package-lock.json && npm install"
 
 ### Python aliases ###
-alias py='python'
-#alias i='ipython'
+alias py="python"
+#alias i="ipython"
 
 ### Network aliases ###
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"   # Show the current IP
 alias ipListen="sudo lsof -i -P -n | grep LISTEN"  # Show the IP/ ports that are being listened to
 
 ## Hardware aliases ##
-alias ram='ps axch -o cmd:15,%mem --sort=-%mem | head'
-alias cpu='ps axch -o cmd:15,%cpu --sort=-%cpu | head'
+alias ram="ps axch -o cmd:15,%mem --sort=-%mem | head"
+alias cpu="ps axch -o cmd:15,%cpu --sort=-%cpu | head"
 
 ### Git aliases ###
-alias gitchanged='git diff master@{1} master'
-alias gits='git status'
+alias gitchanged="git diff master@{1} master"
+alias gits="git status"
 
-alias ga='git add'
-alias ga.='git add .'
-alias gb='git branch'
-alias gl='git log'
-alias glo='git log --pretty=oneline --abbrev-commit --graph --decorate --all'
-alias gc='git commit -v'
-alias gca='git commit -v -a'
-alias gcam='git commit --amend'
-alias gd='git diff'
-alias gp='git pull'
-alias gpr='git pull --rebase'
-alias gpu='git push'
-alias gst='git status'
-alias gss='git stash save'
-alias gsa='git stash apply'
-alias gsp='git stash pop'
-alias gsl='git stash list'
-alias grc='git rebase --continue'
-alias gri='git rebase --interactive'
+alias ga="git add"
+alias ga.="git add ."
+alias gb="git branch"
+alias gl="git log"
+alias glo="git log --pretty=oneline --abbrev-commit --graph --decorate --all"
+alias gc="git commit -v"
+alias gca="git commit -v -a"
+alias gcam="git commit --amend"
+alias gd="git diff"
+alias gp="git pull"
+alias gpr="git pull --rebase"
+alias gpu="git push"
+alias gst="git status"
+alias gss="git stash save"
+alias gsa="git stash apply"
+alias gsp="git stash pop"
+alias gsl="git stash list"
+alias grc="git rebase --continue"
+alias gri="git rebase --interactive"
