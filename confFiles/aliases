@@ -4,7 +4,7 @@ alias sound="alsamixer -V=all"
 alias brightness="xrandr --output eDP --brightness "
 
 # Basic app customization
-alias mkdirp="mkdir -p"
+alias mkdir="mkdir -p"
 alias man="man -P "less -X""
 alias less="less -X"
 alias grep="grep --color=auto"  #
@@ -38,7 +38,7 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"           # Go to previous dir with -
-alias path="echo -e ${PATH//:/\\n}"
+alias path="echo -e ${PATH//:/\\n}"     # Print each PATH entry on a different line
 alias du="du -kh"           # Makes a more readable output.
 alias df="df -kTh --total"
 alias mkdir="mkdir -p"      # Create directories as needed

@@ -116,13 +116,113 @@ hi DiffRemoved gui=NONE guifg=red    guibg=#1C1C1C
 
 au BufNewFile,BufRead *.ejs set filetype=html
 let g:html_indent_inctags = "html,body,head,tbody"
+
+" }}}
+"                   Folding {{{
+"=========================================================
+" Fold settings
+set foldcolumn=1                " Defines 1 col at window left, to indicate folding
+set foldmethod=marker
+set foldnestmax=2               " Don't nest folds
+set foldlevelstart=99           " Start with all folds open
+
+" This will make the folds look nice and neat, with the number of folded lines
+" on the right edge
+function! MyFoldText()
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * max([&numberwidth, strlen(line('$'))])
+    let windowwidth = winwidth(0) - nucolwidth - 6
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " Expand tabs into spaces
+    let onetab = strpart(' ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    " Clean up the folds for in .vimrc
+    " Replace the comment ", and any extra spaces before the title
+    let line = substitute(line, '\"\s*', onetab, 'g')
+    " Replace the 3 { brackets that mark the fold
+    let line = substitute(line, repeat("{", 3), '', 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . repeat(" ",fillcharcount) . foldedlinecount . '    '
+endfunction
+set foldtext=MyFoldText()
+
+" Set the .vimrc file to close all relevant folds on open
+au BufRead,BufNewFile .vimrc set foldlevel=0
+
+" Set folding to be based on syntax for js files
+au BufNewFile,BufRead *.js set foldmethod=syntax
+let g:javaScript_fold = 1
+
+" restore vim - helping keep settings after closing it
+set viewoptions=options,cursor,folds,slash,unix
+au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
+au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
+
+" }}}
+"                   Functions {{{
+"=========================================================
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+function! VisualSearch(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+" Auto-set paste mode when pasting
+" via https://coderwall.com/p/if9mda
+function! WrapForTmux(s)
+  if !exists('$TMUX')
+    return a:s
+  endif
+
+  let tmux_start = "\<Esc>Ptmux;"
+  let tmux_end = "\<Esc>\\"
+
+  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+endfunction
+
+let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+
 " }}}
 "                   Mapping {{{
 "=========================================================
 
+" Make it so you can sudo save (For when you forget to open a file with sudo)
 cmap ww w !sudo tee > /dev/null
 cnoremap w!! w !sudo tee % >/dev/null
 
+" Change the mapleader ( <leader> ) to ,
 let mapleader=","
 
 " Make easy editing and sourcing vimrc
@@ -132,6 +232,10 @@ command! RefreshConfig source $MYVIMRC <bar> echo "Refreshed vimrc!"
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " <Leader> sv for sourcing vimrc
 nnoremap <leader>sv :RefreshConfig<cr>
+
+" Visual mode pressing * or # searches for the current selection:
+vnoremap <silent> * :call VisualSearch('f')<CR>
+vnoremap <silent> # :call VisualSearch('b')<CR>
 
 " Search for a word under the cursor in the current dir
 map <leader>* :grep -R <cword> * --exclude-dir={.git,tmp,log,node_modules}<CR><CR>
@@ -275,7 +379,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Plug 'unkiwii/vim-nerdtree-sync'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'zhimsel/vim-stay'
 
 " Displays the syntax attributes of the character under the cursor
 " Plug 'vim-scripts/SyntaxAttr.vim'
@@ -400,6 +503,7 @@ let g:ale_linters = {
             \}
 let g:ale_fixers = {
             \   '*': ['remove_trailing_lines'],
+            \   'javascript': ['eslint'],
             \}
 
 let g:ale_echo_msg_error_str = 'E'
@@ -518,16 +622,13 @@ set numberwidth=2               " Default width of line numbering"
 set omnifunc=syntaxcomplete#Complete
 set ruler                       " Keeps the block at the bottom right corner that tells what line and column you are on
 set scrolloff=1
-set shell=/bin/zsh              " My shell
 set shortmess=s
 set showbreak=.                 " What to show a line wrap as
+set showcmd
 set showmatch                   " Highlight matching parens
 set showmode                    " Shows the mode for when in insert etc..
-set smartcase
-set smarttab
 set splitbelow
 set splitright
-set t_ut=                       " Turns off the bells (I think)
 set title                       " Sets the window title so it shows what file you are in
 set undolevels=1000             " Keeps the last 1000 modifications to undo
 set whichwrap+=b,s,h,l,<,>,[,]  " Lets you move the cursor through line breaks
@@ -555,6 +656,8 @@ set undofile
 " Disable bell
 set visualbell                  " Disable visual bell
 set noerrorbells                " Disable error bell
+set t_ut=                       " Turns off the bells (I think)
+set tm=500
 
 " Joining
 set nojoinspaces                " Only one space when joining lines
@@ -563,13 +666,18 @@ set formatoptions+=j            " Remove comment leader when joining lines
 " Tab Settings
 set tabstop=4 softtabstop=4     " Sets TAB to the same space as four spaces  not seem to be working though)
 set expandtab                   " Makes all the tabs turn to spaces
+set smarttab
 set shiftwidth=4
-set smartindent
+
+" Indenting
+set autoindent  " Automatically set the indent of a new line (local to buffer)
+set smartindent " smartindent (local to buffer)
 
 " Search Settings
-set hlsearch                    " Sets it to highlight each word that matches the search
-set incsearch                   " Sets it to show the search results as the word is typed in
-set ignorecase                  " Sets the search to ignore the case so it will show capitalized results when only lowercase is typed in
+set hlsearch    " Sets it to highlight each word that matches the search
+set incsearch   " Sets it to show the search results as the word is typed in
+set ignorecase  " Sets the search to ignore the case so it will show capitalized results when only lowercase is typed in
+set smartcase   " Ignore case when searching lowercase
 
 " These next two use some of the highlighting lower down
 " set cursorline                  " Sets it to highlight the row that I am on
@@ -617,61 +725,6 @@ au BufNewFile,BufRead *.ejs set filetype=html
 
 " Set json files to show nicely
 au BufRead,BufNewFile *.json set filetype=json syntax=javascript
-
-" }}}
-"                   Folding {{{
-"=========================================================
-" Fold settings
-set foldcolumn=1                " Defines 1 col at window left, to indicate folding
-set foldmethod=marker
-set foldnestmax=2               " Don't nest folds
-set foldlevelstart=99           " Start with all folds open
-
-" This will make the folds look nice and neat, with the number of folded lines
-" on the right edge
-function! MyFoldText()
-    let line = getline(v:foldstart)
-
-    let nucolwidth = &fdc + &number * max([&numberwidth, strlen(line('$'))])
-    let windowwidth = winwidth(0) - nucolwidth - 6
-    let foldedlinecount = v:foldend - v:foldstart
-
-    " Expand tabs into spaces
-    let onetab = strpart(' ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
-
-    " Clean up the folds for in .vimrc
-    " Replace the comment ", and any extra spaces before the title
-    let line = substitute(line, '\"\s*', onetab, 'g')
-    " Replace the 3 { brackets that mark the fold
-    let line = substitute(line, repeat("{", 3), '', 'g')
-
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . repeat(" ",fillcharcount) . foldedlinecount . '    '
-endfunction
-set foldtext=MyFoldText()
-
-" Set the .vimrc file to close all relevant folds on open
-au BufRead,BufNewFile .vimrc set foldlevel=0
-
-" Set folding to be based on syntax for js files
-au BufNewFile,BufRead *.js set foldmethod=syntax
-let g:javaScript_fold = 1
-
-" restore vim - helping keep settings after closing it
-set viewoptions=options,cursor,folds,slash,unix
-au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
-au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
-
-" }}}
-"                   Functions {{{
-"=========================================================
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
 
 " }}}
 
