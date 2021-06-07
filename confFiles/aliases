@@ -58,14 +58,12 @@ fi
 
 # Some quick dotfile aliases
 alias .aliases="$EDITOR ~/.aliases"
-alias .bashrc="$EDITOR ~/.bashrc"
 alias .functions="$EDITOR ~/.functions"
 alias .inputrc="$EDITOR ~/.inputrc"
 alias .profile="$EDITOR ~/.profile"
 alias .screenrc="$EDITOR ~/.screenrc"
 alias .tmux="$EDITOR ~/.tmux.conf"
 alias .vimrc="$EDITOR ~/.vimrc"
-alias .zshrc="$EDITOR ~/.zshrc"
 
 alias xs="cd"                   # For when I misstype
 alias untar="tar xvf"
@@ -73,8 +71,12 @@ alias untar="tar xvf"
 # Reload the shell config
 if [[ "$SHELL" == "/bin/zsh" ]]; then
     alias reload="source ~/.zshrc; echo "Reloading .zshrc""
+    alias .bashrc="$EDITOR ~/.bashrc"
+    alias .zshrc="$EDITOR ~/.zshrc"
 elif [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
     alias reload="source ~/.bashrc; echo "Reloading .bashrc""
+    alias .bashrc="$EDITOR ~/.bashrc"
+    alias .zshrc="$EDITOR ~/.zshrc"
 fi
 
 alias todo="vim ~/.todo"
