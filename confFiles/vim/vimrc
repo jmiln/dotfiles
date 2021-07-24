@@ -38,6 +38,10 @@ abb culin /*___________________________________________________________________*
 abb Ulin ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 abb cUlin /*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*/
 
+" Various useful symbols
+ab chkmrk ✓
+ab checkmark ✓
+
 " Typos
 cnoreabbrev Q q
 cnoreabbrev W w
@@ -357,6 +361,7 @@ call plug#begin('~/.vim/bundle')
 " Github repos
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
+Plug 'andymass/vim-matchup'
 " Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
 Plug 'farmergreg/vim-lastplace'
@@ -369,8 +374,8 @@ Plug 'Konfekt/FastFold'
 Plug 'mattn/emmet-vim', {'for': ['html', 'ejs', 'css', 'scss']}
 " Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Raimondi/delimitMate'
+Plug 'rhysd/committia.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'andymass/vim-matchup'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
@@ -544,6 +549,23 @@ set statusline+=%{LinterStatus()}
 "
 " Tagbar binding
 " nnoremap <silent><F2> :TagbarToggle<CR>
+
+" Committia
+let g:committia_hooks = {}
+function! g:committia_hooks.edit_open(info)
+    " Additional settings
+    setlocal spell
+
+    " If no commit message, start with insert mode
+    if a:info.vcs ==# 'git' && getline(1) ==# ''
+        startinsert
+    endif
+
+    " Scroll the diff window from insert mode
+    " Map <C-n> and <C-p>
+    imap <buffer><C-n> <Plug>(committia-scroll-diff-down-half)
+    imap <buffer><C-p> <Plug>(committia-scroll-diff-up-half)
+endfunction
 
 
 
