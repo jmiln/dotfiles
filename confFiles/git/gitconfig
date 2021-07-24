@@ -25,3 +25,5 @@
 [user]
 	name = Jeff Milner
 	email = j.milner359@gmail.com
+[commit]
+	verbose = true
