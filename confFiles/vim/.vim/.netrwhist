@@ -1,5 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =2
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/home/j_milner359/testBot/events'
+let g:netrw_dirhist_3='/home/j_milner359/.config/htop'
 let g:netrw_dirhist_2='/home/j_milner359/testBot/wipCommands'
 let g:netrw_dirhist_1='/home/j_milner359/swgohBot'
 let g:netrw_dirhist_0='/var/log/nginx'
@@ -8,5 +10,3 @@ let g:netrw_dirhist_8='/home/j_milner359/swgohBot/node_modules/swgoh-stat-calc'
 let g:netrw_dirhist_7='/home/j_milner359/swgohBot/modules'
 let g:netrw_dirhist_6='/home/j_milner359/fake-help'
 let g:netrw_dirhist_5='/home/j_milner359/swgohBot/node_modules/swgoh-stat-calc'
-let g:netrw_dirhist_4='/home/j_milner359/stubTest/node_modules/swgoh-client-stub'
-let g:netrw_dirhist_3='/home/j_milner359/tmp/stubTest/node_modules/swgoh-client-stub'

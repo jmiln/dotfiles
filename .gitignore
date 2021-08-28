@@ -1,7 +1,11 @@
 # Ignore backup files from vim
 confFiles/vim/.vim/backup/*
 confFiles/vim/.vim/view/*
+confFiles/vim/.vim/undodir/*
 confFiles/vim/.vim/.netrwhist
+
+# Do the same for nvim
+confFiles/nvim/undodir/*
 
 # Ignore various stuff from some plugins
 confFiles/vim/.vim/bundle/

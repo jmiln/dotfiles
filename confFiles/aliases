@@ -60,6 +60,7 @@ fi
 alias .aliases="$EDITOR ~/.aliases"
 alias .functions="$EDITOR ~/.functions"
 alias .inputrc="$EDITOR ~/.inputrc"
+alias .nvim="$EDITOR ~/.config/nvim/init.vim"
 alias .profile="$EDITOR ~/.profile"
 alias .screenrc="$EDITOR ~/.screenrc"
 alias .tmux="$EDITOR ~/.tmux.conf"

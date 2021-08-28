@@ -69,7 +69,12 @@ export PYTHONPATH=$PYTHONPATH:~/.local
 
 # System vars
 export VISUAL=vim
-export EDITOR=vim
+if command -v nvim &> /dev/null; then
+    export EDITOR=nvim
+else
+    export EDITOR=vim
+fi
+
 export GIT_EDITOR=$EDITOR
 export PAGER=less
 export HISTFILE=~/.zsh_history
