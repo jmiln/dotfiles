@@ -222,12 +222,12 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 "                   Mapping {{{
 "=========================================================
 
+" Change the mapleader ( <leader> ) to ,
+let mapleader=","
+
 " Make it so you can sudo save (For when you forget to open a file with sudo)
 cmap ww w !sudo tee > /dev/null
 cnoremap w!! w !sudo tee % >/dev/null
-
-" Change the mapleader ( <leader> ) to ,
-let mapleader=","
 
 " Make easy editing and sourcing vimrc
 command! RefreshConfig source $MYVIMRC <bar> echo "Refreshed vimrc!"
@@ -294,6 +294,10 @@ nmap <C-J> ddp
 vmap <C-K> xkP`[V`]
 vmap <C-J> xp`[V`]
 
+" Moving/ bubbling text in visual mode
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+
 " turns off the search highlighting
 map <silent> <Space> :nohlsearch <CR>
 
@@ -344,6 +348,48 @@ nnoremap <F8> :call SyntaxAttr()<CR>
 
 " Toggle the invisible stuff
 nnoremap <silent><F9> :set invlist<CR>
+
+" Surround visual selection
+vnoremap ' <esc>`>a'<esc>`<i'<esc>
+vnoremap " <esc>`>a"<esc>`<i"<esc>
+vnoremap ( <esc>`>a)<esc>`<i(<esc>
+vnoremap [ <esc>`>a]<esc>`<i[<esc>
+vnoremap { <esc>`>a}<esc>`<i{<esc>
+
+" Keep search results centered
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Keep selection when shifting
+vnoremap > >gv
+vnoremap < <gv
+
+" as soon as you done search with / or ?, and you want to return to original spot you were at before search just do 's
+nnoremap / ms/
+nnoremap ? ms?
+
+function! CenterSearch()
+  let cmdtype = getcmdtype()
+  if cmdtype == '/' || cmdtype == '?'
+    return "\<enter>zz"
+  endif
+  return "\<enter>"
+endfunction
+
+cnoremap <silent> <expr> <enter> CenterSearch()
+
+" Put the cursor back to where it was when joining lines
+nnoremap J mzJ`z
+
+" Undo break points
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
+
+" Search and replace template:
+nnoremap <leader>s :%s///gc<left><left><left><left>
+
 
 " }}}
 "                   Plugin links etc.  {{{
