@@ -26,6 +26,7 @@ sudo rm -rf ~/.vim > /dev/null 2>&1
 sudo rm -rf ~/.vimrc > /dev/null 2>&1
 sudo rm -rf ~/.zshrc > /dev/null 2>&1
 
+
 #==============
 # Create ~/.config just in case
 #==============
