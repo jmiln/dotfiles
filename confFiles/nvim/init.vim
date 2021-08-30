@@ -226,12 +226,6 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 "                   Mapping {{{
 "=========================================================
 
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-
 " Make it so you can sudo save (For when you forget to open a file with sudo)
 cmap ww w !sudo tee > /dev/null
 cnoremap w!! w !sudo tee % >/dev/null
