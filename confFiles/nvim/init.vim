@@ -3,6 +3,13 @@ filetype off
 filetype plugin on
 filetype plugin indent on       " Turn on filetype specific options
 
+" Install vim-plug if it's not already there
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall
+endif
+
 " Load up whatever lua stuff
 lua require("settings")
 
@@ -361,18 +368,6 @@ vnoremap <silent> # :call VisualSearch('b')<CR>
 
 " Search and replace template:
 " nnoremap <leader>s :%s///gc<left><left><left><left>
-
-
-" }}}
-"                   Plugin links etc.  {{{
-"=========================================================
-
-" Install vim-plug if it's not already there
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall
-endif
 
 
 " }}}

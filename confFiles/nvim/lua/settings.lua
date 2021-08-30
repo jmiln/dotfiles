@@ -39,36 +39,33 @@ opt.wildmode = {"longest:full","list:full"}
 
 
 --------------------------------- Appearance ----------------------------------
-
 opt.background    = "dark"
 opt.number        = true
-opt.scrolloff     = 1 -- start scrolling when near the last line
+opt.scrolloff     = 1           -- start scrolling when near the last line
 opt.showmatch     = true
 opt.showmode      = true
-opt.sidescrolloff = 5 -- start scrolling when near the last col
-opt.syntax        = 'enable'         -- enable syntax highlighting
-opt.termguicolors = true -- true color support
+opt.sidescrolloff = 5           -- start scrolling when near the last col
+opt.syntax        = 'enable'    -- enable syntax highlighting
+opt.termguicolors = true        -- true color support
 vim.wo.signcolumn = 'yes'
-
 
 --------------------------------- Completion ----------------------------------
 opt.completeopt = {"menuone", "longest", "preview"}
 opt.shortmess = "s"
 
-
 --------------------------------- General ----------------------------------
 opt.clipboard   = 'unnamedplus' -- copy/paste to system clipboard
-opt.swapfile    = false          -- don't use swapfile
-opt.splitright  = true         -- vertical split to the right
-opt.splitbelow  = true         -- orizontal split to the bottom
+opt.swapfile    = false         -- don't use swapfile
+opt.splitright  = true          -- vertical split to the right
+opt.splitbelow  = true          -- orizontal split to the bottom
 opt.history     = 10000         -- remember n lines in history
-opt.lazyredraw  = true     -- faster scrolling
-opt.hidden      = true -- switch buffers without saving
-opt.ttimeout    = true -- prevent delay when changing modes
+opt.lazyredraw  = true          -- faster scrolling
+opt.hidden      = true          -- switch buffers without saving
+opt.ttimeout    = true          -- prevent delay when changing modes
 opt.ttimeoutlen = 50
-opt.updatetime  = 100 -- speed up screen updating
-opt.undofile    = false -- persistent undo
-opt.linebreak   = true -- wrap line if too long
+opt.updatetime  = 100           -- speed up screen updating
+opt.undofile    = false         -- persistent undo
+opt.linebreak   = true          -- wrap line if too long
 
 
 
