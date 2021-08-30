@@ -64,8 +64,6 @@ cnoreabbrev W w
 "                   Colorscheme / Syntax Settings {{{
 "=========================================================
 
-set t_Co=256      " Let vim know that terminal has 256 colors"
-
 hi Normal                                                                       guibg=#1C1C1C
 
 hi Visual        cterm=none                                       guifg=white   guibg=#5f5f5f
@@ -227,6 +225,12 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 " }}}
 "                   Mapping {{{
 "=========================================================
+
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
 
 " Make it so you can sudo save (For when you forget to open a file with sudo)
 cmap ww w !sudo tee > /dev/null
@@ -603,7 +607,6 @@ set undofile
 " Disable bell
 set visualbell                  " Disable visual bell
 set noerrorbells                " Disable error bell
-set t_ut=                       " Turns off the bells (I think)
 set tm=500
 
 " Joining

@@ -6,6 +6,7 @@ confFiles/vim/.vim/.netrwhist
 
 # Do the same for nvim
 confFiles/nvim/undodir/*
+confFiles/nvim/plugged/*
 
 # Ignore various stuff from some plugins
 confFiles/vim/.vim/bundle/
