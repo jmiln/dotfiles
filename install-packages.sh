@@ -56,6 +56,25 @@ else
     echo "tmux FAILED TO INSTALL!!!" >> $log_file
 fi
 
+# Make sure both version are installed
+sudo apt-get -y install python2 python3
+
+# Install nvim
+sudo apt -y install cmake
+if command -v nvim &> /dev/null; then
+    # make tmp folder
+    mkdir -p ~/tmp
+    cd ~/tmp
+
+    # clone
+    git clone --depth 1 --branch nightly https://github.com/neovim/neovim.git
+    cd neovim
+
+    # build and install
+    make CMAKE_BUILD_TYPE=RelWithDebInfo
+    sudo make install
+fi
+
 #==============
 # Set zsh as the default shell
 #==============

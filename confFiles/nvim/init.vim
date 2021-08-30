@@ -1,9 +1,16 @@
-set nocompatible
-
 " Enable filetype plugins and indention
 filetype off
 filetype plugin on
 filetype plugin indent on       " Turn on filetype specific options
+
+" Load up whatever lua stuff
+lua require("settings")
+
+" Load up the plugins
+lua require("plugins")
+
+" Load up keybinds and such
+lua require("keybinds")
 
 "                   Abbreviations {{{
 "=========================================================
@@ -49,11 +56,8 @@ cnoreabbrev W w
 " }}}
 "                   Colorscheme / Syntax Settings {{{
 "=========================================================
-set background=dark
-set t_Co=256      " Let vim know that terminal has 256 colors"
-syntax on         " Turns the syntax highlighting on
 
-set termguicolors
+set t_Co=256      " Let vim know that terminal has 256 colors"
 
 hi Normal                                                                       guibg=#1C1C1C
 
@@ -114,7 +118,7 @@ highlight clear CursorLineNR
 
 " Git diff coloring
 hi DiffAdded   gui=NONE guifg=green  guibg=#1C1C1C
-hi DiffChanged  gui=NONE guifg=yellow guibg=#1C1C1C
+hi DiffChanged gui=NONE guifg=yellow guibg=#1C1C1C
 hi DiffText    gui=NONE guifg=black  guibg=green
 hi DiffRemoved gui=NONE guifg=red    guibg=#1C1C1C
 
@@ -124,12 +128,6 @@ let g:html_indent_inctags = "html,body,head,tbody"
 " }}}
 "                   Folding {{{
 "=========================================================
-" Fold settings
-set foldcolumn=1                " Defines 1 col at window left, to indicate folding
-set foldmethod=marker
-set foldnestmax=2               " Don't nest folds
-set foldlevelstart=99           " Start with all folds open
-
 " This will make the folds look nice and neat, with the number of folded lines
 " on the right edge
 function! MyFoldText()
@@ -157,6 +155,7 @@ set foldtext=MyFoldText()
 
 " Set the .vimrc file to close all relevant folds on open
 au BufRead,BufNewFile .vimrc set foldlevel=0
+au BufRead,BufNewFile init.vim set foldlevel=0
 
 " Set folding to be based on syntax for js files
 au BufNewFile,BufRead *.js set foldmethod=syntax
@@ -222,9 +221,6 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 "                   Mapping {{{
 "=========================================================
 
-" Change the mapleader ( <leader> ) to ,
-let mapleader=","
-
 " Make it so you can sudo save (For when you forget to open a file with sudo)
 cmap ww w !sudo tee > /dev/null
 cnoremap w!! w !sudo tee % >/dev/null
@@ -232,8 +228,6 @@ cnoremap w!! w !sudo tee % >/dev/null
 " Make easy editing and sourcing vimrc
 command! RefreshConfig source $MYVIMRC <bar> echo "Refreshed vimrc!"
 
-" <Leader> ev for edit vimrc
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " <Leader> sv for sourcing vimrc
 nnoremap <leader>sv :RefreshConfig<cr>
 
@@ -242,153 +236,131 @@ vnoremap <silent> * :call VisualSearch('f')<CR>
 vnoremap <silent> # :call VisualSearch('b')<CR>
 
 " Search for a word under the cursor in the current dir
-map <leader>* :grep -R <cword> * --exclude-dir={.git,tmp,log,node_modules}<CR><CR>
+" map <leader>* :grep -R <cword> * --exclude-dir={.git,tmp,log,node_modules}<CR><CR>
 
 " Search for a word under the cursor in the current git project
 " map <leader>* :Ggrep --untracked <cword><CR><CR>
 
 " Show commit that introduced current line
-nmap <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<CR>
+" nmap <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<CR>
 
 " Some QoL mappings for the autocomplete menu
-imap     <expr> <CR>       pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
-inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-
-" Indend current file
-nnoremap <Leader>= gg=G
-
-" Underline the current line with various symbols (such that the number of
-" underline matches line length and indendation)
-" nnoremap <Leader>= yypVr=
-nnoremap <Leader>- yypVr-
-nnoremap <Leader># yypVr#
-nnoremap <Leader>" yypVr"
-" A fancy unicode underline
-nnoremap <Leader>U yypVr━
+" imap     <expr> <CR>       pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
+" inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+" inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+" inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+" inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
 " Makes the arrow keys work in vim, not sure why they had stopped in the first place
 " though  still mess up when trying to search)
-set t_ku=OA
-set t_kd=OB
-set t_kr=OC
-set t_kl=OD
+" set t_ku=OA
+" set t_kd=OB
+" set t_kr=OC
+" set t_kl=OD
+"
+" map OA <up>
+" map OB <down>
+" map OC <right>
+" map OD <left>
+"
+" imap <ESC>oA <ESC>ki
+" imap <ESC>oB <ESC>ji
+" imap <ESC>oC <ESC>li
+" imap <ESC>oD <ESC>hi
 
-map OA <up>
-map OB <down>
-map OC <right>
-map OD <left>
-
-imap <ESC>oA <ESC>ki
-imap <ESC>oB <ESC>ji
-imap <ESC>oC <ESC>li
-imap <ESC>oD <ESC>hi
-
-" Bubble single lines
-nmap <C-K> ddkP
-nmap <C-J> ddp
-
-" Bubble multiple lines
-vmap <C-K> xkP`[V`]
-vmap <C-J> xp`[V`]
-
-" Moving/ bubbling text in visual mode
-vnoremap <C-j> :m '>+1<CR>gv=gv
-vnoremap <C-k> :m '<-2<CR>gv=gv
+" " Bubble single lines
+" nmap <C-K> ddkP
+" nmap <C-J> ddp
+"
+" " Bubble multiple lines
+" " vmap <C-K> xkP`[V`]
+" " vmap <C-J> xp`[V`]
+"
+" " Moving/ bubbling text in visual mode
+" vnoremap <C-j> :m '>+1<CR>gv=gv
+" vnoremap <C-k> :m '<-2<CR>gv=gv
 
 " turns off the search highlighting
-map <silent> <Space> :nohlsearch <CR>
+" map <silent> <Space> :nohlsearch <CR>
 
 " Makes it easier to redo
-map <silent> r <C-R>
+" map <silent> r <C-R>
 
 " Toggle spellcheck
 " map <silent> ss :set spell!<CR>
 
 " Select current line, without the indentation
-nnoremap vv ^vg_
+" nnoremap vv ^vg_
 
 " For local replace
-nnoremap gr gd[{V%:s/<C-R>///gc<left><left><left>
+" nnoremap gr gd[{V%:s/<C-R>///gc<left><left><left>
 
 " For global replace
-nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+" nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 
-nmap <silent> <F3> :set number!<CR>
+" nmap <silent> <F3> :set number!<CR>
 
 " Toggles word wrap
-map <silent> <F4> :set invwrap <CR>
+" map <silent> <F4> :set invwrap <CR>
 
 " Toggles the mouse so you can use it for visual mode
 " and then back to being able to use it for copy/ paste (does not seem to work on mac)
-nnoremap <silent> <F5> :call ToggleMouse()<CR>
-function! ToggleMouse()
-    if &mouse == 'a'
-        set mouse=
-    else
-        set mouse=a
-    endif
-endfunction
+" nnoremap <silent> <F5> :call ToggleMouse()<CR>
+" function! ToggleMouse()
+"     if &mouse == 'a'
+"         set mouse=
+"     else
+"         set mouse=a
+"     endif
+" endfunction
 
 " Toggle pate with <F6>, default is off
-set pastetoggle=off
-set pastetoggle=<F6>
+" set pastetoggle=off
+" set pastetoggle=<F6>
 
 " Toggles the syntax highlighting
-map <silent> <F7> :if exists("syntax_on") <Bar>
-            \   syntax off <Bar>
-            \ else <Bar>
-            \   syntax enable <Bar>
-            \ endif <CR>
+" map <silent> <F7> :if exists("syntax_on") <Bar>
+"             \   syntax off <Bar>
+"             \ else <Bar>
+"             \   syntax enable <Bar>
+"             \ endif <CR>
 
 " Tells me what syntax attribute is under the cursor
-nnoremap <F8> :call SyntaxAttr()<CR>
+" nnoremap <F8> :call SyntaxAttr()<CR>
 
 " Toggle the invisible stuff
-nnoremap <silent><F9> :set invlist<CR>
+" nnoremap <silent><F9> :set invlist<CR>
 
 " Surround visual selection
-vnoremap ' <esc>`>a'<esc>`<i'<esc>
-vnoremap " <esc>`>a"<esc>`<i"<esc>
-vnoremap ( <esc>`>a)<esc>`<i(<esc>
-vnoremap [ <esc>`>a]<esc>`<i[<esc>
-vnoremap { <esc>`>a}<esc>`<i{<esc>
+" vnoremap ' <esc>`>a'<esc>`<i'<esc>
+" vnoremap " <esc>`>a"<esc>`<i"<esc>
+" vnoremap ( <esc>`>a)<esc>`<i(<esc>
+" vnoremap [ <esc>`>a]<esc>`<i[<esc>
+" vnoremap { <esc>`>a}<esc>`<i{<esc>
 
 " Keep search results centered
-nnoremap n nzzzv
-nnoremap N Nzzzv
+" nnoremap n nzzzv
+" nnoremap N Nzzzv
 
 " Keep selection when shifting
-vnoremap > >gv
-vnoremap < <gv
+" vnoremap > >gv
+" vnoremap < <gv
 
 " as soon as you done search with / or ?, and you want to return to original spot you were at before search just do 's
-nnoremap / ms/
-nnoremap ? ms?
-
-function! CenterSearch()
-  let cmdtype = getcmdtype()
-  if cmdtype == '/' || cmdtype == '?'
-    return "\<enter>zz"
-  endif
-  return "\<enter>"
-endfunction
-
-cnoremap <silent> <expr> <enter> CenterSearch()
+" nnoremap / ms/
+" nnoremap ? ms?
 
 " Put the cursor back to where it was when joining lines
-nnoremap J mzJ`z
+" nnoremap J mzJ`z
 
 " Undo break points
-inoremap , ,<c-g>u
-inoremap . .<c-g>u
-inoremap ! !<c-g>u
-inoremap ? ?<c-g>u
+" inoremap , ,<c-g>u
+" inoremap . .<c-g>u
+" inoremap ! !<c-g>u
+" inoremap ? ?<c-g>u
 
 " Search and replace template:
-nnoremap <leader>s :%s///gc<left><left><left><left>
+" nnoremap <leader>s :%s///gc<left><left><left><left>
 
 
 " }}}
@@ -396,82 +368,11 @@ nnoremap <leader>s :%s///gc<left><left><left><left>
 "=========================================================
 
 " Install vim-plug if it's not already there
-if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall
 endif
-
-call plug#begin('~/.vim/bundle')
-
-" Github repos
-Plug 'airblade/vim-gitgutter'
-Plug 'alvan/vim-closetag'
-" Plug 'andymass/vim-matchup'
-" Plug 'ap/vim-css-color'
-Plug 'dense-analysis/ale'
-Plug 'farmergreg/vim-lastplace'
-Plug 'junegunn/gv.vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'Konfekt/FastFold'
-" Plug 'lilydjwg/colorizer'
-" Plug 'marijnh/tern_for_vim'
-" Plug 'majutsushi/tagbar'
-Plug 'mattn/emmet-vim', {'for': ['html', 'ejs', 'css', 'scss']}
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-" Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'Raimondi/delimitMate'
-Plug 'rhysd/committia.vim'
-Plug 'sheerun/vim-polyglot'
-Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-ragtag', {'for': ['html', 'ejs', 'css', 'scss']}
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-" Plug 'unkiwii/vim-nerdtree-sync'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-
-" Displays the syntax attributes of the character under the cursor
-" Plug 'vim-scripts/SyntaxAttr.vim'
-
-" Autocomplete/ stuff
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-let g:coc_global_extensions = [ 'coc-eslint', 'coc-css', 'coc-json' ]
-
-" Vim Coc config
-" {{{
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" }}}
-
-" vim-scripts repos
-" Plug 'vim-scripts/L9'
-
-" Disabled
-" Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
-" Plug 'ervandew/supertab'
-
-call plug#end()
 
 
 " }}}
@@ -480,10 +381,12 @@ call plug#end()
 
 
 " Toggles comments using the tComment plugin
-map <C-/> <c-_><c-_>
-imap <C-/> <ESC><c-_><c-_>
 
-let g:tcommentLineC='// %s'
+" vnoremap <C-_> gc
+" nnoremap <C-_> gcc
+" inoremap <C-_> <ESC>gcc
+
+" let g:tcommentLineC='// %s'
 
 " Delimitmate
 let delimitMate_expand_cr = 1
@@ -665,16 +568,11 @@ autocmd BufRead * call SyncTree()
 "                   Settings {{{
 "=========================================================
 set backspace=indent,eol,start " Enable backspacing over autoindent, EOL, and BOL"
-set clipboard=unnamed
 set complete=.,w,b,u,t,i
-set completeopt=menuone,longest,preview
 set encoding=utf-8              " Default encoding
 " set esckeys                     " Allow the cursor keys to work
 set formatoptions=t             " Fix formatting (line width) when editing"
-set hid                         " Enable changing buffers without saving
-set history=10000               " Sets the amount of commands that I can scroll back through to 10000
 set laststatus=2
-set listchars=tab:.\ ,eol:¬,trail:.,extends:.,precedes:.
 set magic                       " Enable magic (Not really sure...)
 set mat=2                       " Time to show matching parens
 set matchpairs+=<:>             " Allow matching of brackets too!
@@ -685,19 +583,12 @@ set noautowrite                 " Never write a file unless I request it.
 set noautowriteall              " NEVER.
 set norelativenumber
 set nowrap                      " Lets the lines wrap when the line gets to long
-set number                      " Sets it so there are numbered lines in vim
 set signcolumn=yes
 set numberwidth=2               " Default width of line numbering"
 set omnifunc=syntaxcomplete#Complete
 set ruler                       " Keeps the block at the bottom right corner that tells what line and column you are on
-set scrolloff=1
-set shortmess=s
 set showbreak=.                 " What to show a line wrap as
 set showcmd
-set showmatch                   " Highlight matching parens
-set showmode                    " Shows the mode for when in insert etc..
-set splitbelow
-set splitright
 set title                       " Sets the window title so it shows what file you are in
 set undolevels=1000             " Keeps the last 1000 modifications to undo
 set whichwrap+=b,s,h,l,<,>,[,]  " Lets you move the cursor through line breaks
@@ -709,16 +600,8 @@ set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help  "
 
 let no_buffers_menu=1
 
-" Enhance command-line completion.
-if exists("+wildmenu")
-  set wildmenu
-  " type of wildmenu
-  set wildmode=longest:full,list:full
-endif
-
 " Backup Settings
 set nobackup " disable backup
-set noswapfile
 set undodir=~/.config/nvim/undodir
 set undofile
 
@@ -729,31 +612,18 @@ set t_ut=                       " Turns off the bells (I think)
 set tm=500
 
 " Joining
-set nojoinspaces                " Only one space when joining lines
 set formatoptions+=j            " Remove comment leader when joining lines
 
 " Tab Settings
 set tabstop=4 softtabstop=4     " Sets TAB to the same space as four spaces  not seem to be working though)
-set expandtab                   " Makes all the tabs turn to spaces
-set smarttab
 set shiftwidth=4
 
 " Indenting
 set autoindent  " Automatically set the indent of a new line (local to buffer)
-set smartindent " smartindent (local to buffer)
 
 " Search Settings
 set hlsearch    " Sets it to highlight each word that matches the search
 set incsearch   " Sets it to show the search results as the word is typed in
-set ignorecase  " Sets the search to ignore the case so it will show capitalized results when only lowercase is typed in
-set smartcase   " Ignore case when searching lowercase
-
-" These next two use some of the highlighting lower down
-" set cursorline                  " Sets it to highlight the row that I am on
-" set cursorcolumn                " Sets it to highlight the column that I am on
-
-" Better modes. Remember where we are, support yankring
-set viminfo=!,'100,\"100,:20,<50,s10,h,n~/.viminfo>'
 
 " Sets it so there is no beeping or screen flashes
 set vb t_vb="
@@ -767,20 +637,8 @@ set statusline +=%2*%m%*         " Modified flag
 set statusline +=%=              " Right align everything after this
 set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
 
-" Remember last location in a file for when you re-open it
-if has('viminfo')
-  if has('autocmd')
-     autocmd BufReadPost *\(.git/COMMIT_EDITMSG\)\@<!
-      \ if line("'\"") > 0 && line("'\"") <= line("$") |
-      \   exe "normal! g`\"" |
-      \ endif
-  endif
-  " Remember info about open buffers on close.
-  set viminfo^=%
-endif
-
-" Reload vim when .vimrc is written (very useful for when testing)
-autocmd! bufwritepost .vimrc source %   " When .vimrc is written, reload it
+" Reload vim when init.vim is written (very useful for when testing)
+autocmd! bufwritepost init.vim source %   " When init.vim is written, reload it
 
 " Remove trailing spaces when you save a file
 autocmd BufWritePre * :call TrimWhitespace()       " :%s/\s\+$//e
