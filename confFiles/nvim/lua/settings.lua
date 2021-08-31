@@ -7,16 +7,15 @@ local opt  = vim.opt         	-- global/buffer/windows-scoped options
 ----------------------------- Tabs & Indentation ------------------------------
 opt.cursorline  = false
 opt.expandtab   = true		-- tabs insert spaces
-opt.foldlevel   = 99
-opt.foldmethod  = "marker"
-opt.foldnestmax = 2
 opt.joinspaces  = false		-- only one space after punction when joining lines
 opt.list        = false     -- show listchars
 opt.listchars   = { extends = "›", precedes = "‹", nbsp = "·", tab = "→ ", trail = "·", eol = "¬" }
 opt.shiftwidth  = 4			-- shift 4 spaces when tab
+opt.autoindent = true
 opt.smartindent = true		-- autoindent new lines
 opt.smarttab    = true
 opt.tabstop     = 4         -- 1 tab == 4 spaces
+opt.softtabstop = 4         -- 1 tab == 4 spaces
 
 
 ---------------------------------- Searching ----------------------------------
@@ -48,10 +47,18 @@ opt.sidescrolloff = 5           -- start scrolling when near the last col
 opt.syntax        = 'enable'    -- enable syntax highlighting
 opt.termguicolors = true        -- true color support
 vim.wo.signcolumn = 'yes'
+vim.go.termguicolors = true
+vim.go.t_Co = "256"
+vim.go.t_ut = ""
 
 --------------------------------- Completion ----------------------------------
-opt.completeopt = {"menuone", "longest", "preview"}
+-- opt.completeopt = {"menuone", "longest", "preview"}
 opt.shortmess = "s"
+
+--------------------------------- Folding ----------------------------------
+opt.foldlevel   = 99
+opt.foldmethod  = "marker"
+opt.foldnestmax = 2
 
 --------------------------------- General ----------------------------------
 opt.clipboard   = 'unnamedplus' -- copy/paste to system clipboard
@@ -65,8 +72,13 @@ opt.ttimeout    = true          -- prevent delay when changing modes
 opt.ttimeoutlen = 50
 opt.updatetime  = 100           -- speed up screen updating
 opt.undofile    = false         -- persistent undo
-opt.linebreak   = true          -- wrap line if too long
+opt.wrap        = false         -- Don't wrap the line if it gets long enough
+vim.cmd("set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help")
 
 
+-- go to last loc when opening a buffer
+vim.cmd([[
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
+]])
 
 cmd[[au BufWritePre * :%s/\s\+$//e]]   -- remove whitespace on save

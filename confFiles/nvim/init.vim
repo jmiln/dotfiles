@@ -575,7 +575,6 @@ set noautoread                  " Don't automatically re-read changed files."
 set noautowrite                 " Never write a file unless I request it.
 set noautowriteall              " NEVER.
 set norelativenumber
-set nowrap                      " Lets the lines wrap when the line gets to long
 set signcolumn=yes
 set numberwidth=2               " Default width of line numbering"
 set omnifunc=syntaxcomplete#Complete
@@ -587,9 +586,6 @@ set undolevels=1000             " Keeps the last 1000 modifications to undo
 set whichwrap+=b,s,h,l,<,>,[,]  " Lets you move the cursor through line breaks
 set winminheight=0
 set wrapscan                    " Sets it to wrap searches from bottom to top
-
-" Session Settings
-set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help  "
 
 let no_buffers_menu=1
 
@@ -605,13 +601,6 @@ set tm=500
 
 " Joining
 set formatoptions+=j            " Remove comment leader when joining lines
-
-" Tab Settings
-set tabstop=4 softtabstop=4     " Sets TAB to the same space as four spaces  not seem to be working though)
-set shiftwidth=4
-
-" Indenting
-set autoindent  " Automatically set the indent of a new line (local to buffer)
 
 " Search Settings
 set hlsearch    " Sets it to highlight each word that matches the search

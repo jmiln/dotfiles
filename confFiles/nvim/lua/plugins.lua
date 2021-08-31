@@ -12,11 +12,10 @@ Plug 'junegunn/vim-easy-align'
 Plug 'Konfekt/FastFold'
 -- Plug ('mattn/emmet-vim', {['for'] = ['html', 'ejs', 'css', 'scss']})
 Plug ('nvim-treesitter/nvim-treesitter', {['do'] = vim.fn['TSUpdate']})
+Plug 'nvim-treesitter/playground'
 
 -- Auto-close parentheses and brackets, etc
--- Plug 'Raimondi/delimitMate'
--- Plug 'jiangmiao/auto-pairs'
--- Plug 'windwp/nvim-autopairs'
+Plug 'Raimondi/delimitMate'
 
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
@@ -38,7 +37,7 @@ Plug 'nvim-telescope/telescope.nvim'
 
 -- Completion stuffs
 Plug 'hrsh7th/nvim-cmp'
--- Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip' -- Snippets plugin
@@ -59,10 +58,28 @@ require('nvim_comment').setup({
 
 require('nvim-treesitter.configs').setup({
     highlight = {
-      enable = true
+        enable = true
     },
     indent = {
-      enable = true
+        enable = true
+    },
+    playground = {
+        enable = true,
+        disable = {},
+        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+        persist_queries = false, -- Whether the query persists across vim sessions
+        keybindings = {
+            toggle_query_editor = 'o',
+            toggle_hl_groups = 'i',
+            toggle_injected_languages = 't',
+            toggle_anonymous_nodes = 'a',
+            toggle_language_display = 'I',
+            focus_language = 'f',
+            unfocus_language = 'F',
+            update = 'R',
+            goto_node = '<cr>',
+            show_help = '?',
+        },
     }
 })
 
@@ -82,7 +99,7 @@ end
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Enable the following language servers
 nvim_lsp.tsserver.setup {
@@ -92,6 +109,20 @@ nvim_lsp.tsserver.setup {
 
 local cmp = require'cmp'
 cmp.setup{
+    snippet = {
+        expand = function(args)
+            return require("luasnip").lsp_expand(args.body)
+        end,
+    },
+    completion = {
+        autocomplete = {
+            cmp.TriggerEvent.InsertEnter,
+            cmp.TriggerEvent.TextChanged,
+        },
+        completeopt = 'menu,menuone,noselect',
+        keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
+        keyword_length = 1,
+    },
     mapping = {
         ['<S-Tab>']   = cmp.mapping.select_prev_item(),
         ['<Tab>']     = cmp.mapping.select_next_item(),
@@ -106,6 +137,9 @@ cmp.setup{
         { name = 'buffer' },
         { name = 'path' },
         -- { name = 'nvim_lsp' }
+    },
+    confirmation = {
+        default_behavior = cmp.ConfirmBehavior.Insert,
     },
     formatting = {
         format = function(entry, vim_item)
