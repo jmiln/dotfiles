@@ -13,6 +13,7 @@ map("n", "r",       "<C-R>",    default) -- Redo
 map("n", "Y",       "yy",        default) -- Y grabs whole line
 map('n', '<Space>', ':nohl<CR>', default) -- Space to remove search highlights
 map("n", "<Leader>ev", ":vsp $MYVIMRC<CR>", default) -- Open the vimrc/ init.vim in a vertical split
+map("n", "<Leader>sv", ":RefreshConfig<CR>", default) -- Open the vimrc/ init.vim in a vertical split
 map("n", "<Leader>=", "gg=G", default)  -- Indent whole file
 
 -- Underline the current line with various symbols (such that the number of
@@ -75,9 +76,48 @@ map('n', '', ':CommentToggle<CR>',      {noremap = true, silent=true})
 map('v', '', ':CommentToggle<CR>',      {noremap = true, silent=true})
 map('i', '', '<esc>:CommentToggle<CR>', {noremap = true, silent=true})
 
-
 -- Telescope Mappings
 map('n', '<leader>ff', ':Telescope find_files<CR>', {noremap = true})
 map('n', '<leader>fg', ':Telescope live_grep<CR>',  {noremap = true})
 map('n', '<leader>fb', ':Telescope buffers<CR>',    {noremap = true})
 map('n', '<leader>fh', ':Telescope help_tags<CR>',  {noremap = true})
+
+
+
+vim.api.nvim_command('command! RefreshConfig source $MYVIMRC <bar> echo');
+
+
+
+-- Legacy Abbreviations
+  -- Nodejs helpers
+vim.api.nvim_command('ab reqins const {inspect} = require("util");')
+vim.api.nvim_command('ab inspectdepth inspect(, {depth: 5})')
+  -- ESLint helpers
+vim.api.nvim_command('ab nounused // eslint-disable-line no-unused-vars')
+vim.api.nvim_command('ab noundef  // eslint-disable-line no-undef')
+  -- Discord.js / Bot stuff helpers
+vim.api.nvim_command('ab mslang message.language.get()')
+vim.api.nvim_command('ab inlang interaction.language.get()')
+vim.api.nvim_command('ab embedsep "=============================="')
+vim.api.nvim_command('ab slashac { name: "allycode", description: "The ally code of the user you want to see", type: "STRING" },')
+  -- Various seperators
+vim.api.nvim_command('abb dotlin ……………………………………………………………………………………………………………………………………………………………………………………………')
+vim.api.nvim_command('abb cdotlin /*…………………………………………………………………………………………………………………………………………………………………………………*/')
+vim.api.nvim_command('abb fdotlin •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••')
+vim.api.nvim_command('abb cfdotlin /*•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/')
+vim.api.nvim_command('abb dlin =======================================================================')
+vim.api.nvim_command('abb cdlin /*===================================================================*/')
+vim.api.nvim_command('abb lin -----------------------------------------------------------------------')
+vim.api.nvim_command('abb clin /*-------------------------------------------------------------------*/')
+vim.api.nvim_command('abb ulin _______________________________________________________________________')
+vim.api.nvim_command('abb culin /*___________________________________________________________________*/')
+vim.api.nvim_command('abb Ulin ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯')
+vim.api.nvim_command('abb cUlin /*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*/')
+  -- Various useful symbols
+vim.api.nvim_command('ab chkmrk ✓')
+vim.api.nvim_command('ab checkmark ✓')
+  -- Typos
+vim.api.nvim_command('cnoreabbrev Q q')
+vim.api.nvim_command('cnoreabbrev W w')
+
+

@@ -60,6 +60,17 @@ opt.foldlevel   = 99
 opt.foldmethod  = "marker"
 opt.foldnestmax = 2
 
+function _G.custom_fold_text()
+  local line = vim.fn.getline(vim.v.foldstart)
+  local line_count = vim.v.foldend - vim.v.foldstart + 1
+
+  return " ⚡ " ..  ("%4s"):format(line_count) .. " lines ".. line:gsub('"', ""):gsub("{{{", "")
+end
+
+vim.opt.foldtext = 'v:lua.custom_fold_text()'
+vim.opt.fillchars = { eob = "-", fold = " " }
+vim.opt.viewoptions:remove("options")
+
 --------------------------------- General ----------------------------------
 opt.clipboard   = 'unnamedplus' -- copy/paste to system clipboard
 opt.swapfile    = false         -- don't use swapfile

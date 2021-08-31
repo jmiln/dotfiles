@@ -11,6 +11,8 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'junegunn/vim-easy-align'
 Plug 'Konfekt/FastFold'
 -- Plug ('mattn/emmet-vim', {['for'] = ['html', 'ejs', 'css', 'scss']})
+Plug 'norcalli/nvim-colorizer.lua'
+
 Plug ('nvim-treesitter/nvim-treesitter', {['do'] = vim.fn['TSUpdate']})
 Plug 'nvim-treesitter/playground'
 
@@ -56,6 +58,7 @@ require('nvim_comment').setup({
     hook = nil
 })
 
+-- NVIM Treesitter setup
 require('nvim-treesitter.configs').setup({
     highlight = {
         enable = true
@@ -83,6 +86,7 @@ require('nvim-treesitter.configs').setup({
     }
 })
 
+require('colorizer').setup()
 require('gitsigns').setup()
 
 
