@@ -19,71 +19,16 @@ lua require("plugins")
 " Load up keybinds and such
 lua require("keybinds")
 
+" Load up highlighting settings
+lua require("highlight")
+
+" Load/ source any .vim files that are in there
+for f in split(glob('~/.config/nvim/config/*.vim'), '\n')
+    exe 'source' f
+endfor
+
 "                   Colorscheme / Syntax Settings {{{
 "=========================================================
-
-hi Normal                                                                       guibg=#1C1C1C
-
-hi Visual        cterm=none                                       guifg=white   guibg=#5f5f5f
-hi Comment       cterm=none      ctermfg=red                      guifg=#d70000 guibg=background
-hi Constant      cterm=none      ctermfg=grey
-hi ColorColumn   cterm=none      ctermfg=none
-hi Error         cterm=none      ctermfg=red       ctermbg=black  guifg=red     guibg=black
-hi Folded        cterm=none      ctermfg=blue      ctermbg=grey   guifg=white   guibg=#5f5f5f
-hi FoldColumn                    ctermfg=59        ctermbg=234    guifg=#5F5F5F guibg=#1C1C1C
-hi Search        cterm=none      ctermfg=blue      ctermbg=grey   guifg=black   guibg=#5f5f5f
-hi MatchParen                                                     guifg=black   guibg=white
-hi Identifier    cterm=none      ctermfg=grey                     guifg=grey
-hi LineNr                        ctermfg=59        ctermbg=234    guifg=#5F5F5F guibg=#1C1C1C
-hi SignColumn                    ctermfg=59        ctermbg=234    guifg=#5F5F5F guibg=#1C1C1C
-hi NonText       cterm=none      ctermfg=88
-hi Normal        cterm=none      ctermfg=grey
-hi PreProc       cterm=none      ctermfg=22
-hi Special       cterm=none      ctermfg=127
-hi Statement     cterm=none      ctermfg=green                    guifg=green4
-hi Statusline    cterm=none      ctermfg=grey
-hi TabLineFill   cterm=none      ctermfg=none
-hi Type          cterm=bold      ctermfg=green                    guifg=green3
-hi VertSplit     cterm=none      ctermfg=blue      ctermbg=grey
-hi Visual        cterm=reverse   ctermfg=none
-
-" C specific colors
-hi cStorageClass cterm=none      ctermfg=22
-hi cString       cterm=none      ctermfg=blue
-hi cNumber       cterm=none      ctermfg=18
-hi cConstant     cterm=none      ctermfg=none
-hi cStatement    cterm=none      ctermfg=22
-
-
-" SpellCheck specific colors
-hi SpellBad      cterm=underline ctermfg=88
-hi SpellCap      cterm=underline
-hi SpellRare     cterm=underline
-hi SpellLocal    cterm=underline
-
-" Completion menu colors
-hi Pmenu         cterm=none      ctermfg=Cyan                     guifg=white   guibg=#5f5f5f
-hi PmenuSel      cterm=Bold      ctermfg=Black     ctermbg=239    guifg=Black   guibg=darkgrey
-hi PmenuSbar     cterm=none      ctermfg=cyan      ctermbg=Cyan
-hi PmenuThumb    cterm=none      ctermfg=White
-
-" Cursor specific colores
-hi CursorLine    cterm=none      ctermfg=none
-hi CursorColumn  cterm=none      ctermfg=none
-hi CursorLineNr  cterm=none      ctermfg=246
-
-" Enables cursor line position tracking:
-set cursorline
-
-" Removes all styling for cursorline
-highlight clear CursorLine
-highlight clear CursorLineNR
-
-" Git diff coloring
-hi DiffAdded   gui=NONE guifg=green  guibg=#1C1C1C
-hi DiffChanged gui=NONE guifg=yellow guibg=#1C1C1C
-hi DiffText    gui=NONE guifg=black  guibg=green
-hi DiffRemoved gui=NONE guifg=red    guibg=#1C1C1C
 
 au BufNewFile,BufRead *.ejs set filetype=html
 let g:html_indent_inctags = "html,body,head,tbody"
@@ -108,70 +53,61 @@ au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, e
 " }}}
 "                   Functions {{{
 "=========================================================
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
+" fun! TrimWhitespace()
+"     let l:save = winsaveview()
+"     keeppatterns %s/\s\+$//e
+"     call winrestview(l:save)
+" endfun
 
-function! VisualSearch(direction) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
+" function! VisualSearch(direction) range
+"     let l:saved_reg = @"
+"     execute "normal! vgvy"
 
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+"     let l:pattern = escape(@", '\\/.*$^~[]')
+"     let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
-    endif
+"     if a:direction == 'b'
+"         execute "normal ?" . l:pattern . "^M"
+"     elseif a:direction == 'f'
+"         execute "normal /" . l:pattern . "^M"
+"     endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
+"     let @/ = l:pattern
+"     let @" = l:saved_reg
+" endfunction
 
-" Auto-set paste mode when pasting
-" via https://coderwall.com/p/if9mda
-function! WrapForTmux(s)
-  if !exists('$TMUX')
-    return a:s
-  endif
+" " Auto-set paste mode when pasting
+" " via https://coderwall.com/p/if9mda
+" function! WrapForTmux(s)
+"   if !exists('$TMUX')
+"     return a:s
+"   endif
 
-  let tmux_start = "\<Esc>Ptmux;"
-  let tmux_end = "\<Esc>\\"
+"   let tmux_start = "\<Esc>Ptmux;"
+"   let tmux_end = "\<Esc>\\"
 
-  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-endfunction
+"   return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+" endfunction
 
-let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+" let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+" let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 
-function! XTermPasteBegin()
-  set pastetoggle=<Esc>[201~
-  set paste
-  return ""
-endfunction
+" function! XTermPasteBegin()
+"   set pastetoggle=<Esc>[201~
+"   set paste
+"   return ""
+" endfunction
 
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+" inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 
 " }}}
 "                   Plugin Settings {{{
 "=========================================================
 
-
-" Toggles comments using the tComment plugin
-
-" vnoremap <C-_> gc
-" nnoremap <C-_> gcc
-" inoremap <C-_> <ESC>gcc
-
-" let g:tcommentLineC='// %s'
-
 " Delimitmate
 let delimitMate_expand_cr = 1
-let delimitMate_matchpairs = "(:),[:],{:}"
+let delimitMate_matchpairs = "(:),[:],{:},<:>"
 
 " EasyAlign
 xmap ga <Plug>(EasyAlign)
@@ -207,31 +143,14 @@ let g:user_emmet_install_global = 0
 " Use emmet only for html and css files
 autocmd FileType html,ejs,css,scss EmmetInstall
 " Make it so emmet doesn't conflict with other tab completion stuff
-autocmd FileType html,ejs,css iunmap <tab>
-autocmd FileType html,ejs,css imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+" autocmd FileType html,ejs,css iunmap <tab>
+" autocmd FileType html,ejs,css imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 au BufNewFile,BufRead .bashrc,.aliases set filetype=bash
 
 " Supertab settings
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabLongestHighlight = 1
-
-" Enable ycm for only the filestypes it's useful in so it stops screwing with
-" stuff here
-let g:ycm_filetype_whitelist = {'js': 1, 'json': 1}
-
-" Hexokinase highlighter settings
-let g:Hexokinase_highlighters = ['backgroundfull']
-
-"  Ale
-" Enable completion where available.
-let g:ale_completion_enabled = 1
-
-" Disable checking code unless I save it
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 0
-let g:ale_fix_on_save = 1
 
 " Check & fix JavaScript code with ESlint
 let g:ale_linters = {
@@ -242,44 +161,12 @@ let g:ale_fixers = {
             \   'javascript': ['eslint'],
             \}
 
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_open_list = 1
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " Close the error window if it's all that's left?
 augroup CloseLoclistWindowGroup
     autocmd!
     autocmd QuitPre * if empty(&buftype) | lclose | endif
 augroup END
-
-
-
-
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total == 0 ? ' OK' : printf(
-                \   ' %dW %dE',
-                \   all_non_errors,
-                \   all_errors
-                \)
-endfunction
-
-set statusline+=%{LinterStatus()}
-
-" Tagbar
-" let g:tagbar_usearrows = 1
-" let g:tagbar_singleclick = 1
-" let g:tagbar_autofocus = 1
-"
-" Tagbar binding
-" nnoremap <silent><F2> :TagbarToggle<CR>
 
 " Committia
 let g:committia_hooks = {}
@@ -299,75 +186,21 @@ function! g:committia_hooks.edit_open(info)
 endfunction
 
 
-
-" Nerd Tree
-
-" Check if NERDTree is open or active
-function! IsNERDTreeOpen()
-    return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-function! SyncTree()
-    if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-        NERDTreeFind
-        wincmd p
-    endif
-endfunction
-
-" Close vim if the only window left open is a NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-let g:NERDTreeDirArrowExpandable = '⯈'
-let g:NERDTreeDirArrowCollapsible = '⯆'
-let g:NERDTreeIndicatorMapCustom = {
-            \ "Modified"  : "✹",
-            \ "Staged"    : "✚",
-            \ "Untracked" : "✭",
-            \ "Renamed"   : "➜",
-            \ "Unmerged"  : "═",
-            \ "Deleted"   : "✖",
-            \ "Dirty"     : "✗",
-            \ "Clean"     : "✔︎",
-            \ 'Ignored'   : '☒',
-            \ "Unknown"   : "?"
-            \ }
-
-nnoremap <silent><F11> :NERDTreeFind<cr>
-nnoremap <silent><F12> :NERDTreeToggle<cr>
-
-
-" Highlight currently open buffer in NERDTree
-autocmd BufRead * call SyncTree()
-
-" Open NERDTree when you open a file
-" autocmd VimEnter * if argc() == 1 | NERDTreeFind | wincmd p | else | NERDTreeFind | endif
-
-
 " }}}
 "                   Settings {{{
 "=========================================================
 set backspace=indent,eol,start " Enable backspacing over autoindent, EOL, and BOL"
 set complete=.,w,b,u,t,i
 set encoding=utf-8              " Default encoding
-" set esckeys                     " Allow the cursor keys to work
-set formatoptions=t             " Fix formatting (line width) when editing"
 set laststatus=2
 set magic                       " Enable magic (Not really sure...)
 set mat=2                       " Time to show matching parens
-set matchpairs+=<:>             " Allow matching of brackets too!
-set modeline                    " Allow vim options to be embedded in files
-set modelines=5                 " they must be within the first or last 5 lines"
 set noautoread                  " Don't automatically re-read changed files."
 set noautowrite                 " Never write a file unless I request it.
 set noautowriteall              " NEVER.
-set norelativenumber
-set signcolumn=yes
 set numberwidth=2               " Default width of line numbering"
 set omnifunc=syntaxcomplete#Complete
 set ruler                       " Keeps the block at the bottom right corner that tells what line and column you are on
-set showbreak=.                 " What to show a line wrap as
 set showcmd
 set title                       " Sets the window title so it shows what file you are in
 set undolevels=1000             " Keeps the last 1000 modifications to undo
@@ -375,27 +208,8 @@ set whichwrap+=b,s,h,l,<,>,[,]  " Lets you move the cursor through line breaks
 set winminheight=0
 set wrapscan                    " Sets it to wrap searches from bottom to top
 
-let no_buffers_menu=1
-
 " Backup Settings
 set nobackup " disable backup
-set undodir=~/.config/nvim/undodir
-set undofile
-
-" Disable bell
-set visualbell                  " Disable visual bell
-set noerrorbells                " Disable error bell
-set tm=500
-
-" Joining
-set formatoptions+=j            " Remove comment leader when joining lines
-
-" Search Settings
-set hlsearch    " Sets it to highlight each word that matches the search
-set incsearch   " Sets it to show the search results as the word is typed in
-
-" Sets it so there is no beeping or screen flashes
-set vb t_vb="
 
 " Setting the statusilne formatting
 set statusline  =
@@ -410,7 +224,7 @@ set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
 autocmd! bufwritepost init.vim source %   " When init.vim is written, reload it
 
 " Remove trailing spaces when you save a file
-autocmd BufWritePre * :call TrimWhitespace()       " :%s/\s\+$//e
+" autocmd BufWritePre * :call TrimWhitespace()       " :%s/\s\+$//e
 
 " Some hopeful settings for php/ html etc.
 au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent
@@ -427,79 +241,9 @@ au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=
 
 " }}}
 
-"====================
-"       tests
-"====================
-
-" Tells vim that everything useful is above this
-finish
 
 
-"##############################################################################
-"#########################  Key Mappings/ Codes  ##############################
-"##############################################################################
 
-" These names for keys are used in the documentation.  They can also be used
-" with the ":map" command (insert the key name by pressing CTRL-K and then the
-" key you want the name for).
-"
-" notation  meaning         equivalent  decimal value(s)    ~
-"-----------------------------------------------------------------------
-" <Nul>     zero            CTRL-@    0 (stored as 10) *<Nul>*
-" <BS>      backspace       CTRL-H    8                 *backspace*
-" <Tab>     tab             CTRL-I    9                 *tab* *Tab*
-"                           *linefeed*
-" <NL>      linefeed        CTRL-J   10                 (used for <Nul>)
-" <FF>      formfeed        CTRL-L   12                 *formfeed*
-" <CR>      car return      CTRL-M   13                 *carriage-return*
-" <Return>  same as <CR>                                *<Return>*
-" <Enter>   same as <CR>                                *<Enter>*
-" <Esc>     escape          CTRL-[   27                 *escape* *<Esc>*
-" <Space>   space                    32                 *space*
-" <lt>      less-than       <        60                 *<lt>*
-" <Bslash>  backslash       \        92                 *backslash* *<Bslash>*
-" <Bar>     vertical bar    |       124                 *<Bar>*
-" <Del>     delete                  127
-"
-" <EOL>     end-of-line (can be <CR>, <LF> or <CR><LF>,
-"           depends on system and 'fileformat')             *<EOL>*
-"
-" <Up>      cursor-up                                   *cursor-up* *cursor_up*
-" <Down>    cursor-down                                 *cursor-down* *cursor_down*
-" <Left>    cursor-left                                 *cursor-left* *cursor_left*
-" <Right>   cursor-right                                *cursor-right* *cursor_right*
-" <S-Up>    shift-cursor-up
-" <S-Down>  shift-cursor-down
-" <S-Left>  shift-cursor-left
-" <S-Right> shift-cursor-right
-" <C-Left>  control-cursor-left
-" <C-Right> control-cursor-right
-" <F1> - <F12>  function keys 1 to 12                   *function_key* *function-key*
-" <S-F1> - <S-F12> shift-function keys 1 to 12          *<S-F1>*
-" <Help>        help key
-" <Undo>        undo key
-" <Insert>  insert key
-" <Home>        home                                        *home*
-" <End>     end                                         *end*
-" <PageUp>  page-up                                     *page_up* *page-up*
-" <PageDown>    page-down                                   *page_down* *page-down*
-" <kHome>   keypad home (upper left)                    *keypad-home*
-" <kEnd>        keypad end (lower left)                     *keypad-end*
-" <kPageUp> keypad page-up (upper right)                *keypad-page-up*
-" <kPageDown>keypad page-down (lower right)             *keypad-page-down*
-" <kPlus>   keypad +                                    *keypad-plus*
-" <kMinus>  keypad -                                    *keypad-minus*
-" <kMultiply>keypad *                                   *keypad-multiply*
-" <kDivide> keypad /                                    *keypad-divide*
-" <kEnter>  keypad Enter                                *keypad-enter*
-" <kPoint>  keypad Decimal point                        *keypad-point*
-" <k0> - <k9>keypad 0 to 9                              *keypad-0* *keypad-9*
-" <S-...>   shift-key                                   *shift* *<S-*
-" <C-...>   control-key                                 *control* *ctrl* *<C-*
-" <A-...>   same as <M-...>                             *<A-*
-" <t_xx>        key with "xx" entry in termcap
 
-"##############################################################################
 
-" The ':map' command creates a key map that works in normal, visual, select and operator pending modes.
-" The ':map!' command creates a key map that works in insert and command-line mode.
+

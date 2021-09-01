@@ -10,10 +10,10 @@ opt.expandtab   = true		-- tabs insert spaces
 opt.joinspaces  = false		-- only one space after punction when joining lines
 opt.list        = false     -- show listchars
 opt.listchars   = { extends = "›", precedes = "‹", nbsp = "·", tab = "→ ", trail = "·", eol = "¬" }
-opt.shiftwidth  = 4			-- shift 4 spaces when tab
 opt.autoindent = true
 opt.smartindent = true		-- autoindent new lines
 opt.smarttab    = true
+opt.shiftwidth  = 4			-- shift 4 spaces when tab
 opt.tabstop     = 4         -- 1 tab == 4 spaces
 opt.softtabstop = 4         -- 1 tab == 4 spaces
 
@@ -40,12 +40,15 @@ opt.wildmode = {"longest:full","list:full"}
 --------------------------------- Appearance ----------------------------------
 opt.background    = "dark"
 opt.number        = true
+opt.relativenumber = false
 opt.scrolloff     = 1           -- start scrolling when near the last line
 opt.showmatch     = true
 opt.showmode      = true
 opt.sidescrolloff = 5           -- start scrolling when near the last col
 opt.syntax        = 'enable'    -- enable syntax highlighting
 opt.termguicolors = true        -- true color support
+opt.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
+opt.belloff = "all" -- Just turn all the bells off
 vim.wo.signcolumn = 'yes'
 vim.go.termguicolors = true
 vim.go.t_Co = "256"
@@ -86,6 +89,18 @@ opt.undofile    = false         -- persistent undo
 opt.wrap        = false         -- Don't wrap the line if it gets long enough
 vim.cmd("set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help")
 
+opt.modeline = false
+opt.modelines = 1
+opt.formatoptions = opt.formatoptions
+  - "a" -- Auto formatting is BAD.
+  - "t" -- Don't auto format my code. I got linters for that.
+  + "c" -- In general, I like it when comments respect textwidth
+  + "q" -- Allow formatting comments w/ gq
+  - "o" -- O and o, don't continue comments
+  + "r" -- But do continue when pressing enter.
+  + "n" -- Indent past the formatlistpat, not underneath it.
+  + "j" -- Auto-remove comments if possible.
+  - "2" -- I'm not in gradeschool anymore
 
 -- go to last loc when opening a buffer
 vim.cmd([[
