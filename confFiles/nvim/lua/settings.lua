@@ -100,11 +100,25 @@ opt.formatoptions = opt.formatoptions
   + "r" -- But do continue when pressing enter.
   + "n" -- Indent past the formatlistpat, not underneath it.
   + "j" -- Auto-remove comments if possible.
-  - "2" -- I'm not in gradeschool anymore
 
 -- go to last loc when opening a buffer
-vim.cmd([[
+cmd([[
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
 ]])
+cmd([[
+  au BufNewFile,BufRead *.ejs set filetype=html
+]])
 
-cmd[[au BufWritePre * :%s/\s\+$//e]]   -- remove whitespace on save
+-- Set the .vimrc file to close all relevant folds on open
+cmd([[au BufRead,BufNewFile .vimrc set foldlevel=0]])
+cmd([[au BufRead,BufNewFile init.vim set foldlevel=0]])
+
+-- Set folding to be based on syntax for js files
+cmd([[au BufNewFile,BufRead *.js set foldmethod=syntax]])
+
+-- Make vim supposedly save/ load view (state) (folds, cursor, etc)
+cmd([[au BufWinLeave \* silent! mkview]])
+cmd([[au BufWinEnter \* silent! loadview]])
+
+-- Remove whitespace on save
+cmd[[au BufWritePre * :%s/\s\+$//e]]

@@ -23,83 +23,18 @@ lua require("keybinds")
 lua require("highlight")
 
 " Load/ source any .vim files that are in there
-for f in split(glob('~/.config/nvim/config/*.vim'), '\n')
-    exe 'source' f
-endfor
+" for f in split(glob('~/.config/nvim/config/*.vim'), '\n')
+"     exe 'source' f
+" endfor
 
-"                   Colorscheme / Syntax Settings {{{
-"=========================================================
-
-au BufNewFile,BufRead *.ejs set filetype=html
-let g:html_indent_inctags = "html,body,head,tbody"
-
-" }}}
 "                   Folding {{{
 "=========================================================
 
-" Set the .vimrc file to close all relevant folds on open
-au BufRead,BufNewFile .vimrc set foldlevel=0
-au BufRead,BufNewFile init.vim set foldlevel=0
-
 " Set folding to be based on syntax for js files
-au BufNewFile,BufRead *.js set foldmethod=syntax
 let g:javaScript_fold = 1
 
 " restore vim - helping keep settings after closing it
 set viewoptions=options,cursor,folds,slash,unix
-au BufWinLeave \* silent! mkview  "make vim save view (state) (folds, cursor, etc)
-au BufWinEnter \* silent! loadview "make vim load view (state) (folds, cursor, etc)
-
-" }}}
-"                   Functions {{{
-"=========================================================
-" fun! TrimWhitespace()
-"     let l:save = winsaveview()
-"     keeppatterns %s/\s\+$//e
-"     call winrestview(l:save)
-" endfun
-
-" function! VisualSearch(direction) range
-"     let l:saved_reg = @"
-"     execute "normal! vgvy"
-
-"     let l:pattern = escape(@", '\\/.*$^~[]')
-"     let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-"     if a:direction == 'b'
-"         execute "normal ?" . l:pattern . "^M"
-"     elseif a:direction == 'f'
-"         execute "normal /" . l:pattern . "^M"
-"     endif
-
-"     let @/ = l:pattern
-"     let @" = l:saved_reg
-" endfunction
-
-" " Auto-set paste mode when pasting
-" " via https://coderwall.com/p/if9mda
-" function! WrapForTmux(s)
-"   if !exists('$TMUX')
-"     return a:s
-"   endif
-
-"   let tmux_start = "\<Esc>Ptmux;"
-"   let tmux_end = "\<Esc>\\"
-
-"   return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-" endfunction
-
-" let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-" let &t_EI .= WrapForTmux("\<Esc>[?2004l")
-
-" function! XTermPasteBegin()
-"   set pastetoggle=<Esc>[201~
-"   set paste
-"   return ""
-" endfunction
-
-" inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
 
 " }}}
 "                   Plugin Settings {{{
