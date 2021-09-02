@@ -19,11 +19,10 @@ map("n", "<Leader>=", "gg=G", default)  -- Indent whole file
 -- Underline the current line with various symbols (such that the number of
 -- underline matches line length and indendation)
 map("n", "<Leader>-", "yypVr-", default)
-map("n", "<Leader>", 'yypVr"', default)
+map("n", '<Leader>"', 'yypVr"', default)
 
 -- A fancy unicode underline
 map("n", "<leader>U", "yypVr━", default)
-
 
 -- Bubble lines
 map("n", "<C-K>", "ddkP", default)
@@ -83,8 +82,12 @@ map('n', '<leader>fb', ':Telescope buffers<CR>',    {noremap = true})
 map('n', '<leader>fh', ':Telescope help_tags<CR>',  {noremap = true})
 
 
-
+-- Refresh the config in the current file
 vim.api.nvim_command('command! RefreshConfig source $MYVIMRC <bar> echo');
+
+
+-- Run currently selected JS
+vim.api.nvim_command("command! -range RunNode <line1>,<line2>w !node");
 
 
 
