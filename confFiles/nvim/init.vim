@@ -27,18 +27,17 @@ lua require("highlight")
 "     exe 'source' f
 " endfor
 
-"                   Folding {{{
-"=========================================================
-
-" Set folding to be based on syntax for js files
-let g:javaScript_fold = 1
-
-" restore vim - helping keep settings after closing it
-set viewoptions=options,cursor,folds,slash,unix
-
-" }}}
 "                   Plugin Settings {{{
 "=========================================================
+
+" NVIM Lsp diagnostics stuff
+" nnoremap <buffer> <silent> <leader>dq <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+" nnoremap <buffer> <silent> <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+" nnoremap <buffer> <silent> <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+
+" Show the errors in a pop-up when hovering over the error line
+" autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+
 
 " Delimitmate
 let delimitMate_expand_cr = 1
@@ -87,16 +86,6 @@ au BufNewFile,BufRead .bashrc,.aliases set filetype=bash
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabLongestHighlight = 1
 
-" Check & fix JavaScript code with ESlint
-let g:ale_linters = {
-            \   'javascript': ['eslint'],
-            \}
-let g:ale_fixers = {
-            \   '*': ['remove_trailing_lines'],
-            \   'javascript': ['eslint'],
-            \}
-
-
 " Close the error window if it's all that's left?
 augroup CloseLoclistWindowGroup
     autocmd!
@@ -120,7 +109,6 @@ function! g:committia_hooks.edit_open(info)
     imap <buffer><C-p> <Plug>(committia-scroll-diff-up-half)
 endfunction
 
-
 " }}}
 "                   Settings {{{
 "=========================================================
@@ -131,8 +119,6 @@ set laststatus=2
 set magic                       " Enable magic (Not really sure...)
 set mat=2                       " Time to show matching parens
 set noautoread                  " Don't automatically re-read changed files."
-set noautowrite                 " Never write a file unless I request it.
-set noautowriteall              " NEVER.
 set numberwidth=2               " Default width of line numbering"
 set omnifunc=syntaxcomplete#Complete
 set ruler                       " Keeps the block at the bottom right corner that tells what line and column you are on
@@ -147,19 +133,16 @@ set wrapscan                    " Sets it to wrap searches from bottom to top
 set nobackup " disable backup
 
 " Setting the statusilne formatting
-set statusline  =
-set statusline +=%1*\ %n\ %*     " Buffer number
-set statusline +=[%{&ff}\ -\ %{&fenc}\ -\ %y]  " FileFormat, encoding, fileType
-set statusline +=%4*\ %<%f%*     " Full path
-set statusline +=%2*%m%*         " Modified flag
-set statusline +=%=              " Right align everything after this
-set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
+" set statusline  =
+" set statusline +=%1*\ %n\ %*     " Buffer number
+" set statusline +=[%{&ff}\ -\ %{&fenc}\ -\ %y]  " FileFormat, encoding, fileType
+" set statusline +=%4*\ %<%f%*     " Full path
+" set statusline +=%2*%m%*         " Modified flag
+" set statusline +=%=              " Right align everything after this
+" set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
 
 " Reload vim when init.vim is written (very useful for when testing)
 autocmd! bufwritepost init.vim source %   " When init.vim is written, reload it
-
-" Remove trailing spaces when you save a file
-" autocmd BufWritePre * :call TrimWhitespace()       " :%s/\s\+$//e
 
 " Some hopeful settings for php/ html etc.
 au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent

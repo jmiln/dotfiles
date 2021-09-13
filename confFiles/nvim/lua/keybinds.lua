@@ -25,12 +25,8 @@ map("n", '<Leader>"', 'yypVr"', default)
 map("n", "<leader>U", "yypVr━", default)
 
 -- Bubble lines
-map("n", "<C-K>", "ddkP", default)
-map("n", "<C-J>", "ddp", default)
 map("v", "<C-K>", ":m '<-2<CR>gv=gv", default)
 map("v", "<C-J>", ":m '>+1<CR>gv=gv", default)
-
-map("n", "vv", "^vg_", default)  -- Select the current line without any indent
 
 -- Local, then global replace (Wimpy refactor)
 map("n", "gr", "gd[{V%:s/<C-R>///gc<left><left><left>", default)
@@ -39,9 +35,9 @@ map("n", "gR", "gD:%s/<C-R>///gc<left><left><left>",    default)
 -- Surround a visual selection with the specified character
 map("v", "'", "<esc>`>a'<esc>`<i'<esc>", default);
 map("v", '"', '<esc>`>a"<esc>`<i"<esc>', default);
-map("v", "(", "<esc>`>a(<esc>`<i)<esc>", default);
-map("v", "[", "<esc>`>a[<esc>`<i]<esc>", default);
-map("v", "{", "<esc>`>a{<esc>`<i}<esc>", default);
+map("v", "(", "<esc>`>a)<esc>`<i(<esc>", default);
+map("v", "[", "<esc>`>a]<esc>`<i[<esc>", default);
+map("v", "{", "<esc>`>a}<esc>`<i{<esc>", default);
 
 -- Keep search results centered
 map("v", "n", "nzzzv", default);
@@ -81,6 +77,10 @@ map('n', '<leader>fg', ':Telescope live_grep<CR>',  {noremap = true})
 map('n', '<leader>fb', ':Telescope buffers<CR>',    {noremap = true})
 map('n', '<leader>fh', ':Telescope help_tags<CR>',  {noremap = true})
 
+-- LSP mappings
+map("n", "<leader>dq", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", default)
+map("n", "<leader>dn", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", default)
+map("n", "<leader>dp", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", default)
 
 -- Refresh the config in the current file
 vim.api.nvim_command('command! RefreshConfig source $MYVIMRC <bar> echo');

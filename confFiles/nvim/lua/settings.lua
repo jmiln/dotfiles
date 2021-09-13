@@ -102,12 +102,8 @@ opt.formatoptions = opt.formatoptions
   + "j" -- Auto-remove comments if possible.
 
 -- go to last loc when opening a buffer
-cmd([[
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
-]])
-cmd([[
-  au BufNewFile,BufRead *.ejs set filetype=html
-]])
+cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]])
+cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
 
 -- Set the .vimrc file to close all relevant folds on open
 cmd([[au BufRead,BufNewFile .vimrc set foldlevel=0]])
@@ -115,6 +111,7 @@ cmd([[au BufRead,BufNewFile init.vim set foldlevel=0]])
 
 -- Set folding to be based on syntax for js files
 cmd([[au BufNewFile,BufRead *.js set foldmethod=syntax]])
+cmd("let g:javaScript_fold = 1")
 
 -- Make vim supposedly save/ load view (state) (folds, cursor, etc)
 cmd([[au BufWinLeave \* silent! mkview]])
@@ -122,3 +119,6 @@ cmd([[au BufWinEnter \* silent! loadview]])
 
 -- Remove whitespace on save
 cmd[[au BufWritePre * :%s/\s\+$//e]]
+
+-- Open/ refresh the lsp loclist on save (Currently stays open even when empty)
+-- cmd[[au BufWritePre * :lua vim.lsp.diagnostic.set_loclist()]]
