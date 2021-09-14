@@ -123,10 +123,27 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Enable the following language servers
-nvim_lsp.tsserver.setup {
+nvim_lsp.tsserver.setup({
     on_attach = on_attach,
     capabilities = capabilities,
-}
+    handlers = {
+        -- This makes it so it will stop spitting out the dang "File is a CommonJS module; it may be converted to an ES6 module." error
+        -- Via https://www.reddit.com/r/neovim/comments/nv3qh8/how_to_ignore_tsserver_error_file_is_a_commonjs/h1tx1rh
+        ["textDocument/publishDiagnostics"] = function(_, _, params, client_id, _, config)
+            if params.diagnostics ~= nil then
+                local idx = 1
+                while idx <= #params.diagnostics do
+                    if params.diagnostics[idx].code == 80001 then
+                        table.remove(params.diagnostics, idx)
+                    else
+                        idx = idx + 1
+                    end
+                end
+            end
+            vim.lsp.diagnostic.on_publish_diagnostics(_, _, params, client_id, _, config)
+        end,
+    }
+})
 
 -- Configure how the code errors and such show
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
