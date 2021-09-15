@@ -122,6 +122,17 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
+-- Local helper function
+local function contains (table, val)
+    for index, value in ipairs(table) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
+
 -- Enable the following language servers
 nvim_lsp.tsserver.setup({
     on_attach = on_attach,
@@ -132,8 +143,10 @@ nvim_lsp.tsserver.setup({
         ["textDocument/publishDiagnostics"] = function(_, _, params, client_id, _, config)
             if params.diagnostics ~= nil then
                 local idx = 1
+                local ignoreCodes = {80001, 2339}
                 while idx <= #params.diagnostics do
-                    if params.diagnostics[idx].code == 80001 then
+                    if contains(ignoreCodes, params.diagnostics[idx].code) then
+                    -- if params.diagnostics[idx].code == 80001 or params.diagnostics[idx].code == 2339 then
                         table.remove(params.diagnostics, idx)
                     else
                         idx = idx + 1
