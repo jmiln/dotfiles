@@ -33,15 +33,6 @@ lua require("highlight")
 "                   Plugin Settings {{{
 "=========================================================
 
-" NVIM Lsp diagnostics stuff
-" nnoremap <buffer> <silent> <leader>dq <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
-" nnoremap <buffer> <silent> <leader>dn <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-" nnoremap <buffer> <silent> <leader>dp <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-
-" Show the errors in a pop-up when hovering over the error line
-" autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
-
-
 " Delimitmate
 let delimitMate_expand_cr = 1
 let delimitMate_matchpairs = "(:),[:],{:},<:>"
@@ -49,45 +40,8 @@ let delimitMate_matchpairs = "(:),[:],{:},<:>"
 " EasyAlign
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-let g:easy_align_delimiters = {
-\ '>': { 'pattern': '>>\|=>\|>' },
-\ '/': {
-\     'pattern':         '//\+\|/\*\|\*/',
-\     'delimiter_align': 'l',
-\     'ignore_groups':   ['!Comment'] },
-\ ']': {
-\     'pattern':       '[[\]]',
-\     'left_margin':   0,
-\     'right_margin':  0,
-\     'stick_to_left': 0
-\   },
-\ ')': {
-\     'pattern':       '[()]',
-\     'left_margin':   0,
-\     'right_margin':  0,
-\     'stick_to_left': 0
-\   },
-\ 'd': {
-\     'pattern':      ' \(\S\+\s*[;=]\)\@=',
-\     'left_margin':  0,
-\     'right_margin': 0
-\   }
-\ }
-
-" Emmet
-let g:user_emmet_leader_key=','
-let g:user_emmet_install_global = 0
-" Use emmet only for html and css files
-autocmd FileType html,ejs,css,scss EmmetInstall
-" Make it so emmet doesn't conflict with other tab completion stuff
-" autocmd FileType html,ejs,css iunmap <tab>
-" autocmd FileType html,ejs,css imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 au BufNewFile,BufRead .bashrc,.aliases set filetype=bash
-
-" Supertab settings
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabLongestHighlight = 1
 
 " Close the error window if it's all that's left?
 augroup CloseLoclistWindowGroup
