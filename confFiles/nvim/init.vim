@@ -16,6 +16,9 @@ lua require("settings")
 " Load up the plugins
 lua require("plugins")
 
+" Load all the plugin configs
+lua require("config")
+
 " Load up keybinds and such
 lua require("keybinds")
 

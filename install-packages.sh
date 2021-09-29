@@ -59,6 +59,12 @@ fi
 # Make sure both version are installed
 sudo apt-get -y install python2 python3
 
+# Install ripgrep & fd (Mainly for nvim telescope)
+sudo apt install ripgrep
+sudo apt install fd-find
+mkdir -p ~/.local/bin
+ln -s $(which fdfind) ~/.local/bin/fd
+
 # Install nvim
 sudo apt -y install cmake
 if command -v nvim &> /dev/null; then

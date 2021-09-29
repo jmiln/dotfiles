@@ -25,8 +25,8 @@ map("n", '<Leader>"', 'yypVr"', default)
 map("n", "<leader>U", "yypVr━", default)
 
 -- Bubble lines
-map("v", "<C-K>", ":m '<-2<CR>gv=gv", default)
-map("v", "<C-J>", ":m '>+1<CR>gv=gv", default)
+-- map("v", "<C-K>", ":m '<-2<CR>gv=gv", default)
+-- map("v", "<C-J>", ":m '>+1<CR>gv=gv", default)
 
 -- Local, then global replace (Wimpy refactor)
 map("n", "gr", "gd[{V%:s/<C-R>///gc<left><left><left>", default)
@@ -76,11 +76,15 @@ map('n', '<leader>ff', ':Telescope find_files<CR>', {noremap = true})
 map('n', '<leader>fg', ':Telescope live_grep<CR>',  {noremap = true})
 map('n', '<leader>fb', ':Telescope buffers<CR>',    {noremap = true})
 map('n', '<leader>fh', ':Telescope help_tags<CR>',  {noremap = true})
+map('n', '<leader>fd', ':lua require("config.telescope").search_dotfiles()<CR>',  {noremap = true})
 
 -- LSP mappings
 map("n", "<leader>dq", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", default)
-map("n", "<leader>dn", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", default)
-map("n", "<leader>dp", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", default)
+
+-- LSP Lspsaga bindings
+map("n", "<c-j>", ":Lspsaga diagnostic_jump_next<CR>", default)
+map("n", "<c-k>", ":Lspsaga diagnostic_jump_prev<CR>", default)
+
 
 -- Refresh the config in the current file
 vim.api.nvim_command('command! RefreshConfig source $MYVIMRC <bar> echo');
@@ -88,7 +92,6 @@ vim.api.nvim_command('command! RefreshConfig source $MYVIMRC <bar> echo');
 
 -- Run currently selected JS
 vim.api.nvim_command("command! -range RunNode <line1>,<line2>w !node");
-
 
 
 -- Legacy Abbreviations

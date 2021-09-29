@@ -1,0 +1,5 @@
+require("config.comments")
+require("config.lsp")
+require("config.statusline")
+require("config.telescope")
+require("config.treesitter")
