@@ -2,6 +2,13 @@ local Plug = vim.fn['plug#']
 
 vim.call('plug#begin', '~/.config/nvim/plugged')
 
+-- TODO These look interesting, have not tried em
+--
+-- https://github.com/lukas-reineke/indent-blankline.nvim   -- Indent guids/ lines
+-- https://github.com/p00f/nvim-ts-rainbow                  -- Rainbow Parens
+--
+-- TODO End of untried interesting stuff
+
 -- Github repos
 -- Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'

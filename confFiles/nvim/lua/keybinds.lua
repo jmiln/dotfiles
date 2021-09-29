@@ -80,6 +80,7 @@ map('n', '<leader>fd', ':lua require("config.telescope").search_dotfiles()<CR>',
 
 -- LSP mappings
 map("n", "<leader>dq", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", default)
+map("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<cr>", default)
 
 -- LSP Lspsaga bindings
 map("n", "<c-j>", ":Lspsaga diagnostic_jump_next<CR>", default)
