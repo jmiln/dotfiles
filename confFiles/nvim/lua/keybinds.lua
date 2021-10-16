@@ -72,11 +72,13 @@ map('v', '', ':CommentToggle<CR>',      {noremap = true, silent=true})
 map('i', '', '<esc>:CommentToggle<CR>', {noremap = true, silent=true})
 
 -- Telescope Mappings
-map('n', '<leader>ff', ':Telescope find_files<CR>', {noremap = true})
-map('n', '<leader>fg', ':Telescope live_grep<CR>',  {noremap = true})
-map('n', '<leader>fb', ':Telescope buffers<CR>',    {noremap = true})
-map('n', '<leader>fh', ':Telescope help_tags<CR>',  {noremap = true})
-map('n', '<leader>fd', ':lua require("config.telescope").search_dotfiles()<CR>',  {noremap = true})
+map('n', '<leader>fb', ':Telescope buffers<CR>',                                 { noremap = true})
+map('n', '<leader>fc', ':Telescope resume<CR>',                                  { noremap = true})
+map('n', '<leader>fd', ':lua require("config.telescope").search_dotfiles()<CR>', { noremap = true})
+map('n', '<leader>ff', ':Telescope find_files<CR>',                              { noremap = true})
+map('n', '<leader>fg', ':Telescope live_grep<CR>',                               { noremap = true})
+map('n', '<leader>fh', ':Telescope help_tags<CR>',                               { noremap = true})
+map('n', '<leader>fr', ':Telescope registers<CR>',                               { noremap = true})
 
 -- LSP mappings
 map("n", "<leader>dq", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", default)

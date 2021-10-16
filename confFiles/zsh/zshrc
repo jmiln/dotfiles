@@ -22,7 +22,8 @@ setopt NO_HIST_BEEP
 setopt NO_MAIL_WARNING
 setopt prompt_subst     # Allows for functions in the prompt
 
-TERM=screen-256color
+TERM=tmux-256color
+# TERM=screen-256color
 # TERM=xterm-256color
 
 autoload -U colors && colors # Enable colors in promptetopt SHARE_HISTORY

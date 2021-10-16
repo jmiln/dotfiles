@@ -34,7 +34,10 @@ Plug 'tpope/vim-surround'
 Plug 'rhysd/committia.vim'
 
 -- Easy comments
-Plug 'terrortylor/nvim-comment'
+-- Plug 'terrortylor/nvim-comment'
+
+-- Easy comments, but without the weirdness around empty lines  (Swap back to terrortylor's one if the PR is ever merged)
+Plug ('paegodu/nvim-comment', {['branch'] = 'empty_lines'})
 
 -- LSP stuffs
 Plug 'neovim/nvim-lspconfig'

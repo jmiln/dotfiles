@@ -32,7 +32,13 @@ nvim_lsp.tsserver.setup({
         ["textDocument/publishDiagnostics"] = function(_, _, params, client_id, _, config)
             if params.diagnostics ~= nil then
                 local idx = 1
-                local ignoreCodes = {80001, 2339, 7016}
+                local ignoreCodes = {
+                    80001,
+                    2339,
+                    7016,
+                    2568,   -- Property 'X' may not exist on type 'Y'. Did you mean 'Z'?
+                    6133,   -- 'X' is declared but its value is never used (Covered by eslint)
+                }
                 while idx <= #params.diagnostics do
                     if contains(ignoreCodes, params.diagnostics[idx].code) then
                     -- if params.diagnostics[idx].code == 80001 or params.diagnostics[idx].code == 2339 then
@@ -57,6 +63,69 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     }
 )
 
+-- This is to enable eslint to work
+require'lspconfig'.diagnosticls.setup{
+    filetypes = {"javascript", "typescript"},
+    init_options = {
+        linters = {
+            eslint = {
+                command = "eslint_d",
+                rootPatterns = { ".eslintrc", ".git" },
+                debounce = 100,
+                args = {
+                    "--stdin",
+                    "--stdin-filename",
+                    "%filepath",
+                    "--format",
+                    "json"
+                },
+                sourceName = "eslint",
+                parseJson = {
+                    errorsRoot = "[0].messages",
+                    line       = "line",
+                    column     = "column",
+                    endLine    = "endLine",
+                    endColumn  = "endColumn",
+                    message    = "[eslint] ${message} [${ruleId}]",
+                    security   = "severity"
+                },
+                securities = {
+                    [2] = "error",
+                    [1] = "warning"
+                }
+            },
+        },
+        filetypes = {
+            javascript = "eslint",
+            typescript = "eslint"
+        },
+        -- formatters = {
+        --    eslint_fmt = {
+        --         command = 'eslint_d',
+        --         args = {
+        --             '--fix',
+        --             '--fix-to-stdout',
+        --             '--stdin',
+        --             '--stdin-filename',
+        --             '%filepath',
+        --         },
+        --         rootPatterns = {
+        --             '.eslintrc',
+        --             '.eslintrc.cjs',
+        --             '.eslintrc.js',
+        --             '.eslintrc.json',
+        --             '.eslintrc.yaml',
+        --             '.eslintrc.yml',
+        --         },
+        --     }
+        -- },
+        -- formatFiletypes = {
+        --     javascript = "eslint_fmt",
+        --     typescript = "eslint_fmt"
+        -- }
+    }
+}
+
 
 
 -- Trouble settings
@@ -65,6 +134,7 @@ require("trouble").setup({
     fold_closed = ">",
     auto_open = true,
     auto_close = true,
+    icons = false,
     signs = {
         -- icons / text used for a diagnostic
         error = "[ERROR]",
