@@ -27,28 +27,27 @@ nvim_lsp.tsserver.setup({
     on_attach = on_attach,
     capabilities = capabilities,
     handlers = {
-        -- This makes it so it will stop spitting out the dang "File is a CommonJS module; it may be converted to an ES6 module." error
+        -- This makes it stop spitting out the errors specified in ignoreCodes below
         -- Via https://www.reddit.com/r/neovim/comments/nv3qh8/how_to_ignore_tsserver_error_file_is_a_commonjs/h1tx1rh
-        ["textDocument/publishDiagnostics"] = function(_, _, params, client_id, _, config)
-            if params.diagnostics ~= nil then
+        ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+            if result.diagnostics ~= nil then
                 local idx = 1
                 local ignoreCodes = {
-                    80001,
+                    80001,  -- File is a CommonJS module; it may be converted to an ES6 module.
                     2339,
                     7016,
                     2568,   -- Property 'X' may not exist on type 'Y'. Did you mean 'Z'?
                     6133,   -- 'X' is declared but its value is never used (Covered by eslint)
                 }
-                while idx <= #params.diagnostics do
-                    if contains(ignoreCodes, params.diagnostics[idx].code) then
-                    -- if params.diagnostics[idx].code == 80001 or params.diagnostics[idx].code == 2339 then
-                        table.remove(params.diagnostics, idx)
+                while idx <= #result.diagnostics do
+                    if contains(ignoreCodes, result.diagnostics[idx].code) then
+                        table.remove(result.diagnostics, idx)
                     else
                         idx = idx + 1
                     end
                 end
             end
-            vim.lsp.diagnostic.on_publish_diagnostics(_, _, params, client_id, _, config)
+            vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
         end,
     }
 })

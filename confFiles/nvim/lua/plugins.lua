@@ -53,13 +53,10 @@ Plug 'folke/trouble.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 
 -- Completion stuffs
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-
--- Snippets, never used em much, or took the time to make it work
--- Plug 'saadparwaiz1/cmp_luasnip'
--- Plug 'L3MON4D3/LuaSnip' -- Snippets plugin
+Plug 'hrsh7th/nvim-cmp'       -- The completion plugin itself
+Plug 'hrsh7th/cmp-nvim-lsp'   -- Complete bsed on the lsp
+Plug 'hrsh7th/cmp-buffer'     -- Complete based on the current buffer
+Plug 'hrsh7th/cmp-path'       -- Complete file paths
 
 -- Statusline
 Plug 'hoob3rt/lualine.nvim'

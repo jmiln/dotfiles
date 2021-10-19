@@ -9,17 +9,20 @@ vim.o.pastetoggle="<F6>"
 local map = vim.api.nvim_set_keymap
 local default = {noremap = true, silent = true}
 
-map("n", "r",       "<C-R>",    default) -- Redo
-map("n", "Y",       "yy",        default) -- Y grabs whole line
-map('n', '<Space>', ':nohl<CR>', default) -- Space to remove search highlights
-map("n", "<Leader>ev", ":vsp $MYVIMRC<CR>", default) -- Open the vimrc/ init.vim in a vertical split
+map("n", "r",          "<C-R>",              default) -- Redo
+map("n", "Y",          "yy",                 default) -- Y grabs whole line
+map('n', '<Space>',    ':nohl<CR>',          default) -- Space to remove search highlights
+map("n", "<Leader>ev", ":vsp $MYVIMRC<CR>",  default) -- Open the vimrc/ init.vim in a vertical split
 map("n", "<Leader>sv", ":RefreshConfig<CR>", default) -- Open the vimrc/ init.vim in a vertical split
-map("n", "<Leader>=", "gg=G", default)  -- Indent whole file
+map("n", "<Leader>=",  "gg=G",               default)  -- Indent whole file
 
 -- Underline the current line with various symbols (such that the number of
 -- underline matches line length and indendation)
 map("n", "<Leader>-", "yypVr-", default)
 map("n", '<Leader>"', 'yypVr"', default)
+
+-- Paste over selected text without replacing what's being pasted in the register
+map("v", "<leader>p", '"_dP', default)
 
 -- A fancy unicode underline
 map("n", "<leader>U", "yypVr━", default)

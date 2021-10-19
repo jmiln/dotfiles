@@ -45,6 +45,10 @@ cmd[[hi PmenuSel      cterm=Bold      ctermfg=Black     ctermbg=239    guifg=Bla
 cmd[[hi PmenuSbar     cterm=none      ctermfg=cyan      ctermbg=Cyan]]
 cmd[[hi PmenuThumb    cterm=none      ctermfg=White]]
 
+-- Link nvim-cmp's popups to the settings for the normal ones
+cmd[[hi! link CmpItemAbbrDefault Pmenu]]
+cmd[[hi! link CmpItemMenuDefault Pmenu]]
+
 -- " Cursor specific colores
 cmd[[hi CursorLine    cterm=none      ctermfg=none]]
 cmd[[hi CursorColumn  cterm=none      ctermfg=none]]
