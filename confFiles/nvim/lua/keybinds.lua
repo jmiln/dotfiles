@@ -84,8 +84,13 @@ map('n', '<leader>fh', ':Telescope help_tags<CR>',                              
 map('n', '<leader>fr', ':Telescope registers<CR>',                               { noremap = true})
 
 -- LSP mappings
-map("n", "<leader>dq", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", default)
-map("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<cr>", default)
+  -- Go to where the variable is defined
+map("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
+  -- Code action options
+map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
+  -- Rename/ refactor
+map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", default)
+
 
 -- LSP Lspsaga bindings
 map("n", "<c-j>", ":Lspsaga diagnostic_jump_next<CR>", default)
