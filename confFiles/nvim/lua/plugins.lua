@@ -24,7 +24,7 @@ Plug ('nvim-treesitter/nvim-treesitter', {['do'] = vim.fn['TSUpdate']})
 -- Plug 'nvim-treesitter/playground'
 
 -- Auto-close parentheses and brackets, etc
-Plug 'Raimondi/delimitMate'
+Plug 'steelsojka/pears.nvim'
 
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
@@ -58,6 +58,9 @@ Plug 'hrsh7th/cmp-nvim-lsp'   -- Complete bsed on the lsp
 Plug 'hrsh7th/cmp-buffer'     -- Complete based on the current buffer
 Plug 'hrsh7th/cmp-path'       -- Complete file paths
 
+-- Nvim nvim-tree
+Plug 'kyazdani42/nvim-tree.lua'
+
 -- Statusline
 Plug 'hoob3rt/lualine.nvim'
 
@@ -72,5 +75,7 @@ require('colorizer').setup()
 
 -- Mark changes according to git in the sign-column
 require('gitsigns').setup()
+
+require('pears').setup()
 
 

@@ -66,6 +66,12 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         signs = true,
         underline = true,
         update_in_insert = false,
+        float = {
+            show_header = true,
+            source = 'if_many',
+            border = 'rounded',
+            focusable = false,
+        },
     }
 )
 
@@ -103,7 +109,6 @@ cmp.setup{
         ['<Tab>']     = cmp.mapping.select_next_item(),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-E>']     = cmp.mapping.close(),
-        ['<ESC>']     = cmp.mapping.close(),
         ['<CR>']      = cmp.mapping.confirm({
             behavior  = cmp.ConfirmBehavior.Insert,
             select    = true,
