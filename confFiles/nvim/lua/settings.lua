@@ -75,18 +75,34 @@ vim.opt.fillchars = { eob = "-", fold = " " }
 vim.opt.viewoptions:remove("options")
 
 --------------------------------- General ----------------------------------
+opt.autoread    = false
+opt.backspace   = {"indent", "eol,start"}   -- Enable backspacing over autoindent, EOL, and BOL
+opt.backup      = false
 opt.clipboard   = 'unnamedplus' -- copy/paste to system clipboard
-opt.swapfile    = false         -- don't use swapfile
-opt.splitright  = true          -- vertical split to the right
-opt.splitbelow  = true          -- orizontal split to the bottom
-opt.history     = 10000         -- remember n lines in history
-opt.lazyredraw  = true          -- faster scrolling
+opt.complete    = ".,w,b,u,t,i"
+opt.encoding    = 'UTF-8'
 opt.hidden      = true          -- switch buffers without saving
+opt.history     = 10000         -- remember n lines in history
+opt.indentkeys  = "0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:"
+opt.lazyredraw  = true          -- faster scrolling
+opt.magic       = true          -- set magic on, for regular expressions
+opt.mat         = 2             -- how many tenths of a second to blink
+opt.numberwidth = 2
+opt.ruler       = true
+opt.showcmd     = true          -- show incomplete commands
+opt.splitbelow  = true          -- orizontal split to the bottom
+opt.splitright  = true          -- vertical split to the right
+opt.swapfile    = false         -- don't use swapfile
+opt.title       = true          -- set terminal title
 opt.ttimeout    = true          -- prevent delay when changing modes
 opt.ttimeoutlen = 50
-opt.updatetime  = 100           -- speed up screen updating
 opt.undofile    = false         -- persistent undo
+opt.undolevels  = 1000          -- Keeps the last 1000 modifications to undo
+opt.updatetime  = 100           -- speed up screen updating
+opt.whichwrap   = "b,s,h,l,<,>,[,]"
+opt.winminheight= 0
 opt.wrap        = false         -- Don't wrap the line if it gets long enough
+opt.wrapscan    = true          -- Sets it to wrap  search from bottom to top
 vim.cmd("set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help")
 
 opt.modeline = false
@@ -103,15 +119,20 @@ opt.formatoptions = opt.formatoptions
 
 -- go to last loc when opening a buffer
 cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]])
+
+-- Set filetypes for various file extensions
+cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
 cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
+cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
+
+cmd([[au BufRead,BufNewFile *.json set filetype=json syntax=javascript]])
+cmd([[au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=indent]])
+cmd([[au BufNewFile,BufRead *.js set foldmethod=syntax]])
+cmd("let g:javaScript_fold = 1")
 
 -- Set the .vimrc file to close all relevant folds on open
 cmd([[au BufRead,BufNewFile .vimrc set foldlevel=0]])
 cmd([[au BufRead,BufNewFile init.vim set foldlevel=0]])
-
--- Set folding to be based on syntax for js files
-cmd([[au BufNewFile,BufRead *.js set foldmethod=syntax]])
-cmd("let g:javaScript_fold = 1")
 
 -- Make vim supposedly save/ load view (state) (folds, cursor, etc)
 cmd([[au BufWinLeave \* silent! mkview]])
@@ -119,6 +140,3 @@ cmd([[au BufWinEnter \* silent! loadview]])
 
 -- Remove whitespace on save
 cmd[[au BufWritePre * :%s/\s\+$//e]]
-
--- Open/ refresh the lsp loclist on save (Currently stays open even when empty)
--- cmd[[au BufWritePre * :lua vim.lsp.diagnostic.set_loclist()]]

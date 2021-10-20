@@ -33,15 +33,9 @@ lua require("highlight")
 "                   Plugin Settings {{{
 "=========================================================
 
-" Delimitmate
-let delimitMate_expand_cr = 1
-let delimitMate_matchpairs = "(:),[:],{:},<:>"
-
 " EasyAlign
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-
-au BufNewFile,BufRead .bashrc,.aliases set filetype=bash
+" xmap ga <Plug>(EasyAlign)
+" nmap ga <Plug>(EasyAlign)
 
 " Close the error window if it's all that's left?
 augroup CloseLoclistWindowGroup
@@ -65,60 +59,3 @@ function! g:committia_hooks.edit_open(info)
     imap <buffer><C-n> <Plug>(committia-scroll-diff-down-half)
     imap <buffer><C-p> <Plug>(committia-scroll-diff-up-half)
 endfunction
-
-" }}}
-"                   Settings {{{
-"=========================================================
-set backspace=indent,eol,start " Enable backspacing over autoindent, EOL, and BOL"
-set complete=.,w,b,u,t,i
-set encoding=utf-8              " Default encoding
-set laststatus=2
-set magic                       " Enable magic (Not really sure...)
-set mat=2                       " Time to show matching parens
-set noautoread                  " Don't automatically re-read changed files."
-set numberwidth=2               " Default width of line numbering"
-set omnifunc=syntaxcomplete#Complete
-set ruler                       " Keeps the block at the bottom right corner that tells what line and column you are on
-set showcmd
-set title                       " Sets the window title so it shows what file you are in
-set undolevels=1000             " Keeps the last 1000 modifications to undo
-set whichwrap+=b,s,h,l,<,>,[,]  " Lets you move the cursor through line breaks
-set winminheight=0
-set wrapscan                    " Sets it to wrap searches from bottom to top
-
-" Backup Settings
-set nobackup " disable backup
-
-" Setting the statusilne formatting
-" set statusline  =
-" set statusline +=%1*\ %n\ %*     " Buffer number
-" set statusline +=[%{&ff}\ -\ %{&fenc}\ -\ %y]  " FileFormat, encoding, fileType
-" set statusline +=%4*\ %<%f%*     " Full path
-" set statusline +=%2*%m%*         " Modified flag
-" set statusline +=%=              " Right align everything after this
-" set statusline +=Line:%l\/%L\ Column:%c%V\ %P   " Line/lines, column, percentage
-
-" Reload vim when init.vim is written (very useful for when testing)
-autocmd! bufwritepost init.vim source %   " When init.vim is written, reload it
-
-" Some hopeful settings for php/ html etc.
-au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent
-set indentkeys=0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:
-
-" Set .ejs files to be like html
-au BufNewFile,BufRead *.ejs set filetype=html
-
-" Set json files to show nicely
-au BufRead,BufNewFile *.json set filetype=json syntax=javascript
-
-" Set js files to fold based on indent since that seems to be the most consistent
-au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=indent
-
-" }}}
-
-
-
-
-
-
-

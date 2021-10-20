@@ -14,7 +14,7 @@ map("n", "Y",          "yy",                 default) -- Y grabs whole line
 map('n', '<Space>',    ':nohl<CR>',          default) -- Space to remove search highlights
 map("n", "<Leader>ev", ":vsp $MYVIMRC<CR>",  default) -- Open the vimrc/ init.vim in a vertical split
 map("n", "<Leader>sv", ":RefreshConfig<CR>", default) -- Open the vimrc/ init.vim in a vertical split
-map("n", "<Leader>=",  "gg=G",               default)  -- Indent whole file
+map("n", "<Leader>=",  "gg=G",               default) -- Indent whole file
 
 -- Underline the current line with various symbols (such that the number of
 -- underline matches line length and indendation)
@@ -23,6 +23,13 @@ map("n", '<Leader>"', 'yypVr"', default)
 
 -- Paste over selected text without replacing what's being pasted in the register
 map("v", "<leader>p", '"_dP', default)
+
+-- Delete the selected text without saving it to a register
+map("v", "<leader>d", '"_d', default)
+
+-- EasyAlign mappings
+map("x", "ga", ":EasyAlign<CR>", default)
+map("n", "ga", ":EasyAlign<CR>", default)
 
 -- A fancy unicode underline
 map("n", "<leader>U", "yypVr━", default)
