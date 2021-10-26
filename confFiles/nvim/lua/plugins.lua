@@ -41,7 +41,6 @@ Plug ('paegodu/nvim-comment', {['branch'] = 'empty_lines'})
 
 -- LSP stuffs
 Plug 'neovim/nvim-lspconfig'
-Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -62,7 +61,13 @@ Plug 'hrsh7th/cmp-path'       -- Complete file paths
 Plug 'kyazdani42/nvim-tree.lua'
 
 -- Statusline
-Plug 'hoob3rt/lualine.nvim'
+Plug 'nvim-lualine/lualine.nvim'
+
+-- Shut up the diagnostics while I'm in insert mode
+Plug 'https://gitlab.com/yorickpeterse/nvim-dd.git'
+
+-- Get a nice code-action menu (Nifty, but needs some fiddling)
+-- Plug "weilbith/nvim-code-action-menu"
 
 vim.call('plug#end')
 
@@ -76,6 +81,8 @@ require('colorizer').setup()
 -- Mark changes according to git in the sign-column
 require('gitsigns').setup()
 
-require('pears').setup()
+require('pears').setup(function(conf)
+    conf.pair("<", ">")
+end)
 
-
+require('dd').setup()

@@ -3,7 +3,7 @@ local cmd = vim.cmd
 
 cmd[[hi Normal                                                                       guibg=#1C1C1C]]
 cmd[[hi Visual        cterm=none                                       guifg=white   guibg=#5f5f5f]]
-cmd[[hi Comment       cterm=none      ctermfg=red                      guifg=#d70000 guibg=background]]
+cmd[[hi Comment       cterm=none      ctermfg=red                      guifg=#68792d guibg=background]]
 cmd[[hi Constant      cterm=none      ctermfg=grey]]
 cmd[[hi ColorColumn   cterm=none      ctermfg=none]]
 cmd[[hi Error         cterm=none      ctermfg=red       ctermbg=black  guifg=red     guibg=black]]

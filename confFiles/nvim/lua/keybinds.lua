@@ -90,18 +90,22 @@ map('n', '<leader>fg', ':Telescope live_grep<CR>',                              
 map('n', '<leader>fh', ':Telescope help_tags<CR>',                               { noremap = true})
 map('n', '<leader>fr', ':Telescope registers<CR>',                               { noremap = true})
 
+
 -- LSP mappings
   -- Go to where the variable is defined
 map("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
   -- Code action options
-map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
-  -- Rename/ refactor
+-- map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
+map('n', '<leader>ca', ':Telescope lsp_code_actions<CR>', default)
+-- Global (inside file) rename/ refactor
 map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", default)
+-- Show info on element under cursor
+map("n", "<leader>ho", "<cmd>lua vim.lsp.buf.hover()<CR>", default)
 
 
--- LSP Lspsaga bindings
-map("n", "<c-j>", ":Lspsaga diagnostic_jump_next<CR>", default)
-map("n", "<c-k>", ":Lspsaga diagnostic_jump_prev<CR>", default)
+-- LSP bindings to jump between issues
+map("n", "<c-j>", ":lua vim.diagnostic.goto_next()<CR>", default)
+map("n", "<c-k>", ":lua vim.diagnostic.goto_prev()<CR>", default)
 
 
 -- Refresh the config in the current file

@@ -1,12 +1,28 @@
 require('lualine').setup({
     options = {
-        section_separators = '',
         component_separators = '',
+        icons = false,
         icons_enabled = false,
-        icons = false
+        section_separators = '',
+        theme = 'gruvbox_dark',
+    },
+    sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch" },
+        lualine_c = { "filename" },
+        lualine_x = {
+            { "diagnostics", sources = { "nvim_lsp" } },
+            "encoding",
+            "fileformat",
+            "filetype",
+        },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
     },
     extensions = {
-        "fugitive"
+        "fugitive",
+        "nvim-tree",
+        "quickfix"
     }
 })
 
