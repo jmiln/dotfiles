@@ -45,11 +45,11 @@ opt.scrolloff     = 1           -- start scrolling when near the last line
 opt.showmatch     = true
 opt.showmode      = true
 opt.sidescrolloff = 5           -- start scrolling when near the last col
-opt.syntax        = 'enable'    -- enable syntax highlighting
+opt.syntax        = "enable"    -- enable syntax highlighting
 opt.termguicolors = true        -- true color support
 opt.showbreak = string.rep(" ", 3) -- Make it so that long lines wrap smartly
 opt.belloff = "all" -- Just turn all the bells off
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = "yes"
 vim.go.termguicolors = true
 vim.go.t_Co = "256"
 vim.go.t_ut = ""
@@ -70,7 +70,7 @@ function _G.custom_fold_text()
   return " ⚡ " ..  ("%4s"):format(line_count) .. " lines ".. line:gsub('"', ""):gsub("{{{", "")
 end
 
-vim.opt.foldtext = 'v:lua.custom_fold_text()'
+vim.opt.foldtext = "v:lua.custom_fold_text()"
 vim.opt.fillchars = { eob = "-", fold = " " }
 vim.opt.viewoptions:remove("options")
 
@@ -78,9 +78,9 @@ vim.opt.viewoptions:remove("options")
 opt.autoread    = false
 opt.backspace   = {"indent", "eol,start"}   -- Enable backspacing over autoindent, EOL, and BOL
 opt.backup      = false
-opt.clipboard   = 'unnamedplus' -- copy/paste to system clipboard
+opt.clipboard   = "unnamedplus" -- copy/paste to system clipboard
 opt.complete    = ".,w,b,u,t,i"
-opt.encoding    = 'UTF-8'
+opt.encoding    = "UTF-8"
 opt.hidden      = true          -- switch buffers without saving
 opt.history     = 10000         -- remember n lines in history
 opt.indentkeys  = "0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:"

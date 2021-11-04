@@ -1,6 +1,6 @@
 -- Keybinds/ keymapping
-vim.g.mapleader = ','
-vim.g.maplocalleader = ','
+vim.g.mapleader = ","
+vim.g.maplocalleader = ","
 
 -- Set f to toggle paste mode
 vim.o.pastetoggle="off"
@@ -11,7 +11,7 @@ local default = {noremap = true, silent = true}
 
 map("n", "r",          "<C-R>",              default) -- Redo
 map("n", "Y",          "yy",                 default) -- Y grabs whole line
-map('n', '<Space>',    ':nohl<CR>',          default) -- Space to remove search highlights
+map("n", "<Space>",    ":nohl<CR>",          default) -- Space to remove search highlights
 map("n", "<Leader>ev", ":vsp $MYVIMRC<CR>",  default) -- Open the vimrc/ init.vim in a vertical split
 map("n", "<Leader>sv", ":RefreshConfig<CR>", default) -- Open the vimrc/ init.vim in a vertical split
 map("n", "<Leader>=",  "gg=G",               default) -- Indent whole file
@@ -77,18 +77,18 @@ map('c', '<Up>',    'wildmenumode() ? "\\<C-p>" : "\\<Up>"',  {noremap = true, e
 map('c', '<Down>',  'wildmenumode() ? "\\<C-n>" : "\\<Down>"',{noremap = true, expr = true})
 
 -- Map ctrl+/ to comment lines
-map('n', '', ':CommentToggle<CR>',      {noremap = true, silent=true})
-map('v', '', ':CommentToggle<CR>',      {noremap = true, silent=true})
-map('i', '', '<esc>:CommentToggle<CR>', {noremap = true, silent=true})
+map("n", "", ":CommentToggle<CR>",      {noremap = true, silent=true})
+map("v", "", ":CommentToggle<CR>",      {noremap = true, silent=true})
+map("i", "", "<esc>:CommentToggle<CR>", {noremap = true, silent=true})
 
 -- Telescope Mappings
-map('n', '<leader>fb', ':Telescope buffers<CR>',                                 { noremap = true})
-map('n', '<leader>fc', ':Telescope resume<CR>',                                  { noremap = true})
-map('n', '<leader>fd', ':lua require("config.telescope").search_dotfiles()<CR>', { noremap = true})
-map('n', '<leader>ff', ':Telescope find_files<CR>',                              { noremap = true})
-map('n', '<leader>fg', ':Telescope live_grep<CR>',                               { noremap = true})
-map('n', '<leader>fh', ':Telescope help_tags<CR>',                               { noremap = true})
-map('n', '<leader>fr', ':Telescope registers<CR>',                               { noremap = true})
+map("n", "<leader>fb", ":Telescope buffers<CR>",                                 { noremap = true})
+map("n", "<leader>fc", ":Telescope resume<CR>",                                  { noremap = true})
+map("n", "<leader>fd", ":lua require('config.telescope').search_dotfiles()<CR>", { noremap = true})
+map("n", "<leader>ff", ":Telescope find_files<CR>",                              { noremap = true})
+map("n", "<leader>fg", ":Telescope live_grep<CR>",                               { noremap = true})
+map("n", "<leader>fh", ":Telescope help_tags<CR>",                               { noremap = true})
+map("n", "<leader>fr", ":Telescope registers<CR>",                               { noremap = true})
 
 
 -- LSP mappings
@@ -96,7 +96,7 @@ map('n', '<leader>fr', ':Telescope registers<CR>',                              
 map("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
   -- Code action options
 -- map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
-map('n', '<leader>ca', ':Telescope lsp_code_actions<CR>', default)
+map("n", "<leader>ca", ":Telescope lsp_code_actions<CR>", default)
 -- Global (inside file) rename/ refactor
 map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", default)
 -- Show info on element under cursor
@@ -109,7 +109,7 @@ map("n", "<c-k>", ":lua vim.diagnostic.goto_prev()<CR>", default)
 
 
 -- Refresh the config in the current file
-vim.api.nvim_command('command! RefreshConfig source $MYVIMRC <bar> echo');
+vim.api.nvim_command("command! RefreshConfig source $MYVIMRC <bar> echo");
 
 
 -- Run currently selected JS
@@ -118,34 +118,34 @@ vim.api.nvim_command("command! -range RunNode <line1>,<line2>w !node");
 
 -- Legacy Abbreviations
   -- Nodejs helpers
-vim.api.nvim_command('ab reqins const {inspect} = require("util");')
-vim.api.nvim_command('ab inspectdepth inspect(, {depth: 5})')
+vim.api.nvim_command("ab reqins const {inspect} = require('util');")
+vim.api.nvim_command("ab inspectdepth inspect(, {depth: 5})")
   -- ESLint helpers
-vim.api.nvim_command('ab nounused // eslint-disable-line no-unused-vars')
-vim.api.nvim_command('ab noundef  // eslint-disable-line no-undef')
+vim.api.nvim_command("ab nounused // eslint-disable-line no-unused-vars")
+vim.api.nvim_command("ab noundef  // eslint-disable-line no-undef")
   -- Discord.js / Bot stuff helpers
-vim.api.nvim_command('ab mslang message.language.get()')
-vim.api.nvim_command('ab inlang interaction.language.get()')
+vim.api.nvim_command("ab mslang message.language.get()")
+vim.api.nvim_command("ab inlang interaction.language.get()")
 vim.api.nvim_command('ab embedsep "=============================="')
 vim.api.nvim_command('ab slashac { name: "allycode", description: "The ally code of the user you want to see", type: "STRING" },')
   -- Various seperators
-vim.api.nvim_command('abb dotlin ……………………………………………………………………………………………………………………………………………………………………………………………')
-vim.api.nvim_command('abb cdotlin /*…………………………………………………………………………………………………………………………………………………………………………………*/')
-vim.api.nvim_command('abb fdotlin •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••')
-vim.api.nvim_command('abb cfdotlin /*•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/')
-vim.api.nvim_command('abb dlin =======================================================================')
-vim.api.nvim_command('abb cdlin /*===================================================================*/')
-vim.api.nvim_command('abb lin -----------------------------------------------------------------------')
-vim.api.nvim_command('abb clin /*-------------------------------------------------------------------*/')
-vim.api.nvim_command('abb ulin _______________________________________________________________________')
-vim.api.nvim_command('abb culin /*___________________________________________________________________*/')
-vim.api.nvim_command('abb Ulin ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯')
-vim.api.nvim_command('abb cUlin /*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*/')
+vim.api.nvim_command("abb dotlin ……………………………………………………………………………………………………………………………………………………………………………………………")
+vim.api.nvim_command("abb cdotlin /*…………………………………………………………………………………………………………………………………………………………………………………*/")
+vim.api.nvim_command("abb fdotlin •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••")
+vim.api.nvim_command("abb cfdotlin /*•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/")
+vim.api.nvim_command("abb dlin =======================================================================")
+vim.api.nvim_command("abb cdlin /*===================================================================*/")
+vim.api.nvim_command("abb lin -----------------------------------------------------------------------")
+vim.api.nvim_command("abb clin /*-------------------------------------------------------------------*/")
+vim.api.nvim_command("abb ulin _______________________________________________________________________")
+vim.api.nvim_command("abb culin /*___________________________________________________________________*/")
+vim.api.nvim_command("abb Ulin ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯")
+vim.api.nvim_command("abb cUlin /*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*/")
   -- Various useful symbols
-vim.api.nvim_command('ab chkmrk ✓')
-vim.api.nvim_command('ab checkmark ✓')
+vim.api.nvim_command("ab chkmrk ✓")
+vim.api.nvim_command("ab checkmark ✓")
   -- Typos
-vim.api.nvim_command('cnoreabbrev Q q')
-vim.api.nvim_command('cnoreabbrev W w')
+vim.api.nvim_command("cnoreabbrev Q q")
+vim.api.nvim_command("cnoreabbrev W w")
 
 
