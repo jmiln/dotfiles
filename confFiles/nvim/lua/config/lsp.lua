@@ -2,14 +2,14 @@
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
 -- npm install -g typescript-language-server typescript
 
-local nvim_lsp = require 'lspconfig'
+local nvim_lsp = require("lspconfig")
 local on_attach = function(_, bufnr)
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 end
 
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Local helper function
 local function contains (table, val)
@@ -36,10 +36,10 @@ nvim_lsp.tsserver.setup({
                 local idx = 1
                 local ignoreCodes = {
                     80001,  -- File is a CommonJS module; it may be converted to an ES6 module.
-                    2339,   -- Property '{0}' does not exist on type '{1}'.
-                    7016,   -- Could not find a declaration file for module '{0}'. '{1}' implicitly has an 'any' type.
-                    2568,   -- Property 'X' may not exist on type 'Y'. Did you mean 'Z'?
-                    6133,   -- 'X' is declared but its value is never used (Covered by eslint)
+                    2339,   -- Property "{0}" does not exist on type "{1}".
+                    7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
+                    2568,   -- Property "X" may not exist on type "Y". Did you mean "Z"?
+                    6133,   -- "X" is declared but its value is never used (Covered by eslint)
                 }
                 while idx <= #result.diagnostics do
                     if contains(ignoreCodes, result.diagnostics[idx].code) then
@@ -54,7 +54,7 @@ nvim_lsp.tsserver.setup({
     }
 })
 
--- Enable eslint for it's JS linting
+-- Enable eslint for it"s JS linting
 nvim_lsp.eslint.setup({})
 
 nvim_lsp.html.setup({})
@@ -68,8 +68,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         update_in_insert = false,
         float = {
             show_header = true,
-            source = 'if_many',
-            border = 'rounded',
+            source = "if_many",
+            border = "rounded",
             focusable = false,
         },
     }

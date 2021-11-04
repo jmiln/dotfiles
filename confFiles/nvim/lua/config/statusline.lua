@@ -1,10 +1,10 @@
-require('lualine').setup({
+require("lualine").setup({
     options = {
-        component_separators = '',
+        component_separators = "",
         icons = false,
         icons_enabled = false,
-        section_separators = '',
-        theme = 'gruvbox_dark',
+        section_separators = "",
+        theme = "gruvbox_dark",
     },
     sections = {
         lualine_a = { "mode" },
