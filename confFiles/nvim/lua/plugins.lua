@@ -2,19 +2,8 @@ local Plug = vim.fn["plug#"]
 
 vim.call("plug#begin", "~/.config/nvim/plugged")
 
--- TODO These look interesting, have not tried em
---
--- https://github.com/lukas-reineke/indent-blankline.nvim   -- Indent guids/ lines
--- https://github.com/p00f/nvim-ts-rainbow                  -- Rainbow Parens
---
--- TODO End of untried interesting stuff
-
--- Github repos
--- Plug "airblade/vim-gitgutter"
 Plug "alvan/vim-closetag"
--- Plug "dense-analysis/ale"
 Plug "farmergreg/vim-lastplace"
--- Plug "junegunn/gv.vim"
 Plug "junegunn/vim-easy-align"
 Plug "Konfekt/FastFold"
 -- Plug ("mattn/emmet-vim", {["for"] = ["html", "ejs", "css", "scss"]})
@@ -26,8 +15,7 @@ Plug ("nvim-treesitter/nvim-treesitter", {["do"] = vim.fn["TSUpdate"]})
 -- Auto-close parentheses and brackets, etc
 Plug "steelsojka/pears.nvim"
 
-Plug "sheerun/vim-polyglot"
-Plug "tpope/vim-fugitive"
+-- Quick changes for surrounding symbols (Quotes, parens, etc)
 Plug "tpope/vim-surround"
 
 -- Uses vim splits to display more info when committing to git
@@ -48,7 +36,9 @@ Plug "nvim-telescope/telescope.nvim"
 -- Open up the locationlist when there are errors
 Plug "folke/trouble.nvim"
 
--- Git changes in the signcolumn
+-- Git stuff
+Plug "tpope/vim-fugitive"
+    -- Git changes in the signcolumn
 Plug "lewis6991/gitsigns.nvim"
 
 -- Completion stuffs
@@ -56,6 +46,8 @@ Plug "hrsh7th/nvim-cmp"       -- The completion plugin itself
 Plug "hrsh7th/cmp-nvim-lsp"   -- Complete bsed on the lsp
 Plug "hrsh7th/cmp-buffer"     -- Complete based on the current buffer
 Plug "hrsh7th/cmp-path"       -- Complete file paths
+Plug "hrsh7th/cmp-vsnip"      -- Snippets
+Plug "hrsh7th/vim-vsnip"      -- Snippets
 
 -- Nvim nvim-tree
 Plug "kyazdani42/nvim-tree.lua"
@@ -65,9 +57,6 @@ Plug "nvim-lualine/lualine.nvim"
 
 -- Shut up the diagnostics while I'm in insert mode
 Plug "https://gitlab.com/yorickpeterse/nvim-dd.git"
-
--- Get a nice code-action menu (Nifty, but needs some fiddling)
--- Plug "weilbith/nvim-code-action-menu"
 
 vim.call("plug#end")
 

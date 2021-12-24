@@ -1,5 +1,5 @@
 local cmp = require("cmp")
-cmp.setup{
+cmp.setup({
     completion = {
         autocomplete = {
             cmp.TriggerEvent.InsertEnter,
@@ -10,9 +10,27 @@ cmp.setup{
         keyword_length = 1,
     },
     mapping = {
-        ["<S-Tab>"]   = cmp.mapping.select_prev_item(),
-        ["<Tab>"]     = cmp.mapping.select_next_item(),
-        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<Tab>"] = function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            else
+                fallback()
+            end
+        end,
+        ["<S-Tab>"] = function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            else
+                fallback()
+            end
+        end,
+        ["<C-Space>"] = cmp.mapping.complete({
+            config = {
+                sources = {
+                    { name = 'vsnip' }
+                }
+            }
+        }),
         ["<C-E>"]     = cmp.mapping.close(),
         ["<CR>"]      = cmp.mapping.confirm({
             behavior  = cmp.ConfirmBehavior.Insert,
@@ -22,6 +40,7 @@ cmp.setup{
     sources = {
         { name = "buffer" },
         { name = "path" },
+        { name = "vsnip" },
         -- { name = "nvim_lsp" }
     },
     confirmation = {
@@ -37,4 +56,4 @@ cmp.setup{
             return vim_item
         end,
     }
-}
+})

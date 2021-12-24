@@ -11,7 +11,7 @@ require("lualine").setup({
         lualine_b = { "branch" },
         lualine_c = { "filename" },
         lualine_x = {
-            { "diagnostics", sources = { "nvim_lsp" } },
+            { "diagnostics", sources = { "nvim_diagnostic" } },
             "encoding",
             "fileformat",
             "filetype",

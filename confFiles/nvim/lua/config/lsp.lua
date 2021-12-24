@@ -28,7 +28,7 @@ nvim_lsp.tsserver.setup({
     capabilities = capabilities,
     handlers = {
         -- This makes it stop spitting out the errors specified in ignoreCodes below
-        --
+
         -- Modified from:
         -- Via https://www.reddit.com/r/neovim/comments/nv3qh8/how_to_ignore_tsserver_error_file_is_a_commonjs/h1tx1rh
         ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
@@ -40,6 +40,7 @@ nvim_lsp.tsserver.setup({
                     7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
                     2568,   -- Property "X" may not exist on type "Y". Did you mean "Z"?
                     6133,   -- "X" is declared but its value is never used (Covered by eslint)
+                    80007,  -- 'await' has no effect on the type of this expression.
                 }
                 while idx <= #result.diagnostics do
                     if contains(ignoreCodes, result.diagnostics[idx].code) then
