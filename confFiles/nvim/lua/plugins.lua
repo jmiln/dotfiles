@@ -9,6 +9,7 @@ Plug "Konfekt/FastFold"
 -- Plug ("mattn/emmet-vim", {["for"] = ["html", "ejs", "css", "scss"]})
 Plug "norcalli/nvim-colorizer.lua"
 
+-- 'do' mess: https://dev.to/vonheikemen/neovim-using-vim-plug-in-lua-3oom
 Plug ("nvim-treesitter/nvim-treesitter", {["do"] = vim.fn["TSUpdate"]})
 -- Plug "nvim-treesitter/playground"
 
