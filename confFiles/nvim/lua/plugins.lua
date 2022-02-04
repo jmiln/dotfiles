@@ -11,7 +11,7 @@ Plug "norcalli/nvim-colorizer.lua"
 
 -- 'do' mess: https://dev.to/vonheikemen/neovim-using-vim-plug-in-lua-3oom
 Plug ("nvim-treesitter/nvim-treesitter", {["do"] = vim.fn["TSUpdate"]})
--- Plug "nvim-treesitter/playground"
+Plug "nvim-treesitter/playground"
 
 -- Auto-close parentheses and brackets, etc
 Plug "steelsojka/pears.nvim"
@@ -23,10 +23,7 @@ Plug "tpope/vim-surround"
 Plug "rhysd/committia.vim"
 
 -- Easy comments
--- Plug "terrortylor/nvim-comment"
-
--- Easy comments, but without the weirdness around empty lines  (Swap back to terrortylor"s one if the PR is ever merged)
-Plug ("paegodu/nvim-comment", {["branch"] = "empty_lines"})
+Plug "numToStr/Comment.nvim"
 
 -- LSP stuffs
 Plug "neovim/nvim-lspconfig"
