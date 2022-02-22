@@ -38,10 +38,10 @@ cmp.setup({
         })
     },
     sources = {
-        { name = "buffer" },
+        { name = "nvim_lsp" },
+        -- { name = "buffer" },
         { name = "path" },
         { name = "vsnip" },
-        -- { name = "nvim_lsp" }
     },
     confirmation = {
         default_behavior = cmp.ConfirmBehavior.Insert,
@@ -52,6 +52,7 @@ cmp.setup({
                 buffer   = "[Buffer]",
                 nvim_lsp = "[LSP]",
                 path     = "[Path]",
+                vsnip    = "[VSnip]"
             })[entry.source.name]
             return vim_item
         end,

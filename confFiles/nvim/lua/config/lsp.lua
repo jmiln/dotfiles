@@ -60,6 +60,9 @@ nvim_lsp.eslint.setup({})
 
 nvim_lsp.html.setup({})
 
+-- Python language server
+nvim_lsp.jedi_language_server.setup({})
+
 -- Configure how the code errors and such show
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {

@@ -1,6 +1,18 @@
 local Plug = vim.fn["plug#"]
 
+vim.cmd[[
+    function! UpdateRemotePlugins(...)
+        " Needed to refresh runtime files
+        let &rtp=&rtp
+        UpdateRemotePlugins
+    endfunction
+]]
+
 vim.call("plug#begin", "~/.config/nvim/plugged")
+
+-- Autocomplete for the command mode
+Plug ("gelguy/wilder.nvim", { ["do"] = vim.fn["UpdateRemotePlugins"] })
+-- Plug "gelguy/wilder.nvim"
 
 Plug "alvan/vim-closetag"
 Plug "farmergreg/vim-lastplace"
@@ -58,6 +70,28 @@ Plug "https://gitlab.com/yorickpeterse/nvim-dd.git"
 
 vim.call("plug#end")
 
+local wilder = require('wilder')
+wilder.set_option('use_python_remote_plugin', 0)
+
+vim.cmd([[
+    call wilder#setup({
+      \ 'modes': [':', '/', '?'],
+      \ 'enable_cmdline_enter': 0,
+      \ 'next_key': '<Tab>',
+      \ 'previous_key': '<S-Tab>',
+      \ 'accept_key': '<Enter>',
+      \ 'reject_key': '<Esc>',
+      \ })
+    call wilder#set_option('pipeline', [
+      \   wilder#branch(
+      \     wilder#cmdline_pipeline(),
+      \     wilder#search_pipeline(),
+      \   ),
+      \ ])
+    call wilder#set_option('renderer', wilder#popupmenu_renderer({
+      \ 'highlighter': wilder#basic_highlighter(),
+      \ }))
+]])
 
 -- Dependencies
 require("plenary")
