@@ -38,10 +38,6 @@ map("n", "<leader>U", "yypVr━", default)
 -- map("v", "<C-K>", ":m '<-2<CR>gv=gv", default)
 -- map("v", "<C-J>", ":m '>+1<CR>gv=gv", default)
 
--- Local, then global replace (Wimpy refactor)
-map("n", "gr", "gd[{V%:s/<C-R>///gc<left><left><left>", default)
-map("n", "gR", "gD:%s/<C-R>///gc<left><left><left>",    default)
-
 -- Surround a visual selection with the specified character
 map("v", "'", "<esc>`>a'<esc>`<i'<esc>", default);
 map("v", '"', '<esc>`>a"<esc>`<i"<esc>', default);
@@ -96,7 +92,7 @@ map("n", "<leader>fr", ":Telescope registers<CR>",                              
 
 -- LSP mappings
   -- Go to where the variable is defined
-map("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
+map("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
   -- Code action options
 -- map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
 map("n", "<leader>ca", ":Telescope lsp_code_actions<CR>", default)
