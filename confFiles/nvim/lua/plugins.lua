@@ -102,8 +102,16 @@ require("colorizer").setup()
 -- Mark changes according to git in the sign-column
 require("gitsigns").setup()
 
+local R = require "pears.rule"
 require("pears").setup(function(conf)
     conf.pair("<", ">")
+    conf.pair("(", {
+        close = ")",
+        should_expand = R.all_of(
+            -- Don't expand a quote if it comes before an alpha character
+            R.not_(R.match_next "[a-zA-Z]")
+        )
+    })
 end)
 
 require("dd").setup()

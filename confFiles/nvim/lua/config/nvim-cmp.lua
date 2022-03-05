@@ -9,6 +9,11 @@ cmp.setup({
         keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
         keyword_length = 1,
     },
+    snippet = {
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+        end,
+    },
     mapping = {
         ["<Tab>"] = function(fallback)
             if cmp.visible() then
