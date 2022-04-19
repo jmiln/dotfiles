@@ -34,7 +34,7 @@ nvim_lsp.tsserver.setup({
         ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
             if result.diagnostics ~= nil then
                 local idx = 1
-                local ignoreCodes = {
+                local jsIgnoreCodes = {
                     80001,  -- File is a CommonJS module; it may be converted to an ES6 module.
                     2339,   -- Property "{0}" does not exist on type "{1}".
                     7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
@@ -42,8 +42,20 @@ nvim_lsp.tsserver.setup({
                     6133,   -- "X" is declared but its value is never used (Covered by eslint)
                     80007,  -- 'await' has no effect on the type of this expression.
                 }
+                local tsIgnoreCodes = {
+                    6133,   -- "X" is declared but its value is never used (Covered by eslint)
+                    80007,  -- 'await' has no effect on the type of this expression.
+                }
+
+                -- Allow different diagnostics depending on if it's a .ts or .js file
+                local filename = vim.api.nvim_buf_get_name(idx);
+                local isTs = string.find(filename, ".ts")
+                local isJs = string.find(filename, ".js")
+
                 while idx <= #result.diagnostics do
-                    if contains(ignoreCodes, result.diagnostics[idx].code) then
+                    if string.find(filename, ".ts") and contains(tsIgnoreCodes, result.diagnostics[idx].code) then
+                        table.remove(result.diagnostics, idx)
+                    elseif string.find(filename, ".js") and contains(jsIgnoreCodes, result.diagnostics[idx].code) then
                         table.remove(result.diagnostics, idx)
                     else
                         idx = idx + 1

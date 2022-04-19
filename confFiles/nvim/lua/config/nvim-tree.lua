@@ -4,7 +4,6 @@ map("n", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
 map("x", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
 
 require"nvim-tree".setup {
-    auto_close = true,      -- When it's the last window, close it automatically
     view = {
         auto_resize = true  -- Resize to an appropriate size when windows/ split around it change
     }

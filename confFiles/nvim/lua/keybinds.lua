@@ -39,11 +39,11 @@ map("n", "<leader>U", "yypVr━", default)
 -- map("v", "<C-J>", ":m '>+1<CR>gv=gv", default)
 
 -- Surround a visual selection with the specified character
-map("v", "'", "<esc>`>a'<esc>`<i'<esc>", default);
-map("v", '"', '<esc>`>a"<esc>`<i"<esc>', default);
-map("v", "(", "<esc>`>a)<esc>`<i(<esc>", default);
-map("v", "[", "<esc>`>a]<esc>`<i[<esc>", default);
-map("v", "{", "<esc>`>a}<esc>`<i{<esc>", default);
+-- map("v", "'", "<esc>`>a'<esc>`<i'<esc>", default);
+-- map("v", '"', '<esc>`>a"<esc>`<i"<esc>', default);
+-- map("v", "(", "<esc>`>a)<esc>`<i(<esc>", default);
+-- map("v", "[", "<esc>`>a]<esc>`<i[<esc>", default);
+-- map("v", "{", "<esc>`>a}<esc>`<i{<esc>", default);
 
 -- Keep search results centered
 map("v", "n", "nzzzv", default);

@@ -7,6 +7,7 @@ cmd[[hi Comment       cterm=none      ctermfg=red                      guifg=#68
 cmd[[hi Constant      cterm=none      ctermfg=grey]]
 cmd[[hi ColorColumn   cterm=none      ctermfg=none]]
 cmd[[hi Error         cterm=none      ctermfg=red       ctermbg=black  guifg=red     guibg=black]]
+cmd[[hi DiagnosticError                                                guifg=red ]]
 cmd[[hi Folded        cterm=none      ctermfg=blue      ctermbg=grey   guifg=white   guibg=#5f5f5f]]
 cmd[[hi FoldColumn                    ctermfg=59        ctermbg=234    guifg=#5F5F5F guibg=#1C1C1C]]
 cmd[[hi Search        cterm=none      ctermfg=blue      ctermbg=grey   guifg=black   guibg=#5f5f5f]]
@@ -40,7 +41,7 @@ cmd[[hi SpellRare     cterm=underline]]
 cmd[[hi SpellLocal    cterm=underline]]
 
 -- " Completion menu colors
-cmd[[hi Pmenu         cterm=none      ctermfg=Cyan                     guifg=white   guibg=#5f5f5f]]
+cmd[[hi Pmenu         cterm=none      ctermfg=Cyan                     guifg=white   guibg=grey]]
 cmd[[hi PmenuSel      cterm=Bold      ctermfg=Black     ctermbg=239    guifg=Black   guibg=darkgrey]]
 cmd[[hi PmenuSbar     cterm=none      ctermfg=cyan      ctermbg=Cyan]]
 cmd[[hi PmenuThumb    cterm=none      ctermfg=White]]
