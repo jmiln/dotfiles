@@ -9,13 +9,14 @@
 #==============
 # Variables
 #==============
-dotfiles_dir=~/dotfiles/confFiles
+dotfiles_dir=~/dotfiles
 
 #==============
 # Delete existing dot files and folders
 #==============
 sudo rm -rf ~/.aliases > /dev/null 2>&1
 sudo rm -rf ~/.bashrc > /dev/null 2>&1
+sudo rm -rf ~/.config/nvim > /dev/null 2>&1
 sudo rm -rf ~/.gitconfig > /dev/null 2>&1
 sudo rm -rf ~/.git-prompt.sh > /dev/null 2>&1
 sudo rm -rf ~/.functions > /dev/null 2>&1

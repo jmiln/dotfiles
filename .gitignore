@@ -1,13 +1,13 @@
 # Ignore backup files from vim
-confFiles/vim/.vim/backup/*
-confFiles/vim/.vim/view/*
-confFiles/vim/.vim/undodir/*
-confFiles/vim/.vim/.netrwhist
+vim/.vim/backup/*
+vim/.vim/view/*
+vim/.vim/undodir/*
+vim/.vim/.netrwhist
 
 # Do the same for nvim
-confFiles/nvim/undodir/*
-confFiles/nvim/plugged/*
+nvim/undodir/*
+nvim/plugged/*
 
 # Ignore various stuff from some plugins
-confFiles/vim/.vim/bundle/
-confFiles/vim/.vim/autoload/
+vim/.vim/bundle/
+vim/.vim/autoload/
