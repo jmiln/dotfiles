@@ -3,6 +3,7 @@ vim/.vim/backup/*
 vim/.vim/view/*
 vim/.vim/undodir/*
 vim/.vim/.netrwhist
+vim/.vim/.viminfo
 
 # Do the same for nvim
 nvim/undodir/*

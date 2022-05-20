@@ -42,10 +42,10 @@ ln -sf $dotfiles_dir/git/gitconfig      ~/.gitconfig
 ln -sf $dotfiles_dir/zsh/git-prompt.sh  ~/.git-prompt.sh
 ln -sf $dotfiles_dir/functions          ~/.functions
 ln -sf $dotfiles_dir/inputrc            ~/.inputrc
+ln -sf $dotfiles_dir/nvim               ~/.config/nvim
 ln -sf $dotfiles_dir/profile            ~/.profile
 ln -sf $dotfiles_dir/tmux.conf          ~/.tmux.conf
 ln -sf $dotfiles_dir/vim/.vim           ~/.vim
-ln -sf $dotfiles_dir/nvim               ~/.config/nvim
 ln -sf $dotfiles_dir/vim/vimrc          ~/.vimrc
 ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
 
