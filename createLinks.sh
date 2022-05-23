@@ -16,6 +16,7 @@ dotfiles_dir=~/dotfiles
 #==============
 sudo rm -rf ~/.aliases > /dev/null 2>&1
 sudo rm -rf ~/.bashrc > /dev/null 2>&1
+sudo rm -rf ~/.config/htop/htoprc > /dev/null 2>&1
 sudo rm -rf ~/.config/nvim > /dev/null 2>&1
 sudo rm -rf ~/.gitconfig > /dev/null 2>&1
 sudo rm -rf ~/.git-prompt.sh > /dev/null 2>&1
@@ -31,7 +32,7 @@ sudo rm -rf ~/.zshrc > /dev/null 2>&1
 #==============
 # Create ~/.config just in case
 #==============
-mkdir -p ~/.config
+mkdir -p ~/.config/htop
 
 #==============
 # Create symlinks in the home folder
@@ -41,6 +42,7 @@ ln -sf $dotfiles_dir/bashrc             ~/.bashrc
 ln -sf $dotfiles_dir/git/gitconfig      ~/.gitconfig
 ln -sf $dotfiles_dir/zsh/git-prompt.sh  ~/.git-prompt.sh
 ln -sf $dotfiles_dir/functions          ~/.functions
+ln -sf $dotfiles_dir/htoprc             ~/.config/htop/htoprc
 ln -sf $dotfiles_dir/inputrc            ~/.inputrc
 ln -sf $dotfiles_dir/nvim               ~/.config/nvim
 ln -sf $dotfiles_dir/profile            ~/.profile
