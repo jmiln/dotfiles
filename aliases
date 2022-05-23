@@ -1,12 +1,13 @@
 alias sound="alsamixer -V=all"
 
 # Brightness for school moniters (between 0 and 1, otherwise it goes all sorts of funky)
-alias brightness="xrandr --output eDP --brightness "
+# alias brightness="xrandr --output eDP --brightness "
 
 # Basic app customization
+    # Mkdir should create any dirs between the current & the target
 alias mkdir="mkdir -p"
-alias man="man -P "less -X""
 alias less="less -X"
+alias man="man -P "less -X""
 alias grep="grep --color=auto"  #
 
 
@@ -93,7 +94,6 @@ alias nfresh="rm -rf node_modules/ package-lock.json && npm install"
 
 ### Python aliases ###
 alias py="python"
-#alias i="ipython"
 
 ### Network aliases ###
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"   # Show the current IP
@@ -105,25 +105,7 @@ alias ram="ps axch -o cmd:15,%mem --sort=-%mem | head"
 alias cpu="ps axch -o cmd:15,%cpu --sort=-%cpu | head"
 
 ### Git aliases ###
-alias gitchanged="git diff master@{1} master"
+    # Easy git status
 alias gits="git status"
-
-alias ga="git add"
-alias ga.="git add ."
-alias gb="git branch"
-alias gl="git log"
+    # An easy & nice looking summary of the last bunch of commits
 alias glo="git log --pretty=oneline --abbrev-commit --graph --decorate --all"
-alias gc="git commit -v"
-alias gca="git commit -v -a"
-alias gcam="git commit --amend"
-alias gd="git diff"
-alias gp="git pull"
-alias gpr="git pull --rebase"
-alias gpu="git push"
-alias gst="git status"
-alias gss="git stash save"
-alias gsa="git stash apply"
-alias gsp="git stash pop"
-alias gsl="git stash list"
-alias grc="git rebase --continue"
-alias gri="git rebase --interactive"

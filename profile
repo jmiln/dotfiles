@@ -35,7 +35,7 @@ if [ -n "$DISPLAY" ]; then
 fi
 
 export EDITOR=vim
-export TERM=rxvt-256color
+# export TERM=rxvt-256color
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then

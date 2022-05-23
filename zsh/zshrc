@@ -48,7 +48,6 @@ chpwd() {
 preexec() {
     ODIR="$(pwd)"
 }
-
 precmd() {
     [[ "$(pwd)" != $ODIR ]] \
     && [[ "$(pwd)" != $HOME ]] \

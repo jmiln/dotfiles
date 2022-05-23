@@ -78,8 +78,8 @@ b2h(){ echo "obase=F; ibase=2; ; $@ "|bc }
 #--------------------------------------------
 #---------- System Information ---------- {{{
 #--------------------------------------------
-m-hardware() { inxi -F ;}  # display full system specs
-m-sound() { echo "Examples: hw:0,0    hw:0,1    hw:0,2"; cat /proc/asound/pcm ;} #List audio capture card
+# m-hardware() { inxi -F ;}  # display full system specs
+# m-sound() { echo "Examples: hw:0,0    hw:0,1    hw:0,2"; cat /proc/asound/pcm ;} #List audio capture card
 m-distro() { uname -a && lsb_release -a ;}
 
 # uses ip or ifconfig, good on older or newer system
@@ -141,8 +141,7 @@ function extract() { # Handy Extract Program.
 
 # Usage: smartcompress <file> (<type>)
 # Description: compresses files or a directory.  Defaults to tar.gz
-smartcompress()
-{
+smartcompress() {
 if [ '$2' ];
 then
     case '$2' in
