@@ -1,3 +1,5 @@
+[include]
+    path = ~/.gitconfig.local
 [core]
     whitespace = -trailing-space,-indent-with-non-tab,-tab-in-indent
     editor = vim
@@ -22,9 +24,6 @@
     changed = yellow
     deleted = black red
     untracked = red
-[user]
-	name = jmiln
-	email = j.milner359@gmail.com
 [commit]
 	verbose = true
 [credential]
