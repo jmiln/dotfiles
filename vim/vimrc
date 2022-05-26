@@ -5,6 +5,9 @@ filetype off
 filetype plugin on
 filetype plugin indent on       " Turn on filetype specific options
 
+" Make vim use linux style line endings/ carriage returns if possible
+set fileformat=unix
+
 "                   Abbreviations {{{
 "=========================================================
 
@@ -20,6 +23,9 @@ ab inspectdepth inspect(, {depth: 5})
 ab nounused // eslint-disable-line no-unused-vars
 ab noundef  // eslint-disable-line no-undef
 
+" Various useful symbols
+ab chkmrk ✓
+
 " Useful ones for Discord stuff
 ab mslang message.language.get()
 ab embedsep '=============================='
@@ -29,18 +35,14 @@ abb dotlin ……………………………………………………………
 abb cdotlin /*…………………………………………………………………………………………………………………………………………………………………………………*/
 abb fdotlin •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 abb cfdotlin /*•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/
-abb dlin =======================================================================
+abb elin =======================================================================
 abb cdlin /*===================================================================*/
-abb lin -----------------------------------------------------------------------
+abb dlin -----------------------------------------------------------------------
 abb clin /*-------------------------------------------------------------------*/
 abb ulin _______________________________________________________________________
 abb culin /*___________________________________________________________________*/
 abb Ulin ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 abb cUlin /*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*/
-
-" Various useful symbols
-ab chkmrk ✓
-ab checkmark ✓
 
 " Typos
 cnoreabbrev Q q
@@ -56,12 +58,12 @@ syntax on         " Turns the syntax highlighting on
 set termguicolors
 
 hi Normal                                                                       guibg=#1C1C1C
-
 hi Visual        cterm=none                                       guifg=white   guibg=#5f5f5f
-hi Comment       cterm=none      ctermfg=red                      guifg=#d70000 guibg=background
+hi Comment       cterm=none      ctermfg=red                      guifg=#68792d guibg=background
 hi Constant      cterm=none      ctermfg=grey
 hi ColorColumn   cterm=none      ctermfg=none
 hi Error         cterm=none      ctermfg=red       ctermbg=black  guifg=red     guibg=black
+hi DiagnosticError                                                guifg=red
 hi Folded        cterm=none      ctermfg=blue      ctermbg=grey   guifg=white   guibg=#5f5f5f
 hi FoldColumn                    ctermfg=59        ctermbg=234    guifg=#5F5F5F guibg=#1C1C1C
 hi Search        cterm=none      ctermfg=blue      ctermbg=grey   guifg=black   guibg=#5f5f5f
@@ -80,14 +82,6 @@ hi Type          cterm=bold      ctermfg=green                    guifg=green3
 hi VertSplit     cterm=none      ctermfg=blue      ctermbg=grey
 hi Visual        cterm=reverse   ctermfg=none
 
-" C specific colors
-hi cStorageClass cterm=none      ctermfg=22
-hi cString       cterm=none      ctermfg=blue
-hi cNumber       cterm=none      ctermfg=18
-hi cConstant     cterm=none      ctermfg=none
-hi cStatement    cterm=none      ctermfg=22
-
-
 " SpellCheck specific colors
 hi SpellBad      cterm=underline ctermfg=88
 hi SpellCap      cterm=underline
@@ -95,7 +89,7 @@ hi SpellRare     cterm=underline
 hi SpellLocal    cterm=underline
 
 " Completion menu colors
-hi Pmenu         cterm=none      ctermfg=Cyan                     guifg=white   guibg=#5f5f5f
+hi Pmenu         cterm=none      ctermfg=Cyan                     guifg=white   guibg=grey
 hi PmenuSel      cterm=Bold      ctermfg=Black     ctermbg=239    guifg=Black   guibg=darkgrey
 hi PmenuSbar     cterm=none      ctermfg=cyan      ctermbg=Cyan
 hi PmenuThumb    cterm=none      ctermfg=White
@@ -105,21 +99,22 @@ hi CursorLine    cterm=none      ctermfg=none
 hi CursorColumn  cterm=none      ctermfg=none
 hi CursorLineNr  cterm=none      ctermfg=246
 
-" Enables cursor line position tracking:
-set cursorline
-
 " Removes all styling for cursorline
 highlight clear CursorLine
-highlight clear CursorLineNR
+highlight clear CursorLineNR"
 
 " Git diff coloring
 hi DiffAdded   gui=NONE guifg=green  guibg=#1C1C1C
-hi DiffChanged  gui=NONE guifg=yellow guibg=#1C1C1C
+hi DiffChanged gui=NONE guifg=yellow guibg=#1C1C1C
 hi DiffText    gui=NONE guifg=black  guibg=green
 hi DiffRemoved gui=NONE guifg=red    guibg=#1C1C1C
 
 au BufNewFile,BufRead *.ejs set filetype=html
 let g:html_indent_inctags = "html,body,head,tbody"
+
+
+
+
 
 " }}}
 "                   Folding {{{
@@ -156,7 +151,7 @@ endfunction
 set foldtext=MyFoldText()
 
 " Set the .vimrc file to close all relevant folds on open
-au BufRead,BufNewFile .vimrc set foldlevel=0
+au BufRead,BufNewFile .vimrc,vimrc set foldlevel=0 foldmethod=marker
 
 " Set folding to be based on syntax for js files
 au BufNewFile,BufRead *.js set foldmethod=syntax
@@ -222,12 +217,12 @@ inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 "                   Mapping {{{
 "=========================================================
 
-" Change the mapleader ( <leader> ) to ,
-let mapleader=","
-
 " Make it so you can sudo save (For when you forget to open a file with sudo)
 cmap ww w !sudo tee > /dev/null
 cnoremap w!! w !sudo tee % >/dev/null
+
+" Change the mapleader ( <leader> ) to ,
+let mapleader=","
 
 " Make easy editing and sourcing vimrc
 command! RefreshConfig source $MYVIMRC <bar> echo "Refreshed vimrc!"
@@ -251,11 +246,11 @@ map <leader>* :grep -R <cword> * --exclude-dir={.git,tmp,log,node_modules}<CR><C
 nmap <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<CR>
 
 " Some QoL mappings for the autocomplete menu
-imap     <expr> <CR>       pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
-inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+" imap     <expr> <CR>       pumvisible() ? "\<C-y>" : "\<Plug>delimitMateCR"
+" inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+" inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+" inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+" inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
 " Indend current file
 nnoremap <Leader>= gg=G
@@ -270,7 +265,7 @@ nnoremap <Leader>" yypVr"
 nnoremap <Leader>U yypVr━
 
 " Makes the arrow keys work in vim, not sure why they had stopped in the first place
-" though  still mess up when trying to search)
+" though still mess up when trying to search)
 set t_ku=OA
 set t_kd=OB
 set t_kr=OC
@@ -293,10 +288,6 @@ nmap <C-J> ddp
 " Bubble multiple lines
 vmap <C-K> xkP`[V`]
 vmap <C-J> xp`[V`]
-
-" Moving/ bubbling text in visual mode
-vnoremap <C-j> :m '>+1<CR>gv=gv
-vnoremap <C-k> :m '<-2<CR>gv=gv
 
 " turns off the search highlighting
 map <silent> <Space> :nohlsearch <CR>
@@ -348,14 +339,6 @@ nnoremap <F8> :call SyntaxAttr()<CR>
 
 " Toggle the invisible stuff
 nnoremap <silent><F9> :set invlist<CR>
-
-" Surround visual selection
-vnoremap ' <esc>`>a'<esc>`<i'<esc>
-vnoremap " <esc>`>a"<esc>`<i"<esc>
-vnoremap ( <esc>`>a)<esc>`<i(<esc>
-vnoremap [ <esc>`>a]<esc>`<i[<esc>
-vnoremap { <esc>`>a}<esc>`<i{<esc>
-
 " Keep search results centered
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -390,6 +373,12 @@ inoremap ? ?<c-g>u
 " Search and replace template:
 nnoremap <leader>s :%s///gc<left><left><left><left>
 
+" Based off https://vim.fandom.com/wiki/Switching_case_of_characters#Twiddle_case
+function! ToProperCase(str)
+  return substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+endfunction
+vnoremap ~ y:call setreg('', ToProperCase(@"), getregtype(''))<CR>gv""Pgv
+
 
 " }}}
 "                   Plugin links etc.  {{{
@@ -404,14 +393,12 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
-" Github repos
+" " Github repos
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
-Plug 'andymass/vim-matchup'
 " Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
 Plug 'farmergreg/vim-lastplace'
-Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'Konfekt/FastFold'
 " Plug 'lilydjwg/colorizer'
@@ -419,14 +406,14 @@ Plug 'Konfekt/FastFold'
 " Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim', {'for': ['html', 'ejs', 'css', 'scss']}
 " Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'Raimondi/delimitMate'
-Plug 'rhysd/committia.vim'
+" Plug 'Raimondi/delimitMate'
 Plug 'sheerun/vim-polyglot'
+Plug 'andymass/vim-matchup'
 Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-abolish'
+" Plug 'tpope/vim-abolish'  " Sounds good, but unused
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-ragtag', {'for': ['html', 'ejs', 'css', 'scss']}
-Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-ragtag', {'for': ['html', 'ejs', 'css', 'scss']}
+" Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Plug 'unkiwii/vim-nerdtree-sync'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -436,7 +423,7 @@ Plug 'tpope/vim-surround'
 
 " Autocomplete/ stuff
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-let g:coc_global_extensions = [ 'coc-eslint', 'coc-css', 'coc-json' ]
+let g:coc_global_extensions = [ 'coc-tsserver', 'coc-eslint', 'coc-css', 'coc-json', 'coc-pairs' ]
 
 " Vim Coc config
 " {{{
@@ -456,10 +443,17 @@ function! s:check_back_space() abort
 endfunction
 
 " Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>gr <Plug>(coc-rename)
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" Go to definition
+nmap <leader>gd <Plug>(coc-definition)
+
+" Pl
+nmap <silent><leader>ca  <Plug>(coc-codeaction-selected)<CR>
+
+
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " }}}
 
@@ -531,10 +525,6 @@ au BufNewFile,BufRead .bashrc,.aliases set filetype=bash
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabLongestHighlight = 1
 
-" Enable ycm for only the filestypes it's useful in so it stops screwing with
-" stuff here
-let g:ycm_filetype_whitelist = {'js': 1, 'json': 1}
-
 " Hexokinase highlighter settings
 let g:Hexokinase_highlighters = ['backgroundfull']
 
@@ -546,7 +536,7 @@ let g:ale_completion_enabled = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
-let g:ale_fix_on_save = 1
+let g:ale_fix_on_save = 0
 
 " Check & fix JavaScript code with ESlint
 let g:ale_linters = {
@@ -666,7 +656,8 @@ autocmd BufRead * call SyncTree()
 set backspace=indent,eol,start " Enable backspacing over autoindent, EOL, and BOL"
 set clipboard=unnamed
 set complete=.,w,b,u,t,i
-set completeopt=menuone,longest,preview
+" set completeopt=menuone,longest,preview
+set completeopt=noinsert,noselect,menuone
 set encoding=utf-8              " Default encoding
 set esckeys                     " Allow the cursor keys to work
 set formatoptions=t             " Fix formatting (line width) when editing"
@@ -690,7 +681,7 @@ set numberwidth=2               " Default width of line numbering"
 set omnifunc=syntaxcomplete#Complete
 set ruler                       " Keeps the block at the bottom right corner that tells what line and column you are on
 set scrolloff=1
-set shortmess=s
+set shortmess=sa
 set showbreak=.                 " What to show a line wrap as
 set showcmd
 set showmatch                   " Highlight matching parens

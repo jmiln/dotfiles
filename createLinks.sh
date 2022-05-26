@@ -45,8 +45,7 @@ ln -sf $dotfiles_dir/inputrc            ~/.inputrc
 ln -sf $dotfiles_dir/nvim               ~/.config/nvim
 ln -sf $dotfiles_dir/profile            ~/.profile
 ln -sf $dotfiles_dir/tmux.conf          ~/.tmux.conf
-ln -sf $dotfiles_dir/vim/.vim           ~/.vim
-ln -sf $dotfiles_dir/vim/vimrc          ~/.vimrc
+ln -sf $dotfiles_dir/vim/               ~/.vim
 ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
 
 #==============
