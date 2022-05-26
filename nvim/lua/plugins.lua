@@ -64,7 +64,11 @@ Plug "nvim-lualine/lualine.nvim"
 -- Shut up the diagnostics while I'm in insert mode
 Plug "https://gitlab.com/yorickpeterse/nvim-dd.git"
 
+Plug "lewis6991/impatient.nvim"
+
 vim.call("plug#end")
+
+require("impatient")
 
 -- Dependencies
 require("plenary")
