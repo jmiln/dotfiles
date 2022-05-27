@@ -14,19 +14,19 @@ dotfiles_dir=~/dotfiles
 #==============
 # Delete existing dot files and folders
 #==============
-sudo rm -rf ~/.aliases > /dev/null 2>&1
-sudo rm -rf ~/.bashrc > /dev/null 2>&1
+sudo rm -rf ~/.aliases            > /dev/null 2>&1
+sudo rm -rf ~/.bashrc             > /dev/null 2>&1
 sudo rm -rf ~/.config/htop/htoprc > /dev/null 2>&1
-sudo rm -rf ~/.config/nvim > /dev/null 2>&1
-sudo rm -rf ~/.gitconfig > /dev/null 2>&1
-sudo rm -rf ~/.git-prompt.sh > /dev/null 2>&1
-sudo rm -rf ~/.functions > /dev/null 2>&1
-sudo rm -rf ~/.inputrc > /dev/null 2>&1
-sudo rm -rf ~/.profile > /dev/null 2>&1
-sudo rm -rf ~/.tmux.conf > /dev/null 2>&1
-sudo rm -rf ~/.vim > /dev/null 2>&1
-sudo rm -rf ~/.vimrc > /dev/null 2>&1
-sudo rm -rf ~/.zshrc > /dev/null 2>&1
+sudo rm -rf ~/.config/nvim        > /dev/null 2>&1
+sudo rm -rf ~/.gitconfig          > /dev/null 2>&1
+sudo rm -rf ~/.git-prompt.sh      > /dev/null 2>&1
+sudo rm -rf ~/.functions          > /dev/null 2>&1
+sudo rm -rf ~/.inputrc            > /dev/null 2>&1
+sudo rm -rf ~/.profile            > /dev/null 2>&1
+sudo rm -rf ~/.tmux.conf          > /dev/null 2>&1
+sudo rm -rf ~/.vim                > /dev/null 2>&1
+sudo rm -rf ~/.vimrc              > /dev/null 2>&1
+sudo rm -rf ~/.zshrc              > /dev/null 2>&1
 
 
 #==============
@@ -47,8 +47,7 @@ ln -sf $dotfiles_dir/inputrc            ~/.inputrc
 ln -sf $dotfiles_dir/nvim               ~/.config/nvim
 ln -sf $dotfiles_dir/profile            ~/.profile
 ln -sf $dotfiles_dir/tmux.conf          ~/.tmux.conf
-ln -sf $dotfiles_dir/vim/.vim           ~/.vim
-ln -sf $dotfiles_dir/vim/vimrc          ~/.vimrc
+ln -sf $dotfiles_dir/vim/               ~/.vim
 ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
 
 #==============
