@@ -100,7 +100,7 @@ alias myip="dig +short myip.opendns.com @resolver1.opendns.com"   # Show the cur
 alias ipListen="sudo lsof -i -P -n | grep LISTEN"  # Show the IP/ ports that are being listened to
 alias iftop="TERM=xterm sudo iftop"
 
-## Hardware aliases ##
+### Hardware aliases ###
 alias ram="ps axch -o cmd:15,%mem --sort=-%mem | head"
 alias cpu="ps axch -o cmd:15,%cpu --sort=-%cpu | head"
 
@@ -109,3 +109,10 @@ alias cpu="ps axch -o cmd:15,%cpu --sort=-%cpu | head"
 alias gits="git status"
     # An easy & nice looking summary of the last bunch of commits
 alias glo="git log --pretty=oneline --abbrev-commit --graph --decorate --all"
+
+
+### VB Aliases ###
+alias node="winpty node"
+alias ncu="winpty ncu.cmd"
+alias gti="cd ~/../Fiddling/nodeAHK"
+
