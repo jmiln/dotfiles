@@ -111,8 +111,28 @@ alias gits="git status"
 alias glo="git log --pretty=oneline --abbrev-commit --graph --decorate --all"
 
 
-### VB Aliases ###
-alias node="winpty node"
-alias ncu="winpty ncu.cmd"
-alias gti="cd ~/../Fiddling/nodeAHK"
+# OS specific aliases
+_myos="$(uname)"
+case $_myos in
+    # Windows / Git Bash
+    *MINGW64*)
+        ### VB Aliases ###
+        alias node="winpty node"
+        alias ncu="winpty ncu.cmd"
+        alias gti="cd ~/../Fiddling/nodeAHK"
+        ;;
+    # Default
+    *) ;;
+esac
+
+
+
+
+
+
+
+
+
+
+
 
