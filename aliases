@@ -7,7 +7,7 @@ alias sound="alsamixer -V=all"
     # Mkdir should create any dirs between the current & the target
 alias mkdir="mkdir -p"
 alias less="less -X"
-alias man="man -P "less -X""
+alias man="man -P 'less -X'"
 alias grep="grep --color=auto"  #
 
 
