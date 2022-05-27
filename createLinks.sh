@@ -9,24 +9,28 @@
 #==============
 # Variables
 #==============
+# The dotfiles dir, where this script probably is
 dotfiles_dir=~/dotfiles
+
+# Grab which OS is being used (Useful later)
+_myos="$(uname)"
 
 #==============
 # Delete existing dot files and folders
 #==============
-sudo rm -rf ~/.aliases            > /dev/null 2>&1
-sudo rm -rf ~/.bashrc             > /dev/null 2>&1
-sudo rm -rf ~/.config/htop/htoprc > /dev/null 2>&1
-sudo rm -rf ~/.config/nvim        > /dev/null 2>&1
-sudo rm -rf ~/.gitconfig          > /dev/null 2>&1
-sudo rm -rf ~/.git-prompt.sh      > /dev/null 2>&1
-sudo rm -rf ~/.functions          > /dev/null 2>&1
-sudo rm -rf ~/.inputrc            > /dev/null 2>&1
-sudo rm -rf ~/.profile            > /dev/null 2>&1
-sudo rm -rf ~/.tmux.conf          > /dev/null 2>&1
-sudo rm -rf ~/.vim                > /dev/null 2>&1
-sudo rm -rf ~/.vimrc              > /dev/null 2>&1
-sudo rm -rf ~/.zshrc              > /dev/null 2>&1
+rm -rf ~/.aliases            > /dev/null 2>&1
+rm -rf ~/.bashrc             > /dev/null 2>&1
+rm -rf ~/.config/htop/htoprc > /dev/null 2>&1
+rm -rf ~/.config/nvim        > /dev/null 2>&1
+rm -rf ~/.gitconfig          > /dev/null 2>&1
+rm -rf ~/.git-prompt.sh      > /dev/null 2>&1
+rm -rf ~/.functions          > /dev/null 2>&1
+rm -rf ~/.inputrc            > /dev/null 2>&1
+rm -rf ~/.profile            > /dev/null 2>&1
+rm -rf ~/.tmux.conf          > /dev/null 2>&1
+rm -rf ~/.vim                > /dev/null 2>&1
+rm -rf ~/.vimrc              > /dev/null 2>&1
+rm -rf ~/.zshrc              > /dev/null 2>&1
 
 
 #==============
@@ -37,18 +41,43 @@ mkdir -p ~/.config/htop
 #==============
 # Create symlinks in the home folder
 #==============
-ln -sf $dotfiles_dir/aliases            ~/.aliases
-ln -sf $dotfiles_dir/bashrc             ~/.bashrc
-ln -sf $dotfiles_dir/git/gitconfig      ~/.gitconfig
-ln -sf $dotfiles_dir/zsh/git-prompt.sh  ~/.git-prompt.sh
-ln -sf $dotfiles_dir/functions          ~/.functions
-ln -sf $dotfiles_dir/htoprc             ~/.config/htop/htoprc
-ln -sf $dotfiles_dir/inputrc            ~/.inputrc
-ln -sf $dotfiles_dir/nvim               ~/.config/nvim
-ln -sf $dotfiles_dir/profile            ~/.profile
-ln -sf $dotfiles_dir/tmux.conf          ~/.tmux.conf
-ln -sf $dotfiles_dir/vim/               ~/.vim
-ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
+# Symlink differently depending on the OS
+case $_myos in
+    # Windows / Git Bash
+    *MINGW64*)
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/aliases            ~/.aliases
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/bashrc             ~/.bashrc
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/git/gitconfig      ~/.gitconfig
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/zsh/git-prompt.sh  ~/.git-prompt.sh
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/functions          ~/.functions
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/htoprc             ~/.config/htop/htoprc
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/inputrc            ~/.inputrc
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/nvim               ~/.config/nvim
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/profile            ~/.profile
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/tmux.conf          ~/.tmux.conf
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/vim/               ~/.vim
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
+    ;;
+    # Linux (Clearly)
+    Linux)
+        ln -sf $dotfiles_dir/aliases            ~/.aliases
+        ln -sf $dotfiles_dir/bashrc             ~/.bashrc
+        ln -sf $dotfiles_dir/git/gitconfig      ~/.gitconfig
+        ln -sf $dotfiles_dir/zsh/git-prompt.sh  ~/.git-prompt.sh
+        ln -sf $dotfiles_dir/functions          ~/.functions
+        ln -sf $dotfiles_dir/htoprc             ~/.config/htop/htoprc
+        ln -sf $dotfiles_dir/inputrc            ~/.inputrc
+        ln -sf $dotfiles_dir/nvim               ~/.config/nvim
+        ln -sf $dotfiles_dir/profile            ~/.profile
+        ln -sf $dotfiles_dir/tmux.conf          ~/.tmux.conf
+        ln -sf $dotfiles_dir/vim/               ~/.vim
+        ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
+    ;;
+    # Default case (None of the above)
+    *);;
+esac
+
+
 
 #==============
 # Set zsh as the default shell
