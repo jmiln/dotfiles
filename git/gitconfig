@@ -27,4 +27,4 @@
 [commit]
 	verbose = true
 [credential]
-	helper = cache
+	helper = store
