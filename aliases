@@ -118,6 +118,7 @@ case $_myos in
         alias node="winpty node"
         alias ncu="winpty ncu.cmd"
         alias gti="cd ~/../Fiddling/nodeAHK"
+        alias i="node index.js "
         ;;
     # Default
     *) ;;
