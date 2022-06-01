@@ -108,6 +108,9 @@ alias gits="git status"
     # An easy & nice looking summary of the last bunch of commits
 alias glo="git log --pretty=oneline --abbrev-commit --graph --decorate --all"
 
+### NPM Aliases ###
+alias npmg="npm --location=global"
+
 
 # OS specific aliases
 _myos="$(uname)"
