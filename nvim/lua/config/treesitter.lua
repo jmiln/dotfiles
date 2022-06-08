@@ -11,7 +11,7 @@ require("nvim-treesitter.configs").setup({
         "html",
         "css",
         "lua",          -- For the nvim config files
-        "commnet"       -- Lets it highlight the TODO comments and such
+        "comment"       -- Lets it highlight the TODO comments and such
     }
 })
 
