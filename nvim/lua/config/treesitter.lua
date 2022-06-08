@@ -10,7 +10,8 @@ require("nvim-treesitter.configs").setup({
         "typescript",
         "html",
         "css",
-        "lua"
+        "lua",          -- For the nvim config files
+        "commnet"       -- Lets it highlight the TODO comments and such
     }
 })
 
