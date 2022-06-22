@@ -15,6 +15,7 @@ Plug "farmergreg/vim-lastplace"
 Plug "junegunn/vim-easy-align"
 Plug "Konfekt/FastFold"
 -- Plug ("mattn/emmet-vim", {["for"] = ["html", "ejs", "css", "scss"]})
+Plug "mattn/emmet-vim" --, {["for"] = ["html", "ejs", "css", "scss"]})
 Plug "norcalli/nvim-colorizer.lua"
 
 -- 'do' mess: https://dev.to/vonheikemen/neovim-using-vim-plug-in-lua-3oom
