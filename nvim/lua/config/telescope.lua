@@ -3,7 +3,14 @@ require("telescope").setup({
         file_ignore_patterns = {
             "node_modules",
             ".git"
-        }
+        },
+        layout_config = {
+            horizontal = {
+                width = 0.9,
+                preview_width = 0.6
+            }
+            -- other layout configuration here
+        },
     }
 })
 

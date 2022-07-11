@@ -37,12 +37,12 @@ nvim_lsp.tsserver.setup({
             if result.diagnostics ~= nil then
                 local idx = 1
                 local jsIgnoreCodes = {
-                    80001,  -- File is a CommonJS module; it may be converted to an ES6 module.
                     2339,   -- Property "{0}" does not exist on type "{1}".
                     7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
                     7044,   -- Parameter 'x' implicitly has an 'any' type, but a better type may be inferred from usage.
                     2568,   -- Property "X" may not exist on type "Y". Did you mean "Z"?
                     6133,   -- "X" is declared but its value is never used (Covered by eslint)
+                    80001,  -- File is a CommonJS module; it may be converted to an ES6 module.
                     80007,  -- 'await' has no effect on the type of this expression.
                 }
                 local tsIgnoreCodes = {
@@ -56,9 +56,9 @@ nvim_lsp.tsserver.setup({
                 local isJs = string.find(filename, ".js")
 
                 while idx <= #result.diagnostics do
-                    if string.find(filename, ".ts") and contains(tsIgnoreCodes, result.diagnostics[idx].code) then
+                    if isTs and contains(tsIgnoreCodes, result.diagnostics[idx].code) then
                         table.remove(result.diagnostics, idx)
-                    elseif string.find(filename, ".js") and contains(jsIgnoreCodes, result.diagnostics[idx].code) then
+                    elseif isJs and contains(jsIgnoreCodes, result.diagnostics[idx].code) then
                         table.remove(result.diagnostics, idx)
                     else
                         idx = idx + 1
