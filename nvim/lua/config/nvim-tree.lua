@@ -5,7 +5,7 @@ map("x", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
 
 require"nvim-tree".setup {
     view = {
-        auto_resize = true  -- Resize to an appropriate size when windows/ split around it change
+        adaptive_size = true  -- Resize to an appropriate size when windows/ split around it change
     }
 }
 
@@ -19,10 +19,10 @@ vim.g.nvim_tree_icons = {
     folder = {
         arrow_open   = "v",
         arrow_closed = ">",
-        default      = "",
-        open         = "",
-        empty        = "",
-        empty_open   = "",
+        default      = ">",
+        open         = "v",
+        empty        = ">",
+        empty_open   = "v",
         symlink      = "",
         symlink_open = ""
     },
