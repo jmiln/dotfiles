@@ -6,31 +6,57 @@ map("x", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
 require"nvim-tree".setup {
     view = {
         adaptive_size = true  -- Resize to an appropriate size when windows/ split around it change
+    },
+    renderer = {
+        indent_markers = {
+            enable = true,
+            inline_arrows = true,
+            icons = {
+                corner = "└─",
+                edge = "│",
+                item = "├─",
+                none = " ",
+            },
+        },
+        icons = {
+            webdev_colors = true,
+            git_placement = "before",
+            padding = " ",
+            symlink_arrow = " ➛ ",
+            show = {
+                file = true,
+                folder = true,
+                folder_arrow = true,
+                git = true,
+            },
+            glyphs = {
+                default = "",
+                symlink = "",
+                bookmark = "",
+                folder = {
+                    arrow_closed = "",
+                    arrow_open = "",
+                    default = ">",
+                    open = "v",
+                    empty = ">",
+                    empty_open = "v",
+                    symlink = "",
+                    symlink_open = "",
+                },
+                git = {
+                    unstaged = "✗",
+                    staged = "✓",
+                    unmerged = "",
+                    renamed = "➜",
+                    untracked = "★",
+                    deleted = "",
+                    ignored = "◌",
+                },
+            },
+        },
     }
 }
 
 vim.g.nvim_tree_indent_markers  = 1     -- Add lines to better illustrate what's within which folder
 vim.g.nvim_tree_add_trailing    = 1     -- Add the trailing / to a file name
 vim.g.nvim_tree_respect_buf_cwd = 1     -- Open the tree to the cwd of the open file/ buffer
-
-vim.g.nvim_tree_icons = {
-    default = "",
-    symlink = "",
-    folder = {
-        arrow_open   = "v",
-        arrow_closed = ">",
-        default      = ">",
-        open         = "v",
-        empty        = ">",
-        empty_open   = "v",
-        symlink      = "",
-        symlink_open = ""
-    },
-}
-
-vim.g.nvim_tree_show_icons = {
-    files         = 0,
-    folder_arrows = 1,
-    folders       = 1,
-    git           = 0,
-}
