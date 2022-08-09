@@ -49,12 +49,13 @@ Plug "tpope/vim-fugitive"
 Plug "lewis6991/gitsigns.nvim"
 
 -- Completion stuffs
-Plug "hrsh7th/nvim-cmp"       -- The completion plugin itself
-Plug "hrsh7th/cmp-nvim-lsp"   -- Complete bsed on the lsp
-Plug "hrsh7th/cmp-buffer"     -- Complete based on the current buffer
-Plug "hrsh7th/cmp-path"       -- Complete file paths
-Plug "hrsh7th/cmp-vsnip"      -- Snippets
-Plug "hrsh7th/vim-vsnip"      -- Snippets
+Plug "hrsh7th/nvim-cmp"         -- The completion plugin itself
+Plug "hrsh7th/cmp-nvim-lsp"     -- Complete bsed on the lsp
+Plug "hrsh7th/cmp-buffer"       -- Complete based on the current buffer
+Plug "hrsh7th/cmp-path"         -- Complete file paths
+Plug "L3MON4D3/LuaSnip"         -- Snippets
+Plug "saadparwaiz1/cmp_luasnip" -- Snippets
+Plug "rafamadriz/friendly-snippets"
 
 -- Nvim nvim-tree
 Plug "kyazdani42/nvim-tree.lua"
