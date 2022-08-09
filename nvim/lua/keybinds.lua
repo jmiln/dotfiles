@@ -95,8 +95,7 @@ map("n", "<leader>fs", ":Telescope search_history<CR>",                         
   -- Go to where the variable is defined
 map("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
   -- Code action options
--- map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
-map("n", "<leader>ca", ":Telescope lsp_code_actions<CR>", default)
+map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
 -- Global (inside file) rename/ refactor
 map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", default)
 -- Show info on element under cursor
