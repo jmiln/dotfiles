@@ -26,7 +26,7 @@ require("keybinds")
 require("highlight")
 
 -- Load up some utils
-require("utils")
+-- require("utils")
 
 -- " Load/ source any .vim files that are in there
 -- " for f in split(glob('~/.config/nvim/config/*.vim'), '\n')
