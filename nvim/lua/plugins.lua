@@ -26,7 +26,8 @@ Plug "nvim-treesitter/playground"
 Plug "steelsojka/pears.nvim"
 
 -- Quick changes for surrounding symbols (Quotes, parens, etc)
-Plug "tpope/vim-surround"
+-- Plug "tpope/vim-surround"
+Plug "kylechui/nvim-surround"
 
 -- Uses vim splits to display more info when committing to git
 Plug "rhysd/committia.vim"

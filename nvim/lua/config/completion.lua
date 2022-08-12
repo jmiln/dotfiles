@@ -46,7 +46,6 @@ cmp.setup({
         ["<C-Space>"] = cmp.mapping.complete({
             config = {
                 sources = {
-                    -- { name = "vsnip" }
                     { name = "luasnip" }
                 }
             }
@@ -59,7 +58,7 @@ cmp.setup({
     },
     sources = {
         { name = "nvim_lsp" },
-        -- { name = "buffer" },
+        { name = "buffer" },
         { name = "path" },
         { name = "luasnip" },
     },
@@ -84,7 +83,7 @@ local node = luasnip.snippet_node
 local text = luasnip.text_node
 local insert = luasnip.insert_node
 
-
+-- Add snippets for JS files
 luasnip.add_snippets("javascript", {
     -- Javascript helpers
     snip( "reqins", { text('const {inspect} = require("util");') }),
@@ -94,6 +93,8 @@ luasnip.add_snippets("javascript", {
     snip( "nounused", { text("// eslint-disable-line no-unused-vars") }),
     snip( "noundef",  { text("// eslint-disable-line no-undef") }),
 })
+
+-- Add stuff for any file type (Replacing abbreviations)
 luasnip.add_snippets("all", {
     -- Various useful symbols
     snip( "checkmark", { text("✓") })
