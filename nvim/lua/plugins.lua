@@ -20,13 +20,12 @@ Plug "norcalli/nvim-colorizer.lua"
 
 -- 'do' mess: https://dev.to/vonheikemen/neovim-using-vim-plug-in-lua-3oom
 Plug ("nvim-treesitter/nvim-treesitter", {["do"] = vim.fn["TSUpdate"]})
-Plug "nvim-treesitter/playground"
+-- Plug "nvim-treesitter/playground"
 
 -- Auto-close parentheses and brackets, etc
 Plug "steelsojka/pears.nvim"
 
 -- Quick changes for surrounding symbols (Quotes, parens, etc)
--- Plug "tpope/vim-surround"
 Plug "kylechui/nvim-surround"
 
 -- Uses vim splits to display more info when committing to git
