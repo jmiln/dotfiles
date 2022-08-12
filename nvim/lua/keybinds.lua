@@ -62,9 +62,9 @@ map('c', '<Up>',    'wildmenumode() ? "\\<C-p>" : "\\<Up>"',  {noremap = true, e
 map('c', '<Down>',  'wildmenumode() ? "\\<C-n>" : "\\<Down>"',{noremap = true, expr = true})
 
 -- Map ctrl+/ to comment lines
-map("n", "", "<CMD>lua require('Comment.api').toggle_current_linewise()<CR>",                    {noremap = true, silent=true})
-map("v", "", "<ESC><CMD>lua require('Comment.api').locked.toggle_linewise_op(vim.fn.visualmode())<CR>", {noremap = true, silent=true})
-map("i", "", "<ESC><CMD>lua require('Comment.api').toggle_current_linewise()<CR>i",               {noremap = true, silent=true})
+map("n", "", "<Plug>(comment_toggle_linewise_current)",        {noremap = true, silent=true})
+map("v", "", "<Plug>(comment_toggle_linewise_visual)",         {noremap = true, silent=true})
+map("i", "", "<ESC><Plug>(comment_toggle_linewise_current)i",  {noremap = true, silent=true})
 
 -- Telescope Mappings
 map("n", "<leader>fb", ":Telescope buffers<CR>",                                 { noremap = true})
