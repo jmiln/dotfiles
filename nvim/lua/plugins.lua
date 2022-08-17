@@ -41,7 +41,7 @@ return require('packer').startup(function(use)
 
     use({
         "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate",
+        run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
         config = function()
             require("nvim-treesitter.configs").setup({
                 highlight = {
@@ -158,6 +158,7 @@ return require('packer').startup(function(use)
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-nvim-lua",
             "hrsh7th/cmp-cmdline",
+            "L3MON4D3/LuaSnip",
             "saadparwaiz1/cmp_luasnip",
             "rafamadriz/friendly-snippets",
         },
