@@ -2,6 +2,7 @@ local g = vim.g
 local cmd = vim.cmd
 
 cmd[[hi Normal                                                                       guibg=#1C1C1C]]
+cmd[[hi NormalFloat                                                                  guibg=#292828]]
 cmd[[hi Visual        cterm=none                                       guifg=white   guibg=#5f5f5f]]
 cmd[[hi Comment       cterm=none      ctermfg=red                      guifg=#68792d guibg=background]]
 cmd[[hi Constant      cterm=none      ctermfg=grey]]

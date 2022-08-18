@@ -4,6 +4,7 @@ local fn   = vim.fn       		-- call Vim functions
 local g    = vim.g         		-- global variables
 local opt  = vim.opt         	-- global/buffer/windows-scoped options
 
+
 ----------------------------- Tabs & Indentation ------------------------------
 opt.cursorline  = false
 opt.expandtab   = true		-- tabs insert spaces
@@ -53,6 +54,9 @@ vim.wo.signcolumn = "yes"
 vim.go.termguicolors = true
 vim.go.t_Co = "256"
 vim.go.t_ut = ""
+
+--------------------------------- Mouse (OFF) ----------------------------------
+opt.mouse = ""
 
 --------------------------------- Completion ----------------------------------
 -- opt.completeopt = {"menuone", "longest", "preview"}

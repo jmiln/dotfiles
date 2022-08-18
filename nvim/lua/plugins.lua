@@ -16,6 +16,11 @@ vim.cmd([[
 
 require("packer").init({
     max_jobs = 50,
+    display = {
+        open_fn = function()
+            return require("packer.util").float({ border = "rounded" })
+        end,
+    },
 })
 
 return require('packer').startup(function(use)
@@ -61,7 +66,7 @@ return require('packer').startup(function(use)
             })
         end,
     })
-    -- use "nvim-treesitter/playground"
+    use "nvim-treesitter/playground"
 
     -- Auto-close parentheses and brackets, etc
     use ({
