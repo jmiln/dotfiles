@@ -27,9 +27,8 @@ return require('packer').startup(function(use)
     -- Let Packer manage itself
     use({"wbthomason/packer.nvim", opt = true})
 
-    -- use "farmergreg/vim-lastplace"
+    -- Easily align stuff
     use "junegunn/vim-easy-align"
-    -- use "Konfekt/FastFold"
 
     -- Color any #ffffff style color codes
     use ({
@@ -37,6 +36,22 @@ return require('packer').startup(function(use)
         config = function()
             require("colorizer").setup()
         end
+    })
+
+    -- Preview markdown in a floating window (:Glow)
+    use ({
+        "ellisonleao/glow.nvim",
+        config = function()
+            require("glow").setup()
+        end
+    })
+
+    -- Preview line jumps
+    use({
+        "nacro90/numb.nvim",
+        config = function()
+            require("numb").setup()
+        end,
     })
 
     use({
@@ -50,6 +65,9 @@ return require('packer').startup(function(use)
                 indent = {
                     enable = true
                 },
+                context_commentstring = {
+                    enable = true
+                },
                 ensure_installed = {
                     "javascript",
                     "typescript",
@@ -57,7 +75,7 @@ return require('packer').startup(function(use)
                     "css",
                     "lua",          -- For the nvim config files
                     "comment",      -- Lets it highlight the TODO comments and such
-                    "regex",
+                    "regex",        -- Ooh, shiny regex
                 }
             })
         end,
@@ -83,6 +101,14 @@ return require('packer').startup(function(use)
     use ({
         "mattn/emmet-vim",
         ft = {"html", "ejs", "css", "scss"}
+    })
+
+    -- Automatically change strings to `` for template literals (JS)
+    use ({
+        "axelvc/template-string.nvim",
+        config = function()
+            require("template-string").setup({})
+        end
     })
 
     -- Auto-close html tags
@@ -112,6 +138,9 @@ return require('packer').startup(function(use)
         end
     })
 
+    -- Comment properly in embedded filetypes (Ejs, etc)
+    use "JoosepAlviste/nvim-ts-context-commentstring"
+
     -- LSP stuffs
     use "neovim/nvim-lspconfig"
     use ({
@@ -126,14 +155,12 @@ return require('packer').startup(function(use)
     -- Open up the locationlist when there are errors
     use({
         "folke/trouble.nvim",
+        requires = "kyazdani42/nvim-web-devicons",
         config = function()
             -- Trouble settings (Show the diagnostics quickfix window automatically)
             require("trouble").setup({
-                -- fold_open   = "v",
-                -- fold_closed = ">",
                 auto_open   = true,
                 auto_close  = true,
-                icons       = false,
                 signs = {
                     -- icons / text used for a diagnostic
                     error       = "[ERROR]",
@@ -180,10 +207,10 @@ return require('packer').startup(function(use)
     })
 
     -- Nvim nvim-tree
-    use "kyazdani42/nvim-tree.lua"
-
-    -- File icons
-    use "kyazdani42/nvim-web-devicons"
+    use ({
+        "kyazdani42/nvim-tree.lua",
+        requires = "kyazdani42/nvim-web-devicons",
+    })
 
     -- Statusline
     use "nvim-lualine/lualine.nvim"
@@ -199,6 +226,8 @@ return require('packer').startup(function(use)
     --     end
     -- })
 
+    -- Make stuffs more efficient/ optimized
+    use("nathom/filetype.nvim")
     use ({
         "lewis6991/impatient.nvim",
         config = function()
