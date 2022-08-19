@@ -139,6 +139,11 @@ _G.packer_plugins = {
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/impatient.nvim",
     url = "https://github.com/lewis6991/impatient.nvim"
   },
+  ["lspkind-nvim"] = {
+    loaded = true,
+    path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/lspkind-nvim",
+    url = "https://github.com/onsails/lspkind-nvim"
+  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/lualine.nvim",
@@ -189,6 +194,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/nvim-ts-autotag",
     url = "https://github.com/windwp/nvim-ts-autotag"
+  },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = false,
