@@ -27,14 +27,9 @@ return require('packer').startup(function(use)
     -- Let Packer manage itself
     use({"wbthomason/packer.nvim", opt = true})
 
-    use "alvan/vim-closetag"
-    use "farmergreg/vim-lastplace"
+    -- use "farmergreg/vim-lastplace"
     use "junegunn/vim-easy-align"
-    use "Konfekt/FastFold"
-    use ({
-        "mattn/emmet-vim",
-        ft = {"html", "ejs", "css", "scss"}
-    })
+    -- use "Konfekt/FastFold"
 
     -- Color any #ffffff style color codes
     use ({
@@ -61,7 +56,8 @@ return require('packer').startup(function(use)
                     "html",
                     "css",
                     "lua",          -- For the nvim config files
-                    "comment"       -- Lets it highlight the TODO comments and such
+                    "comment",      -- Lets it highlight the TODO comments and such
+                    "regex",
                 }
             })
         end,
@@ -70,19 +66,30 @@ return require('packer').startup(function(use)
 
     -- Auto-close parentheses and brackets, etc
     use ({
-        "steelsojka/pears.nvim",
+        "windwp/nvim-autopairs",
         config = function()
-            local R = require "pears.rule"
-            require("pears").setup(function(conf)
-                conf.pair("<", ">")
-                conf.pair("(", {
-                    close = ")",
-                    should_expand = R.all_of(
-                        -- Don't expand a quote if it comes before an alpha character
-                        R.not_(R.match_next "[a-zA-Z]")
-                    )
-                })
-            end)
+            require('nvim-autopairs').setup({
+                enable_check_bracket_line = false,
+                check_ts = true,
+                ts_config = {
+                    lua = {'string'},
+                    javascript = {'template_string'},
+                }
+            })
+        end
+    })
+
+    -- Easy completion & expansion of strings for html
+    use ({
+        "mattn/emmet-vim",
+        ft = {"html", "ejs", "css", "scss"}
+    })
+
+    -- Auto-close html tags
+    use ({
+        "windwp/nvim-ts-autotag",
+        config = function()
+            require("nvim-ts-autotag").setup()
         end
     })
 
@@ -93,7 +100,6 @@ return require('packer').startup(function(use)
             require("nvim-surround").setup()
         end
     })
-
 
     -- Uses vim splits to display more info when committing to git
     use "rhysd/committia.vim"

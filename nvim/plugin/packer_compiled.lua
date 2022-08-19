@@ -75,11 +75,6 @@ _G.packer_plugins = {
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
   },
-  FastFold = {
-    loaded = true,
-    path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/FastFold",
-    url = "https://github.com/Konfekt/FastFold"
-  },
   LuaSnip = {
     loaded = true,
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -149,6 +144,12 @@ _G.packer_plugins = {
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
+  ["nvim-autopairs"] = {
+    config = { "\27LJ\2\2»\1\0\0\4\0\n\0\r6\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\3\0005\2\5\0005\3\4\0=\3\6\0025\3\a\0=\3\b\2=\2\t\1B\0\2\1K\0\1\0\14ts_config\15javascript\1\2\0\0\20template_string\blua\1\0\0\1\2\0\0\vstring\1\0\2\rcheck_ts\2\30enable_check_bracket_line\1\nsetup\19nvim-autopairs\frequire\0" },
+    loaded = true,
+    path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    url = "https://github.com/windwp/nvim-autopairs"
+  },
   ["nvim-cmp"] = {
     config = { "\27LJ\2\0021\0\0\2\0\2\0\0046\0\0\0'\1\1\0B\0\2\1K\0\1\0\22config.completion\frequire\0" },
     loaded = true,
@@ -178,22 +179,22 @@ _G.packer_plugins = {
     url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
-    config = { "\27LJ\2\2Ë\1\0\0\3\0\n\0\r6\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\4\0005\2\3\0=\2\5\0015\2\6\0=\2\a\0015\2\b\0=\2\t\1B\0\2\1K\0\1\0\21ensure_installed\1\a\0\0\15javascript\15typescript\thtml\bcss\blua\fcomment\vindent\1\0\1\venable\2\14highlight\1\0\0\1\0\1\venable\2\nsetup\28nvim-treesitter.configs\frequire\0" },
+    config = { "\27LJ\2\2Ñ\1\0\0\3\0\n\0\r6\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\4\0005\2\3\0=\2\5\0015\2\6\0=\2\a\0015\2\b\0=\2\t\1B\0\2\1K\0\1\0\21ensure_installed\1\b\0\0\15javascript\15typescript\thtml\bcss\blua\fcomment\nregex\vindent\1\0\1\venable\2\14highlight\1\0\0\1\0\1\venable\2\nsetup\28nvim-treesitter.configs\frequire\0" },
     loaded = true,
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
+  },
+  ["nvim-ts-autotag"] = {
+    config = { "\27LJ\2\2=\0\0\2\0\3\0\0066\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\20nvim-ts-autotag\frequire\0" },
+    loaded = true,
+    path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/nvim-ts-autotag",
+    url = "https://github.com/windwp/nvim-ts-autotag"
   },
   ["packer.nvim"] = {
     loaded = false,
     needs_bufread = false,
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/opt/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
-  },
-  ["pears.nvim"] = {
-    config = { "\27LJ\2\2\1\0\1\b\1\n\0\0209\1\0\0'\2\1\0'\3\2\0B\1\3\0019\1\0\0'\2\3\0005\3\4\0-\4\0\0009\4\5\4-\5\0\0009\5\6\5-\6\0\0009\6\a\6'\a\b\0B\6\2\0A\5\0\0A\4\0\2=\4\t\3B\1\3\1K\0\1\0\0À\18should_expand\r[a-zA-Z]\15match_next\tnot_\vall_of\1\0\1\nclose\6)\6(\6>\6<\tpairS\1\0\3\0\5\0\v6\0\0\0'\1\1\0B\0\2\0026\1\0\0'\2\2\0B\1\2\0029\1\3\0013\2\4\0B\1\2\0012\0\0€K\0\1\0\0\nsetup\npears\15pears.rule\frequire\0" },
-    loaded = true,
-    path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/pears.nvim",
-    url = "https://github.com/steelsojka/pears.nvim"
   },
   playground = {
     loaded = true,
@@ -222,11 +223,6 @@ _G.packer_plugins = {
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/trouble.nvim",
     url = "https://github.com/folke/trouble.nvim"
   },
-  ["vim-closetag"] = {
-    loaded = true,
-    path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/vim-closetag",
-    url = "https://github.com/alvan/vim-closetag"
-  },
   ["vim-easy-align"] = {
     loaded = true,
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/vim-easy-align",
@@ -236,18 +232,17 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
-  },
-  ["vim-lastplace"] = {
-    loaded = true,
-    path = "/home/j_milner359/.local/share/nvim/site/pack/packer/start/vim-lastplace",
-    url = "https://github.com/farmergreg/vim-lastplace"
   }
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: nvim-ts-autotag
+time([[Config for nvim-ts-autotag]], true)
+try_loadstring("\27LJ\2\2=\0\0\2\0\3\0\0066\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\20nvim-ts-autotag\frequire\0", "config", "nvim-ts-autotag")
+time([[Config for nvim-ts-autotag]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
-try_loadstring("\27LJ\2\2Ë\1\0\0\3\0\n\0\r6\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\4\0005\2\3\0=\2\5\0015\2\6\0=\2\a\0015\2\b\0=\2\t\1B\0\2\1K\0\1\0\21ensure_installed\1\a\0\0\15javascript\15typescript\thtml\bcss\blua\fcomment\vindent\1\0\1\venable\2\14highlight\1\0\0\1\0\1\venable\2\nsetup\28nvim-treesitter.configs\frequire\0", "config", "nvim-treesitter")
+try_loadstring("\27LJ\2\2Ñ\1\0\0\3\0\n\0\r6\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\4\0005\2\3\0=\2\5\0015\2\6\0=\2\a\0015\2\b\0=\2\t\1B\0\2\1K\0\1\0\21ensure_installed\1\b\0\0\15javascript\15typescript\thtml\bcss\blua\fcomment\nregex\vindent\1\0\1\venable\2\14highlight\1\0\0\1\0\1\venable\2\nsetup\28nvim-treesitter.configs\frequire\0", "config", "nvim-treesitter")
 time([[Config for nvim-treesitter]], false)
 -- Config for: nvim-cmp
 time([[Config for nvim-cmp]], true)
@@ -273,14 +268,14 @@ time([[Config for trouble.nvim]], false)
 time([[Config for gitsigns.nvim]], true)
 try_loadstring("\27LJ\2\0026\0\0\2\0\3\0\0066\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
 time([[Config for gitsigns.nvim]], false)
--- Config for: pears.nvim
-time([[Config for pears.nvim]], true)
-try_loadstring("\27LJ\2\2\1\0\1\b\1\n\0\0209\1\0\0'\2\1\0'\3\2\0B\1\3\0019\1\0\0'\2\3\0005\3\4\0-\4\0\0009\4\5\4-\5\0\0009\5\6\5-\6\0\0009\6\a\6'\a\b\0B\6\2\0A\5\0\0A\4\0\2=\4\t\3B\1\3\1K\0\1\0\0À\18should_expand\r[a-zA-Z]\15match_next\tnot_\vall_of\1\0\1\nclose\6)\6(\6>\6<\tpairS\1\0\3\0\5\0\v6\0\0\0'\1\1\0B\0\2\0026\1\0\0'\2\2\0B\1\2\0029\1\3\0013\2\4\0B\1\2\0012\0\0€K\0\1\0\0\nsetup\npears\15pears.rule\frequire\0", "config", "pears.nvim")
-time([[Config for pears.nvim]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
 try_loadstring("\27LJ\2\0025\0\0\2\0\3\0\0066\0\0\0'\1\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
 time([[Config for Comment.nvim]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+try_loadstring("\27LJ\2\2»\1\0\0\4\0\n\0\r6\0\0\0'\1\1\0B\0\2\0029\0\2\0005\1\3\0005\2\5\0005\3\4\0=\3\6\0025\3\a\0=\3\b\2=\2\t\1B\0\2\1K\0\1\0\14ts_config\15javascript\1\2\0\0\20template_string\blua\1\0\0\1\2\0\0\vstring\1\0\2\rcheck_ts\2\30enable_check_bracket_line\1\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
+time([[Config for nvim-autopairs]], false)
 -- Config for: plenary.nvim
 time([[Config for plenary.nvim]], true)
 try_loadstring("\27LJ\2\2'\0\0\2\0\2\0\0046\0\0\0'\1\1\0B\0\2\1K\0\1\0\fplenary\frequire\0", "config", "plenary.nvim")
