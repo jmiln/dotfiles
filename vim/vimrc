@@ -783,7 +783,7 @@ set indentkeys=0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:
 au BufNewFile,BufRead *.ejs set filetype=html
 
 " Set json files to show nicely
-au BufRead,BufNewFile *.json set filetype=json syntax=javascript
+" au BufRead,BufNewFile *.json set filetype=json syntax=javascript
 
 " Set js files to fold based on indent since that seems to be the most consistent
 au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=indent
