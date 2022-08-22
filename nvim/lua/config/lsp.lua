@@ -7,9 +7,8 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 end
 
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Local helper function
 local function contains (table, val)
@@ -35,11 +34,12 @@ nvim_lsp.tsserver.setup({
             if result.diagnostics ~= nil then
                 local idx = 1
                 local jsIgnoreCodes = {
-                    80001,  -- File is a CommonJS module; it may be converted to an ES6 module.
                     2339,   -- Property "{0}" does not exist on type "{1}".
                     7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
+                    7044,   -- Parameter 'x' implicitly has an 'any' type, but a better type may be inferred from usage.
                     2568,   -- Property "X" may not exist on type "Y". Did you mean "Z"?
                     6133,   -- "X" is declared but its value is never used (Covered by eslint)
+                    80001,  -- File is a CommonJS module; it may be converted to an ES6 module.
                     80007,  -- 'await' has no effect on the type of this expression.
                 }
                 local tsIgnoreCodes = {
@@ -53,9 +53,9 @@ nvim_lsp.tsserver.setup({
                 local isJs = string.find(filename, ".js")
 
                 while idx <= #result.diagnostics do
-                    if string.find(filename, ".ts") and contains(tsIgnoreCodes, result.diagnostics[idx].code) then
+                    if isTs and contains(tsIgnoreCodes, result.diagnostics[idx].code) then
                         table.remove(result.diagnostics, idx)
-                    elseif string.find(filename, ".js") and contains(jsIgnoreCodes, result.diagnostics[idx].code) then
+                    elseif isJs and contains(jsIgnoreCodes, result.diagnostics[idx].code) then
                         table.remove(result.diagnostics, idx)
                     else
                         idx = idx + 1
@@ -67,7 +67,7 @@ nvim_lsp.tsserver.setup({
     }
 })
 
--- Enable eslint for it"s JS linting
+-- Enable eslint for it's JS linting
 nvim_lsp.eslint.setup({})
 
 nvim_lsp.html.setup({})
@@ -75,7 +75,7 @@ nvim_lsp.html.setup({})
 -- Python language server
 nvim_lsp.jedi_language_server.setup({})
 
--- Configure how the code errors and such show
+-- Configure how the code errors and such are displayed
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = false,
