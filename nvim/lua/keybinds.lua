@@ -35,6 +35,8 @@ map("n", "ga", ":EasyAlign<CR>", default)
 map("n", "<leader>U", "yypVr━", default)
 
 -- Keep search results centered
+map("n", "n", "nzzzv", default);
+map("n", "N", "Nzzzv", default);
 map("v", "n", "nzzzv", default);
 map("v", "N", "Nzzzv", default);
 

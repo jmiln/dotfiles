@@ -68,16 +68,25 @@ cmp.setup({
         default_behavior = cmp.ConfirmBehavior.Insert,
     },
     formatting = {
-        format = function(entry, vim_item)
-            vim_item.kind = lspkind.presets.default[vim_item.kind]
-            vim_item.menu = ({
+        format = lspkind.cmp_format({
+            mode = "symbol_text",
+            menu = ({
                 buffer   = "[Buffer]",
                 nvim_lsp = "[LSP]",
                 path     = "[Path]",
-                luasnip  = "[Snip]"
-            })[entry.source.name]
-            return vim_item
-        end,
+                luasnip  = "[Snip]",
+            })
+        }),
+        -- format = function(entry, vim_item)
+        --     vim_item.kind = lspkind.presets.default[vim_item.kind]
+        --     vim_item.menu = ({
+        --         buffer   = "[Buffer]",
+        --         nvim_lsp = "[LSP]",
+        --         path     = "[Path]",
+        --         luasnip  = "[Snip]"
+        --     })[entry.source.name]
+        --     return vim_item
+        -- end,
     }
 })
 
