@@ -1,4 +1,8 @@
+# Set the file to log to as we go
 log_file=~/install_progress_log.txt
+
+# Grab where this is
+dotfilesDir=$(pwd)
 
 sudo apt-get -y install zsh
 if type -p zsh > /dev/null; then
@@ -17,14 +21,6 @@ if type -p curl > /dev/null; then
 else
     echo "curl FAILED TO INSTALL!!!" >> $log_file
 fi
-
-
-# ---
-# Install a package manager for tmux
-# --
-mkdir -p ~/.config/tmux/plugins
-git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-echo "Installed TPM (Tmux Plugin Manager)"
 
 # ---
 # Install NVM to install node/ npm
@@ -51,6 +47,9 @@ curl https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh -o ~
 echo "git-completion and git-prompt Installed and Configured" >> $log_file
 
 
+# ---
+# Install tmux
+# --
 sudo apt-get -y install tmux
 if type -p tmux > /dev/null; then
     echo "tmux Installed" >> $log_file
@@ -58,7 +57,14 @@ else
     echo "tmux FAILED TO INSTALL!!!" >> $log_file
 fi
 
-# Make sure both version are installed
+# ---
+# Install a package manager for tmux
+# --
+mkdir -p ~/.config/tmux/plugins
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+echo "Installed TPM (Tmux Plugin Manager)" >> $log_file
+
+# Make sure both versions of python are installed
 sudo apt-get -y install python2 python3
 
 # Install ripgrep & fd (Mainly for nvim telescope)
@@ -67,27 +73,51 @@ sudo apt install fd-find
 mkdir -p ~/.local/bin
 ln -s $(which fdfind) ~/.local/bin/fd
 
-# Install nvim
-sudo apt -y install cmake
+# Install nvim normal
 if command -v nvim &> /dev/null; then
-    # make tmp folder
-    mkdir -p ~/tmp
-    cd ~/tmp
+    # Install stuff for python support
+    sudo apt -y install software-properties-common
+    sudo apt -y install python-pip python3-pip
 
-    # clone
-    git clone --depth 1 --branch nightly https://github.com/neovim/neovim.git
-    cd neovim
+    # Add the repo & install neovim itself
+    sudo add-apt-repository ppa:neovim-ppa/stable
+    sudo apt update
+    sudo apt -y install neovim
 
-    # build and install
-    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    sudo make install
+    # Update to alias vim, vi & $EDITOR to neovim
+    sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+    sudo update-alternatives --config vi
+    sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+    sudo update-alternatives --config vim
+    sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
+    sudo update-alternatives --config editor
 fi
+
+# Install nvim nightly
+# sudo apt -y install cmake
+# if command -v nvim &> /dev/null; then
+#     # make tmp folder
+#     mkdir -p ~/tmp
+#     cd ~/tmp
+#
+#     # clone
+#     git clone --depth 1 --branch nightly https://github.com/neovim/neovim.git
+#     cd neovim
+#
+#     # build and install
+#     make CMAKE_BUILD_TYPE=RelWithDebInfo
+#     sudo make install
+# fi
 
 #==============
 # Set zsh as the default shell
 #==============
-chsh -s /bin/zsh
+# chsh -s /bin/zsh
 
+#==============
+# Go back to the dotfiles dir
+#==============
+cd $dotfilesDir
 
 #==============
 # Give the user a summary of what has been installed
