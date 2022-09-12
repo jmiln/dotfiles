@@ -210,7 +210,7 @@ return require('packer').startup(function(use)
             "rafamadriz/friendly-snippets",
         },
         config = function()
-            require('config.completion')
+            require("config.completion")
         end
     })
 

@@ -22,7 +22,9 @@ fi
 # ---
 # Install a package manager for tmux
 # --
-# git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+mkdir -p ~/.config/tmux/plugins
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+echo "Installed TPM (Tmux Plugin Manager)"
 
 # ---
 # Install NVM to install node/ npm

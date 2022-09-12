@@ -18,26 +18,28 @@ _myos="$(uname)"
 #==============
 # Delete existing dot files and folders
 #==============
-rm -rf ~/.aliases            > /dev/null 2>&1
-rm -rf ~/.bashrc             > /dev/null 2>&1
-rm -rf ~/.functions          > /dev/null 2>&1
-rm -rf ~/.gitconfig          > /dev/null 2>&1
-rm -rf ~/.git-prompt.sh      > /dev/null 2>&1
-rm -rf ~/.config/htop/htoprc > /dev/null 2>&1
-rm -rf ~/.inputrc            > /dev/null 2>&1
-rm -rf ~/.mongoshrc.js       > /dev/null 2>&1
-rm -rf ~/.config/nvim        > /dev/null 2>&1
-rm -rf ~/.profile            > /dev/null 2>&1
-rm -rf ~/.tmux.conf          > /dev/null 2>&1
-rm -rf ~/.vim                > /dev/null 2>&1
-rm -rf ~/.vimrc              > /dev/null 2>&1
-rm -rf ~/.zshrc              > /dev/null 2>&1
+rm -rf ~/.aliases                   > /dev/null 2>&1
+rm -rf ~/.bashrc                    > /dev/null 2>&1
+rm -rf ~/.functions                 > /dev/null 2>&1
+rm -rf ~/.gitconfig                 > /dev/null 2>&1
+rm -rf ~/.git-prompt.sh             > /dev/null 2>&1
+rm -rf ~/.config/htop/htoprc        > /dev/null 2>&1
+rm -rf ~/.inputrc                   > /dev/null 2>&1
+rm -rf ~/.mongoshrc.js              > /dev/null 2>&1
+rm -rf ~/.config/nvim               > /dev/null 2>&1
+rm -rf ~/.profile                   > /dev/null 2>&1
+rm -rf ~/.tmux.conf                 > /dev/null 2>&1
+rm -rf ~/.config/tmux/tmux.conf     > /dev/null 2>&1
+rm -rf ~/.vim                       > /dev/null 2>&1
+rm -rf ~/.vimrc                     > /dev/null 2>&1
+rm -rf ~/.zshrc                     > /dev/null 2>&1
 
 
 #==============
 # Create ~/.config just in case
 #==============
 mkdir -p ~/.config/htop
+mkdir -p ~/.config/tmux
 
 #==============
 # Create symlinks in the home folder
@@ -56,7 +58,7 @@ case $_myos in
         MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/mongoshrc.js       ~/.mongoshrc.js
         MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/nvim               ~/.config/nvim
         MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/profile            ~/.profile
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/tmux.conf          ~/.tmux.conf
+        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/tmux.conf          ~/.config/tmux/tmux.conf
         MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/vim/               ~/.vim            # This has the vimrc inside it
         MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
     ;;
@@ -73,7 +75,7 @@ case $_myos in
         ln -sf $dotfiles_dir/mongoshrc.js       ~/.mongoshrc.js
         ln -sf $dotfiles_dir/nvim               ~/.config/nvim
         ln -sf $dotfiles_dir/profile            ~/.profile
-        ln -sf $dotfiles_dir/tmux.conf          ~/.tmux.conf
+        ln -sf $dotfiles_dir/tmux.conf          ~/.config/tmux/tmux.conf
         ln -sf $dotfiles_dir/vim/               ~/.vim
         ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
     ;;
