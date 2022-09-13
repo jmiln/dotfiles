@@ -114,6 +114,7 @@ return require('packer').startup(function(use)
     -- Auto-close html tags
     use ({
         "windwp/nvim-ts-autotag",
+        ft = {"html", "ejs", "css", "scss"},
         config = function()
             require("nvim-ts-autotag").setup()
         end
