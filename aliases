@@ -64,7 +64,7 @@ alias .inputrc="$EDITOR ~/.inputrc"
 alias .nvim="$EDITOR ~/.config/nvim/init.vim"
 alias .profile="$EDITOR ~/.profile"
 alias .screenrc="$EDITOR ~/.screenrc"
-alias .tmux="$EDITOR ~/.tmux.conf"
+alias .tmux="$EDITOR ~/.config/tmux/tmux.conf"
 alias .vimrc="$EDITOR ~/.vimrc"
 
 alias xs="cd"                   # For when I misstype
