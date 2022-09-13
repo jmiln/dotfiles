@@ -3,7 +3,12 @@ local map = vim.api.nvim_set_keymap
 map("n", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
 map("x", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
 
-require"nvim-tree".setup {
+local nTreeStatus, nvim_tree = pcall(require, "nvim-tree")
+if not nTreeStatus then
+    return
+end
+
+nvim_tree.setup {
     view = {
         adaptive_size = true  -- Resize to an appropriate size when windows/ split around it change
     },

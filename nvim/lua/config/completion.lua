@@ -3,11 +3,17 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local lsOk,  luasnip = pcall(require, "luasnip")
+local cmpOk, cmp     = pcall(require, "cmp")
+local lspOk, lspkind = pcall(require, "lspkind")
+
+-- Make sure they're all available & working before trying to configure em
+if not lsOk or not cmpOk or not lspOk then
+    return
+end
+
 require("luasnip.loaders.from_vscode").lazy_load()
 
-local luasnip = require("luasnip")
-local cmp = require("cmp")
-local lspkind = require("lspkind")
 
 cmp.setup({
     completion = {

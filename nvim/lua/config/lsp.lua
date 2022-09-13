@@ -2,7 +2,11 @@
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
 -- npm install -g typescript-language-server typescript
 
-local nvim_lsp = require("lspconfig")
+local lspStatus, nvim_lsp = pcall(require, "lspconfig")
+if not lspStatus then
+    return
+end
+
 local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 end

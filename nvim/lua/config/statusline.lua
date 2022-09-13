@@ -1,4 +1,9 @@
-require("lualine").setup({
+local llStatus, lualine = pcall(require, "lualine")
+if not llStatus then
+    return
+end
+
+lualine.setup({
     options = {
         component_separators = "",
         icons = false,

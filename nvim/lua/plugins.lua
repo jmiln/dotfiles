@@ -14,7 +14,25 @@ vim.cmd([[
   augroup end
 ]])
 
-require("packer").init({
+function safeRequire(pName, doSetup, setupObj)
+    setupObj = setupObj or {}
+    local ok, module = pcall(require, pName)
+    if not ok then
+        vim.notify("Couldn't load plugin: '" .. pName .. "'")
+        return
+    end
+
+    if doSetup then
+        module.setup(setupObj)
+    end
+end
+
+local packStatus, packer = pcall(require, "packer")
+if not packStatus then
+    return
+end
+
+packer.init({
     max_jobs = 50,
     display = {
         open_fn = function()
@@ -23,7 +41,7 @@ require("packer").init({
     },
 })
 
-return require('packer').startup(function(use)
+return packer.startup(function(use)
     -- Let Packer manage itself
     use({"wbthomason/packer.nvim", opt = true})
 
@@ -34,7 +52,7 @@ return require('packer').startup(function(use)
     use ({
         "norcalli/nvim-colorizer.lua",
         config = function()
-            require("colorizer").setup()
+            safeRequire("colorizer", true)
         end
     })
 
@@ -42,7 +60,7 @@ return require('packer').startup(function(use)
     use ({
         "ellisonleao/glow.nvim",
         config = function()
-            require("glow").setup()
+            safeRequire("glow", true)
         end
     })
 
@@ -50,7 +68,7 @@ return require('packer').startup(function(use)
     use({
         "nacro90/numb.nvim",
         config = function()
-            require("numb").setup()
+            safeRequire("numb", true)
         end,
     })
 
@@ -58,7 +76,7 @@ return require('packer').startup(function(use)
         "nvim-treesitter/nvim-treesitter",
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
         config = function()
-            require("nvim-treesitter.configs").setup({
+            safeRequire("nvim-treesitter.configs", true, {
                 highlight = {
                     enable = true
                 },
@@ -86,7 +104,7 @@ return require('packer').startup(function(use)
     use ({
         "windwp/nvim-autopairs",
         config = function()
-            require('nvim-autopairs').setup({
+            safeRequire('nvim-autopairs', true, {
                 enable_check_bracket_line = false,
                 check_ts = true,
                 ts_config = {
@@ -107,7 +125,7 @@ return require('packer').startup(function(use)
     use ({
         "axelvc/template-string.nvim",
         config = function()
-            require("template-string").setup({})
+            safeRequire("template-string", true)
         end
     })
 
@@ -116,7 +134,7 @@ return require('packer').startup(function(use)
         "windwp/nvim-ts-autotag",
         ft = {"html", "ejs", "css", "scss"},
         config = function()
-            require("nvim-ts-autotag").setup()
+            safeRequire("nvim-ts-autotag", true)
         end
     })
 
@@ -128,7 +146,7 @@ return require('packer').startup(function(use)
             "nvim-treesitter/nvim-treesitter",
         },
         config = function()
-            require("nvim-surround").setup()
+            safeRequire("nvim-surround", true)
         end
     })
 
@@ -139,7 +157,7 @@ return require('packer').startup(function(use)
     use({
         "numToStr/Comment.nvim",
         config = function()
-            require("Comment").setup()
+            safeRequire("Comment", true)
         end
     })
 
@@ -151,7 +169,7 @@ return require('packer').startup(function(use)
     use ({
         "nvim-lua/plenary.nvim",
         config = function()
-            require("plenary")
+            safeRequire("plenary")
         end
     })
     use "nvim-lua/popup.nvim"
@@ -163,7 +181,7 @@ return require('packer').startup(function(use)
         requires = "kyazdani42/nvim-web-devicons",
         config = function()
             -- Trouble settings (Show the diagnostics quickfix window automatically)
-            require("trouble").setup({
+            safeRequire("trouble", true, {
                 auto_open   = true,
                 auto_close  = true,
                 signs = {
@@ -183,12 +201,7 @@ return require('packer').startup(function(use)
     use "tpope/vim-fugitive"
 
     -- Git changes in the signcolumn
-    use ({
-        "lewis6991/gitsigns.nvim",
-        config = function()
-            require("gitsigns").setup()
-        end
-    })
+    use ({ "lewis6991/gitsigns.nvim" })
 
     use ({
         "L3MON4D3/LuaSnip",
@@ -211,7 +224,7 @@ return require('packer').startup(function(use)
             "rafamadriz/friendly-snippets",
         },
         config = function()
-            require("config.completion")
+            safeRequire("config.completion")
         end
     })
 
@@ -241,7 +254,7 @@ return require('packer').startup(function(use)
     use ({
         "lewis6991/impatient.nvim",
         config = function()
-            require("impatient")
+            safeRequire("impatient")
         end
     })
 end)
