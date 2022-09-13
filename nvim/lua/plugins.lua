@@ -14,11 +14,12 @@ vim.cmd([[
   augroup end
 ]])
 
+-- An extra require function to not break everything if something is missing
 function safeRequire(pName, doSetup, setupObj)
     setupObj = setupObj or {}
     local ok, module = pcall(require, pName)
     if not ok then
-        vim.notify("Couldn't load plugin: '" .. pName .. "'")
+        vim.notify("Couldn't load plugin: ".. pName)
         return
     end
 
@@ -175,6 +176,19 @@ return packer.startup(function(use)
     use "nvim-lua/popup.nvim"
     use "nvim-telescope/telescope.nvim"
 
+    -- Notifications
+    use ({
+        "rcarriga/nvim-notify",
+        requires = "nvim-lua/plenary.nvim",
+        config = function()
+            local ok, notify = pcall(require, "notify")
+            if not ok then
+                return
+            end
+            vim.notify = notify
+        end
+    })
+
     -- Open up the locationlist when there are errors
     use({
         "folke/trouble.nvim",
@@ -258,3 +272,4 @@ return packer.startup(function(use)
         end
     })
 end)
+
