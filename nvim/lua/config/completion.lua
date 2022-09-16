@@ -14,7 +14,6 @@ end
 
 require("luasnip.loaders.from_vscode").lazy_load()
 
-
 cmp.setup({
     completion = {
         autocomplete = {
@@ -27,7 +26,7 @@ cmp.setup({
     },
     snippet = {
         expand = function(args)
-            require('luasnip').lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
         end,
     },
     mapping = {
@@ -82,17 +81,7 @@ cmp.setup({
                 path     = "[Path]",
                 luasnip  = "[Snip]",
             })
-        }),
-        -- format = function(entry, vim_item)
-        --     vim_item.kind = lspkind.presets.default[vim_item.kind]
-        --     vim_item.menu = ({
-        --         buffer   = "[Buffer]",
-        --         nvim_lsp = "[LSP]",
-        --         path     = "[Path]",
-        --         luasnip  = "[Snip]"
-        --     })[entry.source.name]
-        --     return vim_item
-        -- end,
+        })
     }
 })
 
@@ -105,7 +94,7 @@ local insert = luasnip.insert_node
 luasnip.add_snippets("javascript", {
     -- Javascript helpers
     snip( "reqins", { text('const {inspect} = require("util");') }),
-    snip( "inspectdepth", { text("inspect("), insert(1), text(", {depth: 5})")}),
+    snip( "inspectdepth", { text("inspect("), insert(1), text(", {depth: 5})")}),   -- Insert `inspect(|, {depth: 5})`, with the cursor at |
 
     -- ESLint helpers
     snip( "nounused", { text("// eslint-disable-line no-unused-vars") }),

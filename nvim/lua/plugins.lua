@@ -221,7 +221,7 @@ return packer.startup(function(use)
     use ({
         "L3MON4D3/LuaSnip",
         -- This commit is before the `normalize paths` commit happened, and made it error on every save
-        commit = "faa525713e1244551877a4d89646a10f3c3fa31e"
+        -- commit = "faa525713e1244551877a4d89646a10f3c3fa31e"
     })
 
     -- Completion menus
