@@ -217,24 +217,25 @@ return packer.startup(function(use)
     -- Git changes in the signcolumn
     use ({ "lewis6991/gitsigns.nvim" })
 
+    -- Snippets
     use ({
         "L3MON4D3/LuaSnip",
         -- This commit is before the `normalize paths` commit happened, and made it error on every save
         commit = "faa525713e1244551877a4d89646a10f3c3fa31e"
     })
 
+    -- Completion menus
     use({
         "hrsh7th/nvim-cmp",
         -- Sources for nvim-cmp
         requires = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-nvim-lua",
-            "hrsh7th/cmp-cmdline",
-            "onsails/lspkind-nvim",
-            "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
+            "hrsh7th/cmp-nvim-lsp",         -- Completion output for the lsp
+            "hrsh7th/cmp-buffer",           -- Completion for strings found in the current buffer/ file
+            "hrsh7th/cmp-path",             -- Completion for file paths
+            "hrsh7th/cmp-nvim-lua",         -- Completion for nvim settings and such (vim.lsp.*, etc)
+            "onsails/lspkind-nvim",         -- Show symbols
+            "L3MON4D3/LuaSnip",             -- Snippets
+            "saadparwaiz1/cmp_luasnip",     -- Show snippets in the cmp popup
             "rafamadriz/friendly-snippets",
         },
         config = function()
@@ -242,7 +243,7 @@ return packer.startup(function(use)
         end
     })
 
-    -- Nvim nvim-tree
+    -- Nvim file explorer/ tree
     use ({
         "kyazdani42/nvim-tree.lua",
         requires = "kyazdani42/nvim-web-devicons",
