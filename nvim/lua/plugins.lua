@@ -224,6 +224,14 @@ return packer.startup(function(use)
         -- commit = "faa525713e1244551877a4d89646a10f3c3fa31e"
     })
 
+    -- Scrollbar / shows where errors/ other marks are
+    use({
+        "petertriho/nvim-scrollbar",
+        config = function()
+            safeRequire("scrollbar", true)
+        end
+    })
+
     -- Completion menus
     use({
         "hrsh7th/nvim-cmp",
