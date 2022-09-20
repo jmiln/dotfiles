@@ -1,6 +1,11 @@
 // .mongorc.js
+// Config settings
+config.set("displayBatchSize", 100)     // Set it to show more results per query
+config.set("historyLength", 9999)       // Set it to save more command history
 
-myAC = 855211749;
+
+
+
 
 // Change the prompt to show user and which db you're using
 prompt = function() {
@@ -15,6 +20,9 @@ prompt = function() {
     return `${username}:${database} > `;
 }
 
+
+// Custom functions
+myAC = 855211749;
 
 // Print out a player's character
 playerCharSearch = async function (ac, defId) {

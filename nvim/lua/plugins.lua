@@ -51,7 +51,7 @@ return packer.startup(function(use)
 
     -- Color any #ffffff style color codes
     use ({
-        "norcalli/nvim-colorizer.lua",
+        "NvChad/nvim-colorizer.lua",
         config = function()
             safeRequire("colorizer", true)
         end

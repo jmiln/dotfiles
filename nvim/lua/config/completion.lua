@@ -93,8 +93,8 @@ local insert = luasnip.insert_node
 -- Add snippets for JS files
 luasnip.add_snippets("javascript", {
     -- Javascript helpers
-    snip( "reqins", { text('const {inspect} = require("util");') }),
-    snip( "inspectdepth", { text("inspect("), insert(1), text(", {depth: 5})")}),   -- Insert `inspect(|, {depth: 5})`, with the cursor at |
+    snip( "reqins", { text('const { inspect } = require("util");') }),
+    snip( "inspectdepth", { text("inspect("), insert(1), text(", {depth: 5});")}),   -- Insert `inspect(|, {depth: 5})`, with the cursor at |
 
     -- ESLint helpers
     snip( "nounused", { text("// eslint-disable-line no-unused-vars") }),
