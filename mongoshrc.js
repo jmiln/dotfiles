@@ -21,28 +21,38 @@ prompt = function() {
 }
 
 
-// Custom functions
+// ### Custom functions
+
+// Wipe out any player stats records older than 20 days
+cleanOld = async function () {
+    if (db.getName() !== "swapi") return print("This can only be run inside the swapi db!");
+    const res = await db.playerStats.deleteMany({updated: {"$lt": (new Date(new Date().setDate(new Date().getDate()-20)).getTime())}})
+    return res;
+}
+
+
+// SWGoHBot stuff
 myAC = 855211749;
 
 // Print out a player's character
 playerCharSearch = async function (ac, defId) {
-    if (typeof ac !== "number") return print("AC needs to be a number!");
     if (db.getName() !== "swapi") return print("This can only be run inside the swapi db!");
+    if (typeof ac !== "number") return print("AC needs to be a number!");
     if (!defId) return print("Missing character to search for");
     defId = defId.toUpperCase();
-    const char = await db.playerStats.aggregate([
+    const charObj = await db.playerStats.aggregate([
         { $match: { allyCode: ac } },
         { $project: {roster: 1, _id: 0}},
         { $unwind: "$roster"},
         { $match: { 'roster.defId': defId}}
     ]).pretty();
-    print(char)
+    return charObj;
 }
 
 // Print out the player's info, but without the roster
 playerSearch = async function (ac) {
     if (typeof ac !== "number") return print("AC needs to be a number!");
     if (db.getName() !== "swapi") return print("This can only be run inside the swapi db!");
-    const player = await db.playerStats.find({allyCode: ac}, {roster: 0});
-    print(player);
+    const player = await db.playerStats.find({allyCode: ac}, {roster: 0}).pretty();
+    return player;
 }
