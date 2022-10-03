@@ -57,6 +57,11 @@ return packer.startup(function(use)
         end
     })
 
+    -- More in-depth undo
+    use ({
+        "mbbill/undotree"
+    })
+
     -- Preview markdown in a floating window (:Glow)
     use ({
         "ellisonleao/glow.nvim",
@@ -220,8 +225,6 @@ return packer.startup(function(use)
     -- Snippets
     use ({
         "L3MON4D3/LuaSnip",
-        -- This commit is before the `normalize paths` commit happened, and made it error on every save
-        -- commit = "faa525713e1244551877a4d89646a10f3c3fa31e"
     })
 
     -- Scrollbar / shows where errors/ other marks are
