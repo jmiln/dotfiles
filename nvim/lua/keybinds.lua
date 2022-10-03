@@ -53,6 +53,9 @@ map("v", ".", ".<c-g>u", default);
 map("v", "!", "!<c-g>u", default);
 map("v", "?", "?<c-g>u", default);
 
+-- Undotree
+map("n", "<F5>", ":UndotreeToggle<CR>", default);
+
 -- TAB/ Up & Down arrows to use the completion menu
 map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<C-h>"', {noremap = true, expr = true})
 map('i', '<Tab>',   'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {noremap = true, expr = true})
