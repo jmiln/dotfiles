@@ -114,7 +114,6 @@ opt.modelines = 1
 opt.formatoptions = opt.formatoptions
   - "a" -- Auto formatting is BAD.
   - "t" -- Don't auto format my code. I got linters for that.
-  + "c" -- In general, I like it when comments respect textwidth
   + "q" -- Allow formatting comments w/ gq
   - "o" -- O and o, don't continue comments
   + "r" -- But do continue when pressing enter.
@@ -129,14 +128,9 @@ cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
 cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
 cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
 
-cmd([[au BufRead,BufNewFile *.json set filetype=json syntax=javascript]])
 cmd([[au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=indent]])
 cmd([[au BufNewFile,BufRead *.js set foldmethod=syntax]])
 cmd("let g:javaScript_fold = 1")
-
--- Set the .vimrc file to close all relevant folds on open
-cmd([[au BufRead,BufNewFile .vimrc set foldlevel=0]])
-cmd([[au BufRead,BufNewFile init.vim set foldlevel=0]])
 
 -- Make vim supposedly save/ load view (state) (folds, cursor, etc)
 cmd([[au BufWinLeave \* silent! mkview]])

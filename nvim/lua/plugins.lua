@@ -70,14 +70,6 @@ return packer.startup(function(use)
         end
     })
 
-    -- Preview line jumps
-    use({
-        "nacro90/numb.nvim",
-        config = function()
-            safeRequire("numb", true)
-        end,
-    })
-
     use({
         "nvim-treesitter/nvim-treesitter",
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
@@ -105,6 +97,15 @@ return packer.startup(function(use)
         end,
     })
     use "nvim-treesitter/playground"
+
+    -- use {
+    --     "danymat/neogen",
+    --     config = function()
+    --         safeRequire("neogen", true)
+    --     end,
+    --     requires = "nvim-treesitter/nvim-treesitter",
+    --     tag = "*"
+    -- }
 
     -- Auto-close parentheses and brackets, etc
     use ({
@@ -156,9 +157,6 @@ return packer.startup(function(use)
         end
     })
 
-    -- Uses vim splits to display more info when committing to git
-    use "rhysd/committia.vim"
-
     -- Easy comments
     use({
         "numToStr/Comment.nvim",
@@ -201,8 +199,8 @@ return packer.startup(function(use)
         config = function()
             -- Trouble settings (Show the diagnostics quickfix window automatically)
             safeRequire("trouble", true, {
-                auto_open   = true,
-                auto_close  = true,
+                -- auto_open   = true,
+                -- auto_close  = true,
                 signs = {
                     -- icons / text used for a diagnostic
                     error       = "[ERROR]",
@@ -214,6 +212,13 @@ return packer.startup(function(use)
             })
         end
     })
+    -- use {
+    --     "folke/todo-comments.nvim",
+    --     requires = "nvim-lua/plenary.nvim",
+    --     config = function()
+    --         safeRequire("todo-comments", true)
+    --     end,
+    -- }
 
 
     -- Git stuff
@@ -221,6 +226,20 @@ return packer.startup(function(use)
 
     -- Git changes in the signcolumn
     use ({ "lewis6991/gitsigns.nvim" })
+
+    -- Uses vim splits to display more info when committing to git
+    use "rhysd/committia.vim"
+
+    -- use {'akinsho/git-conflict.nvim', tag = "*", config = function()
+    --     safeRequire("git-conflict", true, {
+    --         default_mappings = true, -- disable buffer local mapping created by this plugin
+    --         disable_diagnostics = false, -- This will disable the diagnostics in a buffer whilst it is conflicted
+    --         highlights = { -- They must have background color, otherwise the default color will be used
+    --             incoming = 'DiffText',
+    --             current = 'DiffAdd',
+    --         }
+    --     })
+    -- end}
 
     -- Snippets
     use ({
