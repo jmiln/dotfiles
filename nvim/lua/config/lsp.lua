@@ -39,8 +39,10 @@ nvim_lsp.tsserver.setup({
                 local idx = 1
                 local jsIgnoreCodes = {
                     2339,   -- Property "{0}" does not exist on type "{1}".
+                    2556,   -- A spread argument must either have a tuple type or be passed to a rest parameter
                     7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
                     7044,   -- Parameter 'x' implicitly has an 'any' type, but a better type may be inferred from usage.
+                    7047,   -- Rest parameter 'args' implicitly has an 'any[]' type, but a better type may be inferred from usage.
                     2568,   -- Property "X" may not exist on type "Y". Did you mean "Z"?
                     6133,   -- "X" is declared but its value is never used (Covered by eslint)
                     80001,  -- File is a CommonJS module; it may be converted to an ES6 module.

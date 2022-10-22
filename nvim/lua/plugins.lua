@@ -70,8 +70,13 @@ return packer.startup(function(use)
         end
     })
 
+    -- TODO
+
     use({
         "nvim-treesitter/nvim-treesitter",
+        -- Pinning it to this commit, as suggested here to fix highlighting issues
+        -- https://www.reddit.com/r/neovim/comments/y5rofg/recent_treesitter_update_borked_highlighting/
+        commit = "addc129a4f272aba0834bd0a7b6bd4ad5d8c801b",
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
         config = function()
             safeRequire("nvim-treesitter.configs", true, {
@@ -98,14 +103,15 @@ return packer.startup(function(use)
     })
     use "nvim-treesitter/playground"
 
-    -- use {
-    --     "danymat/neogen",
-    --     config = function()
-    --         safeRequire("neogen", true)
-    --     end,
-    --     requires = "nvim-treesitter/nvim-treesitter",
-    --     tag = "*"
-    -- }
+    -- Add documentation comments (JSDoc style)
+    use {
+        "danymat/neogen",
+        config = function()
+            safeRequire("neogen", true)
+        end,
+        requires = "nvim-treesitter/nvim-treesitter",
+        tag = "*"
+    }
 
     -- Auto-close parentheses and brackets, etc
     use ({
@@ -212,14 +218,21 @@ return packer.startup(function(use)
             })
         end
     })
-    -- use {
-    --     "folke/todo-comments.nvim",
-    --     requires = "nvim-lua/plenary.nvim",
-    --     config = function()
-    --         safeRequire("todo-comments", true)
-    --     end,
-    -- }
 
+    -- PERF stes
+    -- TODO test
+    -- HACK tes
+    -- NOTE test
+    -- FIX etst
+    -- WARNING test
+    -- MARK test
+    use {
+        "folke/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim",
+        config = function()
+            safeRequire("todo-comments", true)
+        end,
+    }
 
     -- Git stuff
     use "tpope/vim-fugitive"
