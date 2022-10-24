@@ -280,6 +280,13 @@ return packer.startup(function(use)
         tag = "nightly",
     })
 
+    use {
+        "ray-x/lsp_signature.nvim",
+        config = function()
+            safeRequire("lsp_signature", true)
+        end
+    }
+
     -- Statusline
     use "nvim-lualine/lualine.nvim"
 
