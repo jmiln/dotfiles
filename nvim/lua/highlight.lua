@@ -4,11 +4,10 @@ local cmd = vim.cmd
 cmd[[hi Normal                                                                       guibg=#1C1C1C]]
 cmd[[hi NormalFloat                                                                  guibg=#292828]]
 cmd[[hi Visual        cterm=none                                       guifg=white   guibg=#5f5f5f]]
-cmd[[hi Comment       cterm=none      ctermfg=red                      guifg=#68792d guibg=background]]
+cmd[[hi Comment       cterm=none                                       guifg=#68792d guibg=background]]
 cmd[[hi Constant      cterm=none      ctermfg=grey]]
 cmd[[hi ColorColumn   cterm=none      ctermfg=none]]
 cmd[[hi Error         cterm=none      ctermfg=red       ctermbg=black  guifg=red     guibg=black]]
-cmd[[hi DiagnosticError                                                guifg=red ]]
 cmd[[hi Folded        cterm=none      ctermfg=blue      ctermbg=grey   guifg=white   guibg=#5f5f5f]]
 cmd[[hi FoldColumn                    ctermfg=59        ctermbg=234    guifg=#5F5F5F guibg=#1C1C1C]]
 cmd[[hi Search        cterm=none      ctermfg=blue      ctermbg=grey   guifg=black   guibg=#5f5f5f]]
@@ -26,6 +25,13 @@ cmd[[hi TabLineFill   cterm=none      ctermfg=none]]
 cmd[[hi Type          cterm=bold      ctermfg=green                    guifg=green3]]
 cmd[[hi VertSplit     cterm=none      ctermfg=blue      ctermbg=grey]]
 cmd[[hi Visual        cterm=reverse   ctermfg=none]]
+
+-- Diagnostics
+cmd[[hi DiagnosticError guifg=red ]]
+cmd[[hi @comment        guifg=#68792d guibg=background]]
+cmd[[hi @text.warning   guifg=background guibg=yellow]]
+cmd[[hi @text.danger    guifg=background guibg=red]]
+cmd[[hi @text.note      guifg=#ffa500 guibg=background]]
 
 -- " C specific colors
 cmd[[hi cStorageClass cterm=none      ctermfg=22]]

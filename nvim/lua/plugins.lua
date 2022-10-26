@@ -223,14 +223,16 @@ return packer.startup(function(use)
     -- TODO test
     -- HACK tes
     -- NOTE test
-    -- FIX etst
+    -- FIXME etst
     -- WARNING test
     -- MARK test
     use {
         "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim",
         config = function()
-            safeRequire("todo-comments", true)
+            safeRequire("todo-comments", true, {
+
+            })
         end,
     }
 
@@ -285,6 +287,16 @@ return packer.startup(function(use)
             safeRequire("config.completion")
         end
     })
+    use {
+      'stevearc/aerial.nvim',
+      config = function()
+            safeRequire("aerial", true, {
+                layout = {
+                    min_width = 30
+                }
+            })
+        end
+    }
 
     -- Nvim file explorer/ tree
     use ({
@@ -323,4 +335,5 @@ return packer.startup(function(use)
         end
     })
 end)
+
 

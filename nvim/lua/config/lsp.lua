@@ -38,6 +38,7 @@ nvim_lsp.tsserver.setup({
             if result.diagnostics ~= nil then
                 local idx = 1
                 local jsIgnoreCodes = {
+                    2345,   -- Argument of type '{ name: string; value: any; }' is not assignable to parameter of type 'never'.
                     2339,   -- Property "{0}" does not exist on type "{1}".
                     2556,   -- A spread argument must either have a tuple type or be passed to a rest parameter
                     7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
