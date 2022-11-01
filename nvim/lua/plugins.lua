@@ -47,7 +47,16 @@ return packer.startup(function(use)
     use({"wbthomason/packer.nvim", opt = true})
 
     -- Easily align stuff
-    use "junegunn/vim-easy-align"
+    -- use "junegunn/vim-easy-align"
+
+    use {
+        "echasnovski/mini.align",
+        branch = "stable",
+        config = function()
+            safeRequire("mini.align", true)
+        end
+    }
+
 
     -- Color any #ffffff style color codes
     use ({
@@ -313,7 +322,24 @@ return packer.startup(function(use)
     }
 
     -- Statusline
-    use "nvim-lualine/lualine.nvim"
+    use {
+        "nvim-lualine/lualine.nvim",
+        config = function()
+            safeRequire("lualine", true, {
+                options = {
+                    component_separators = "",
+                    icons = true,
+                    icons_enabled = true,
+                    theme = "gruvbox_dark",
+                },
+                extensions = {
+                    "fugitive",
+                    "nvim-tree",
+                    "quickfix"
+                }
+            })
+        end
+    }
 
     -- Shut up the diagnostics while I'm in insert mode
     -- The main file is copied into ./config/dd.lua, and called in ./config/init.lua, since this doesn't seem to work
