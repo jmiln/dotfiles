@@ -43,7 +43,8 @@ nvim_lsp.tsserver.setup({
                     2556,   -- A spread argument must either have a tuple type or be passed to a rest parameter
                     7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
                     7043,   -- Variable '____' implicitly has an 'any[]' type, but a better type may be inferred from usage.
-                    7044,   -- Parameter 'x' implicitly has an 'any' type, but a better type may be inferred from usage.
+                    7044,   -- Parameter '____' implicitly has an 'any' type, but a better type may be inferred from usage.
+                    7045,   -- Member '____' implicitly has an 'any[]' type, but a better type may be inferred from usage.
                     7047,   -- Rest parameter 'args' implicitly has an 'any[]' type, but a better type may be inferred from usage.
                     2568,   -- Property "X" may not exist on type "Y". Did you mean "Z"?
                     6133,   -- "X" is declared but its value is never used (Covered by eslint)
