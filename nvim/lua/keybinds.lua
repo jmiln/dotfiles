@@ -53,6 +53,10 @@ map("v", ".", ".<c-g>u", default);
 map("v", "!", "!<c-g>u", default);
 map("v", "?", "?<c-g>u", default);
 
+-- Nvim-tree
+map("n", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
+map("x", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
+
 -- Undotree
 map("n", "<F5>", ":UndotreeToggle<CR>", default);
 

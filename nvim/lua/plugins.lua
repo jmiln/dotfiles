@@ -93,7 +93,7 @@ return packer.startup(function(use)
                     enable = true
                 },
                 indent = {
-                    enable = true
+                    enable = false
                 },
                 context_commentstring = {
                     enable = true
@@ -312,6 +312,27 @@ return packer.startup(function(use)
         "kyazdani42/nvim-tree.lua",
         requires = "kyazdani42/nvim-web-devicons",
         tag = "nightly",
+        config = function()
+            safeRequire("nvim-tree", true, {
+                respect_buf_cwd = true,
+                view = {
+                    adaptive_size = true
+                },
+                renderer = {
+                    add_trailing = true,
+                    indent_markers = {
+                        enable = true,
+                        inline_arrows = true,
+                        icons = {
+                            corner = "└",
+                            edge = "│",
+                            item = "├",
+                            none = " ",
+                        },
+                    },
+                }
+            })
+        end
     })
 
     use {
