@@ -313,8 +313,13 @@ return packer.startup(function(use)
         requires = "kyazdani42/nvim-web-devicons",
         tag = "nightly",
         config = function()
+            vim.g.loaded_netrw = 1
+            vim.g.loaded_netrwPlugin = 1
             safeRequire("nvim-tree", true, {
                 respect_buf_cwd = true,
+                filesystem_watchers = {
+                    enable = false
+                },
                 view = {
                     adaptive_size = true
                 },
