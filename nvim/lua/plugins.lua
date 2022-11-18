@@ -249,7 +249,18 @@ return packer.startup(function(use)
     use "tpope/vim-fugitive"
 
     -- Git changes in the signcolumn
-    use ({ "lewis6991/gitsigns.nvim" })
+    use ({
+        "lewis6991/gitsigns.nvim" ,
+        config = function()
+            safeRequire("gitsigns", true)
+
+            -- Setup the scrollbar integration
+            local okGit, gitScroll = pcall(require, "scrollbar.handlers.gitsigns")
+            if okGit then
+                gitScroll.setup()
+            end
+        end
+    })
 
     -- Uses vim splits to display more info when committing to git
     use "rhysd/committia.vim"
@@ -270,13 +281,13 @@ return packer.startup(function(use)
         "L3MON4D3/LuaSnip",
     })
 
-    -- Scrollbar / shows where errors/ other marks are
-    use({
-        "petertriho/nvim-scrollbar",
-        config = function()
-            safeRequire("scrollbar", true)
-        end
-    })
+     -- Scrollbar / shows where errors/ other marks are
+ use({
+     "petertriho/nvim-scrollbar",
+     config = function()
+         safeRequire("scrollbar", true)
+     end
+ })
 
     -- Completion menus
     use({
