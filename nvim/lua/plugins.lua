@@ -390,7 +390,29 @@ return packer.startup(function(use)
     -- })
 
     -- Make stuffs more efficient/ optimized
-    use("nathom/filetype.nvim")
+    -- use({
+    --     "nathom/filetype.nvim",
+    --     config = function()
+    --         safeRequire("filetype", {
+    --             overrides = {
+    --                 extensions = {
+    --                     ts = "typescript",
+    --                     sh = "sh"
+    --                 },
+    --                 function_extensions = {
+    --                     ["sh"] = function()
+    --                         vim.bo.filetype = "sh"
+    --                     end
+    --                 },
+    --                 shebang = {
+    --                     bash = "sh"
+    --                 }
+    --             }
+    --         })
+    --         -- Do not source the default filetype.vim
+    --         vim.g.did_load_filetypes = 1
+    --     end
+    -- })
     use ({
         "lewis6991/impatient.nvim",
         config = function()

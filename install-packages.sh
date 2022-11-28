@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Set the file to log to as we go
 log_file=~/install_progress_log.txt
 
@@ -75,12 +77,15 @@ ln -s $(which fdfind) ~/.local/bin/fd
 
 # Install nvim normal
 if command -v nvim &> /dev/null; then
-    # Install stuff for python support
-    sudo apt -y install software-properties-common
-    sudo apt -y install python-pip python3-pip
+    # Python stuff for older OS installs
+    # sudo apt -y install software-properties-common
+    # sudo apt-get install python-dev python-pip python3-dev python3-pip
 
-    # Add the repo & install neovim itself
-    sudo add-apt-repository ppa:neovim-ppa/stable
+    # For current installs, we seem to just need this
+    sudo apt -y install python3-dev python3-pip
+
+    # Add the repo & install neovim (unstable/ nightly) itself
+    sudo add-apt-repository ppa:neovim-ppa/unstable
     sudo apt update
     sudo apt -y install neovim
 
@@ -92,22 +97,6 @@ if command -v nvim &> /dev/null; then
     sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
     sudo update-alternatives --config editor
 fi
-
-# Install nvim nightly
-# sudo apt -y install cmake
-# if command -v nvim &> /dev/null; then
-#     # make tmp folder
-#     mkdir -p ~/tmp
-#     cd ~/tmp
-#
-#     # clone
-#     git clone --depth 1 --branch nightly https://github.com/neovim/neovim.git
-#     cd neovim
-#
-#     # build and install
-#     make CMAKE_BUILD_TYPE=RelWithDebInfo
-#     sudo make install
-# fi
 
 #==============
 # Set zsh as the default shell

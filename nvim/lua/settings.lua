@@ -126,6 +126,7 @@ cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute 
 -- Set filetypes for various file extensions
 cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
 cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
+cmd([[au BufNewFile,BufRead *.sh  set filetype=bash]])
 cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
 
 cmd([[au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=indent]])
