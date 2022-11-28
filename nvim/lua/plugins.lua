@@ -282,12 +282,12 @@ return packer.startup(function(use)
     })
 
      -- Scrollbar / shows where errors/ other marks are
- use({
-     "petertriho/nvim-scrollbar",
-     config = function()
-         safeRequire("scrollbar", true)
-     end
- })
+     use({
+         "petertriho/nvim-scrollbar",
+         config = function()
+             safeRequire("scrollbar", true)
+         end
+     })
 
     -- Completion menus
     use({
