@@ -64,7 +64,8 @@ opt.shortmess = "s"
 
 --------------------------------- Folding ----------------------------------
 opt.foldlevel   = 99
-opt.foldmethod  = "marker"
+opt.foldmethod  = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldnestmax = 2
 
 function _G.custom_fold_text()
@@ -129,9 +130,10 @@ cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
 cmd([[au BufNewFile,BufRead *.sh  set filetype=bash]])
 cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
 
-cmd([[au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=indent]])
-cmd([[au BufNewFile,BufRead *.js set foldmethod=syntax]])
-cmd("let g:javaScript_fold = 1")
+-- cmd([[au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=indent]])
+-- cmd([[au BufNewFile,BufRead *.js set foldmethod=syntax]])
+-- cmd([[au BufNewFile,BufRead *.ejs set foldmethod=indent]])
+-- cmd("let g:javaScript_fold = 1")
 
 -- Make vim supposedly save/ load view (state) (folds, cursor, etc)
 cmd([[au BufWinLeave \* silent! mkview]])
