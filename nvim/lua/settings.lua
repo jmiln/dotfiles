@@ -65,7 +65,7 @@ opt.shortmess = "s"
 --------------------------------- Folding ----------------------------------
 opt.foldlevel   = 99
 opt.foldmethod  = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldexpr    = "nvim_treesitter#foldexpr()"
 opt.foldnestmax = 2
 
 function _G.custom_fold_text()
