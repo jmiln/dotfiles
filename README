@@ -13,5 +13,6 @@ NVM (Node version manager):
 Generally after node is installed, I install eslint & pm2
  - npm i -g eslint pm2
 
-
+For Exa, manual installation seems to be required, since the apt version doesn't support git
+ - https://the.exa.website/install/linux#manual
 
