@@ -112,6 +112,16 @@ return packer.startup(function(use)
     })
     use "nvim-treesitter/playground"
 
+    use({
+        "Wansmer/treesj",
+        requires = { "nvim-treesitter" },
+        config = function()
+            safeRequire("treesj", true, {
+                use_default_keymaps = false,
+            })
+        end,
+    })
+
     -- Add documentation comments (JSDoc style)
     use {
         "danymat/neogen",

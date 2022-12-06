@@ -101,6 +101,9 @@ map("n", "<leader>ho", "<cmd>lua vim.lsp.buf.hover()<CR>", default)
 map("n", "<c-j>", ":lua vim.diagnostic.goto_next()<CR>", default)
 map("n", "<c-k>", ":lua vim.diagnostic.goto_prev()<CR>", default)
 
+-- Join / splits from a plugin
+map("n", "<S-J>", ":TSJToggle<CR>", default)
+
 -- Toggle Trouble on & off
 map("n", "<leader>z", "<cmd>TroubleToggle<cr>", default)
 
