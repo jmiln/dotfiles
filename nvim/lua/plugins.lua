@@ -68,7 +68,10 @@ return packer.startup(function(use)
 
     -- More in-depth undo
     use ({
-        "mbbill/undotree"
+        "mbbill/undotree",
+        config = function()
+            vim.api.nvim_set_keymap("n", "<F5>", ":UndotreeToggle<CR>", {noremap = true, silent = true});
+        end
     })
 
     -- Preview markdown in a floating window (:Glow)
@@ -88,9 +91,6 @@ return packer.startup(function(use)
 
     use({
         "nvim-treesitter/nvim-treesitter",
-        -- Pinning it to this commit, as suggested here to fix highlighting issues
-        -- https://www.reddit.com/r/neovim/comments/y5rofg/recent_treesitter_update_borked_highlighting/
-        -- commit = "addc129a4f272aba0834bd0a7b6bd4ad5d8c801b",
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
         config = function()
             safeRequire("nvim-treesitter.configs", true, {
@@ -129,10 +129,12 @@ return packer.startup(function(use)
     })
     use "nvim-treesitter/playground"
 
+    -- Plugin to allow join toggles & other features
     use({
         "Wansmer/treesj",
         requires = { "nvim-treesitter" },
         config = function()
+            vim.api.nvim_set_keymap("n", "<S-J>", ":TSJToggle<CR>", {noremap = true, silent = true})
             safeRequire("treesj", true, {
                 use_default_keymaps = false,
             })
@@ -219,7 +221,19 @@ return packer.startup(function(use)
         end
     })
     use "nvim-lua/popup.nvim"
-    use "nvim-telescope/telescope.nvim"
+    use ({
+        "nvim-telescope/telescope.nvim",
+        config = function()
+            vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope buffers<CR>",                                 { noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fc", ":Telescope resume<CR>",                                  { noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fd", ":lua require('config.telescope').search_dotfiles()<CR>", { noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>ff", ":Telescope find_files<CR>",                              { noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fg", ":Telescope live_grep<CR>",                               { noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fh", ":Telescope help_tags<CR>",                               { noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fr", ":Telescope registers<CR>",                               { noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fs", ":Telescope search_history<CR>",                          { noremap = true})
+        end
+    })
 
     -- Notifications
     use ({
@@ -335,8 +349,11 @@ return packer.startup(function(use)
         end
     })
     use {
-      'stevearc/aerial.nvim',
-      config = function()
+        'stevearc/aerial.nvim',
+        config = function()
+            vim.api.nvim_set_keymap("n", "<F11>", "<cmd>AerialToggle<cr>", {noremap = true, silent = true})
+            vim.api.nvim_set_keymap("x", "<F11>", "<cmd>AerialToggle<cr>", {noremap = true, silent = true})
+
             safeRequire("aerial", true, {
                 layout = {
                     min_width = 30
@@ -353,6 +370,11 @@ return packer.startup(function(use)
         config = function()
             vim.g.loaded_netrw = 1
             vim.g.loaded_netrwPlugin = 1
+
+            -- Set F12 to toggle the tree's pane
+            vim.api.nvim_set_keymap("n", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
+            vim.api.nvim_set_keymap("x", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
+
             safeRequire("nvim-tree", true, {
                 respect_buf_cwd = true,
                 filesystem_watchers = {
