@@ -53,13 +53,6 @@ map("v", ".", ".<c-g>u", default);
 map("v", "!", "!<c-g>u", default);
 map("v", "?", "?<c-g>u", default);
 
--- Nvim-tree
-map("n", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
-map("x", "<f12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
-
--- Undotree
-map("n", "<F5>", ":UndotreeToggle<CR>", default);
-
 -- TAB/ Up & Down arrows to use the completion menu
 map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<C-h>"', {noremap = true, expr = true})
 map('i', '<Tab>',   'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {noremap = true, expr = true})
@@ -74,16 +67,6 @@ map('c', '<Down>',  'wildmenumode() ? "\\<C-n>" : "\\<Down>"',{noremap = true, e
 map("n", "", "<Plug>(comment_toggle_linewise_current)",        {noremap = true, silent=true})
 map("v", "", "<Plug>(comment_toggle_linewise_visual)",         {noremap = true, silent=true})
 map("i", "", "<ESC><Plug>(comment_toggle_linewise_current)i",  {noremap = true, silent=true})
-
--- Telescope Mappings
-map("n", "<leader>fb", ":Telescope buffers<CR>",                                 { noremap = true})
-map("n", "<leader>fc", ":Telescope resume<CR>",                                  { noremap = true})
-map("n", "<leader>fd", ":lua require('config.telescope').search_dotfiles()<CR>", { noremap = true})
-map("n", "<leader>ff", ":Telescope find_files<CR>",                              { noremap = true})
-map("n", "<leader>fg", ":Telescope live_grep<CR>",                               { noremap = true})
-map("n", "<leader>fh", ":Telescope help_tags<CR>",                               { noremap = true})
-map("n", "<leader>fr", ":Telescope registers<CR>",                               { noremap = true})
-map("n", "<leader>fs", ":Telescope search_history<CR>",                          { noremap = true})
 
 
 -- LSP mappings
@@ -100,9 +83,6 @@ map("n", "<leader>ho", "<cmd>lua vim.lsp.buf.hover()<CR>", default)
 -- LSP bindings to jump between issues
 map("n", "<c-j>", ":lua vim.diagnostic.goto_next()<CR>", default)
 map("n", "<c-k>", ":lua vim.diagnostic.goto_prev()<CR>", default)
-
--- Join / splits from a plugin
-map("n", "<S-J>", ":TSJToggle<CR>", default)
 
 -- Toggle Trouble on & off
 map("n", "<leader>z", "<cmd>TroubleToggle<cr>", default)
