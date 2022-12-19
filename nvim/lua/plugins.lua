@@ -78,7 +78,12 @@ return packer.startup(function(use)
     use ({
         "ellisonleao/glow.nvim",
         config = function()
-            safeRequire("glow", true)
+            safeRequire("glow", true, {
+                width = 999,
+                height = 999,
+                width_ratio  = 0.8,
+                height_ratio = 0.8,
+            })
         end
     })
 
