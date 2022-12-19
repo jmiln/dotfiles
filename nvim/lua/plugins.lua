@@ -44,7 +44,7 @@ packer.init({
 
 return packer.startup(function(use)
     -- Let Packer manage itself
-    use({"wbthomason/packer.nvim", opt = true})
+    use({"wbthomason/packer.nvim"})
 
     -- Easily align stuff
     -- use "junegunn/vim-easy-align"
@@ -95,7 +95,8 @@ return packer.startup(function(use)
         config = function()
             safeRequire("nvim-treesitter.configs", true, {
                 highlight = {
-                    enable = true
+                    enable = true,
+                    additional_vim_regex_highlighting = false
                 },
                 yati = {
                     enable = true,
@@ -116,13 +117,14 @@ return packer.startup(function(use)
                     enable = true
                 },
                 ensure_installed = {
-                    "javascript",
-                    "typescript",
-                    "html",
-                    "css",
-                    "lua",          -- For the nvim config files
                     "comment",      -- Lets it highlight the TODO comments and such
+                    "css",
+                    "help",
+                    "html",
+                    "javascript",
+                    "lua",          -- For the nvim config files
                     "regex",        -- Ooh, shiny regex
+                    "typescript",
                 }
             })
         end,
@@ -223,6 +225,7 @@ return packer.startup(function(use)
     use "nvim-lua/popup.nvim"
     use ({
         "nvim-telescope/telescope.nvim",
+        requires = "nvim-lua/plenary.nvim",
         config = function()
             vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope buffers<CR>",                                 { noremap = true})
             vim.api.nvim_set_keymap("n", "<leader>fc", ":Telescope resume<CR>",                                  { noremap = true})
