@@ -44,7 +44,7 @@ packer.init({
 
 return packer.startup(function(use)
     -- Let Packer manage itself
-    use({"wbthomason/packer.nvim", opt = true})
+    use({"wbthomason/packer.nvim"})
 
     -- Easily align stuff
     -- use "junegunn/vim-easy-align"
@@ -87,7 +87,12 @@ return packer.startup(function(use)
         end
     })
 
-    -- TODO
+    -- Plugin to hopefully help indents being weird
+    use({
+        "yioneko/nvim-yati",
+        tag = "*",
+        requires = "nvim-treesitter/nvim-treesitter"
+    })
 
     use({
         "nvim-treesitter/nvim-treesitter",
@@ -95,7 +100,20 @@ return packer.startup(function(use)
         config = function()
             safeRequire("nvim-treesitter.configs", true, {
                 highlight = {
-                    enable = true
+                    enable = true,
+                    additional_vim_regex_highlighting = false
+                },
+                yati = {
+                    enable = true,
+                    -- Whether to enable lazy mode (recommend to enable this if bad indent happens frequently)
+                    default_lazy = false,
+
+                    -- Determine the fallback method used when we cannot calculate indent by tree-sitter
+                    --   "auto": fallback to vim auto indent
+                    --   "asis": use current indent as-is
+                    --   "cindent": see `:h cindent()`
+                    -- Or a custom function return the final indent result.
+                    default_fallback = "auto"
                 },
                 indent = {
                     enable = false
@@ -104,13 +122,14 @@ return packer.startup(function(use)
                     enable = true
                 },
                 ensure_installed = {
-                    "javascript",
-                    "typescript",
-                    "html",
-                    "css",
-                    "lua",          -- For the nvim config files
                     "comment",      -- Lets it highlight the TODO comments and such
+                    "css",
+                    "help",
+                    "html",
+                    "javascript",
+                    "lua",          -- For the nvim config files
                     "regex",        -- Ooh, shiny regex
+                    "typescript",
                 }
             })
         end,
@@ -211,6 +230,7 @@ return packer.startup(function(use)
     use "nvim-lua/popup.nvim"
     use ({
         "nvim-telescope/telescope.nvim",
+        requires = "nvim-lua/plenary.nvim",
         config = function()
             vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope buffers<CR>",                                 { noremap = true})
             vim.api.nvim_set_keymap("n", "<leader>fc", ":Telescope resume<CR>",                                  { noremap = true})
