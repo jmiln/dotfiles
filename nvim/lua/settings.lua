@@ -139,6 +139,13 @@ cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
 cmd([[au BufNewFile,BufRead *.sh  set filetype=bash]])
 cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
 
+-- vim.o.foldcolumn = '1'
+-- vim.o.foldlevel = 99
+-- vim.o.foldlevelstart = 99
+-- vim.o.foldenable = true
+-- vim.o.fillchars = [[eob: ,fold: ,foldopen:v,foldsep: ,foldclose:>]]
+-- vim.o.statuscolumn = "%=%l%s%C"  -- This messes up the telescope & popup window borders
+
 -- cmd([[au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=indent]])
 -- cmd([[au BufNewFile,BufRead *.js set foldmethod=syntax]])
 -- cmd([[au BufNewFile,BufRead *.ejs set foldmethod=indent]])
