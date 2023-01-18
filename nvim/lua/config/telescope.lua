@@ -16,6 +16,9 @@ telescope.setup({
             }
             -- other layout configuration here
         },
+        borderchars = {
+            "─", "│", "─", "│", "╭", "╮", "╯", "╰",
+        },
     }
 })
 

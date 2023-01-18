@@ -53,6 +53,40 @@ playerCharSearch = async function (ac, defId) {
 playerSearch = async function (ac) {
     if (typeof ac !== "number") return print("AC needs to be a number!");
     if (db.getName() !== "swapi") return print("This can only be run inside the swapi db!");
-    const player = await db.playerStats.find({allyCode: ac}, {roster: 0}).pretty();
-    return player;
+    return await db.playerStats.find({allyCode: ac}, {roster: 0}).pretty();
+}
+
+// Get the list of a guild's events
+guildEventSearch = async function(guildId) {
+    if (db.getName() !== "swgohbot") return print("This can only be run inside the swgohbot db!");
+    if (!guildId) return print("Missing guild ID");
+    return await db.eventDBs.find({"eventID": new RegExp(`${guildId}-.*`)});
+}
+
+// Get event counts for each guild
+guildEventCount = async function(limit = 10) {
+    if (db.getName() !== "swgohbot") return print("This can only be run inside the swgohbot db!");
+    return await db.eventDBs.aggregate([
+        {
+            $project: {
+                evId: {
+                    $substr: ["$eventID", 0, 18]
+                }
+            }
+        },
+        {
+            $group: {
+                _id: "$evId",
+                count: { $count: { } }
+            }
+        },
+        {
+            $sort: {
+                count: -1
+            }
+        },
+        {
+            $limit: limit
+        }
+    ])
 }
