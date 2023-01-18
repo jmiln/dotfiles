@@ -330,13 +330,13 @@ return packer.startup(function(use)
         "L3MON4D3/LuaSnip",
     })
 
-     -- Scrollbar / shows where errors/ other marks are
-     use({
-         "petertriho/nvim-scrollbar",
-         config = function()
-             safeRequire("scrollbar", true)
-         end
-     })
+    -- Scrollbar / shows where errors/ other marks are
+    use({
+        "petertriho/nvim-scrollbar",
+        config = function()
+            safeRequire("scrollbar", true)
+        end
+    })
 
     -- Completion menus
     use({
