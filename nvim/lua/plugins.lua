@@ -136,17 +136,17 @@ return packer.startup(function(use)
     })
     use "nvim-treesitter/playground"
 
-    -- Plugin to allow join toggles & other features
-    use({
-        "Wansmer/treesj",
-        requires = { "nvim-treesitter" },
-        config = function()
-            vim.api.nvim_set_keymap("n", "<S-J>", ":TSJToggle<CR>", {noremap = true, silent = true})
-            safeRequire("treesj", true, {
-                use_default_keymaps = false,
-            })
-        end,
-    })
+    -- Plugin to allow join toggles & other features (Nifty, but gets in the way more often than not)
+    -- use({
+    --     "Wansmer/treesj",
+    --     requires = { "nvim-treesitter" },
+    --     config = function()
+    --         vim.api.nvim_set_keymap("n", "<S-J>", ":TSJToggle<CR>", {noremap = true, silent = true})
+    --         safeRequire("treesj", true, {
+    --             use_default_keymaps = false,
+    --         })
+    --     end,
+    -- })
 
     -- Add documentation comments (JSDoc style)
     use {
@@ -408,12 +408,13 @@ return packer.startup(function(use)
         end
     })
 
-    use {
-        "ray-x/lsp_signature.nvim",
-        config = function()
-            safeRequire("lsp_signature", true)
-        end
-    }
+    -- Pops up the usage for whatever function you're using if available
+    -- use {
+    --     "ray-x/lsp_signature.nvim",
+    --     config = function()
+    --         safeRequire("lsp_signature", true)
+    --     end
+    -- }
 
     -- Statusline
     use {
