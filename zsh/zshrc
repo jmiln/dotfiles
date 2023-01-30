@@ -90,7 +90,11 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
+# Change the timestamp color for `exa --long` so it's readable
 export EXA_COLORS="da=1;34"
+
+# Make sure colors are always turned on for pm2
+export FORCE_COLOR=1
 
 # Everyone likes a pretty PS1
 export PS1="%{$fg[green]%}%n%{$fg[blue]%}@%{$reset_color%}%{$fg[lightgrey]%}%M%{$reset_color%}:%{$fg[blue]%}%B%2~%b %B$%b "
