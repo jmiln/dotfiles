@@ -277,6 +277,7 @@ return packer.startup(function(use)
         end
     })
 
+    -- Plugin to supposedly list todo comments in a file, but never seemed to work
     -- PERF stes
     -- TODO test
     -- HACK tes
@@ -284,15 +285,15 @@ return packer.startup(function(use)
     -- FIXME etst
     -- WARNING test
     -- MARK test
-    use {
-        "folke/todo-comments.nvim",
-        requires = "nvim-lua/plenary.nvim",
-        config = function()
-            safeRequire("todo-comments", true, {
-
-            })
-        end,
-    }
+    -- use {
+    --     "folke/todo-comments.nvim",
+    --     requires = "nvim-lua/plenary.nvim",
+    --     config = function()
+    --         safeRequire("todo-comments", true, {
+    --
+    --         })
+    --     end,
+    -- }
 
     -- Git stuff
     use "tpope/vim-fugitive"
