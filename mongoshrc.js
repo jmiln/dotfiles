@@ -5,8 +5,6 @@ config.set("historyLength", 9999)       // Set it to save more command history
 
 
 
-
-
 // Change the prompt to show user and which db you're using
 prompt = function() {
     let username = "";
@@ -60,6 +58,7 @@ playerSearch = async function (ac) {
 guildEventSearch = async function(guildId) {
     if (db.getName() !== "swgohbot") return print("This can only be run inside the swgohbot db!");
     if (!guildId) return print("Missing guild ID");
+    if (typeof guildId !== "string") guildId = guildId.toString();
     return await db.eventDBs.find({"eventID": new RegExp(`${guildId}-.*`)});
 }
 

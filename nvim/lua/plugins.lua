@@ -87,13 +87,6 @@ return packer.startup(function(use)
         end
     })
 
-    -- Plugin to hopefully help indents being weird
-    use({
-        "yioneko/nvim-yati",
-        tag = "*",
-        requires = "nvim-treesitter/nvim-treesitter"
-    })
-
     use({
         "nvim-treesitter/nvim-treesitter",
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
@@ -102,18 +95,6 @@ return packer.startup(function(use)
                 highlight = {
                     enable = true,
                     additional_vim_regex_highlighting = false
-                },
-                yati = {
-                    enable = true,
-                    -- Whether to enable lazy mode (recommend to enable this if bad indent happens frequently)
-                    default_lazy = false,
-
-                    -- Determine the fallback method used when we cannot calculate indent by tree-sitter
-                    --   "auto": fallback to vim auto indent
-                    --   "asis": use current indent as-is
-                    --   "cindent": see `:h cindent()`
-                    -- Or a custom function return the final indent result.
-                    default_fallback = "auto"
                 },
                 indent = {
                     enable = false
@@ -127,6 +108,7 @@ return packer.startup(function(use)
                     "help",
                     "html",
                     "javascript",
+                    "json",
                     "lua",          -- For the nvim config files
                     "regex",        -- Ooh, shiny regex
                     "typescript",
