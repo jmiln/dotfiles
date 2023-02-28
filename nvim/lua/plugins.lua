@@ -116,7 +116,7 @@ return packer.startup(function(use)
             })
         end,
     })
-    use "nvim-treesitter/playground"
+    -- use "nvim-treesitter/playground"
 
     -- Plugin to allow join toggles & other features (Nifty, but gets in the way more often than not)
     -- use({
@@ -131,14 +131,14 @@ return packer.startup(function(use)
     -- })
 
     -- Add documentation comments (JSDoc style)
-    use {
-        "danymat/neogen",
-        config = function()
-            safeRequire("neogen", true)
-        end,
-        requires = "nvim-treesitter/nvim-treesitter",
-        tag = "*"
-    }
+    -- use {
+    --     "danymat/neogen",
+    --     config = function()
+    --         safeRequire("neogen", true)
+    --     end,
+    --     requires = "nvim-treesitter/nvim-treesitter",
+    --     tag = "*"
+    -- }
 
     -- Auto-close parentheses and brackets, etc
     use ({
@@ -314,12 +314,12 @@ return packer.startup(function(use)
     })
 
     -- Scrollbar / shows where errors/ other marks are
-    use({
-        "petertriho/nvim-scrollbar",
-        config = function()
-            safeRequire("scrollbar", true)
-        end
-    })
+    -- use({
+    --     "petertriho/nvim-scrollbar",
+    --     config = function()
+    --         safeRequire("scrollbar", true)
+    --     end
+    -- })
 
     -- Completion menus
     use({
@@ -353,43 +353,97 @@ return packer.startup(function(use)
         end
     }
 
-    -- Nvim file explorer/ tree
-    use ({
-        "kyazdani42/nvim-tree.lua",
-        requires = "kyazdani42/nvim-web-devicons",
-        tag = "nightly",
+    use {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v2.x",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+        },
         config = function()
-            vim.g.loaded_netrw = 1
-            vim.g.loaded_netrwPlugin = 1
+            vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+            safeRequire("neo-tree", true, {
+                close_if_last_window = true,
+                enable_diagnostics = true,
 
-            -- Set F12 to toggle the tree's pane
-            vim.api.nvim_set_keymap("n", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
-            vim.api.nvim_set_keymap("x", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
-
-            safeRequire("nvim-tree", true, {
-                respect_buf_cwd = true,
-                filesystem_watchers = {
-                    enable = false
-                },
-                view = {
-                    adaptive_size = true
-                },
-                renderer = {
-                    add_trailing = true,
-                    indent_markers = {
-                        enable = true,
-                        inline_arrows = true,
-                        icons = {
-                            corner = "└",
-                            edge = "│",
-                            item = "├",
-                            none = " ",
-                        },
+                sort_case_insensitive = true,
+                default_component_configs = {
+                    container = {
+                        enable_character_fade = true
                     },
-                }
+                    git_status = {
+                        symbols = {
+                            -- Change type
+                            added     = "✚", -- or "✚", but this is redundant info if you use git_status_colors on the name
+                            modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
+                            deleted   = "✖",-- this can only be used in the git_status source
+                            renamed   = "",-- this can only be used in the git_status source
+                            -- Status type
+                            untracked = "",
+                            ignored   = "",
+                            unstaged  = "",
+                            staged    = "",
+                            conflict  = "",
+                        }
+                    },
+                },
+                window = {
+                    width = 35
+                },
+                -- source_selector = {
+                --     winbar = true,
+                --     tab_labels = { -- falls back to source_name if nil
+                --         filesystem = "  Files ",
+                --         -- buffers =    "  Buffers ",
+                --         git_status = "  Git ",
+                --         diagnostics = " 裂Diagnostics ",
+                --     },
+                -- },
             })
+            vim.api.nvim_set_keymap("n", "<F12>", "<cmd>Neotree toggle reveal<cr>", {noremap = true, silent = true})
+            vim.api.nvim_set_keymap("x", "<F12>", "<cmd>Neotree toggle reveal<cr>", {noremap = true, silent = true})
+            vim.api.nvim_set_keymap("i", "<F12>", "<ESC><cmd>Neotree toggle reveal<cr>", {noremap = true, silent = true})
         end
-    })
+    }
+
+    -- -- Nvim file explorer/ tree
+    -- use ({
+    --     "kyazdani42/nvim-tree.lua",
+    --     requires = "kyazdani42/nvim-web-devicons",
+    --     tag = "nightly",
+    --     config = function()
+    --         vim.g.loaded_netrw = 1
+    --         vim.g.loaded_netrwPlugin = 1
+    --
+    --         -- Set F12 to toggle the tree's pane
+    --         vim.api.nvim_set_keymap("n", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
+    --         vim.api.nvim_set_keymap("x", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
+    --
+    --         safeRequire("nvim-tree", true, {
+    --             respect_buf_cwd = true,
+    --             filesystem_watchers = {
+    --                 enable = false
+    --             },
+    --             view = {
+    --                 adaptive_size = true
+    --             },
+    --             renderer = {
+    --                 add_trailing = true,
+    --                 indent_markers = {
+    --                     enable = true,
+    --                     inline_arrows = true,
+    --                     icons = {
+    --                         corner = "└",
+    --                         edge = "│",
+    --                         item = "├",
+    --                         none = " ",
+    --                     },
+    --                 },
+    --             }
+    --         })
+    --     end
+    -- })
 
     -- Pops up the usage for whatever function you're using if available
     -- use {
