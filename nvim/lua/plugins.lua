@@ -328,7 +328,7 @@ return packer.startup(function(use)
         requires = {
             "hrsh7th/cmp-nvim-lsp",         -- Completion output for the lsp
             "hrsh7th/cmp-buffer",           -- Completion for strings found in the current buffer/ file
-            "hrsh7th/cmp-path",             -- Completion for file paths
+            -- "hrsh7th/cmp-path",             -- Completion for file paths  (Seems to trigger on blanks/ spaces too often, and will just show paths from root)
             "hrsh7th/cmp-nvim-lua",         -- Completion for nvim settings and such (vim.lsp.*, etc)
             "onsails/lspkind-nvim",         -- Show symbols
             "L3MON4D3/LuaSnip",             -- Snippets
