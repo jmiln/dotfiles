@@ -353,97 +353,43 @@ return packer.startup(function(use)
         end
     }
 
-    use {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v2.x",
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
-            "MunifTanjim/nui.nvim",
-        },
+    -- Nvim file explorer/ tree
+    use ({
+        "kyazdani42/nvim-tree.lua",
+        requires = "kyazdani42/nvim-web-devicons",
+        tag = "nightly",
         config = function()
-            vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
-            safeRequire("neo-tree", true, {
-                close_if_last_window = true,
-                enable_diagnostics = true,
+            vim.g.loaded_netrw = 1
+            vim.g.loaded_netrwPlugin = 1
 
-                sort_case_insensitive = true,
-                default_component_configs = {
-                    container = {
-                        enable_character_fade = true
-                    },
-                    git_status = {
-                        symbols = {
-                            -- Change type
-                            added     = "✚", -- or "✚", but this is redundant info if you use git_status_colors on the name
-                            modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
-                            deleted   = "✖",-- this can only be used in the git_status source
-                            renamed   = "",-- this can only be used in the git_status source
-                            -- Status type
-                            untracked = "",
-                            ignored   = "",
-                            unstaged  = "",
-                            staged    = "",
-                            conflict  = "",
-                        }
-                    },
+            -- Set F12 to toggle the tree's pane
+            vim.api.nvim_set_keymap("n", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
+            vim.api.nvim_set_keymap("x", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
+
+            safeRequire("nvim-tree", true, {
+                respect_buf_cwd = true,
+                filesystem_watchers = {
+                    enable = false
                 },
-                window = {
-                    width = 35
+                view = {
+                    adaptive_size = true
                 },
-                -- source_selector = {
-                --     winbar = true,
-                --     tab_labels = { -- falls back to source_name if nil
-                --         filesystem = "  Files ",
-                --         -- buffers =    "  Buffers ",
-                --         git_status = "  Git ",
-                --         diagnostics = " 裂Diagnostics ",
-                --     },
-                -- },
+                renderer = {
+                    add_trailing = true,
+                    indent_markers = {
+                        enable = true,
+                        inline_arrows = true,
+                        icons = {
+                            corner = "└",
+                            edge = "│",
+                            item = "├",
+                            none = " ",
+                        },
+                    },
+                }
             })
-            vim.api.nvim_set_keymap("n", "<F12>", "<cmd>Neotree toggle reveal<cr>", {noremap = true, silent = true})
-            vim.api.nvim_set_keymap("x", "<F12>", "<cmd>Neotree toggle reveal<cr>", {noremap = true, silent = true})
-            vim.api.nvim_set_keymap("i", "<F12>", "<ESC><cmd>Neotree toggle reveal<cr>", {noremap = true, silent = true})
         end
-    }
-
-    -- -- Nvim file explorer/ tree
-    -- use ({
-    --     "kyazdani42/nvim-tree.lua",
-    --     requires = "kyazdani42/nvim-web-devicons",
-    --     tag = "nightly",
-    --     config = function()
-    --         vim.g.loaded_netrw = 1
-    --         vim.g.loaded_netrwPlugin = 1
-    --
-    --         -- Set F12 to toggle the tree's pane
-    --         vim.api.nvim_set_keymap("n", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
-    --         vim.api.nvim_set_keymap("x", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
-    --
-    --         safeRequire("nvim-tree", true, {
-    --             respect_buf_cwd = true,
-    --             filesystem_watchers = {
-    --                 enable = false
-    --             },
-    --             view = {
-    --                 adaptive_size = true
-    --             },
-    --             renderer = {
-    --                 add_trailing = true,
-    --                 indent_markers = {
-    --                     enable = true,
-    --                     inline_arrows = true,
-    --                     icons = {
-    --                         corner = "└",
-    --                         edge = "│",
-    --                         item = "├",
-    --                         none = " ",
-    --                     },
-    --                 },
-    --             }
-    --         })
-    --     end
-    -- })
+    })
 
     -- Pops up the usage for whatever function you're using if available
     -- use {
