@@ -181,6 +181,7 @@ return packer.startup(function(use)
     -- Quick changes for surrounding symbols (Quotes, parens, etc)
     use({
         "kylechui/nvim-surround",
+        tag = "*",
         requires = {
             "nvim-treesitter/nvim-treesitter-textobjects",
             "nvim-treesitter/nvim-treesitter",
@@ -340,7 +341,7 @@ return packer.startup(function(use)
         end
     })
     use {
-        'stevearc/aerial.nvim',
+        "stevearc/aerial.nvim",
         config = function()
             vim.api.nvim_set_keymap("n", "<F11>", "<cmd>AerialToggle<cr>", {noremap = true, silent = true})
             vim.api.nvim_set_keymap("x", "<F11>", "<cmd>AerialToggle<cr>", {noremap = true, silent = true})
@@ -365,6 +366,18 @@ return packer.startup(function(use)
             -- Set F12 to toggle the tree's pane
             vim.api.nvim_set_keymap("n", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
             vim.api.nvim_set_keymap("x", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
+
+            -- Function to open to nvim-tree if we open nvim into a dir.
+            -- Via https://github.com/nvim-tree/nvim-tree.lua/wiki/Open-At-Startup#open-for-directories-and-change-neovims-directory
+            local function open_nvim_tree(data)
+                local directory = vim.fn.isdirectory(data.file) == 1
+                if not directory then
+                    return
+                end
+                vim.cmd.cd(data.file)
+                require("nvim-tree.api").tree.open()
+            end
+            vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
             safeRequire("nvim-tree", true, {
                 respect_buf_cwd = true,
