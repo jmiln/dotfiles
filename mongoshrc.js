@@ -65,6 +65,35 @@ guildEventSearch = async function(guildId) {
     return await db.eventDBs.find({"eventID": new RegExp(`${guildId}-.*`)});
 }
 
+// Get a list of how many guilds use each language settings
+guildSettingCount = async function(setting, limit=10) {
+    if (!setting) return print("Missing setting to check for!");
+    if (db.getName() !== "swgohbot") return print("This can only be run inside the swgohbot db!");
+    return await db.guildSettings.aggregate([
+        {
+            $project: {
+                langId: {
+                    $substrCP: [`$${setting}`, 0, 18]
+                }
+            }
+        },
+        {
+            $group: {
+                _id: "$langId",
+                count: { $count: { } }
+            }
+        },
+        {
+            $sort: {
+                count: -1
+            }
+        },
+        {
+            $limit: limit
+        }
+    ])
+}
+
 // Get event counts for each guild
 guildEventCount = async function(limit = 10) {
     if (db.getName() !== "swgohbot") return print("This can only be run inside the swgohbot db!");
@@ -72,7 +101,7 @@ guildEventCount = async function(limit = 10) {
         {
             $project: {
                 evId: {
-                    $substr: ["$eventID", 0, 18]
+                    $substrCP: ["$eventID", 0, 18]
                 }
             }
         },
