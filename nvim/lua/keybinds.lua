@@ -3,8 +3,8 @@ vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
 -- Set f to toggle paste mode
-vim.o.pastetoggle="off"
-vim.o.pastetoggle="<F6>"
+-- vim.o.pastetoggle="off"
+-- vim.o.pastetoggle="<F6>"
 
 local map = vim.api.nvim_set_keymap
 local default = {noremap = true, silent = true}
