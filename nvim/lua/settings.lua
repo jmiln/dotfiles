@@ -81,7 +81,7 @@ vim.opt.viewoptions:remove("options")
 
 --------------------------------- General ----------------------------------
 opt.autoread    = false
-opt.backspace   = {"indent", "eol,start"}   -- Enable backspacing over autoindent, EOL, and BOL
+opt.backspace   = "indent,eol,start"   -- Enable backspacing over autoindent, EOL, and BOL
 opt.backup      = false
 opt.clipboard   = "unnamedplus" -- copy/paste to system clipboard
 opt.complete    = ".,w,b,u,t,i"
