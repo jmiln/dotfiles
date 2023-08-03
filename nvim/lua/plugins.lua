@@ -30,6 +30,7 @@ end
 
 local packStatus, packer = pcall(require, "packer")
 if not packStatus then
+    print("Packer is not installed")
     return
 end
 
@@ -97,7 +98,7 @@ return packer.startup(function(use)
                     additional_vim_regex_highlighting = false
                 },
                 indent = {
-                    enable = false
+                    enable = true
                 },
                 context_commentstring = {
                     enable = true

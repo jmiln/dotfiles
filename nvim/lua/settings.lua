@@ -11,8 +11,8 @@ opt.expandtab   = true		-- tabs insert spaces
 opt.joinspaces  = false		-- only one space after punction when joining lines
 opt.list        = false     -- show listchars
 opt.listchars   = { extends = "›", precedes = "‹", nbsp = "·", tab = "→ ", trail = "·", eol = "¬" }
-opt.autoindent = true
-opt.smartindent = true		-- autoindent new lines
+-- opt.autoindent = true
+-- opt.smartindent = true		-- autoindent new lines
 opt.smarttab    = true
 opt.shiftwidth  = 4			-- shift 4 spaces when tab
 opt.tabstop     = 4         -- 1 tab == 4 spaces
