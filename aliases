@@ -106,7 +106,11 @@ alias cpu="ps axch -o cmd:15,%cpu --sort=-%cpu | head"
     # Easy git status
 alias gits="git status"
     # An easy & nice looking summary of the last bunch of commits
-alias glo="git log --pretty=oneline --abbrev-commit --graph --decorate --all"
+# alias glo="git log --pretty=oneline --abbrev-commit --graph --decorate --all"
+    # Similar to above but with relative dates (3 days ago, 1 week ago, etc)
+alias  glo="git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
+    # Similar to above but with YYYY-MM-DD dates
+alias glod="git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cs)%Creset %s'"
 
 ### NPM Aliases ###
 alias npmg="npm --location=global"
