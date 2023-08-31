@@ -17,6 +17,7 @@ opt.smarttab    = true
 opt.shiftwidth  = 4			-- shift 4 spaces when tab
 opt.tabstop     = 4         -- 1 tab == 4 spaces
 opt.softtabstop = 4         -- 1 tab == 4 spaces
+-- opt.indentkeys  = "0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:"
 
 
 ---------------------------------- Searching ----------------------------------
@@ -88,7 +89,6 @@ opt.complete    = ".,w,b,u,t,i"
 opt.encoding    = "UTF-8"
 opt.hidden      = true          -- switch buffers without saving
 opt.history     = 10000         -- remember n lines in history
-opt.indentkeys  = "0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:"
 opt.lazyredraw  = true          -- faster scrolling
 opt.magic       = true          -- set magic on, for regular expressions
 opt.mat         = 2             -- how many tenths of a second to blink
