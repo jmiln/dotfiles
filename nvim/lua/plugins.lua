@@ -159,7 +159,7 @@ return packer.startup(function(use)
     -- Easy completion & expansion of strings for html
     use ({
         "mattn/emmet-vim",
-        ft = {"html", "ejs", "css", "scss"}
+        ft = {"html", "ejs", "css", "scss", "jsx", "tsx"}
     })
 
     -- Automatically change strings to `` for template literals (JS)
