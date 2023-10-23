@@ -59,11 +59,16 @@ vim.go.t_ut = ""
 --------------------------------- Mouse (OFF) ----------------------------------
 opt.mouse = ""
 
---------------------------------- Completion ----------------------------------
+
+-------------------------- Keybinds/ keymapping --------------------------------
+vim.g.mapleader = ","
+vim.g.maplocalleader = ","
+
+---------------------------------- Completion ----------------------------------
 -- opt.completeopt = {"menuone", "longest", "preview"}
 opt.shortmess = "s"
 
---------------------------------- Folding ----------------------------------
+----------------------------------- Folding ------------------------------------
 opt.foldlevel   = 99
 opt.foldmethod  = "expr"
 opt.foldexpr    = "nvim_treesitter#foldexpr()"

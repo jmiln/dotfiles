@@ -1,18 +1,16 @@
-local execute = vim.api.nvim_command
-local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    execute("packadd packer.nvim")
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
+vim.opt.rtp:prepend(lazypath)
 
--- Autocompile
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
 
 -- An extra require function to not break everything if something is missing
 function safeRequire(pName, doSetup, setupObj)
@@ -28,55 +26,46 @@ function safeRequire(pName, doSetup, setupObj)
     end
 end
 
-local packStatus, packer = pcall(require, "packer")
-if not packStatus then
-    print("Packer is not installed")
+local lazyStatus, lazy = pcall(require, "lazy")
+if not lazyStatus then
+    print("Lazy is not installed")
     return
 end
 
-packer.init({
-    max_jobs = 50,
-    display = {
-        open_fn = function()
-            return require("packer.util").float({ border = "rounded" })
-        end,
-    },
-})
-
-return packer.startup(function(use)
-    -- Let Packer manage itself
-    use({"wbthomason/packer.nvim"})
-
+return lazy.setup({
     -- Easily align stuff
-    -- use "junegunn/vim-easy-align"
-
-    use {
+    {
         "echasnovski/mini.align",
-        branch = "stable",
+        version = '*',
         config = function()
-            safeRequire("mini.align", true)
+            safeRequire("mini.align", true, {
+                mappings = {
+                    start = 'ga',
+                    start_with_preview = 'gA',
+                },
+            })
         end
-    }
+    },
 
 
     -- Color any #ffffff style color codes
-    use ({
+    {
         "NvChad/nvim-colorizer.lua",
         config = function()
             safeRequire("colorizer", true)
         end
-    })
+    },
 
     -- More in-depth undo
-    use ({
+    {
         "mbbill/undotree",
         config = function()
             vim.api.nvim_set_keymap("n", "<F5>", ":UndotreeToggle<CR>", {noremap = true, silent = true});
         end
-    })
+    },
 
     -- Preview markdown in a floating window (:Glow)
-    use ({
+    {
         "ellisonleao/glow.nvim",
         config = function()
             safeRequire("glow", true, {
@@ -86,11 +75,11 @@ return packer.startup(function(use)
                 height_ratio = 0.8,
             })
         end
-    })
+    },
 
-    use({
+    {
         "nvim-treesitter/nvim-treesitter",
-        run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+        build = ":TSUpdate",
         config = function()
             safeRequire("nvim-treesitter.configs", true, {
                 highlight = {
@@ -106,43 +95,31 @@ return packer.startup(function(use)
                 ensure_installed = {
                     "comment",      -- Lets it highlight the TODO comments and such
                     "css",
-                    "help",
                     "html",
                     "javascript",
                     "json",
                     "lua",          -- For the nvim config files
                     "regex",        -- Ooh, shiny regex
                     "typescript",
+                    "vimdoc",       -- Previously help
                 }
             })
         end,
-    })
-    -- use "nvim-treesitter/playground"
-
-    -- Plugin to allow join toggles & other features (Nifty, but gets in the way more often than not)
-    -- use({
-    --     "Wansmer/treesj",
-    --     requires = { "nvim-treesitter" },
-    --     config = function()
-    --         vim.api.nvim_set_keymap("n", "<S-J>", ":TSJToggle<CR>", {noremap = true, silent = true})
-    --         safeRequire("treesj", true, {
-    --             use_default_keymaps = false,
-    --         })
-    --     end,
-    -- })
+    },
+    -- "nvim-treesitter/playground",
 
     -- Add documentation comments (JSDoc style)
-    -- use {
+    -- {
     --     "danymat/neogen",
     --     config = function()
     --         safeRequire("neogen", true)
     --     end,
-    --     requires = "nvim-treesitter/nvim-treesitter",
-    --     tag = "*"
-    -- }
+    --     dependencies = "nvim-treesitter/nvim-treesitter",
+    --     -- tag = "*"
+    -- },
 
     -- Auto-close parentheses and brackets, etc
-    use ({
+    {
         "windwp/nvim-autopairs",
         config = function()
             safeRequire('nvim-autopairs', true, {
@@ -154,67 +131,62 @@ return packer.startup(function(use)
                 }
             })
         end
-    })
+    },
 
     -- Easy completion & expansion of strings for html
-    use ({
+    {
         "mattn/emmet-vim",
         ft = {"html", "ejs", "css", "scss"}
-    })
+    },
 
     -- Automatically change strings to `` for template literals (JS)
-    use ({
+    {
         "axelvc/template-string.nvim",
         config = function()
             safeRequire("template-string", true)
         end
-    })
+    },
 
     -- Auto-close html tags
-    use ({
+    {
         "windwp/nvim-ts-autotag",
         ft = {"html", "ejs", "css", "scss"},
         config = function()
             safeRequire("nvim-ts-autotag", true)
         end
-    })
+    },
 
     -- Quick changes for surrounding symbols (Quotes, parens, etc)
-    use({
+    {
         "kylechui/nvim-surround",
-        tag = "*",
-        requires = {
+        version = "*",
+        dependencies = {
             "nvim-treesitter/nvim-treesitter-textobjects",
             "nvim-treesitter/nvim-treesitter",
         },
         config = function()
             safeRequire("nvim-surround", true)
         end
-    })
+    },
 
     -- Easy comments
-    use({
+    {
         "numToStr/Comment.nvim",
         config = function()
             safeRequire("Comment", true)
         end
-    })
+    },
 
     -- Comment properly in embedded filetypes (Ejs, etc)
-    use "JoosepAlviste/nvim-ts-context-commentstring"
+    "JoosepAlviste/nvim-ts-context-commentstring",
 
     -- LSP stuffs
-    use "neovim/nvim-lspconfig"
-    use ({
-        "nvim-lua/plenary.nvim",
-        config = function()
-            safeRequire("plenary")
-        end
-    })
-    use "nvim-lua/popup.nvim"
-    use ({
+    "neovim/nvim-lspconfig",
+    "nvim-lua/plenary.nvim",
+    "nvim-lua/popup.nvim",
+    {
         "nvim-telescope/telescope.nvim",
-        requires = "nvim-lua/plenary.nvim",
+        dependencies = {"nvim-lua/plenary.nvim"},
         config = function()
             vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope buffers<CR>",                                 { noremap = true})
             vim.api.nvim_set_keymap("n", "<leader>fc", ":Telescope resume<CR>",                                  { noremap = true})
@@ -225,12 +197,13 @@ return packer.startup(function(use)
             vim.api.nvim_set_keymap("n", "<leader>fr", ":Telescope registers<CR>",                               { noremap = true})
             vim.api.nvim_set_keymap("n", "<leader>fs", ":Telescope search_history<CR>",                          { noremap = true})
         end
-    })
+    },
 
     -- Notifications
-    use ({
+    {
         "rcarriga/nvim-notify",
-        requires = "nvim-lua/plenary.nvim",
+        dependencies = "nvim-lua/plenary.nvim",
+        event = "VeryLazy",
         config = function()
             local ok, notify = pcall(require, "notify")
             if not ok then
@@ -238,12 +211,16 @@ return packer.startup(function(use)
             end
             vim.notify = notify
         end
-    })
+    },
+    {
+        "kyazdani42/nvim-web-devicons",
+        event = "VeryLazy"
+    },
 
     -- Open up the locationlist when there are errors
-    use({
+    {
         "folke/trouble.nvim",
-        requires = "kyazdani42/nvim-web-devicons",
+        dependencies = "kyazdani42/nvim-web-devicons",
         config = function()
             -- Trouble settings (Show the diagnostics quickfix window automatically)
             safeRequire("trouble", true, {
@@ -259,31 +236,13 @@ return packer.startup(function(use)
                 },
             })
         end
-    })
-
-    -- Plugin to supposedly list todo comments in a file, but never seemed to work
-    -- PERF stes
-    -- TODO test
-    -- HACK tes
-    -- NOTE test
-    -- FIXME etst
-    -- WARNING test
-    -- MARK test
-    -- use {
-    --     "folke/todo-comments.nvim",
-    --     requires = "nvim-lua/plenary.nvim",
-    --     config = function()
-    --         safeRequire("todo-comments", true, {
-    --
-    --         })
-    --     end,
-    -- }
+    },
 
     -- Git stuff
-    use "tpope/vim-fugitive"
+    "tpope/vim-fugitive",
 
     -- Git changes in the signcolumn
-    use ({
+    {
         "lewis6991/gitsigns.nvim" ,
         config = function()
             safeRequire("gitsigns", true)
@@ -294,40 +253,18 @@ return packer.startup(function(use)
                 gitScroll.setup()
             end
         end
-    })
+    },
 
     -- Uses vim splits to display more info when committing to git
-    use "rhysd/committia.vim"
-
-    -- use {'akinsho/git-conflict.nvim', tag = "*", config = function()
-    --     safeRequire("git-conflict", true, {
-    --         default_mappings = true, -- disable buffer local mapping created by this plugin
-    --         disable_diagnostics = false, -- This will disable the diagnostics in a buffer whilst it is conflicted
-    --         highlights = { -- They must have background color, otherwise the default color will be used
-    --             incoming = 'DiffText',
-    --             current = 'DiffAdd',
-    --         }
-    --     })
-    -- end}
+    "rhysd/committia.vim",
 
     -- Snippets
-    use ({
-        "L3MON4D3/LuaSnip",
-    })
-
-    -- Scrollbar / shows where errors/ other marks are
-    -- use({
-    --     "petertriho/nvim-scrollbar",
-    --     config = function()
-    --         safeRequire("scrollbar", true)
-    --     end
-    -- })
+    "L3MON4D3/LuaSnip",
 
     -- Completion menus
-    use({
+    {
         "hrsh7th/nvim-cmp",
-        -- Sources for nvim-cmp
-        requires = {
+        dependencies = {
             "hrsh7th/cmp-nvim-lsp",         -- Completion output for the lsp
             "hrsh7th/cmp-buffer",           -- Completion for strings found in the current buffer/ file
             -- "hrsh7th/cmp-path",             -- Completion for file paths  (Seems to trigger on blanks/ spaces too often, and will just show paths from root)
@@ -339,9 +276,9 @@ return packer.startup(function(use)
         },
         config = function()
             safeRequire("config.completion")
-        end
-    })
-    use {
+        end,
+    },
+    {
         "stevearc/aerial.nvim",
         config = function()
             vim.api.nvim_set_keymap("n", "<F11>", "<cmd>AerialToggle<cr>", {noremap = true, silent = true})
@@ -353,12 +290,12 @@ return packer.startup(function(use)
                 }
             })
         end
-    }
+    },
 
     -- Nvim file explorer/ tree
-    use ({
+    {
         "kyazdani42/nvim-tree.lua",
-        requires = "kyazdani42/nvim-web-devicons",
+        dependencies = "kyazdani42/nvim-web-devicons",
         tag = "nightly",
         config = function()
             vim.g.loaded_netrw = 1
@@ -403,19 +340,12 @@ return packer.startup(function(use)
                 }
             })
         end
-    })
-
-    -- Pops up the usage for whatever function you're using if available
-    -- use {
-    --     "ray-x/lsp_signature.nvim",
-    --     config = function()
-    --         safeRequire("lsp_signature", true)
-    --     end
-    -- }
+    },
 
     -- Statusline
-    use {
+    {
         "nvim-lualine/lualine.nvim",
+        event = "VeryLazy",
         config = function()
             safeRequire("lualine", true, {
                 options = {
@@ -431,7 +361,7 @@ return packer.startup(function(use)
                 }
             })
         end
-    }
+    },
 
     -- Shut up the diagnostics while I'm in insert mode
     -- The main file is copied into ./config/dd.lua, and called in ./config/init.lua, since this doesn't seem to work
@@ -443,37 +373,6 @@ return packer.startup(function(use)
     --         require("dd").setup()
     --     end
     -- })
-
-    -- Make stuffs more efficient/ optimized
-    -- use({
-    --     "nathom/filetype.nvim",
-    --     config = function()
-    --         safeRequire("filetype", {
-    --             overrides = {
-    --                 extensions = {
-    --                     ts = "typescript",
-    --                     sh = "sh"
-    --                 },
-    --                 function_extensions = {
-    --                     ["sh"] = function()
-    --                         vim.bo.filetype = "sh"
-    --                     end
-    --                 },
-    --                 shebang = {
-    --                     bash = "sh"
-    --                 }
-    --             }
-    --         })
-    --         -- Do not source the default filetype.vim
-    --         vim.g.did_load_filetypes = 1
-    --     end
-    -- })
-    use ({
-        "lewis6991/impatient.nvim",
-        config = function()
-            safeRequire("impatient")
-        end
-    })
-end)
+})
 
 

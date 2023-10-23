@@ -1,7 +1,3 @@
--- Keybinds/ keymapping
-vim.g.mapleader = ","
-vim.g.maplocalleader = ","
-
 -- Set f to toggle paste mode
 -- vim.o.pastetoggle="off"
 -- vim.o.pastetoggle="<F6>"
@@ -28,8 +24,8 @@ map("v", "<leader>p", '"_dP', default)
 map("v", "<leader>d", '"_d', default)
 
 -- EasyAlign mappings
-map("x", "ga", ":EasyAlign<CR>", default)
-map("n", "ga", ":EasyAlign<CR>", default)
+-- map("x", "ga", ":EasyAlign<CR>", default)
+-- map("n", "ga", ":EasyAlign<CR>", default)
 
 -- A fancy unicode underline (Goes underneath whatever line you're on
 map("n", "<leader>U", "yypVr━", default)
