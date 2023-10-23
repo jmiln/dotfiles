@@ -136,7 +136,7 @@ return lazy.setup({
     -- Easy completion & expansion of strings for html
     {
         "mattn/emmet-vim",
-        ft = {"html", "ejs", "css", "scss"}
+        ft = {"html", "ejs", "css", "scss", "jsx", "tsx"}
     },
 
     -- Automatically change strings to `` for template literals (JS)
