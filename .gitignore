@@ -11,5 +11,6 @@ vim/autoload/
 
 # Do the same for nvim
 nvim/undodir/*
+nvim/lazy-lock.json
 nvim/plugged/*
 nvim/plugin/packer_compiled.lua
