@@ -53,8 +53,6 @@ opt.showbreak = string.rep(" ", 3)  -- Make it so that long lines wrap smartly
 opt.belloff = "all"                 -- Just turn all the bells off
 vim.wo.signcolumn = "yes"
 vim.go.termguicolors = true
-vim.go.t_Co = "256"
-vim.go.t_ut = ""
 
 --------------------------------- Mouse (OFF) ----------------------------------
 opt.mouse = ""
@@ -94,7 +92,7 @@ opt.complete    = ".,w,b,u,t,i"
 opt.encoding    = "UTF-8"
 opt.hidden      = true          -- switch buffers without saving
 opt.history     = 10000         -- remember n lines in history
-opt.lazyredraw  = true          -- faster scrolling
+-- opt.lazyredraw  = true          -- faster scrolling
 opt.magic       = true          -- set magic on, for regular expressions
 opt.mat         = 2             -- how many tenths of a second to blink
 opt.numberwidth = 2

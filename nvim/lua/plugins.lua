@@ -11,7 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-
 -- An extra require function to not break everything if something is missing
 function safeRequire(pName, doSetup, setupObj)
     setupObj = setupObj or {}
@@ -26,13 +25,7 @@ function safeRequire(pName, doSetup, setupObj)
     end
 end
 
-local lazyStatus, lazy = pcall(require, "lazy")
-if not lazyStatus then
-    print("Lazy is not installed")
-    return
-end
-
-return lazy.setup({
+safeRequire("lazy", true, {
     -- Easily align stuff
     {
         "echasnovski/mini.align",
@@ -55,6 +48,9 @@ return lazy.setup({
             safeRequire("colorizer", true)
         end
     },
+
+    -- Rainbow parens
+    "HiPhish/rainbow-delimiters.nvim",
 
     -- More in-depth undo
     {
@@ -102,7 +98,9 @@ return lazy.setup({
                     "regex",        -- Ooh, shiny regex
                     "typescript",
                     "vimdoc",       -- Previously help
-                }
+                },
+                -- Recommended false if the cli treesitter isn't installed
+                auto_install = false,
             })
         end,
     },
@@ -203,7 +201,6 @@ return lazy.setup({
     {
         "rcarriga/nvim-notify",
         dependencies = "nvim-lua/plenary.nvim",
-        event = "VeryLazy",
         config = function()
             local ok, notify = pcall(require, "notify")
             if not ok then
@@ -212,10 +209,6 @@ return lazy.setup({
             vim.notify = notify
         end
     },
-    {
-        "kyazdani42/nvim-web-devicons",
-        event = "VeryLazy"
-    },
 
     -- Open up the locationlist when there are errors
     {
@@ -223,6 +216,7 @@ return lazy.setup({
         dependencies = "kyazdani42/nvim-web-devicons",
         config = function()
             -- Trouble settings (Show the diagnostics quickfix window automatically)
+            vim.api.nvim_set_keymap("n", "<leader>z", "<cmd>TroubleToggle<CR>", {silent = true, noremap = true})
             safeRequire("trouble", true, {
                 -- auto_open   = true,
                 -- auto_close  = true,
@@ -246,20 +240,11 @@ return lazy.setup({
         "lewis6991/gitsigns.nvim" ,
         config = function()
             safeRequire("gitsigns", true)
-
-            -- Setup the scrollbar integration
-            local okGit, gitScroll = pcall(require, "scrollbar.handlers.gitsigns")
-            if okGit then
-                gitScroll.setup()
-            end
         end
     },
 
     -- Uses vim splits to display more info when committing to git
     "rhysd/committia.vim",
-
-    -- Snippets
-    "L3MON4D3/LuaSnip",
 
     -- Completion menus
     {
@@ -345,7 +330,7 @@ return lazy.setup({
     -- Statusline
     {
         "nvim-lualine/lualine.nvim",
-        event = "VeryLazy",
+        dependencies = "kyazdani42/nvim-web-devicons",
         config = function()
             safeRequire("lualine", true, {
                 options = {

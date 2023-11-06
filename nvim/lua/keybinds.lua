@@ -80,9 +80,6 @@ map("n", "<leader>ho", "<cmd>lua vim.lsp.buf.hover()<CR>", default)
 map("n", "<c-j>", ":lua vim.diagnostic.goto_next()<CR>", default)
 map("n", "<c-k>", ":lua vim.diagnostic.goto_prev()<CR>", default)
 
--- Toggle Trouble on & off
-map("n", "<leader>z", "<cmd>TroubleToggle<cr>", default)
-
 
 -- Refresh the config in the current file (Nice, but doesn't work on split up files)
 -- vim.api.nvim_command("command! RefreshConfig source $MYVIMRC <bar> echo");
