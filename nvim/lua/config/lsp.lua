@@ -27,7 +27,8 @@ local function contains (table, val)
 end
 
 -- Enable tsserver for JS stuff
-nvim_lsp.tsserver.setup({
+-- nvim_lsp.tsserver.setup({
+require("typescript-tools").setup({
     on_attach = on_attach,
     capabilities = capabilities,
     handlers = {

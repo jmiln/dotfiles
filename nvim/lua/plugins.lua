@@ -183,6 +183,14 @@ safeRequire("lazy", true, {
     "nvim-lua/plenary.nvim",
     "nvim-lua/popup.nvim",
     {
+        "pmizio/typescript-tools.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "neovim/nvim-lspconfig"
+        },
+        opts = {},
+    },
+    {
         "nvim-telescope/telescope.nvim",
         dependencies = {"nvim-lua/plenary.nvim"},
         config = function()
@@ -198,6 +206,7 @@ safeRequire("lazy", true, {
     },
 
     -- Notifications
+    -- "folke/noice.nvim" seems to be an upcoming alternative for notifications with more features
     {
         "rcarriga/nvim-notify",
         dependencies = "nvim-lua/plenary.nvim",
@@ -245,6 +254,14 @@ safeRequire("lazy", true, {
 
     -- Uses vim splits to display more info when committing to git
     "rhysd/committia.vim",
+
+    -- Better git diff view
+    {
+        "sindrets/diffview.nvim",
+        cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+        opts = {},
+        -- keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
+    },
 
     -- Completion menus
     {
