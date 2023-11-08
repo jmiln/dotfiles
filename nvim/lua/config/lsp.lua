@@ -85,6 +85,7 @@ require("typescript-tools").setup({
 nvim_lsp.eslint.setup({})
 
 nvim_lsp.html.setup({})
+-- Use `npm i -g @olrtg/emmet-language-server` to make this work
 nvim_lsp.emmet_language_server.setup({})
 
 -- Python language server
