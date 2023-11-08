@@ -85,6 +85,7 @@ require("typescript-tools").setup({
 nvim_lsp.eslint.setup({})
 
 nvim_lsp.html.setup({})
+nvim_lsp.emmet_language_server.setup({})
 
 -- Python language server
 nvim_lsp.jedi_language_server.setup({})

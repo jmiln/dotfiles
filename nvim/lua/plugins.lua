@@ -44,6 +44,7 @@ safeRequire("lazy", true, {
     -- Color any #ffffff style color codes
     {
         "NvChad/nvim-colorizer.lua",
+        event = "VeryLazy",
         config = function()
             safeRequire("colorizer", true)
         end
@@ -158,6 +159,7 @@ safeRequire("lazy", true, {
     {
         "kylechui/nvim-surround",
         version = "*",
+        event = "VeryLazy",
         dependencies = {
             "nvim-treesitter/nvim-treesitter-textobjects",
             "nvim-treesitter/nvim-treesitter",
@@ -179,11 +181,17 @@ safeRequire("lazy", true, {
     "JoosepAlviste/nvim-ts-context-commentstring",
 
     -- LSP stuffs
-    "neovim/nvim-lspconfig",
-    "nvim-lua/plenary.nvim",
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            "nvim-lua/plenary.nvim"
+        },
+        event = { "BufRead", "BufNewFile" },
+    },
     "nvim-lua/popup.nvim",
     {
         "pmizio/typescript-tools.nvim",
+        event = "VeryLazy",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "neovim/nvim-lspconfig"
@@ -192,7 +200,9 @@ safeRequire("lazy", true, {
     },
     {
         "nvim-telescope/telescope.nvim",
-        dependencies = {"nvim-lua/plenary.nvim"},
+        dependencies = {
+            "nvim-lua/plenary.nvim"
+        },
         config = function()
             vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope buffers<CR>",                                 { noremap = true})
             vim.api.nvim_set_keymap("n", "<leader>fc", ":Telescope resume<CR>",                                  { noremap = true})
@@ -222,6 +232,7 @@ safeRequire("lazy", true, {
     -- Open up the locationlist when there are errors
     {
         "folke/trouble.nvim",
+        event = "VeryLazy",
         dependencies = "kyazdani42/nvim-web-devicons",
         config = function()
             -- Trouble settings (Show the diagnostics quickfix window automatically)
@@ -266,6 +277,7 @@ safeRequire("lazy", true, {
     -- Completion menus
     {
         "hrsh7th/nvim-cmp",
+        event = { "BufRead", "BufNewFile" },
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",         -- Completion output for the lsp
             "hrsh7th/cmp-buffer",           -- Completion for strings found in the current buffer/ file
@@ -299,6 +311,7 @@ safeRequire("lazy", true, {
         "kyazdani42/nvim-tree.lua",
         dependencies = "kyazdani42/nvim-web-devicons",
         tag = "nightly",
+        event = "VeryLazy",
         config = function()
             vim.g.loaded_netrw = 1
             vim.g.loaded_netrwPlugin = 1
@@ -347,6 +360,7 @@ safeRequire("lazy", true, {
     -- Statusline
     {
         "nvim-lualine/lualine.nvim",
+        event = "VeryLazy",
         dependencies = "kyazdani42/nvim-web-devicons",
         config = function()
             safeRequire("lualine", true, {
