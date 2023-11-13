@@ -40,6 +40,8 @@ cmd[[hi cNumber       cterm=none      ctermfg=18]]
 cmd[[hi cConstant     cterm=none      ctermfg=none]]
 cmd[[hi cStatement    cterm=none      ctermfg=22]]
 
+-- " Lazy popup window
+cmd[[hi Conceal       cterm=none      ctermfg=Cyan                     guifg=background   guibg=grey]]
 
 -- " SpellCheck specific colors
 cmd[[hi SpellBad      cterm=underline ctermfg=88]]
@@ -48,7 +50,7 @@ cmd[[hi SpellRare     cterm=underline]]
 cmd[[hi SpellLocal    cterm=underline]]
 
 -- " Completion menu colors
-cmd[[hi Pmenu         cterm=none      ctermfg=Cyan                     guifg=white   guibg=grey]]
+cmd[[hi Pmenu         cterm=none      ctermfg=Cyan                     guifg=background   guibg=grey]]
 cmd[[hi PmenuSel      cterm=Bold      ctermfg=Black     ctermbg=239    guifg=Black   guibg=darkgrey]]
 cmd[[hi PmenuSbar     cterm=none      ctermfg=cyan      ctermbg=Cyan]]
 cmd[[hi PmenuThumb    cterm=none      ctermfg=White]]
