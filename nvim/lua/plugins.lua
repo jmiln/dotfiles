@@ -132,12 +132,6 @@ safeRequire("lazy", true, {
         end
     },
 
-    -- Easy completion & expansion of strings for html
-    {
-        "mattn/emmet-vim",
-        ft = {"html", "ejs", "css", "scss", "jsx", "tsx"}
-    },
-
     -- Automatically change strings to `` for template literals (JS)
     {
         "axelvc/template-string.nvim",
@@ -186,7 +180,6 @@ safeRequire("lazy", true, {
         dependencies = {
             "nvim-lua/plenary.nvim"
         },
-        event = { "BufRead", "BufNewFile" },
     },
     "nvim-lua/popup.nvim",
     {
@@ -277,7 +270,6 @@ safeRequire("lazy", true, {
     -- Completion menus
     {
         "hrsh7th/nvim-cmp",
-        event = { "BufRead", "BufNewFile" },
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",         -- Completion output for the lsp
             "hrsh7th/cmp-buffer",           -- Completion for strings found in the current buffer/ file
