@@ -26,6 +26,31 @@ function safeRequire(pName, doSetup, setupObj)
 end
 
 safeRequire("lazy", true, {
+    -- Notifications
+    -- Fancier notification popups in the corner instead of just in the cmd field in the bottom
+    -- "folke/noice.nvim" seems to be an upcoming alternative for notifications with more features
+    -- {
+    --     "j-hui/fidget.nvim",    -- Seems to be pretty nice, but a little wonky currently
+    --     config = function()
+    --         safeRequire("fidget", true, {
+    --             notification = {
+    --                 override_vim_notify = true,
+    --             }
+    --         })
+    --     end
+    -- },
+    {
+        "rcarriga/nvim-notify",
+        dependencies = "nvim-lua/plenary.nvim",
+        config = function()
+            local ok, notify = pcall(require, "notify")
+            if not ok then
+                return
+            end
+            vim.notify = notify
+        end
+    },
+
     -- Easily align stuff
     {
         "echasnovski/mini.align",
@@ -178,47 +203,30 @@ safeRequire("lazy", true, {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "nvim-lua/plenary.nvim"
+            "nvim-lua/plenary.nvim",
+            "pmizio/typescript-tools.nvim",
         },
+        config = function()
+            safeRequire("config.lsp")
+        end
     },
     "nvim-lua/popup.nvim",
-    {
-        "pmizio/typescript-tools.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "neovim/nvim-lspconfig"
-        },
-        opts = {},
-    },
     {
         "nvim-telescope/telescope.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim"
         },
         config = function()
-            vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope buffers<CR>",                                 { noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fc", ":Telescope resume<CR>",                                  { noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fd", ":lua require('config.telescope').search_dotfiles()<CR>", { noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>ff", ":Telescope find_files<CR>",                              { noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fg", ":Telescope live_grep<CR>",                               { noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fh", ":Telescope help_tags<CR>",                               { noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fr", ":Telescope registers<CR>",                               { noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fs", ":Telescope search_history<CR>",                          { noremap = true})
-        end
-    },
-
-    -- Notifications
-    -- "folke/noice.nvim" seems to be an upcoming alternative for notifications with more features
-    {
-        "rcarriga/nvim-notify",
-        dependencies = "nvim-lua/plenary.nvim",
-        config = function()
-            local ok, notify = pcall(require, "notify")
-            if not ok then
-                return
-            end
-            vim.notify = notify
+            safeRequire("config.telescope")
+            vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope buffers<CR>",                                 {noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fc", ":Telescope resume<CR>",                                  {noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fd", ":lua require('config.telescope').search_dotfiles()<CR>", {noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>ff", ":Telescope find_files<CR>",                              {noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fg", ":Telescope live_grep<CR>",                               {noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fh", ":Telescope help_tags<CR>",                               {noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fr", ":Telescope registers<CR>",                               {noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fm", ":Telescope marks<CR>",                                   {noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>fs", ":Telescope search_history<CR>",                          {noremap = true})
         end
     },
 
