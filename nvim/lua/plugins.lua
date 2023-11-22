@@ -111,9 +111,6 @@ safeRequire("lazy", true, {
                 indent = {
                     enable = true
                 },
-                context_commentstring = {
-                    enable = true
-                },
                 ensure_installed = {
                     "comment",      -- Lets it highlight the TODO comments and such
                     "css",
@@ -197,7 +194,14 @@ safeRequire("lazy", true, {
     },
 
     -- Comment properly in embedded filetypes (Ejs, etc)
-    "JoosepAlviste/nvim-ts-context-commentstring",
+    {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        config = function()
+            safeRequire("ts_context_commentstring", true, {
+                enable_autocmd = false,
+            })
+        end
+    },
 
     -- LSP stuffs
     {
