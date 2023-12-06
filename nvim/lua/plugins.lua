@@ -11,6 +11,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local constants = require("config.constants")
+
 -- An extra require function to not break everything if something is missing
 function safeRequire(pName, doSetup, setupObj)
     setupObj = setupObj or {}
@@ -221,10 +223,26 @@ safeRequire("lazy", true, {
             "nvim-lua/plenary.nvim"
         },
         config = function()
-            safeRequire("config.telescope")
+            safeRequire("telescope", true, {
+                defaults = {
+                    file_ignore_patterns = {
+                        "node_modules",
+                        ".git"
+                    },
+                    layout_config = {
+                        horizontal = {
+                            width = 0.9,
+                            preview_width = 0.6
+                        }
+                        -- other layout configuration here
+                    },
+                    borderchars = {
+                        "─", "│", "─", "│", "╭", "╮", "╯", "╰",
+                    },
+                }
+            })
             vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope buffers<CR>",                                 {noremap = true})
             vim.api.nvim_set_keymap("n", "<leader>fc", ":Telescope resume<CR>",                                  {noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fd", ":lua require('config.telescope').search_dotfiles()<CR>", {noremap = true})
             vim.api.nvim_set_keymap("n", "<leader>ff", ":Telescope find_files<CR>",                              {noremap = true})
             vim.api.nvim_set_keymap("n", "<leader>fg", ":Telescope live_grep<CR>",                               {noremap = true})
             vim.api.nvim_set_keymap("n", "<leader>fh", ":Telescope help_tags<CR>",                               {noremap = true})
@@ -243,15 +261,17 @@ safeRequire("lazy", true, {
             -- Trouble settings (Show the diagnostics quickfix window automatically)
             vim.api.nvim_set_keymap("n", "<leader>z", "<cmd>TroubleToggle<CR>", {silent = true, noremap = true})
             safeRequire("trouble", true, {
-                -- auto_open   = true,
-                -- auto_close  = true,
                 signs = {
                     -- icons / text used for a diagnostic
-                    error       = "[ERROR]",
-                    warning     = "[WARN]",
-                    hint        = "[HINT]",
-                    information = "[INFO]",
-                    other       = "[OTHER]"
+                    -- error       = "[ERROR]",
+                    -- warning     = "[WARN]",
+                    -- hint        = "[HINT]",
+                    -- information = "[INFO]",
+                    error       = constants.diagnostic.sign.error,
+                    warning     = constants.diagnostic.sign.warning,
+                    information = constants.diagnostic.sign.info,
+                    hint        = constants.diagnostic.sign.hint,
+                    other       = "?"
                 },
             })
         end

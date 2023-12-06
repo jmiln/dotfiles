@@ -1,33 +1,28 @@
-local cmd  = vim.cmd     		-- execute Vim commands
-local exec = vim.api.nvim_exec 	-- execute Vimscript
-local fn   = vim.fn       		-- call Vim functions
-local g    = vim.g         		-- global variables
-local opt  = vim.opt         	-- global/buffer/windows-scoped options
-
+local constants = require("config.constants")
 
 ----------------------------- Tabs & Indentation ------------------------------
-opt.cursorline  = false
-opt.expandtab   = true		-- tabs insert spaces
-opt.joinspaces  = false		-- only one space after punction when joining lines
-opt.list        = false     -- show listchars
-opt.listchars   = { extends = "›", precedes = "‹", nbsp = "·", tab = "→ ", trail = "·", eol = "¬" }
--- opt.autoindent = true
--- opt.smartindent = true		-- autoindent new lines
-opt.smarttab    = true
-opt.shiftwidth  = 4			-- shift 4 spaces when tab
-opt.tabstop     = 4         -- 1 tab == 4 spaces
-opt.softtabstop = 4         -- 1 tab == 4 spaces
--- opt.indentkeys  = "0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:"
+vim.opt.expandtab   = true		-- tabs insert spaces
+vim.opt.joinspaces  = false		-- only one space after punction when joining lines
+vim.opt.list        = false     -- show listchars
+vim.opt.listchars   = { extends = "›", precedes = "‹", nbsp = "·", tab = "→ ", trail = "·", eol = "¬" }
+-- vim.opt.autoindent = true
+-- vim.opt.smartindent = true		-- autoindent new lines
+vim.opt.smarttab    = true
+vim.opt.shiftwidth  = 4			-- shift 4 spaces when tab
+vim.opt.tabstop     = 4         -- 1 tab == 4 spaces
+vim.opt.softtabstop = 4         -- 1 tab == 4 spaces
+-- vim.opt.indentkeys  = "0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:"
 
 
 ---------------------------------- Searching ----------------------------------
-opt.path:append {"**"} -- add current file location to path
-opt.ignorecase    = true
-opt.smartcase     = true
-vim.opt.hlsearch  = true
-vim.opt.incsearch = true
-vim.opt.wrapscan  = true
-opt.wildignore:append {
+vim.opt.path:append {"**"} -- add current file location to path
+vim.opt.ignorecase = true
+vim.opt.smartcase  = true
+vim.opt.hlsearch   = true
+vim.opt.incsearch  = true
+vim.opt.magic      = true          -- set magic on, for regular expressions
+vim.opt.wrapscan   = true
+vim.opt.wildignore:append {
   "*/tmp/*",
   "/var/*",
   "*.so",
@@ -36,26 +31,28 @@ opt.wildignore:append {
   "*.tar",
   "*.pyc"
 }
-opt.wildmode = {"longest:full","list:full"}
+vim.opt.wildmode = {"longest:full","list:full"}
 
 
 --------------------------------- Appearance ----------------------------------
-opt.background    = "dark"
-opt.number        = true
-opt.relativenumber = false
-opt.scrolloff     = 1               -- start scrolling when near the last line
-opt.showmatch     = true
-opt.showmode      = true
-opt.sidescrolloff = 5               -- start scrolling when near the last col
-opt.syntax        = "enable"        -- enable syntax highlighting
-opt.termguicolors = true            -- true color support
-opt.showbreak = string.rep(" ", 3)  -- Make it so that long lines wrap smartly
-opt.belloff = "all"                 -- Just turn all the bells off
+vim.opt.background    = "dark"
+vim.opt.cursorline  = false
+vim.opt.cursorcolumn  = false
+vim.opt.number        = true
+vim.opt.relativenumber = false
+vim.opt.scrolloff     = 1               -- start scrolling when near the last line
+vim.opt.showmatch     = true
+vim.opt.showmode      = true
+vim.opt.sidescrolloff = 5               -- start scrolling when near the last col
+vim.opt.syntax        = "enable"        -- enable syntax highlighting
+vim.opt.termguicolors = true            -- true color support
+vim.opt.showbreak = string.rep(" ", 3)  -- Make it so that long lines wrap smartly
+vim.opt.belloff = "all"                 -- Just turn all the bells off
 vim.wo.signcolumn = "yes"
 vim.go.termguicolors = true
 
 --------------------------------- Mouse (OFF) ----------------------------------
-opt.mouse = ""
+vim.opt.mouse = ""
 
 
 -------------------------- Keybinds/ keymapping --------------------------------
@@ -63,14 +60,14 @@ vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
 ---------------------------------- Completion ----------------------------------
--- opt.completeopt = {"menuone", "longest", "preview"}
-opt.shortmess = "s"
+-- vim.opt.completeopt = {"menuone", "longest", "preview"}
+vim.opt.shortmess = "s"
 
 ----------------------------------- Folding ------------------------------------
-opt.foldlevel   = 99
-opt.foldmethod  = "expr"
-opt.foldexpr    = "nvim_treesitter#foldexpr()"
-opt.foldnestmax = 2
+vim.opt.foldlevel   = 99
+vim.opt.foldmethod  = "expr"
+vim.opt.foldexpr    = "nvim_treesitter#foldexpr()"
+vim.opt.foldnestmax = 2
 
 function _G.custom_fold_text()
   local line = vim.fn.getline(vim.v.foldstart)
@@ -84,48 +81,47 @@ vim.opt.fillchars = { eob = "-", fold = " " }
 vim.opt.viewoptions:remove("options")
 
 --------------------------------- General ----------------------------------
-opt.autoread    = false
-opt.backspace   = "indent,eol,start"   -- Enable backspacing over autoindent, EOL, and BOL
-opt.backup      = false
-opt.clipboard   = "unnamedplus" -- copy/paste to system clipboard
-opt.complete    = ".,w,b,u,t,i"
-opt.encoding    = "UTF-8"
-opt.hidden      = true          -- switch buffers without saving
-opt.history     = 10000         -- remember n lines in history
--- opt.lazyredraw  = true          -- faster scrolling
-opt.magic       = true          -- set magic on, for regular expressions
-opt.mat         = 2             -- how many tenths of a second to blink
-opt.numberwidth = 2
-opt.ruler       = true
-opt.showcmd     = true          -- show incomplete commands
-opt.splitbelow  = true          -- orizontal split to the bottom
-opt.splitright  = true          -- vertical split to the right
-opt.swapfile    = false         -- don't use swapfile
-opt.title       = true          -- set terminal title
-opt.ttimeout    = true          -- prevent delay when changing modes
-opt.ttimeoutlen = 50
-opt.undofile    = true         -- persistent undo
-opt.undolevels  = 1000          -- Keeps the last 1000 modifications to undo
-opt.updatetime  = 100           -- speed up screen updating
-opt.whichwrap   = "b,s,h,l,<,>,[,]"
-opt.winminheight= 0
-opt.wrap        = false         -- Don't wrap the line if it gets long enough
-opt.wrapscan    = true          -- Sets it to wrap  search from bottom to top
-vim.cmd("set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help")
+vim.opt.autoread    = false
+vim.opt.backspace   = "indent,eol,start"   -- Enable backspacing over autoindent, EOL, and BOL
+vim.opt.backup      = false
+vim.opt.clipboard   = "unnamedplus" -- copy/paste to system clipboard
+vim.opt.complete    = ".,w,b,u,t,i"
+vim.opt.encoding    = "UTF-8"
+vim.opt.hidden      = true          -- switch buffers without saving
+vim.opt.history     = 10000         -- remember n lines in history
+-- vim.opt.lazyredraw  = true          -- faster scrolling
+vim.opt.mat         = 2             -- how many tenths of a second to blink
+vim.opt.numberwidth = 2
+vim.opt.ruler       = true
+vim.opt.showcmd     = true          -- show incomplete commands
+vim.opt.splitbelow  = true          -- orizontal split to the bottom
+vim.opt.splitright  = true          -- vertical split to the right
+vim.opt.swapfile    = false         -- don't use swapfile
+vim.opt.title       = true          -- set terminal title
+vim.opt.ttimeout    = true          -- prevent delay when changing modes
+vim.opt.ttimeoutlen = 50
+vim.opt.undofile    = true         -- persistent undo
+vim.opt.undolevels  = 1000          -- Keeps the last 1000 modifications to undo
+vim.opt.updatetime  = 100           -- speed up screen updating
+vim.opt.whichwrap   = "b,s,h,l,<,>,[,]"
+vim.opt.winminheight= 0
+vim.opt.wrap        = false         -- Don't wrap the line if it gets long enough
+vim.opt.wrapscan    = true          -- Sets it to wrap  search from bottom to top
+vim.opt.sessionoptions = "resize,winpos,winsize,buffers,tabpages,folds,curdir,help"
 
-opt.modeline = false
-opt.modelines = 1
-opt.formatoptions = opt.formatoptions
+vim.opt.modeline = false
+vim.opt.modelines = 1
+vim.opt.formatoptions = vim.opt.formatoptions
   - "a" -- Auto formatting is BAD.
   - "t" -- Don't auto format my code. I got linters for that.
   + "q" -- Allow formatting comments w/ gq
   - "o" -- O and o, don't continue comments
   + "r" -- But do continue when pressing enter.
   + "n" -- Indent past the formatlistpat, not underneath it.
-  + "j" -- Auto-remove comments if possible.
+  + "j" -- Auto-remove comments when joining
 
 -- go to last loc when opening a buffer
--- cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]])
+-- vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]])
 vim.api.nvim_create_autocmd('BufReadPost', {
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
@@ -137,26 +133,33 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 })
 
 -- Set filetypes for various file extensions
-cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
-cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
-cmd([[au BufNewFile,BufRead *.sh  set filetype=bash]])
-cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
+vim.cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
+vim.cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
+vim.cmd([[au BufNewFile,BufRead *.sh  set filetype=bash]])
+vim.cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
 
 -- vim.o.foldcolumn = '1'
 -- vim.o.foldlevel = 99
 -- vim.o.foldlevelstart = 99
 -- vim.o.foldenable = true
 -- vim.o.fillchars = [[eob: ,fold: ,foldopen:v,foldsep: ,foldclose:>]]
--- vim.o.statuscolumn = "%=%l%s%C"  -- This messes up the telescope & popup window borders
-
--- cmd([[au BufRead,BufNewFile *.js set filetype=javascript syntax=javascript foldmethod=indent]])
--- cmd([[au BufNewFile,BufRead *.js set foldmethod=syntax]])
--- cmd([[au BufNewFile,BufRead *.ejs set foldmethod=indent]])
--- cmd("let g:javaScript_fold = 1")
-
--- Make vim supposedly save/ load view (state) (folds, cursor, etc)
-cmd([[au BufWinLeave \* silent! mkview]])
-cmd([[au BufWinEnter \* silent! loadview]])
 
 -- Remove whitespace on save
-cmd[[au BufWritePre * :%s/\s\+$//e]]
+vim.cmd[[au BufWritePre * :%s/\s\+$//e]]
+
+-- If a file is larger than 2MB, turn off some settings to make it load faster
+--  * The foldmethod itself seems to be a massive part of it, at least with large json files
+vim.api.nvim_create_autocmd("BufReadPre", {
+    callback = function()
+        local f = vim.fn.expand("<afile>")
+        if vim.fn.getfsize(f) > constants.perf.file.maxsize then
+            vim.notify("Big file, disabling syntax, folding, filetype")
+            vim.cmd([[
+                syntax clear
+                filetype off
+                set foldmethod=manual
+            ]])
+        end
+    end,
+})
+

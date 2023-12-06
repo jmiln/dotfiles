@@ -1,3 +1,5 @@
+local constants = require("config.constants")
+
 -- In order for this to work, need to install some stuff
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
 -- npm install -g typescript-language-server typescript
@@ -92,19 +94,14 @@ nvim_lsp.emmet_language_server.setup({})
 nvim_lsp.jedi_language_server.setup({})
 
 -- Configure how the code errors and such are displayed
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = false,
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-        float = {
-            show_header = true,
-            source = "if_many",
-            border = "rounded",
-            focusable = false,
-        },
-    }
-)
-
+vim.diagnostic.config({
+    float = {
+        border = constants.ui.border,
+        source = "if_many",
+    },
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    virtual_text = false,
+})
 
