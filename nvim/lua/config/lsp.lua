@@ -105,3 +105,9 @@ vim.diagnostic.config({
     virtual_text = false,
 })
 
+-- Have a rounded border when using "K" on something to show the signature_help
+vim.lsp.handlers["textDocument/hover"] =
+    vim.lsp.with(vim.lsp.handlers.hover, { border = constants.ui.border })
+
+vim.lsp.handlers["textDocument/signatureHelp"] =
+    vim.lsp.with( vim.lsp.handlers.signature_help, { border = constants.ui.border })
