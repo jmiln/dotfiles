@@ -120,6 +120,7 @@ safeRequire("lazy", true, {
                     "javascript",
                     "json",
                     "lua",          -- For the nvim config files
+                    "markdown",
                     "regex",        -- Ooh, shiny regex
                     "typescript",
                     "vimdoc",       -- Previously help
