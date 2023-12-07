@@ -223,6 +223,8 @@ safeRequire("lazy", true, {
             safeRequire("hover", true, {
                 init = function()
                     require("hover.providers.lsp")
+                    require("hover.providers.gh")
+                    require("hover.providers.gh_user")
                 end,
                 preview_opts = {
                     border = "rounded"
