@@ -27,7 +27,7 @@ cmd[[hi VertSplit     cterm=none      ctermfg=blue      ctermbg=grey]]
 cmd[[hi Visual        cterm=reverse   ctermfg=none]]
 
 -- Diagnostics
-cmd[[hi DiagnosticError guifg=red ]]
+cmd[[hi DiagnosticError guifg=#ffa500 ]]
 cmd[[hi @comment        guifg=#68792d guibg=background]]
 cmd[[hi @text.warning   guifg=background guibg=yellow]]
 cmd[[hi @text.danger    guifg=background guibg=red]]
