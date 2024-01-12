@@ -42,6 +42,7 @@ require("typescript-tools").setup({
             if result.diagnostics ~= nil then
                 local idx = 1
                 local jsIgnoreCodes = {
+                    1345,   -- An expression of type 'void' cannot be tested for truthiness. (Ya don't say... I can't set that in js...)
                     2322,   -- Type 'string[]' is not assignable to type 'never[]'.
                     2339,   -- Property "{0}" does not exist on type "{1}".
                     2345,   -- Argument of type '{ name: string; value: any; }' is not assignable to parameter of type 'never'.
@@ -53,6 +54,7 @@ require("typescript-tools").setup({
                     7047,   -- Rest parameter 'args' implicitly has an 'any[]' type, but a better type may be inferred from usage.
                     2568,   -- Property "X" may not exist on type "Y". Did you mean "Z"?
                     6133,   -- "X" is declared but its value is never used (Covered by eslint)
+                    18046,  -- 'err' is of type 'unknown'.
                     80001,  -- File is a CommonJS module; it may be converted to an ES6 module.
                     80007,  -- 'await' has no effect on the type of this expression.
                 }
