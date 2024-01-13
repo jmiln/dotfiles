@@ -1,11 +1,13 @@
 local g = vim.g
 local cmd = vim.cmd
 
+cmd[[colorscheme vim]]
+
 cmd[[hi Normal                                                                       guibg=#1C1C1C]]
 cmd[[hi NormalFloat                                                                  guibg=#292828]]
 cmd[[hi Visual        cterm=none                                       guifg=white   guibg=#5f5f5f]]
 cmd[[hi Comment       cterm=none                                       guifg=#68792d guibg=background]]
-cmd[[hi Constant      cterm=none      ctermfg=grey]]
+cmd[[hi Constant      cterm=none      ctermfg=grey                     guifg=lightgrey guibg=none]]
 cmd[[hi ColorColumn   cterm=none      ctermfg=none]]
 cmd[[hi Error         cterm=none      ctermfg=red       ctermbg=black  guifg=red     guibg=black]]
 cmd[[hi Folded        cterm=none      ctermfg=blue      ctermbg=grey   guifg=white   guibg=#5f5f5f]]
@@ -22,16 +24,18 @@ cmd[[hi Special       cterm=none      ctermfg=127]]
 cmd[[hi Statement     cterm=none      ctermfg=green                    guifg=green4]]
 cmd[[hi Statusline    cterm=none      ctermfg=grey]]
 cmd[[hi TabLineFill   cterm=none      ctermfg=none]]
+cmd[[hi Title         cterm=none      ctermfg=grey                     guifg=lightgrey guibg=none]]
+cmd[[hi @text         cterm=none      ctermfg=grey                     guifg=lightgrey guibg=none]]
 cmd[[hi Type          cterm=bold      ctermfg=green                    guifg=green3]]
 cmd[[hi VertSplit     cterm=none      ctermfg=blue      ctermbg=grey]]
 cmd[[hi Visual        cterm=reverse   ctermfg=none]]
 
 -- Diagnostics
 cmd[[hi DiagnosticError guifg=#ffa500 ]]
-cmd[[hi @comment        guifg=#68792d guibg=background]]
+cmd[[hi @comment        guifg=#68792d    guibg=background]]
 cmd[[hi @text.warning   guifg=background guibg=yellow]]
 cmd[[hi @text.danger    guifg=background guibg=red]]
-cmd[[hi @text.note      guifg=#ffa500 guibg=background]]
+cmd[[hi @text.note      guifg=#ffa500    guibg=background]]
 
 -- " C specific colors
 cmd[[hi cStorageClass cterm=none      ctermfg=22]]
