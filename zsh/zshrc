@@ -21,6 +21,7 @@ setopt NO_CLOBBER
 setopt NO_HIST_BEEP
 setopt NO_MAIL_WARNING
 setopt prompt_subst     # Allows for functions in the prompt
+unsetopt histignorespace    # if there's a space at the beginning of a command, don't store it in the history file (Good if you need to put a password in)
 
 TERM=tmux-256color
 # TERM=screen-256color
