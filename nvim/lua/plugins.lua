@@ -77,8 +77,8 @@ safeRequire("lazy", true, {
         end
     },
 
-    -- Rainbow parens
-    "HiPhish/rainbow-delimiters.nvim",
+    -- Rainbow parens (Nice to have, but doesn't update cleanly)
+    -- "HiPhish/rainbow-delimiters.nvim",
 
     -- More in-depth undo
     {
