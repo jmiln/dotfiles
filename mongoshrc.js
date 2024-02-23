@@ -28,7 +28,7 @@ cleanOld = async function (table="playerStats") {
     if (!swapiDBs.includes(db.getName())) return print("This can only be run inside the swapi dbs!");
     const usableTables = ["playerStats", "guilds"]
     if (!usableTables.includes(table)) return print("Incorrect table, these are the only usable ones: " + usableTables.join(", "));
-    return await db[table].deleteMany({updated: {"$lt": (new Date(new Date().setDate(new Date().getDate()-20)).getTime())}})
+    return await db[table].deleteMany({updated: {"$lt": (new Date().setDate(new Date().getDate()-20))}})
 }
 
 // SWGoHBot stuff
