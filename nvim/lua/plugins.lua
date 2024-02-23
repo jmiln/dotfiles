@@ -301,6 +301,7 @@ safeRequire("lazy", true, {
 
     -- Git stuff
     "tpope/vim-fugitive",
+    "sindrets/diffview.nvim",
 
     -- Git changes in the signcolumn
     {
@@ -392,10 +393,10 @@ safeRequire("lazy", true, {
                         enable = true,
                         inline_arrows = true,
                         icons = {
+                            edge   = "│",
+                            item   = "├",
                             corner = "└",
-                            edge = "│",
-                            item = "├",
-                            none = " ",
+                            none   = " ",
                         },
                     },
                 }
@@ -411,7 +412,6 @@ safeRequire("lazy", true, {
         config = function()
             safeRequire("lualine", true, {
                 options = {
-                    component_separators = "",
                     icons = true,
                     icons_enabled = true,
                     theme = "gruvbox_dark",
@@ -420,21 +420,25 @@ safeRequire("lazy", true, {
                     "fugitive",
                     "nvim-tree",
                     "quickfix"
+                },
+                sections = {
+                    lualine_b = {
+                        "branch",
+                        "diff",
+                        {
+                            "diagnostics",
+                            symbols = {
+                                error = constants.diagnostic.sign.error,
+                                warn  = constants.diagnostic.sign.warn,
+                                info  = constants.diagnostic.sign.info,
+                                hint  = constants.diagnostic.sign.hint
+                            },
+                        }
+                    }
                 }
             })
         end
     },
-
-    -- Shut up the diagnostics while I'm in insert mode
-    -- The main file is copied into ./config/dd.lua, and called in ./config/init.lua, since this doesn't seem to work
-    -- Darn you Packer...
-    -- use ({
-    --     "https://gitlab.com/yorickpeterse/nvim-dd.git",
-    --     as = "dd",
-    --     config = function()
-    --         require("dd").setup()
-    --     end
-    -- })
 })
 
 
