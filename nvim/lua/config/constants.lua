@@ -6,6 +6,7 @@ local M = {
             error   = "",
             hint    = "",
             info    = "",
+            ok      = "",
             warning = "",
         },
     },

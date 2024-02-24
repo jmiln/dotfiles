@@ -1,5 +1,3 @@
-local constants = require("config.constants")
-
 ----------------------------- Tabs & Indentation ------------------------------
 vim.opt.expandtab   = true		-- tabs insert spaces
 vim.opt.joinspaces  = false		-- only one space after punction when joining lines
@@ -120,18 +118,6 @@ vim.opt.formatoptions = vim.opt.formatoptions
   + "n" -- Indent past the formatlistpat, not underneath it.
   + "j" -- Auto-remove comments when joining
 
--- go to last loc when opening a buffer
--- vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]])
-vim.api.nvim_create_autocmd('BufReadPost', {
-  callback = function()
-    local mark = vim.api.nvim_buf_get_mark(0, '"')
-    local lcount = vim.api.nvim_buf_line_count(0)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
-  end,
-})
-
 -- Set filetypes for various file extensions
 vim.cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
 vim.cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
@@ -143,23 +129,3 @@ vim.cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
 -- vim.o.foldlevelstart = 99
 -- vim.o.foldenable = true
 -- vim.o.fillchars = [[eob: ,fold: ,foldopen:v,foldsep: ,foldclose:>]]
-
--- Remove whitespace on save
-vim.cmd[[au BufWritePre * :%s/\s\+$//e]]
-
--- If a file is larger than 2MB, turn off some settings to make it load faster
---  * The foldmethod itself seems to be a massive part of it, at least with large json files
-vim.api.nvim_create_autocmd("BufReadPre", {
-    callback = function()
-        local f = vim.fn.expand("<afile>")
-        if vim.fn.getfsize(f) > constants.perf.file.maxsize then
-            vim.notify("Big file, disabling syntax, folding, filetype")
-            vim.cmd([[
-                syntax clear
-                filetype off
-                set foldmethod=manual
-            ]])
-        end
-    end,
-})
-

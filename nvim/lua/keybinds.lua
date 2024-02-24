@@ -88,6 +88,13 @@ map("n", "<c-k>", ":lua vim.diagnostic.goto_prev()<CR>", default)
 -- Run currently selected JS (Cool, but never used)
 -- vim.api.nvim_command("command! -range RunNode <line1>,<line2>w !node");
 
+-- Quickfix list
+map("n", "]q", "<cmd>cnext<cr>",     { desc = "Next Quickfix" })
+map("n", "[q", "<cmd>cprevious<cr>", { desc = "Prev Quickfix" })
+-- Buffer list
+map("n", "]b", "<cmd>bnext<cr>",     { desc = "Next Buffer" })
+map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
+
 
 -- Legacy Abbreviations
 -- Typos
