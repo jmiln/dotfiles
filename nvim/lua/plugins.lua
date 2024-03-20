@@ -297,6 +297,8 @@ safeRequire("lazy", true, {
     -- AI Autocomplete stuffs
     {
         "Exafunction/codeium.nvim",
+        -- Only enable if the machine has more than 8GB of RAM available
+        enabled = vim.loop.get_total_memory() > 2^33,
         dependencies = {
             "nvim-lua/plenary.nvim",
             "hrsh7th/nvim-cmp",
