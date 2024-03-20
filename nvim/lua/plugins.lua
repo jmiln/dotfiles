@@ -77,8 +77,28 @@ safeRequire("lazy", true, {
         end
     },
 
+    -- Free up LSPs that haven't recently been used?
+    {
+        "zeioth/garbage-day.nvim",
+        dependencies = "neovim/nvim-lspconfig",
+        event = "VeryLazy",
+    },
+
     -- Rainbow parens (Nice to have, but doesn't update cleanly)
     -- "HiPhish/rainbow-delimiters.nvim",
+
+    -- Show what matches with the closing paren/ bracket of the current line
+    {
+        "briangwaltney/paren-hint.nvim",
+        config = function()
+            safeRequire("paren-hint", true, {
+                anywhere_on_line       = true,
+                include_paren          = true,
+                show_same_line_opening = false,
+                -- start_with_comment     = true,
+            })
+        end
+    },
 
     -- More in-depth undo
     {
@@ -237,7 +257,7 @@ safeRequire("lazy", true, {
             vim.keymap.set("n", "K", require("hover").hover, {desc = "hover.nvim"})
             vim.keymap.set("n", "gK", require("hover").hover_select, {desc = "hover.nvim (select)"})
         end
-    }    ,
+    },
     "nvim-lua/popup.nvim",
     {
         "nvim-telescope/telescope.nvim",
@@ -274,7 +294,20 @@ safeRequire("lazy", true, {
         end
     },
 
-    -- Open up the locationlist when there are errors
+    -- AI Autocomplete stuffs
+    {
+        "Exafunction/codeium.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "hrsh7th/nvim-cmp",
+        },
+        config = function()
+            require("codeium").setup({
+            })
+        end
+    },
+
+    -- Put errors in the locationlist (<leader>z to open)
     {
         "folke/trouble.nvim",
         event = "VeryLazy",
@@ -285,10 +318,6 @@ safeRequire("lazy", true, {
             safeRequire("trouble", true, {
                 signs = {
                     -- icons / text used for a diagnostic
-                    -- error       = "[ERROR]",
-                    -- warning     = "[WARN]",
-                    -- hint        = "[HINT]",
-                    -- information = "[INFO]",
                     error       = constants.diagnostic.sign.error,
                     warning     = constants.diagnostic.sign.warning,
                     information = constants.diagnostic.sign.info,
@@ -307,7 +336,13 @@ safeRequire("lazy", true, {
     {
         "lewis6991/gitsigns.nvim" ,
         config = function()
-            safeRequire("gitsigns", true)
+            safeRequire("gitsigns", true, {
+                signs = {
+                    -- Update these two from over/underscore so they'll actually show up
+                    delete       = { text = '│' },
+                    topdelete    = { text = '│' },
+                },
+            })
         end
     },
 

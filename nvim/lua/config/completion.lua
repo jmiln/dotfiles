@@ -64,6 +64,7 @@ cmp.setup({
         })
     },
     sources = {
+        { name = "codeium" },
         { name = "nvim_lsp" },
         { name = "buffer" },
         { name = "path" },
@@ -73,15 +74,20 @@ cmp.setup({
         default_behavior = cmp.ConfirmBehavior.Insert,
     },
     formatting = {
-        format = lspkind.cmp_format({
-            mode = "symbol_text",
-            menu = ({
-                buffer   = "[Buffer]",
-                nvim_lsp = "[LSP]",
-                path     = "[Path]",
-                luasnip  = "[Snip]",
-            })
-        })
+        format = lspkind.cmp_format(
+            {
+                mode = "symbol_text",
+                maxwidth = 50,
+                ellipsis_char = '...',
+                menu = ({
+                    buffer   = "[Buff]",
+                    nvim_lsp = "[LSP]",
+                    path     = "[Path]",
+                    luasnip  = "[Snip]",
+                    codeium  = "[  ]",
+                })
+            }
+        )
     }
 })
 

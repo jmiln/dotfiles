@@ -13,5 +13,8 @@ require("keybinds")
 -- Load up highlighting settings
 require("highlight")
 
+-- Load up autocmds
+require("autocmds")
+
 -- Load up some utils
 -- require("utils")
