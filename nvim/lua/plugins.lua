@@ -77,13 +77,6 @@ safeRequire("lazy", true, {
         end
     },
 
-    -- Free up LSPs that haven't recently been used?
-    {
-        "zeioth/garbage-day.nvim",
-        dependencies = "neovim/nvim-lspconfig",
-        event = "VeryLazy",
-    },
-
     -- Rainbow parens (Nice to have, but doesn't update cleanly)
     -- "HiPhish/rainbow-delimiters.nvim",
 

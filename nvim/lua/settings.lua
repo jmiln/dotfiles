@@ -75,7 +75,7 @@ function _G.custom_fold_text()
 end
 
 vim.opt.foldtext = "v:lua.custom_fold_text()"
-vim.opt.fillchars = { eob = "-", fold = " " }
+vim.opt.fillchars = { eob = " ", fold = " " }
 vim.opt.viewoptions:remove("options")
 
 --------------------------------- General ----------------------------------
