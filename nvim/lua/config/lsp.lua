@@ -86,7 +86,12 @@ require("typescript-tools").setup({
 -- Enable eslint for it's JS linting
 --  * Apparently eslint needs to be installed in the project now, global install doesn't work
 --    - Use `npm install --save-dev eslint` to install it as a dev dependency in each project where it's needed
-nvim_lsp.eslint.setup({})
+-- nvim_lsp.eslint.setup({})
+
+nvim_lsp.biome.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+})
 
 nvim_lsp.html.setup({})
 -- Use `npm i -g @olrtg/emmet-language-server` to make this work
