@@ -1,4 +1,4 @@
-alias sound="alsamixer -V=all"
+# alias sound="alsamixer -V=all"
 
 # Brightness for school moniters (between 0 and 1, otherwise it goes all sorts of funky)
 # alias brightness="xrandr --output eDP --brightness "
@@ -10,14 +10,6 @@ alias less="less -X"
 alias man="man -P 'less -X'"
 alias grep="grep --color=auto"  #
 
-
-# Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-    lsFlags="-Cp --group-directories-first --color"
-else # macOS `ls`
-    lsFlags="-G"
-fi
-
 # If exa is installed, alias ls to use it
 if command -v exa &> /dev/null; then
     alias ls="exa -F --group-directories-first"
@@ -26,6 +18,13 @@ if command -v exa &> /dev/null; then
     alias ll="l -lh --git"
     alias lla="ll -a"
 else
+    # Detect which `ls` flavor is in use
+    if ls --color > /dev/null 2>&1; then # GNU `ls`
+        lsFlags="-Cp --group-directories-first --color"
+    else # macOS `ls`
+        lsFlags="-G"
+    fi
+
     alias ls="ls -CF ${lsFlags}"
     alias l="ls"
     alias la="ls -A"
@@ -50,7 +49,10 @@ alias m="more"
 alias h="history"
 
 # Use Vim if possible
-if which vim >/dev/null 2>&1; then
+if which nvim >/dev/null 2>&1; then
+    alias vi="nvim"
+    alias vim="nvim"
+elif which vim >/dev/null 2>&1; then
     alias vi="vim"
 else
     alias vim="vi"
