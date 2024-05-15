@@ -51,7 +51,6 @@ alias h="history"
 # Use Vim if possible
 if which nvim >/dev/null 2>&1; then
     alias vi="nvim"
-    alias vim="nvim"
 elif which vim >/dev/null 2>&1; then
     alias vi="vim"
 else
