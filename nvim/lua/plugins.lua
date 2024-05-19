@@ -193,13 +193,31 @@ safeRequire("lazy", true, {
         version = "*",
         event = "VeryLazy",
         dependencies = {
-            "nvim-treesitter/nvim-treesitter-textobjects",
+            -- "nvim-treesitter/nvim-treesitter-textobjects",
             "nvim-treesitter/nvim-treesitter",
         },
         config = function()
             safeRequire("nvim-surround", true)
         end
     },
+    -- {
+    --     "nvim-treesitter/nvim-treesitter-textobjects",
+    --     config = function()
+    --         safeRequire("nvim-treesitter-textobjects", true, {
+    --             textobjects = {
+    --                 swap = {
+    --                     enable = true,
+    --                     swap_next = {
+    --                         ["<leader>a"] = "@parameter.inner",
+    --                     },
+    --                     swap_previous = {
+    --                         ["<leader>A"] = "@parameter.inner",
+    --                     },
+    --                 },
+    --             },
+    --         })
+    --     end
+    -- },
 
     -- Easy comments
     {

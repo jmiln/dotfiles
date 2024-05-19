@@ -1,3 +1,5 @@
+vim.deprecate = function() end
+
 -- Load up whatever lua stuff
 require("settings")
 
