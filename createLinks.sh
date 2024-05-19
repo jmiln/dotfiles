@@ -84,12 +84,6 @@ case $_myos in
 esac
 
 
-
-#==============
-# Set zsh as the default shell
-#==============
-#sudo chsh -s /bin/zsh
-
 #==============
 # Give the user a summary of what has been installed
 #==============

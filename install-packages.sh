@@ -25,8 +25,9 @@ else
     logToFile "zsh is already installed."
 fi
 
-cd /usr/share
-sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+## This is now taken care of by plugins in .zshrc
+# cd /usr/share
+# sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 # sudo apt-get install zsh-syntax-highlighting
 
 if ! command_exists curl; then
