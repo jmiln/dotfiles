@@ -15,26 +15,27 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 
-
 # Add in snippets
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
+zinit snippet OMZP::command-not-found
+zinit snippet OMZP::extract
+zinit snippet OMZP::git-commit
+# zinit snippet OMZP::git-prompt
+# zinit snippet OMZP::nvm
+# zinit snippet OMZP::ufw
+export NVM_COMPLETION=true
+export NVM_SYMLINK_CURRENT="true"
+export NVM_LAZY_LOAD=true
+zinit wait lucid light-mode for lukechilds/zsh-nvm
 
 
 # Load completions
-autoload -Uz compinit && compinit
-
+autoload -Uz compinit promptinit colors && compinit
 zinit cdreplay -q
 
 
-
-
 # ZSH modules and settings
-autoload -U compinit promptinit colors
-colors
-compinit -i
-promptinit
-
 export TZ=US/Pacific
 
 setopt AUTO_PARAM_SLASH
@@ -52,13 +53,23 @@ setopt NO_CLOBBER
 setopt NO_HIST_BEEP
 setopt NO_MAIL_WARNING
 setopt prompt_subst     # Allows for functions in the prompt
-unsetopt histignorespace    # if there's a space at the beginning of a command, don't store it in the history file (Good if you need to put a password in)
+setopt histignorespace    # if there's a space at the beginning of a command, don't store it in the history file (Good if you need to put a password in)
 
-TERM=tmux-256color
+# History settings
+export HISTFILE=~/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=$HISTSIZE
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+# TERM=tmux-256color
 # TERM=screen-256color
 # TERM=xterm-256color
-
-autoload -U colors && colors # Enable colors in promptetopt SHARE_HISTORY
 
 # import .aliases
 if [ -r ~/.aliases ]; then
@@ -107,9 +118,6 @@ fi
 
 export GIT_EDITOR=$EDITOR
 export PAGER=less
-export HISTFILE=~/.zsh_history
-export HISTSIZE=10000
-export SAVEHIST=10000
 export INPUTRC=~/.inputrc
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;34m'
@@ -165,7 +173,6 @@ bindkey -e
 # Make C-K clear to the end of the line (hopefully)
 bindkey '' kill-line
 
-
 # Move backward through the menu with Shift-tab
 bindkey '[Z' reverse-menu-complete
 
@@ -183,18 +190,25 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*' menu select
 zstyle ':completion:*' verbose yes
+
+# Completion for the kill command
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 zstyle ':completion:*:kill:*' insert-ids single
 zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*' force-list always
 
+# Settings for the nvm plugins
+zstyle ':omz:plugins:nvm' lazy yes
+zstyle ':omz:plugins:nvm' autoload yes
+zstyle ':omz:plugins:nvm' lazy-cmd node npm nvm eslint biome vim nvim
+zstyle ':omz:plugins:nvm' silent-autoload yes
+
+
 autoload copy-earlier-word && zle -N copy-earlier-word && bindkey '^[,' copy-earlier-word
 
 typeset -A key
 
-# key[PageUp]=${terminfo[kpp]}
-# key[PageDown]=${terminfo[knp]}
-
+# Try to force home/end to work properly
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
 
@@ -248,36 +262,3 @@ case $_myos in
        ;;
    *) ;;
 esac
-
-export NVM_DIR="$HOME/.nvm"
-# These are the Node versions installed by nvm. Add the latest one to the PATH by default.
-node_versions=("$NVM_DIR"/versions/node/*)
-if  (( $#node_versions > 0 )); then
-    PATH="$PATH:${node_versions[${#node_versions[@]} - 1]}/bin"
-fi
-# Load up node as needed, swiped from https://www.reddit.com/r/node/comments/4tg5jg/lazy_load_nvm_for_faster_shell_start/d5ib9fs/?context=3
-declare -a NODE_GLOBALS=(`find ~/.nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
-
-NODE_GLOBALS+=("node")
-NODE_GLOBALS+=("nvm")
-NODE_GLOBALS+=("vim")
-NODE_GLOBALS+=("nvim")
-
-load_nvm () {
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-}
-
-for cmd in "${NODE_GLOBALS[@]}"; do
-    eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
-done
-
-#########################
-#     Test
-#########################
-
-
-
-# Zsh syntax highlighting (https://github.com/zsh-users/zsh-syntax-highlighting || apt-get install zsh-syntax-highlighting)
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
