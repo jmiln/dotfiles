@@ -73,7 +73,8 @@ alias untar="tar xvf"
 
 # Reload the shell config
 if [[ "$SHELL" == "/bin/zsh" ]]; then
-    alias reload="source ~/.zshrc; echo 'Reloading .zshrc'"
+    # alias reload="source ~/.zshrc; echo 'Reloading .zshrc'"
+    alias reload="exec zsh; echo 'Reloading .zshrc'"
 elif [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
     alias reload="source ~/.bashrc; echo 'Reloading .bashrc'"
 fi
