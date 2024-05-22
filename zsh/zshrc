@@ -68,9 +68,10 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-# TERM=tmux-256color
+TERM=tmux-256color
 # TERM=screen-256color
 # TERM=xterm-256color
+# export TERM='xterm-256color'
 
 # import .aliases
 if [ -r ~/.aliases ]; then

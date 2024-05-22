@@ -1,6 +1,9 @@
 -- Use the default vim colorscheme, then edit from there
 vim.cmd[[colorscheme vim]]
 
+vim.cmd[[set t_Co=256]]
+vim.cmd[[set termguicolors]]
+
 vim.api.nvim_set_hl(0, "Normal",          {bg="#1C1C1C"})
 vim.api.nvim_set_hl(0, "NormalFloat",     {bg="#292828"})
 vim.api.nvim_set_hl(0, "Visual",          {fg="white",      bg="#5f5f5f"})
