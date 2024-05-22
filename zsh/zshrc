@@ -32,7 +32,7 @@ zinit wait lucid light-mode for lukechilds/zsh-nvm
 
 
 # Load completions
-autoload -Uz compinit promptinit colors && compinit
+autoload -Uz compinit promptinit colors && (compinit &)
 zinit cdreplay -q
 
 
