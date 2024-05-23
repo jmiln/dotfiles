@@ -306,44 +306,18 @@ safeRequire("lazy", true, {
     },
 
     -- AI Autocomplete stuffs
-    -- {
-    --     "Exafunction/codeium.nvim",
-    --     -- Only enable if the machine has more than 8GB of RAM available
-    --     enabled = vim.loop.get_total_memory() > 2^33,
-    --     dependencies = {
-    --         "nvim-lua/plenary.nvim",
-    --         "hrsh7th/nvim-cmp",
-    --     },
-    --     config = function()
-    --         require("codeium").setup({
-    --             -- enable_chat = true   -- Sounds nice, but it seems to try opening it in a browser instead of a split... So nevermind
-    --         })
-    --     end
-    -- },
-    -- { -- This one uses the ghost text, and shows full functions? Needs to :Codeium Auth
-    --     'Exafunction/codeium.vim',
-    --     config = function ()
-    --         -- Change '<C-g>' here to any keycode you like.
-    --         vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
-    --         vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true, silent = true })
-    --         vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true, silent = true })
-    --         vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
-    --     end
-    -- },
-    { -- An alternative to codeium.vim with the ghost text and such - :NeoCodeium auth
+    {
         "monkoose/neocodeium",
         event = "VeryLazy",
+        -- Only enable if the machine has more than 8GB of RAM available
+        enabled = vim.loop.get_total_memory() > 2^33,
         config = function()
             local neocodeium = require("neocodeium")
             neocodeium.setup({
                 debounce = true,
                 silent = true,
-                -- manual = true,
             })
             vim.keymap.set("i", "<A-f>", neocodeium.accept)
-            -- vim.keymap.set("i", "<A-s>", function()
-            --     require("neocodeium").cycle_or_complete()
-            -- end)
         end,
     },
 
