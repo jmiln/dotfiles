@@ -406,7 +406,7 @@ safeRequire("lazy", true, {
     {
         "kyazdani42/nvim-tree.lua",
         dependencies = "kyazdani42/nvim-web-devicons",
-        tag = "nightly",
+        -- tag = "nightly",
         event = "VeryLazy",
         config = function()
             vim.g.loaded_netrw = 1

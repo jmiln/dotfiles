@@ -81,7 +81,7 @@ if ! command_exists tmux; then
     mkdir -p ~/.config/tmux/plugins
     git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 
-    logToFile "Tmux & TPM installed."
+    logToFile "Tmux & TPM installed. Run 'prefix + I' to install plugins."
 else
     logToFile "Tmux is already installed."
 fi
@@ -121,8 +121,8 @@ else
 fi
 
 if ! command_exists eza; then
-    sudo apt install exa
-    logToFile "exa installed."
+    sudo apt install eza
+    logToFile "eza installed."
 fi
 
 # Install the normal global nodejs packages that I end up using

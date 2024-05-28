@@ -61,7 +61,7 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=$HISTSIZE
 setopt appendhistory
-setopt sharehistory
+# setopt sharehistory
 setopt hist_ignore_space
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups

@@ -11,7 +11,13 @@ alias man="man -P 'less -X'"
 alias grep="grep --color=auto"  #
 
 # If exa is installed, alias ls to use it
-if command -v exa &> /dev/null; then
+if command -v eza &> /dev/null; then
+    alias ls="eza -F --group-directories-first"
+    alias l="ls"
+    alias la="l -a"
+    alias ll="l -lh --git"
+    alias lla="ll -a"
+elif command -v exa &> /dev/null; then
     alias ls="exa -F --group-directories-first"
     alias l="ls"
     alias la="l -a"
@@ -72,7 +78,7 @@ alias xs="cd"                   # For when I misstype
 alias untar="tar xvf"
 
 # Reload the shell config
-if [[ "$SHELL" == "/bin/zsh" ]]; then
+if [[ "$SHELL" == "/bin/zsh" || "$SHELL" == "/usr/bin/zsh" ]]; then
     # alias reload="source ~/.zshrc; echo 'Reloading .zshrc'"
     alias reload="exec zsh; echo 'Reloading .zshrc'"
 elif [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
