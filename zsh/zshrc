@@ -107,7 +107,7 @@ export LC_CTYPE="en_US.UTF-8"
 # My Path.
 typeset -U PATH
 # export PATH=$PATH:~/bin:~/bin/bin:~/.local/bin:~/.vim/bundle:~bin/llvm/Debug+Asserts/bin:.
-export PATH=$PATH:~/bin:~/bin/bin:~/.local/bin:.
+export PATH=$PATH:~/bin:~/bin/bin:~/.local/bin:~/.cargo/bin:.
 export PYTHONPATH=$PYTHONPATH:~/.local
 
 # System vars

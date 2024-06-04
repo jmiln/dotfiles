@@ -328,8 +328,23 @@ safeRequire("lazy", true, {
         dependencies = "kyazdani42/nvim-web-devicons",
         config = function()
             -- Trouble settings (Show the diagnostics quickfix window automatically)
-            vim.api.nvim_set_keymap("n", "<leader>z", "<cmd>TroubleToggle<CR>", {silent = true, noremap = true})
+            vim.api.nvim_set_keymap("n", "<leader>z", "<cmd>Trouble diagnostics toggle<CR>", {silent = true, noremap = true})
             safeRequire("trouble", true, {
+                icons = {
+                    indent = {
+                        middle = " ",
+                        last = " ",
+                        top = " ",
+                        ws = "│  ",
+                    },
+                },
+                modes = {
+                    diagnostics = {
+                        groups = {
+                            { "filename", format = "{file_icon} {basename:Title} {count}" },
+                        },
+                    },
+                },
                 signs = {
                     -- icons / text used for a diagnostic
                     error       = constants.diagnostic.sign.error,
