@@ -46,6 +46,7 @@ require("typescript-tools").setup({
                     2322,   -- Type 'string[]' is not assignable to type 'never[]'.
                     2339,   -- Property "{0}" does not exist on type "{1}".
                     2345,   -- Argument of type '{ name: string; value: any; }' is not assignable to parameter of type 'never'.
+                    2351,   -- Type has no construct signatures
                     2556,   -- A spread argument must either have a tuple type or be passed to a rest parameter
                     7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
                     7043,   -- Variable '____' implicitly has an 'any[]' type, but a better type may be inferred from usage.

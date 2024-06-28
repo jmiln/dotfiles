@@ -15,7 +15,7 @@ if command -v eza &> /dev/null; then
     alias ls="eza -F --group-directories-first"
     alias l="ls"
     alias la="l -a"
-    alias ll="l -lh --git"
+    alias ll="l -lh --git --icons=always"
     alias lla="ll -a"
 elif command -v exa &> /dev/null; then
     alias ls="exa -F --group-directories-first"
