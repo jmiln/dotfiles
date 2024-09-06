@@ -113,7 +113,6 @@ safeRequire("lazy", true, {
             })
         end
     },
-
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
@@ -134,6 +133,7 @@ safeRequire("lazy", true, {
                     "json",
                     "lua",          -- For the nvim config files
                     "markdown",
+                    "markdown_inline",
                     "regex",        -- Ooh, shiny regex
                     "typescript",
                     "vimdoc",       -- Previously help
