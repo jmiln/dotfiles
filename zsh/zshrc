@@ -142,16 +142,6 @@ export PS1="%{$fg[green]%}%n%{$fg[blue]%}@%{$reset_color%}%{$fg[lightgrey]%}%M%{
 # Zsh git integration for the right prompt
 source $HOME/.git-prompt.sh
 
-# Make file utils more verbose
-for c in rm chmod chown rename; do
-    alias $c="$c -v"
-done
-
-# Make it so noclobber and verbose are on for file utils
-for c in cp mv; do
-    alias $c="$c -vn"
-done
-
 # ZSH Command completion
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.local/share/zsh

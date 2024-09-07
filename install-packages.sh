@@ -73,18 +73,21 @@ logToFile "Installed build-essential"
 
 
 # ---
-# Install tmux
+# Install tmux & tpm
 # --
 if ! command_exists tmux; then
     sudo apt install -y tmux
-
-    mkdir -p ~/.config/tmux/plugins
-    git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-
-    logToFile "Tmux & TPM installed. Run 'prefix + I' to install plugins."
+    logToFile "Tmux installed."
 else
     logToFile "Tmux is already installed."
 fi
+
+if ! [ -d ~/.config/tmux/plugins/tpm ]; then
+    mkdir -p ~/.config/tmux/plugins
+    git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+    logToFile "TPM installed. Run 'prefix + I' to install plugins."
+fi
+
 
 # Make sure both versions of python are installed
 sudo apt-get -y install python2 python3
