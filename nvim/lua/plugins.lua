@@ -131,10 +131,11 @@ safeRequire("lazy", true, {
                     "html",
                     "javascript",
                     "json",
-                    "lua",          -- For the nvim config files
+                    "lua",          -- For the nvim config files mainly
                     "markdown",
                     "markdown_inline",
                     "regex",        -- Ooh, shiny regex
+                    "tmux",         -- For tmux.conf
                     "typescript",
                     "vimdoc",       -- Previously help
                 },
