@@ -31,6 +31,12 @@ cleanOld = async function (table="playerStats") {
     return await db[table].deleteMany({updated: {"$lt": (new Date().setDate(new Date().getDate()-20))}})
 }
 
+// Get rid of any player records that don't have any units showing in their roster (Shouldn't happen, but apparently does)
+cleanEmptyRosters = async function() {
+    if (!swapiDBs.includes(db.getName())) return print("This can only be run inside the swapi dbs!");
+    return await db.playerStats.deleteMany({roster: {$size: 0}});
+}
+
 // SWGoHBot stuff
 myAC = 855211749;
 
