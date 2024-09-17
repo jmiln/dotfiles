@@ -317,6 +317,9 @@ safeRequire("lazy", true, {
             neocodeium.setup({
                 debounce = true,
                 silent = true,
+                filetypes = {
+                    TelescopePrompt = false
+                }
             })
             vim.keymap.set("i", "<A-f>", neocodeium.accept)
         end,

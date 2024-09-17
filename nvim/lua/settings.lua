@@ -118,12 +118,6 @@ vim.opt.formatoptions = vim.opt.formatoptions
   + "n" -- Indent past the formatlistpat, not underneath it.
   + "j" -- Auto-remove comments when joining
 
--- Set filetypes for various file extensions
-vim.cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
-vim.cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
-vim.cmd([[au BufNewFile,BufRead *.sh  set filetype=bash]])
-vim.cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
-
 -- vim.o.foldcolumn = '1'
 -- vim.o.foldlevel = 99
 -- vim.o.foldlevelstart = 99
