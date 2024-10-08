@@ -38,8 +38,6 @@ rm -rf ~/.zshrc                     > /dev/null 2>&1
 #==============
 # Create ~/.config just in case
 #==============
-mkdir -p ~/.config/htop
-mkdir -p ~/.config/tmux
 
 #==============
 # Create symlinks in the home folder
@@ -48,6 +46,11 @@ mkdir -p ~/.config/tmux
 case $_myos in
     # Windows / Git Bash
     *MINGW64*)
+        # TODO Needs testing
+        mkdir ~/.config
+        # cp $dotfiles_dir/windows/wezterm ~/.config
+        # cp $dotfiles_dir/windows/Microsoft.PowerShell_profile.ps1 $HOME\Documents\PowerShell
+
         MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/aliases            ~/.aliases
         MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/bashrc             ~/.bashrc
         MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/functions          ~/.functions
@@ -65,6 +68,9 @@ case $_myos in
 
     # Linux (Clearly)
     Linux)
+        mkdir -p ~/.config/htop
+        mkdir -p ~/.config/tmux
+
         ln -sf $dotfiles_dir/aliases            ~/.aliases
         ln -sf $dotfiles_dir/bashrc             ~/.bashrc
         ln -sf $dotfiles_dir/git/gitconfig      ~/.gitconfig

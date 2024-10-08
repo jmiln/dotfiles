@@ -125,12 +125,6 @@ vim.opt.formatoptions = vim.opt.formatoptions
   + "n" -- Indent past the formatlistpat, not underneath it.
   + "j" -- Auto-remove comments when joining
 
--- Set filetypes for various file extensions
-vim.cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
-vim.cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
-vim.cmd([[au BufNewFile,BufRead *.sh  set filetype=bash]])
-vim.cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
-
 -- Snagged from:
 -- https://www.reddit.com/r/neovim/comments/1crdv93/comment/l3z0td3/
 if ((vim.fn.has("win32") == 1 or vim.fn.has("win64")) and vim.fn.has("wsl") == 0) then
@@ -142,6 +136,12 @@ if ((vim.fn.has("win32") == 1 or vim.fn.has("win64")) and vim.fn.has("wsl") == 0
     vim.o.shellquote   = ""
     vim.o.shellxquote  = ""
 end
+
+-- Set filetypes for various file extensions
+vim.cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
+vim.cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
+vim.cmd([[au BufNewFile,BufRead *.sh  set filetype=bash]])
+vim.cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
 
 -- vim.o.foldcolumn = '1'
 -- vim.o.foldlevel = 99

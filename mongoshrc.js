@@ -28,7 +28,13 @@ cleanOld = async function (table="playerStats") {
     if (!swapiDBs.includes(db.getName())) return print("This can only be run inside the swapi dbs!");
     const usableTables = ["playerStats", "guilds"]
     if (!usableTables.includes(table)) return print("Incorrect table, these are the only usable ones: " + usableTables.join(", "));
-    return await db[table].deleteMany({updated: {"$lt": (new Date().setDate(new Date().getDate()-20))}})
+    return await db[table].deleteMany({updated: {"$lt": (new Date().setDate(new Date().getDate()-7))}})
+}
+
+// Get rid of any player records that don't have any units showing in their roster (Shouldn't happen, but apparently does)
+cleanEmptyRosters = async function() {
+    if (!swapiDBs.includes(db.getName())) return print("This can only be run inside the swapi dbs!");
+    return await db.playerStats.deleteMany({roster: {$size: 0}});
 }
 
 // SWGoHBot stuff

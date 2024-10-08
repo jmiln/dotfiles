@@ -39,6 +39,16 @@ else
 fi
 
 
+# Make file utils more verbose
+for c in rm chmod chown rename; do
+    alias $c="$c -v"
+done
+
+# Make it so noclobber and verbose are on for file utils
+for c in cp mv; do
+    alias $c="$c -vn"
+done
+
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -48,7 +58,8 @@ alias path="echo -e ${PATH//:/\\n}"     # Print each PATH entry on a different l
 alias du="du -kh"           # Makes a more readable output.
 alias df="df -kTh --total"
 alias mkdir="mkdir -p"      # Create directories as needed
-alias mv="mv -iv"           # Prompts before overwrite
+alias mv="mv -ivn"           # Prompts before overwrite
+alias cp="cp -v --update=none"
 alias rm="rm -v"
 alias ap="apropos"          # Use to search for commands
 alias m="more"

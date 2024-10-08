@@ -113,7 +113,6 @@ safeRequire("lazy", true, {
             })
         end
     },
-
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
@@ -132,9 +131,11 @@ safeRequire("lazy", true, {
                     "html",
                     "javascript",
                     "json",
-                    "lua",          -- For the nvim config files
+                    "lua",          -- For the nvim config files mainly
                     "markdown",
+                    "markdown_inline",
                     "regex",        -- Ooh, shiny regex
+                    "tmux",         -- For tmux.conf
                     "typescript",
                     "vimdoc",       -- Previously help
                 },
@@ -316,6 +317,9 @@ safeRequire("lazy", true, {
             neocodeium.setup({
                 debounce = true,
                 silent = true,
+                filetypes = {
+                    TelescopePrompt = false
+                }
             })
             vim.keymap.set("i", "<A-f>", neocodeium.accept)
         end,

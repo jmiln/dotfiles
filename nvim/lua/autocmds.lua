@@ -16,6 +16,12 @@ autocmd("FileType", {
     end,
 })
 
+-- Set filetypes for various file extensions
+vim.cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
+autocmd({"BufNewFile", "BufRead"}, { pattern = "*.ejs", callback = function() vim.bo.filetype = "html" end })
+autocmd({"BufNewFile", "BufRead"}, { pattern = {"*.sh", ".bashrc", ".aliases"}, callback = function() vim.bo.filetype = "bash" end })
+autocmd({"BufNewFile", "BufRead"}, { pattern = "*.conf", callback = function() vim.bo.filetype = "conf" end })
+
 autocmd("BufWritePre", {
     desc = "Auto create dir when saving a file, in case some intermediate directory does not exist",
     group = augroup("auto_create_dir"),
@@ -40,7 +46,7 @@ vim.api.nvim_create_autocmd("BufReadPre", {
                 syntax clear
                 filetype off
                 set foldmethod=manual
-                ]])
+            ]])
         end
     end,
 })
