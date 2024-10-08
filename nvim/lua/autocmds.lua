@@ -60,3 +60,15 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     end,
 })
 
+autocmd("FileType", {
+    group = general,
+    pattern = { "help", "checkhealth", },
+    callback = function(event)
+        vim.bo[event.buf].buflisted = false
+        vim.keymap.set("n", "q", "<cmd>close<cr>", {
+            buffer = event.buf,
+            silent = true,
+            desc = "Quit buffer",
+        })
+    end,
+})

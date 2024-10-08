@@ -120,7 +120,7 @@ let g:html_indent_inctags = "html,body,head,tbody"
 "                   Folding {{{
 "=========================================================
 " Fold settings
-set foldcolumn=1                " Defines 1 col at window left, to indicate folding
+" set foldcolumn=1                " Defines 1 col at window left, to indicate folding
 set foldmethod=marker
 set foldnestmax=2               " Don't nest folds
 set foldlevelstart=99           " Start with all folds open

@@ -49,6 +49,13 @@ vim.opt.belloff = "all"                 -- Just turn all the bells off
 vim.wo.signcolumn = "yes"
 vim.go.termguicolors = true
 
+-- Make cursor blink
+vim.opt.guicursor = {
+    "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50",
+    "a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
+    "sm:block-blinkwait175-blinkoff150-blinkon175",
+}
+
 --------------------------------- Mouse (OFF) ----------------------------------
 vim.opt.mouse = ""
 
@@ -123,6 +130,18 @@ vim.cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartinden
 vim.cmd([[au BufNewFile,BufRead *.ejs set filetype=html]])
 vim.cmd([[au BufNewFile,BufRead *.sh  set filetype=bash]])
 vim.cmd([[au BufNewFile,BufRead .bashrc,.aliases set filetype=bash]])
+
+-- Snagged from:
+-- https://www.reddit.com/r/neovim/comments/1crdv93/comment/l3z0td3/
+if ((vim.fn.has("win32") == 1 or vim.fn.has("win64")) and vim.fn.has("wsl") == 0) then
+    vim.o.shell        = "powershell"
+    -- vim.o.shell        = vim.fn.executable "pwsh" == 1 and "pwsh -NoLogo" or "powershell"
+    vim.o.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF9;"
+    vim.o.shellredir   = "-RedirectStandardOutput %s -NoNewWindow -Wait"
+    vim.o.shellpipe    = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+    vim.o.shellquote   = ""
+    vim.o.shellxquote  = ""
+end
 
 -- vim.o.foldcolumn = '1'
 -- vim.o.foldlevel = 99

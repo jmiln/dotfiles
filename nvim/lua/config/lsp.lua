@@ -98,6 +98,12 @@ nvim_lsp.html.setup({})
 -- Use `npm i -g @olrtg/emmet-language-server` to make this work
 nvim_lsp.emmet_language_server.setup({})
 
+-- Lua language server
+-- nvim_lsp.lua_ls.setup({
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+-- })
+
 -- Python language server
 nvim_lsp.jedi_language_server.setup({})
 
