@@ -11,7 +11,7 @@ Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 
 # Quick alias for git status
-Set-Alias -Name gits -Value "git status"
+function gits {git status}
 
 # Make it so ctrl+d will close the terminal if in an empty prompt
 Set-PSReadlineKeyHandler -Key ctrl+d -Function DeleteCharOrExit
@@ -25,21 +25,22 @@ function Test-CommandExists {
 
 # Editor Configs
 $EDITOR = if (Test-CommandExists nvim) { 'nvim' }
-          elseif (Test-CommandExists pvim) { 'pvim' }
-          elseif (Test-CommandExists vim) { 'vim' }
-          elseif (Test-CommandExists vi) { 'vi' }
-          elseif (Test-CommandExists code) { 'code' }
-          elseif (Test-CommandExists notepad++) { 'notepad++' }
-          else { 'notepad' }
+      elseif (Test-CommandExists pvim) { 'pvim' }
+      elseif (Test-CommandExists vim)  { 'vim' }
+      elseif (Test-CommandExists vi)   { 'vi' }
+      elseif (Test-CommandExists code) { 'code' }
+      elseif (Test-CommandExists notepad++) { 'notepad++' }
+      else { 'notepad' }
 Set-Alias -Name vim -Value $EDITOR
 
 # Enhanced Listing
 if (Test-CommandExists eza) {
-    Set-Alias -Name ls -Value eza
-    function la {eza -a}
-    function ll {eza -l}
-    function lla {eza -la}
-} elseif ($host.Name -eq 'ConsoleHost') {
+    rm alias:ls -ErrorAction SilentlyContinue
+    function ls {eza.exe @args}
+    function la {ls -a @args}
+    function ll {ls -l @args}
+    function lla {ls -la @args}
+} elseif ($host.Name -eq 'ConsoleHost' && Test-CommandExists git) {
     function ls_git { & 'C:\Program Files\Git\usr\bin\ls' --color=auto -hF $args }
     Set-Alias -Name ls -Value ls_git -Option Private
     function la {ls_git -a}
@@ -50,6 +51,25 @@ if (Test-CommandExists eza) {
     function ll { Get-ChildItem -Path . -Force -Hidden | Format-Table -AutoSize }
 }
 Set-Alias -Name l -Value ls
+
+# Quick CD back up the file tree
+${function:Set-ParentLocation} = { Set-Location .. }; Set-Alias ".." Set-ParentLocation
+${function:...} = { Set-Location ..\.. }
+${function:....} = { Set-Location ..\..\.. }
+${function:.....} = { Set-Location ..\..\..\.. }
+${function:......} = { Set-Location ..\..\..\..\.. }
+
+# Navigation Shortcuts
+function dt   { Set-Location ~\Desktop }
+function docs { Set-Location ~\Documents }
+function dl   { Set-Location ~\Downloads }
+
+# Basic commands
+function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select-Object Definition }
+function touch($file) { "" | Out-File $file -Encoding ASCII }
+
+
+
 
 
 
