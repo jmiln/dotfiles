@@ -1,5 +1,6 @@
 # https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
 Import-Module PSReadLine
+Import-Module 'gsudoModule'
 
 Set-PSReadlineOption -EditMode Emacs
 
@@ -36,7 +37,7 @@ Set-Alias -Name vim -Value $EDITOR
 # Enhanced Listing
 if (Test-CommandExists eza) {
     rm alias:ls -ErrorAction SilentlyContinue
-    function ls {eza.exe @args}
+    function ls {eza.exe --time-style=long-iso --group-directories-first @args}
     function la {ls -a @args}
     function ll {ls -l @args}
     function lla {ls -la @args}
