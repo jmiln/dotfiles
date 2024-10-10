@@ -1,6 +1,10 @@
 # https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
 Import-Module PSReadLine
-Import-Module 'gsudoModule'
+
+# This import lets me use the `sudo` command wherever needed
+# https://github.com/gerardog/gsudo
+# winget install gerardog.gsudo
+Import-Module gsudoModule
 
 Set-PSReadlineOption -EditMode Emacs
 
@@ -105,4 +109,3 @@ function Update-PowerShell {
         Write-Error "Failed to update PowerShell. Error: $_"
     }
 }
-Update-PowerShell
