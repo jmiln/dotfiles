@@ -17,23 +17,29 @@ function InstallPackageIfNotExist([string]$name, [string]$id) {
     }
 }
 
-InstallPackageIfNotExist "git" "Git.Git"
-InstallPackageIfNotExist "eza" "eza-community.eza"
-InstallPackageIfNotExist "nvim" "Neovim.Neovim"
-InstallPackageIfNotExist "Windows Terminal" "Microsoft.WindowsTerminal"
-InstallPackageIfNotExist "Powershell 7" "Microsoft.PowerShell"
-InstallPackageIfNotExist "fd" "sharkdp.fd"
-InstallPackageIfNotExist "7Zip" "7zip.7zip"
+$defaultPrograms = @{
+    "7Zip"             = "7zip.7zip";
+    "Powershell 7"     = "Microsoft.PowerShell";
+    "Windows Terminal" = "Microsoft.WindowsTerminal";
+    "eza"              = "eza-community.eza";
+    "fd"               = "sharkdp.fd";
+    "git"              = "Git.Git";
+    "nvim"             = "Neovim.Neovim";
+}
+foreach ($item in $defaultPrograms.GetEnumerator()) {
+    InstallPackageIfNotExist $($item.Key) $($item.Value)
+}
+
 
 # Programs that aren't always installed, so query for each
 $queryPrograms = @{
-    "Node.js" = "OpenJS.NodeJS";
+    "AutoHotKey"    = "AutoHotkey.AutoHotkey";
     "Google Chrome" = "Google.Chrome";
-    "PowerToys" = "Microsoft.PowerToys";
-    "Wezterm" = "wez.wezterm";
-    "VSCode" = "Microsoft.VisualStudioCode";
-    "WinSCP" = "WinSCP.WinSCP";
-    "AutoHotKey" = "AutoHotkey.AutoHotkey";
+    "Node.js"       = "OpenJS.NodeJS";
+    "PowerToys"     = "Microsoft.PowerToys";
+    "VSCode"        = "Microsoft.VisualStudioCode";
+    "Wezterm"       = "wez.wezterm";
+    "WinSCP"        = "WinSCP.WinSCP";
 
     # Should be replaced by built in sudo as of Win11 24h2?
     # https://github.com/gerardog/gsudo?tab=readme-ov-file#installation
@@ -41,7 +47,7 @@ $queryPrograms = @{
 }
 
 # Go through the $queryPrograms and check for each before installing
-# TODO More usable alternative would be Out-ConsoleGridView
+# TODO More usable alternative would be something like Out-ConsoleGridView so we could just select them then run through all the selections
 #   - https://github.com/PowerShell/ConsoleGuiTools/tree/main
 foreach ($item in $queryPrograms.GetEnumerator()) {
     $Confirm = Read-Host -Prompt "Do you want to install $($item.Key)? (Y/N)"
@@ -52,4 +58,23 @@ foreach ($item in $queryPrograms.GetEnumerator()) {
     }
 }
 
-# Install normal font (SauceCodeProMono)
+function CheckForFont {
+    param ( [string]$fontString )
+    $AllFonts = (New-Object System.Drawing.Text.InstalledFontCollection).Families.Name;
+    $FoundFont = $($AllFonts | Select-String -Pattern ".*${fontString}.*");
+
+    if ($FoundFont) {
+        return $true;
+    }
+    return $false;
+}
+
+if (-not (Get-InstalledPSResource -Name "NerdFonts")) {
+    Install-PSResource -Name NerdFonts;
+}
+
+if (-not (CheckForFont SauceCode)) {
+    Import-Module -Name NerdFonts;
+    Install-NerdFont -Name "SourceCodePro" -Scope AllUsers;
+}
+
