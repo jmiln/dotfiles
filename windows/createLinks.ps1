@@ -4,9 +4,9 @@ cmd /c mklink $profile "$PSScriptRoot\Microsoft.PowerShell_profile.ps1"
 
 echo ""
 echo "Deleting the old nvim dir then linking to this one"
-$nvimDir = "$env:USERPROFILE\AppData\Local\nvim\"
+$nvimDir = "$env:LOCALAPPDATA\nvim"
 echo $nvimDir
-rm $nvimDir -ErrorAction SilentlyContinue
+rm $nvimDir -ErrorAction SilentlyContinue -Recurse
 cmd /c mklink /d $nvimDir "$PSScriptRoot\..\nvim"
 
 echo ""

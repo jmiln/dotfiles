@@ -7,6 +7,7 @@ Import-Module PSReadLine
 Import-Module gsudoModule
 
 Set-PSReadlineOption -EditMode Emacs
+Set-PSReadlineOption -BellStyle "None";
 
 # History search for up/down arrows
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
@@ -40,18 +41,22 @@ Set-Alias -Name vim -Value $EDITOR
 
 # Enhanced Listing
 if (Test-CommandExists eza) {
+    # If we've installed eza, use that
     rm alias:ls -ErrorAction SilentlyContinue
-    function ls {eza.exe --time-style=long-iso --group-directories-first @args}
-    function la {ls -a @args}
-    function ll {ls -l @args}
+    function ls  {eza.exe --time-style=long-iso --group-directories-first @args}
+    function la  {ls -a @args}
+    function ll  {ls -l @args}
     function lla {ls -la @args}
+    function lt  {ls -l --tree @args}
 } elseif ($host.Name -eq 'ConsoleHost' && Test-CommandExists git) {
+    # Else, if Git is installed, use the ls from git-bash
     function ls_git { & 'C:\Program Files\Git\usr\bin\ls' --color=auto -hF $args }
     Set-Alias -Name ls -Value ls_git -Option Private
-    function la {ls_git -a}
-    function ll {ls_git -l}
-    function lla {ls_git -la}
+    function la {ls_git -a @args}
+    function ll {ls_git -l @args}
+    function lla {ls_git -la @args}
 } else {
+    # Then if we really need to, use the basic powershell commands
     function la { Get-ChildItem -Path . -Force | Format-Table -AutoSize }
     function ll { Get-ChildItem -Path . -Force -Hidden | Format-Table -AutoSize }
 }
@@ -107,5 +112,18 @@ function Update-PowerShell {
         }
     } catch {
         Write-Error "Failed to update PowerShell. Error: $_"
+    }
+}
+
+
+
+function Update-System() {
+    Install-WindowsUpdate -IgnoreUserInput -IgnoreReboot -AcceptAll
+    winget update --all
+    Update-Module
+    Update-Help -Force
+    if ((which npm)) {
+        npm i -g npm
+        npm update -g
     }
 }

@@ -2,7 +2,7 @@
 
 # Utility Functions
 function Test-CommandExists {
-    param($command)
+    param([string]$command)
     $exists = $null -ne (Get-Command $command -ErrorAction SilentlyContinue)
     return $exists
 }
@@ -16,6 +16,28 @@ function InstallPackageIfNotExist([string]$name, [string]$id) {
         echo "$name is already installed."
     }
 }
+
+function InstallModuleIfNotExist([string]$name) {
+    if (Get-Module -ListAvailable -Name $name) {
+        Install-Module $name
+    }
+}
+
+function CheckForFont {
+    param ( [string]$fontString )
+    $AllFonts = (New-Object System.Drawing.Text.InstalledFontCollection).Families.Name;
+    $FoundFont = $($AllFonts | Select-String -Pattern ".*${fontString}.*");
+
+    if ($FoundFont) {
+        return $true;
+    }
+    return $false;
+}
+
+# Install normal module(s)
+InstallModuleIfNotExist PSReadLine
+InstallModuleIfNotExist PSWindowsUpdate
+
 
 $defaultPrograms = @{
     "7Zip"             = "7zip.7zip";
@@ -40,6 +62,10 @@ $queryPrograms = @{
     "VSCode"        = "Microsoft.VisualStudioCode";
     "Wezterm"       = "wez.wezterm";
     "WinSCP"        = "WinSCP.WinSCP";
+    "Python"        = "Python.Python.3.12";
+    "Brave"         = "Brave.Brave";
+
+    # LibreOffice / OnlyOffice
 
     # Should be replaced by built in sudo as of Win11 24h2?
     # https://github.com/gerardog/gsudo?tab=readme-ov-file#installation
@@ -56,17 +82,6 @@ foreach ($item in $queryPrograms.GetEnumerator()) {
     } else {
         Write-Host "Ignoring $($item.Key)"
     }
-}
-
-function CheckForFont {
-    param ( [string]$fontString )
-    $AllFonts = (New-Object System.Drawing.Text.InstalledFontCollection).Families.Name;
-    $FoundFont = $($AllFonts | Select-String -Pattern ".*${fontString}.*");
-
-    if ($FoundFont) {
-        return $true;
-    }
-    return $false;
 }
 
 if (-not (Get-InstalledPSResource -Name "NerdFonts")) {
