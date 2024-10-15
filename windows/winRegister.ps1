@@ -394,7 +394,7 @@ Write-Host "Configuring Accessibility..." -ForegroundColor "Yellow"
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Narrator\NoRoam" "WinEnterLaunchEnabled" 0
 
 # Disable "Window Snap" Automatic Window Arrangement: Enable: 1, Disable: 0
-Set-ItemProperty "HKCU:\Control Panel\Desktop" "WindowArrangementActive" 0
+Set-ItemProperty "HKCU:\Control Panel\Desktop" "WindowArrangementActive" 1
 
 # Disable automatic fill to space on Window Snap: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SnapFill" 0
