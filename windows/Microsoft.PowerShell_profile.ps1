@@ -79,7 +79,24 @@ function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select
 function touch($file) { "" | Out-File $file -Encoding ASCII }
 
 
+function prompt {
+    # Get up to the last 2 directories
+    $path = $pwd.Path
+    $path = $path.Replace($env:USERPROFILE, '~')
+    $path = $path.Split('\') | Select-Object -Last 2
+    $path = $path -join "\"
 
+    # Test for Admin / Elevated
+    $IsAdmin = (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+
+    # Put together & color the prompt itself
+    Write-host "${env:USERNAME}" -NoNewline -ForegroundColor Green
+    Write-host "@" -NoNewline -ForegroundColor Blue
+    Write-host "${env:COMPUTERNAME}:" -NoNewline -ForegroundColor White
+    Write-host "${path}" -NoNewline -ForegroundColor Blue
+    Write-host ($(if ($IsAdmin) { '[Admin]' } else { '' })) -BackgroundColor DarkRed -ForegroundColor White -NoNewline
+    " $ "
+}
 
 
 
@@ -115,7 +132,9 @@ function Update-PowerShell {
     }
 }
 
-
+function psUpdate() {
+    Update-PowerShell
+}
 
 function Update-System() {
     Install-WindowsUpdate -IgnoreUserInput -IgnoreReboot -AcceptAll

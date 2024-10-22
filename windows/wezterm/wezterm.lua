@@ -8,10 +8,6 @@ local colors = require("config.colors")
 
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
     -- Configs for Windows only
-    -- font_dirs = {
-    --     'C:\\Users\\whoami\\.dotfiles\\.fonts'
-    -- }
-    -- Config.default_prog = { "pwsh", "-NoLogo" }
     Config.default_prog = { "pwsh", "-NoLogo", "-ExecutionPolicy", "RemoteSigned", "-NoProfileLoadTime" }
 elseif wezterm.target_triple == 'x86_65-unknown-linux-gnu' then
     -- Configs for Linux only
@@ -67,6 +63,5 @@ Config.inactive_pane_hsb = {
 
 require("config.keybinds").setup(Config)
 require("config.statusbar").setup(colors)
-require("config.ssh").setup(Config)
 
 return Config

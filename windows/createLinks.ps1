@@ -14,5 +14,4 @@ echo "Deleting the old wezterm dir then linking to this one"
 $wezDir = "$env:USERPROFILE\.config\wezterm"
 echo $wezDir
 rm $wezDir -ErrorAction SilentlyContinue
-mkdir -p $wezDir
 cmd /c mklink /d $wezDir "$PSScriptRoot\wezterm"
