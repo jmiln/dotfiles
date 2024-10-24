@@ -13,6 +13,13 @@ Set-PSReadlineOption -BellStyle "None";
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
+# Ctrl+right/left arrow to move between words easily
+Set-PSReadLineKeyHandler -Chord 'Ctrl+LeftArrow' -Function BackwardWord
+Set-PSReadLineKeyHandler -Chord 'Ctrl+RightArrow' -Function ForwardWord
+
+Set-PSReadLineKeyHandler -Chord "Ctrl+a" -Function BeginningOfLine
+Set-PSReadLineKeyHandler -Chord "Ctrl+e" -Function EndOfLine
+
 # Bash-style tab complete
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 
@@ -75,7 +82,7 @@ function docs { Set-Location ~\Documents }
 function dl   { Set-Location ~\Downloads }
 
 # Basic commands
-function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select-Object Definition }
+function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue }
 function touch($file) { "" | Out-File $file -Encoding ASCII }
 
 
@@ -94,7 +101,7 @@ function prompt {
     Write-host "@" -NoNewline -ForegroundColor Blue
     Write-host "${env:COMPUTERNAME}:" -NoNewline -ForegroundColor White
     Write-host "${path}" -NoNewline -ForegroundColor Blue
-    Write-host ($(if ($IsAdmin) { '[Admin]' } else { '' })) -BackgroundColor DarkRed -ForegroundColor White -NoNewline
+    Write-host ($(if ($IsAdmin) { ' [Admin]' } else { '' })) -BackgroundColor DarkRed -ForegroundColor White -NoNewline
     " $ "
 }
 
@@ -129,6 +136,22 @@ function Update-PowerShell {
         }
     } catch {
         Write-Error "Failed to update PowerShell. Error: $_"
+    }
+}
+
+function dotfiles () {
+    cd $env:DOTFILES;
+}
+
+# Set up autocomplete for winget
+# via: https://github.com/microsoft/winget-cli/blob/master/doc/Completion.md
+Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
+    param($wordToComplete, $commandAst, $cursorPosition)
+    [Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding = [System.Text.Utf8Encoding]::new()
+    $Local:word = $wordToComplete.Replace('"', '""')
+    $Local:ast = $commandAst.ToString().Replace('"', '""')
+    winget complete --word="$Local:word" --commandline "$Local:ast" --position $cursorPosition | ForEach-Object {
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
     }
 }
 

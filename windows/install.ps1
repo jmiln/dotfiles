@@ -1,5 +1,3 @@
-#Requires -RunAsAdministrator
-
 # Utility Functions
 function Test-CommandExists {
     param([string]$command)
@@ -8,9 +6,10 @@ function Test-CommandExists {
 }
 
 function InstallPackageIfNotExist([string]$name, [string]$id) {
-    if (!(Test-CommandExists $name)) {
+    # if (!(Test-CommandExists $name)) {
+    if (!(winget list -q --id $id)) {
         echo "Installing $name"
-        winget install $id -e
+        winget install $id -e --silent
         echo "$name installed."
     } else {
         echo "$name is already installed."
@@ -18,9 +17,11 @@ function InstallPackageIfNotExist([string]$name, [string]$id) {
 }
 
 function InstallModuleIfNotExist([string]$name) {
-    if (Get-Module -ListAvailable -Name $name) {
+    if (-not (Get-Module -ListAvailable -Name $name)) {
+        Write-Host "Installing $name"
         Install-Module $name
     }
+    Import-Module $name
 }
 
 function CheckForFont {
@@ -37,14 +38,17 @@ function CheckForFont {
 # Install normal module(s)
 InstallModuleIfNotExist PSReadLine
 InstallModuleIfNotExist PSWindowsUpdate
+InstallModuleIfNotExist Microsoft.PowerShell.ConsoleGuiTools
 
 
 $defaultPrograms = @{
     "7Zip"             = "7zip.7zip";
     "Powershell 7"     = "Microsoft.PowerShell";
     "Windows Terminal" = "Microsoft.WindowsTerminal";
-    "eza"              = "eza-community.eza";
-    "fd"               = "sharkdp.fd";
+    "eza"              = "eza-community.eza";   # Cross platform ls alternative
+    "fd"               = "sharkdp.fd";          # File/ text finder for Neovim Telescope
+    "bat"              = "sharkdp.bat";         # Cat alternative
+    "jq"               = "jqlang.jq";           # JSON formatter
     "git"              = "Git.Git";
     "nvim"             = "Neovim.Neovim";
 }
@@ -67,20 +71,32 @@ $queryPrograms = @{
 
     # LibreOffice / OnlyOffice
 
-    # Should be replaced by built in sudo as of Win11 24h2?
+    # Should be replaced by built in sudo as of Win11 24H2?
     # https://github.com/gerardog/gsudo?tab=readme-ov-file#installation
     "GSudo" = "gerardog.gsudo";
 }
 
-# Go through the $queryPrograms and check for each before installing
-# TODO More usable alternative would be something like Out-ConsoleGridView so we could just select them then run through all the selections
-#   - https://github.com/PowerShell/ConsoleGuiTools/tree/main
-foreach ($item in $queryPrograms.GetEnumerator()) {
-    $Confirm = Read-Host -Prompt "Do you want to install $($item.Key)? (Y/N)"
-    if ($confirm -eq 'y') {
-        InstallPackageIfNotExist $($item.Key) $($item.Value)
-    } else {
-        Write-Host "Ignoring $($item.Key)"
+# If we have Out-ConsoleGridView installed & available, use that to let the user choose which programs to install.
+# Otherwise, just ask for each as we go
+if (Get-Module -Name Microsoft.PowerShell.ConsoleGuiTools) {
+    Write-Host ""
+    Write-Host "Getting user input of items"
+    Write-Host ""
+    $programsToInstall = $queryPrograms | Out-ConsoleGridView
+    if ($programsToInstall.length -ne 0){
+        Write-Host "Installing these programs: ${programsToInstall}"
+        foreach ($item in $programsToInstall.GetEnumerator()) {
+            InstallPackageIfNotExist $($item.Key) $($item.Value)
+        }
+    }
+} else {
+    foreach ($item in $queryPrograms.GetEnumerator()) {
+        $Confirm = Read-Host -Prompt "Do you want to install $($item.Key)? (Y/N)"
+        if ($confirm -eq 'y') {
+            InstallPackageIfNotExist $($item.Key) $($item.Value)
+        } else {
+            Write-Host "Ignoring $($item.Key)"
+        }
     }
 }
 
@@ -88,7 +104,7 @@ if (-not (Get-InstalledPSResource -Name "NerdFonts")) {
     Install-PSResource -Name NerdFonts;
 }
 
-if (-not (CheckForFont SauceCode)) {
+if (-not (CheckForFont SauceCode) -and (Get-InstalledPSResource -Name "NerdFonts")) {
     Import-Module -Name NerdFonts;
     Install-NerdFont -Name "SourceCodePro" -Scope AllUsers;
 }
