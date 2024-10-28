@@ -11,6 +11,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Disable these for nvim-tree
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 local constants = require("config.constants")
 
 -- An extra require function to not break everything if something is missing
@@ -30,17 +34,6 @@ end
 safeRequire("lazy", true, {
     -- Notifications
     -- Fancier notification popups in the corner instead of just in the cmd field in the bottom
-    -- "folke/noice.nvim" seems to be an upcoming alternative for notifications with more features
-    -- {
-    --     "j-hui/fidget.nvim",    -- Seems to be pretty nice, but a little wonky currently
-    --     config = function()
-    --         safeRequire("fidget", true, {
-    --             notification = {
-    --                 override_vim_notify = true,
-    --             }
-    --         })
-    --     end
-    -- },
     {
         "rcarriga/nvim-notify",
         dependencies = "nvim-lua/plenary.nvim",
@@ -57,14 +50,12 @@ safeRequire("lazy", true, {
     {
         "echasnovski/mini.align",
         version = '*',
-        config = function()
-            safeRequire("mini.align", true, {
-                mappings = {
-                    start = 'ga',
-                    start_with_preview = 'gA',
-                },
-            })
-        end
+        opts = {
+            mappings = {
+                start = 'ga',
+                start_with_preview = 'gA',
+            },
+        }
     },
 
 
@@ -72,86 +63,63 @@ safeRequire("lazy", true, {
     {
         "NvChad/nvim-colorizer.lua",
         event = "VeryLazy",
-        config = function()
-            safeRequire("colorizer", true)
-        end
+        opts = {}
     },
-
-    -- Rainbow parens (Nice to have, but doesn't update cleanly)
-    -- "HiPhish/rainbow-delimiters.nvim",
-
-    -- Show what matches with the closing paren/ bracket of the current line
-    -- {
-    --     "briangwaltney/paren-hint.nvim",
-    --     config = function()
-    --         safeRequire("paren-hint", true, {
-    --             anywhere_on_line       = true,
-    --             include_paren          = true,
-    --             show_same_line_opening = false,
-    --             -- start_with_comment     = true,
-    --         })
-    --     end
-    -- },
 
     -- More in-depth undo
     {
         "mbbill/undotree",
-        config = function()
-            vim.api.nvim_set_keymap("n", "<F5>", ":UndotreeToggle<CR>", {noremap = true, silent = true});
-        end
+        keys = {
+            { "<F5>", "<cmd>UndotreeToggle<cr>", desc = "Undotree" }
+        }
     },
 
     -- Preview markdown in a floating window (:Glow)
     {
         "ellisonleao/glow.nvim",
-        config = function()
-            safeRequire("glow", true, {
-                width = 999,
-                height = 999,
-                width_ratio  = 0.8,
-                height_ratio = 0.8,
-            })
-        end
+        opts = {
+            width = 999,
+            height = 999,
+            width_ratio  = 0.8,
+            height_ratio = 0.8,
+        }
     },
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function()
-            safeRequire("nvim-treesitter.configs", true, {
-                highlight = {
-                    enable = true,
-                    additional_vim_regex_highlighting = false
-                },
-                indent = {
-                    enable = true
-                },
-                ensure_installed = {
-                    "comment",      -- Lets it highlight the TODO comments and such
-                    "css",
-                    "html",
-                    "javascript",
-                    "json",
-                    "lua",          -- For the nvim config files mainly
-                    "markdown",
-                    "markdown_inline",
-                    "regex",        -- Ooh, shiny regex
-                    "tmux",         -- For tmux.conf
-                    "typescript",
-                    "vimdoc",       -- Previously help
-                },
-                -- Recommended false if the cli treesitter isn't installed
-                auto_install = false,
-            })
-        end,
+        opts = {
+            highlight = {
+                enable = true,
+                additional_vim_regex_highlighting = false
+            },
+            indent = {
+                enable = true
+            },
+            ensure_installed = {
+                "comment",      -- Lets it highlight the TODO comments and such
+                "css",
+                "html",
+                "javascript",
+                "json",
+                "lua",          -- For the nvim config files mainly
+                "markdown",
+                "markdown_inline",
+                "regex",        -- Ooh, shiny regex
+                "tmux",         -- For tmux.conf
+                "typescript",
+                "vimdoc",       -- Previously help
+                "yaml",
+            },
+            -- Recommended false if the cli treesitter isn't installed
+            auto_install = false,
+        }
     },
     -- "nvim-treesitter/playground",
 
     -- Add documentation comments (JSDoc style)
     -- {
     --     "danymat/neogen",
-    --     config = function()
-    --         safeRequire("neogen", true)
-    --     end,
+    --     opts = {},
     --     dependencies = "nvim-treesitter/nvim-treesitter",
     --     -- tag = "*"
     -- },
@@ -159,33 +127,27 @@ safeRequire("lazy", true, {
     -- Auto-close parentheses and brackets, etc
     {
         "windwp/nvim-autopairs",
-        config = function()
-            safeRequire('nvim-autopairs', true, {
-                enable_check_bracket_line = false,
-                check_ts = true,
-                ts_config = {
-                    lua = {'string'},
-                    javascript = {'template_string'},
-                }
-            })
-        end
+        opts = {
+            enable_check_bracket_line = false,
+            check_ts = true,
+            ts_config = {
+                lua = {'string'},
+                javascript = {'template_string'},
+            }
+        }
     },
 
     -- Automatically change strings to `` for template literals (JS)
     {
         "axelvc/template-string.nvim",
-        config = function()
-            safeRequire("template-string", true)
-        end
+        opts = {}
     },
 
     -- Auto-close html tags
     {
         "windwp/nvim-ts-autotag",
         ft = {"html", "ejs", "css", "scss"},
-        config = function()
-            safeRequire("nvim-ts-autotag", true)
-        end
+        opts = {}
     },
 
     -- Quick changes for surrounding symbols (Quotes, parens, etc)
@@ -197,45 +159,37 @@ safeRequire("lazy", true, {
             -- "nvim-treesitter/nvim-treesitter-textobjects",
             "nvim-treesitter/nvim-treesitter",
         },
-        config = function()
-            safeRequire("nvim-surround", true)
-        end
+        opts = {}
     },
     -- {
     --     "nvim-treesitter/nvim-treesitter-textobjects",
-    --     config = function()
-    --         safeRequire("nvim-treesitter-textobjects", true, {
-    --             textobjects = {
-    --                 swap = {
-    --                     enable = true,
-    --                     swap_next = {
-    --                         ["<leader>a"] = "@parameter.inner",
-    --                     },
-    --                     swap_previous = {
-    --                         ["<leader>A"] = "@parameter.inner",
-    --                     },
+    --     opts = {
+    --         textobjects = {
+    --             swap = {
+    --                 enable = true,
+    --                 swap_next = {
+    --                     ["<leader>a"] = "@parameter.inner",
+    --                 },
+    --                 swap_previous = {
+    --                     ["<leader>A"] = "@parameter.inner",
     --                 },
     --             },
-    --         })
-    --     end
+    --         },
+    --     }
     -- },
 
     -- Easy comments
     {
         "numToStr/Comment.nvim",
-        config = function()
-            safeRequire("Comment", true)
-        end
+        opts = {}
     },
 
     -- Comment properly in embedded filetypes (Ejs, etc)
     {
         "JoosepAlviste/nvim-ts-context-commentstring",
-        config = function()
-            safeRequire("ts_context_commentstring", true, {
-                enable_autocmd = false,
-            })
-        end
+        opts = {
+            enable_autocmd = false,
+        }
     },
 
     -- LSP stuffs
@@ -251,24 +205,22 @@ safeRequire("lazy", true, {
     },
     {
         "lewis6991/hover.nvim",
-        config = function()
-            safeRequire("hover", true, {
-                init = function()
-                    require("hover.providers.lsp")
-                    require("hover.providers.gh")
-                    require("hover.providers.gh_user")
-                end,
-                preview_opts = {
-                    border = "rounded"
-                },
-                preview_window = false,
-                title = true,
-            })
-
-            -- Setup keymaps
-            vim.keymap.set("n", "K", require("hover").hover, {desc = "hover.nvim"})
-            vim.keymap.set("n", "gK", require("hover").hover_select, {desc = "hover.nvim (select)"})
-        end
+        keys = {
+            { mode = "n", "K", function() require('hover').hover() end, desc = "Show hover desc" },
+            { mode = "n", "gK", function() require('hover').hover_select() end, desc = "Show hover desc (select)" },
+        },
+        opts = {
+            init = function()
+                require("hover.providers.lsp")
+                require("hover.providers.gh")
+                require("hover.providers.gh_user")
+            end,
+            preview_opts = {
+                border = "rounded"
+            },
+            preview_window = false,
+            title = true,
+        }
     },
     "nvim-lua/popup.nvim",
     {
@@ -276,34 +228,34 @@ safeRequire("lazy", true, {
         dependencies = {
             "nvim-lua/plenary.nvim"
         },
-        config = function()
-            safeRequire("telescope", true, {
-                defaults = {
-                    file_ignore_patterns = {
-                        "node_modules",
-                        ".git"
-                    },
-                    layout_config = {
-                        horizontal = {
-                            width = 0.9,
-                            preview_width = 0.6
-                        }
-                        -- other layout configuration here
-                    },
-                    borderchars = {
-                        "─", "│", "─", "│", "╭", "╮", "╯", "╰",
-                    },
-                }
-            })
-            vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope buffers<CR>",                                 {noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fc", ":Telescope resume<CR>",                                  {noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>ff", ":Telescope find_files<CR>",                              {noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fg", ":Telescope live_grep<CR>",                               {noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fh", ":Telescope help_tags<CR>",                               {noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fr", ":Telescope registers<CR>",                               {noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fm", ":Telescope marks<CR>",                                   {noremap = true})
-            vim.api.nvim_set_keymap("n", "<leader>fs", ":Telescope search_history<CR>",                          {noremap = true})
-        end
+        keys = {
+            { "<leader>fb", ":Telescope buffers<CR>" },
+            { "<leader>fc", ":Telescope resume<CR>" },
+            { "<leader>ff", ":Telescope find_files<CR>" },
+            { "<leader>fg", ":Telescope live_grep<CR>" },
+            { "<leader>fh", ":Telescope help_tags<CR>" },
+            { "<leader>fr", ":Telescope registers<CR>" },
+            { "<leader>fm", ":Telescope marks<CR>" },
+            { "<leader>fs", ":Telescope search_history<CR>" },
+        },
+        opts = {
+            defaults = {
+                file_ignore_patterns = {
+                    "node_modules",
+                    ".git"
+                },
+                layout_config = {
+                    horizontal = {
+                        width = 0.9,
+                        preview_width = 0.6
+                    }
+                    -- other layout configuration here
+                },
+                borderchars = {
+                    "─", "│", "─", "│", "╭", "╮", "╯", "╰",
+                },
+            }
+        }
     },
 
     -- AI Autocomplete stuffs
@@ -312,53 +264,52 @@ safeRequire("lazy", true, {
         event = "VeryLazy",
         -- Only enable if the machine has more than 8GB of RAM available
         enabled = vim.loop.get_total_memory() > 2^33,
-        config = function()
-            local neocodeium = require("neocodeium")
-            neocodeium.setup({
-                debounce = true,
-                silent = true,
-                filetypes = {
-                    TelescopePrompt = false
-                }
-            })
-            vim.keymap.set("i", "<A-f>", neocodeium.accept)
-        end,
+        keys = {
+            { mode = "i", "<A-f>", function() require('neocodeium').accept() end, desc = "Accept suggestion" },
+        },
+        opts = {
+            debounce = true,
+            silent = true,
+            filetypes = {
+                TelescopePrompt = false
+            }
+        }
     },
 
     -- Put errors in the locationlist (<leader>z to open)
     {
         "folke/trouble.nvim",
         event = "VeryLazy",
-        dependencies = "kyazdani42/nvim-web-devicons",
-        config = function()
-            -- Trouble settings (Show the diagnostics quickfix window automatically)
-            vim.api.nvim_set_keymap("n", "<leader>z", "<cmd>Trouble diagnostics toggle<CR>", {silent = true, noremap = true})
-            safeRequire("trouble", true, {
-                icons = {
-                    indent = {
-                        middle = " ",
-                        last = " ",
-                        top = " ",
-                        ws = "│  ",
+        dependencies = "nvim-tree/nvim-web-devicons",
+        keys = {
+            { "<leader>z", "<cmd>TroubleToggle<CR>" },
+        },
+        -- Trouble settings (Show the diagnostics quickfix window automatically)
+        opts = {
+            icons = {
+                indent = {
+                    middle = " ",
+                    last = " ",
+                    top = " ",
+                    ws = "│  ",
+                },
+            },
+            modes = {
+                diagnostics = {
+                    groups = {
+                        { "filename", format = "{file_icon} {basename:Title} {count}" },
                     },
                 },
-                modes = {
-                    diagnostics = {
-                        groups = {
-                            { "filename", format = "{file_icon} {basename:Title} {count}" },
-                        },
-                    },
-                },
-                signs = {
-                    -- icons / text used for a diagnostic
-                    error       = constants.diagnostic.sign.error,
-                    warning     = constants.diagnostic.sign.warning,
-                    information = constants.diagnostic.sign.info,
-                    hint        = constants.diagnostic.sign.hint,
-                    other       = "?"
-                },
-            })
-        end
+            },
+            signs = {
+                -- icons / text used for a diagnostic
+                error       = constants.diagnostic.sign.error,
+                warning     = constants.diagnostic.sign.warning,
+                information = constants.diagnostic.sign.info,
+                hint        = constants.diagnostic.sign.hint,
+                other       = "?"
+            },
+        }
     },
 
     -- Git stuff
@@ -368,15 +319,13 @@ safeRequire("lazy", true, {
     -- Git changes in the signcolumn
     {
         "lewis6991/gitsigns.nvim" ,
-        config = function()
-            safeRequire("gitsigns", true, {
-                signs = {
-                    -- Update these two from over/underscore so they'll actually show up
-                    delete       = { text = '│' },
-                    topdelete    = { text = '│' },
-                },
-            })
-        end
+        opts = {
+            signs = {
+                -- Update these two from over/underscore so they'll actually show up
+                delete       = { text = '│' },
+                topdelete    = { text = '│' },
+            },
+        }
     },
 
     -- Uses vim splits to display more info when committing to git
@@ -409,103 +358,90 @@ safeRequire("lazy", true, {
     },
     {
         "stevearc/aerial.nvim",
-        config = function()
-            vim.api.nvim_set_keymap("n", "<F11>", "<cmd>AerialToggle<cr>", {noremap = true, silent = true})
-            vim.api.nvim_set_keymap("x", "<F11>", "<cmd>AerialToggle<cr>", {noremap = true, silent = true})
-
-            safeRequire("aerial", true, {
-                layout = {
-                    min_width = 30
-                }
-            })
-        end
+        keys = {
+            { mode = "n", "<F11>", "<cmd>AerialToggle<cr>" },
+            { mode = "x", "<F11>", "<cmd>AerialToggle<cr>" },
+        },
+        opts = {
+            layout = {
+                min_width = 30
+            }
+        }
     },
 
     -- Nvim file explorer/ tree
     {
-        "kyazdani42/nvim-tree.lua",
-        dependencies = "kyazdani42/nvim-web-devicons",
+        "nvim-tree/nvim-tree.lua",
+        dependencies = "nvim-tree/nvim-web-devicons",
         -- tag = "nightly",
         event = "VeryLazy",
-        config = function()
-            vim.g.loaded_netrw = 1
-            vim.g.loaded_netrwPlugin = 1
-
-            -- Set F12 to toggle the tree's pane
-            vim.api.nvim_set_keymap("n", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
-            vim.api.nvim_set_keymap("x", "<F12>", "<cmd>NvimTreeToggle<cr>", {noremap = true, silent = true})
-
-            -- Function to open to nvim-tree if we open nvim into a dir.
-            -- Via https://github.com/nvim-tree/nvim-tree.lua/wiki/Open-At-Startup#open-for-directories-and-change-neovims-directory
-            local function open_nvim_tree(data)
-                local directory = vim.fn.isdirectory(data.file) == 1
-                if not directory then
-                    return
-                end
-                vim.cmd.cd(data.file)
-                require("nvim-tree.api").tree.open()
-            end
-            vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
-
-            safeRequire("nvim-tree", true, {
-                respect_buf_cwd = true,
-                filesystem_watchers = {
-                    enable = false
-                },
-                view = {
-                    adaptive_size = true
-                },
-                renderer = {
-                    add_trailing = true,
-                    indent_markers = {
-                        enable = true,
-                        inline_arrows = true,
-                        icons = {
-                            edge   = "│",
-                            item   = "├",
-                            corner = "└",
-                            none   = " ",
-                        },
+        keys = {
+            { mode = "n", "<F12>", "<cmd>NvimTreeToggle<cr>" },
+            { mode = "x", "<F12>", "<cmd>NvimTreeToggle<cr>" },
+        },
+        opts = {
+            respect_buf_cwd = true,
+            filesystem_watchers = {
+                enable = false
+            },
+            view = {
+                adaptive_size = true
+            },
+            renderer = {
+                add_trailing = true,
+                indent_markers = {
+                    enable = true,
+                    inline_arrows = true,
+                    icons = {
+                        edge   = "│",
+                        item   = "├",
+                        corner = "└",
+                        none   = " ",
                     },
-                }
-            })
-        end
+                },
+            },
+
+            -- Disable netrw / open when not opening a file
+            disable_netrw = true,
+            hijack_unnamed_buffer_when_opening = true,
+            hijack_netrw = true,
+        },
     },
 
     -- Statusline
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
-        dependencies = "kyazdani42/nvim-web-devicons",
-        config = function()
-            safeRequire("lualine", true, {
-                options = {
-                    icons = true,
-                    icons_enabled = true,
-                    theme = "gruvbox_dark",
-                },
-                extensions = {
-                    "fugitive",
-                    "nvim-tree",
-                    "quickfix"
-                },
-                sections = {
-                    lualine_b = {
-                        "branch",
-                        "diff",
-                        {
-                            "diagnostics",
-                            symbols = {
-                                error = constants.diagnostic.sign.error,
-                                warn  = constants.diagnostic.sign.warn,
-                                info  = constants.diagnostic.sign.info,
-                                hint  = constants.diagnostic.sign.hint
-                            },
-                        }
+        dependencies = "nvim-tree/nvim-web-devicons",
+        opts = {
+            options = {
+                icons = true,
+                icons_enabled = true,
+                theme = "gruvbox_dark",
+            },
+            extensions = {
+                "fugitive",
+                "lazy",
+                "nvim-tree",
+                "quickfix",
+                "trouble"
+            },
+            sections = {
+                lualine_b = {
+                    "branch",
+                    "diff",
+                    {
+                        "diagnostics",
+                        symbols = {
+                            error = constants.diagnostic.sign.error,
+                            warn  = constants.diagnostic.sign.warn,
+                            info  = constants.diagnostic.sign.info,
+                            hint  = constants.diagnostic.sign.hint
+                        },
                     }
                 }
-            })
-        end
+            }
+        }
     },
 })
 
