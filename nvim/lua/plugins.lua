@@ -18,7 +18,7 @@ vim.g.loaded_netrwPlugin = 1
 local constants = require("config.constants")
 
 -- An extra require function to not break everything if something is missing
-function safeRequire(pName, doSetup, setupObj)
+local function safeRequire(pName, doSetup, setupObj)
     setupObj = setupObj or {}
     local ok, module = pcall(require, pName)
     if not ok then
@@ -70,7 +70,7 @@ safeRequire("lazy", true, {
     {
         "mbbill/undotree",
         keys = {
-            { "<F5>", "<cmd>UndotreeToggle<cr>", desc = "Undotree" }
+            { "<F5>", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" }
         }
     },
 
@@ -229,14 +229,14 @@ safeRequire("lazy", true, {
             "nvim-lua/plenary.nvim"
         },
         keys = {
-            { "<leader>fb", ":Telescope buffers<CR>" },
-            { "<leader>fc", ":Telescope resume<CR>" },
-            { "<leader>ff", ":Telescope find_files<CR>" },
-            { "<leader>fg", ":Telescope live_grep<CR>" },
-            { "<leader>fh", ":Telescope help_tags<CR>" },
-            { "<leader>fr", ":Telescope registers<CR>" },
-            { "<leader>fm", ":Telescope marks<CR>" },
-            { "<leader>fs", ":Telescope search_history<CR>" },
+            { "<leader>fb", ":Telescope buffers<CR>", desc = "Search Buffers" },
+            { "<leader>fc", ":Telescope resume<CR>", desc = "Resume Last Search" },
+            { "<leader>ff", ":Telescope find_files<CR>", desc = "Search Files" },
+            { "<leader>fg", ":Telescope live_grep<CR>", desc = "Search File Text" },
+            { "<leader>fh", ":Telescope help_tags<CR>", desc = "Search Help" },
+            { "<leader>fr", ":Telescope registers<CR>", desc = "Search Registers" },
+            { "<leader>fm", ":Telescope marks<CR>", desc = "Search Marks" },
+            { "<leader>fs", ":Telescope search_history<CR>", desc = "Search History" },
         },
         opts = {
             defaults = {
@@ -282,7 +282,7 @@ safeRequire("lazy", true, {
         event = "VeryLazy",
         dependencies = "nvim-tree/nvim-web-devicons",
         keys = {
-            { "<leader>z", "<cmd>TroubleToggle<CR>" },
+            { "<leader>z", "<cmd>TroubleToggle<CR>", desc = "Toggle trouble" },
         },
         -- Trouble settings (Show the diagnostics quickfix window automatically)
         opts = {
@@ -359,8 +359,8 @@ safeRequire("lazy", true, {
     {
         "stevearc/aerial.nvim",
         keys = {
-            { mode = "n", "<F11>", "<cmd>AerialToggle<cr>" },
-            { mode = "x", "<F11>", "<cmd>AerialToggle<cr>" },
+            { mode = "n", "<F11>", "<cmd>AerialToggle<cr>", desc = "Toggle Aerial" },
+            { mode = "x", "<F11>", "<cmd>AerialToggle<cr>", desc = "Toggle Aerial" },
         },
         opts = {
             layout = {
@@ -376,8 +376,8 @@ safeRequire("lazy", true, {
         -- tag = "nightly",
         event = "VeryLazy",
         keys = {
-            { mode = "n", "<F12>", "<cmd>NvimTreeToggle<cr>" },
-            { mode = "x", "<F12>", "<cmd>NvimTreeToggle<cr>" },
+            { mode = "n", "<F12>", "<cmd>NvimTreeToggle<cr>", desc = "Toggle NvimTree" },
+            { mode = "x", "<F12>", "<cmd>NvimTreeToggle<cr>", desc = "Toggle NvimTree" },
         },
         opts = {
             respect_buf_cwd = true,
