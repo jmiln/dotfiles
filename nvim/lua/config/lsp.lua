@@ -4,18 +4,6 @@ local constants = require("config.constants")
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
 -- npm install -g typescript-language-server typescript
 
--- # Lua language server
--- Use this to grab the latest version
--- ```sh
---   mkdir -p ~/.local/share
---   mkdir -p ~/.local/bin
---   wget -q -O ~/tmp/lua-language-server.tar.gz $(wget -q -O - 'https://api.github.com/repos/LuaLS/lua-language-server/releases/latest' | jq -r '.assets[] | select(.name | endswith("linux-x64.tar.gz")).browser_download_url')
---   rm -rf ~/.local/share/lua-language-server
---   rm ~/.local/bin/lua-language-server
---   tar -xzf ~/tmp/lua-language-server.tar.gz -C ~/.local/share
---   ln -s ~/.local/share/lua-lang-server/bin/lua-language-server ~/.local/bin/lua-language-server
--- ```
-
 local lspStatus, nvim_lsp = pcall(require, "lspconfig")
 if not lspStatus then
     vim.notify("Couldn't load lspconfig")
@@ -60,7 +48,7 @@ nvim_lsp.html.setup({})
 nvim_lsp.emmet_language_server.setup({})
 
 -- # Lua language server
-require'lspconfig'.lua_ls.setup {
+nvim_lsp.lua_ls.setup {
     on_init = function(client)
         if client.workspace_folders then
             local path = client.workspace_folders[1].name

@@ -123,6 +123,17 @@ else
     logToFile "Neovim is already installed."
 fi
 
+# Install lua-language-server for nvim config files mainly
+if ! command_exists lua-language-server; then
+    mkdir -p ~/.local/share
+    mkdir -p ~/.local/bin
+    wget -q -O ~/tmp/lua-language-server.tar.gz $(wget -q -O - 'https://api.github.com/repos/LuaLS/lua-language-server/releases/latest' | jq -r '.assets[] | select(.name | match("lua-language-server.*linux-x64.tar.gz$")).browser_download_url')
+    rm -rf ~/.local/share/lua-language-server
+    rm ~/.local/bin/lua-language-server
+    tar -xzf ~/tmp/lua-language-server.tar.gz -C ~/.local/share
+    ln -s ~/.local/share/lua-lang-server/bin/lua-language-server ~/.local/bin/lua-language-server
+fi
+
 if ! command_exists eza; then
     sudo apt install eza
     logToFile "eza installed."
