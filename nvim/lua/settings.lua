@@ -127,15 +127,15 @@ vim.opt.formatoptions = vim.opt.formatoptions
 
 -- Snagged from:
 -- https://www.reddit.com/r/neovim/comments/1crdv93/comment/l3z0td3/
-if ((vim.fn.has("win32") == 1 or vim.fn.has("win64")) and vim.fn.has("wsl") == 0) then
-    vim.o.shell        = "powershell"
-    -- vim.o.shell        = vim.fn.executable "pwsh" == 1 and "pwsh -NoLogo" or "powershell"
-    vim.o.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF9;"
-    vim.o.shellredir   = "-RedirectStandardOutput %s -NoNewWindow -Wait"
-    vim.o.shellpipe    = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
-    vim.o.shellquote   = ""
-    vim.o.shellxquote  = ""
-end
+-- if ((vim.fn.has("win32") == 1 or vim.fn.has("win64")) and vim.fn.has("wsl") == 0) then
+--     vim.o.shell        = "powershell"
+--     -- vim.o.shell        = vim.fn.executable "pwsh" == 1 and "pwsh -NoLogo" or "powershell"
+--     vim.o.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF9;"
+--     vim.o.shellredir   = "-RedirectStandardOutput %s -NoNewWindow -Wait"
+--     vim.o.shellpipe    = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+--     vim.o.shellquote   = ""
+--     vim.o.shellxquote  = ""
+-- end
 
 -- Set filetypes for various file extensions
 vim.cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])

@@ -42,15 +42,18 @@ vim.api.nvim_set_hl(0, "DiffRemoved", { fg="red",    bg="#1C1C1C" })
 
 -- Gray
 vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg="NONE", strikethrough=true, fg="#808080" })
+
 -- Light blue
 vim.api.nvim_set_hl(0, "CmpItemKindVariable",   { bg="NONE", fg="#9CDCFE" })
 vim.api.nvim_set_hl(0, "CmpItemKindInterface",  { link="CmpItemKindVariable" })
 vim.api.nvim_set_hl(0, "CmpItemKindText",       { link="CmpItemKindVariable" })
 vim.api.nvim_set_hl(0, "CmpItemAbbrMatch",      { link="CmpItemKindVariable" })
 vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link="CmpItemKindVariable" })
+
 -- Pink
 vim.api.nvim_set_hl(0, "CmpItemKindFunction",   { bg="NONE", fg="#C586C0" })
 vim.api.nvim_set_hl(0, "CmpItemKindMethod",     { link="CmpItemKindFunction" })
+
 -- Front
 vim.api.nvim_set_hl(0, "CmpItemKindKeyword",    { bg="NONE", fg="#D4D4D4" })
 vim.api.nvim_set_hl(0, "CmpItemKindProperty",   { link="CmpItemKindKeyword" })

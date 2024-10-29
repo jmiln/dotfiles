@@ -49,11 +49,11 @@ safeRequire("lazy", true, {
     -- Easily align stuff
     {
         "echasnovski/mini.align",
-        version = '*',
+        version = "*",
         opts = {
             mappings = {
-                start = 'ga',
-                start_with_preview = 'gA',
+                start = "ga",
+                start_with_preview = "gA",
             },
         }
     },
@@ -131,8 +131,8 @@ safeRequire("lazy", true, {
             enable_check_bracket_line = false,
             check_ts = true,
             ts_config = {
-                lua = {'string'},
-                javascript = {'template_string'},
+                lua = {"string"},
+                javascript = {"template_string"},
             }
         }
     },
@@ -206,8 +206,8 @@ safeRequire("lazy", true, {
     {
         "lewis6991/hover.nvim",
         keys = {
-            { mode = "n", "K", function() require('hover').hover() end, desc = "Show hover desc" },
-            { mode = "n", "gK", function() require('hover').hover_select() end, desc = "Show hover desc (select)" },
+            { mode = "n", "K", function() require("hover").hover() end, desc = "Show hover desc" },
+            { mode = "n", "gK", function() require("hover").hover_select() end, desc = "Show hover desc (select)" },
         },
         opts = {
             init = function()
@@ -265,7 +265,7 @@ safeRequire("lazy", true, {
         -- Only enable if the machine has more than 8GB of RAM available
         enabled = vim.loop.get_total_memory() > 2^33,
         keys = {
-            { mode = "i", "<A-f>", function() require('neocodeium').accept() end, desc = "Accept suggestion" },
+            { mode = "i", "<A-f>", function() require("neocodeium").accept() end, desc = "Accept suggestion" },
         },
         opts = {
             debounce = true,
@@ -322,8 +322,8 @@ safeRequire("lazy", true, {
         opts = {
             signs = {
                 -- Update these two from over/underscore so they'll actually show up
-                delete       = { text = '│' },
-                topdelete    = { text = '│' },
+                delete       = { text = "│" },
+                topdelete    = { text = "│" },
             },
         }
     },
@@ -415,21 +415,31 @@ safeRequire("lazy", true, {
         dependencies = "nvim-tree/nvim-web-devicons",
         opts = {
             options = {
-                icons = true,
-                icons_enabled = true,
                 theme = "gruvbox_dark",
             },
             extensions = {
                 "fugitive",
-                "lazy",
+                -- "lazy",
                 "nvim-tree",
                 "quickfix",
-                "trouble"
+                -- "trouble"
             },
             sections = {
                 lualine_b = {
                     "branch",
                     "diff",
+                    -- {
+                        -- "diff",
+                        -- diff_color = {
+                            -- For some reason, the bg colors the text, and the fg colors the background
+                            -- added    = "green",
+                            -- modified = "yellow",
+                            -- removed  = "red",
+                            -- added    = { bg = "green",  fg = "#1C1C1C" },
+                            -- modified = { bg = "yellow", fg = "#1C1C1C" },
+                            -- removed  = { bg = "red",    fg = "#1C1C1C" },
+                        -- },
+                    -- },
                     {
                         "diagnostics",
                         symbols = {
@@ -439,7 +449,13 @@ safeRequire("lazy", true, {
                             hint  = constants.diagnostic.sign.hint
                         },
                     }
-                }
+                },
+                lualine_x = {
+                    "searchcount",
+                    "encoding",
+                    "fileformat",
+                    "filetype",
+                },
             }
         }
     },
