@@ -124,6 +124,13 @@ else
     logToFile "Neovim is already installed."
 fi
 
+if ! command_exists jq; then
+    sudo apt install jq -y
+    logToFile "JQ installed"
+else
+    logToFile "JQ is already installed"
+fi
+
 # Install lua-language-server for nvim config files mainly
 if ! command_exists lua-language-server; then
     # Get the latest version available
