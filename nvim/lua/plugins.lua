@@ -416,13 +416,16 @@ safeRequire("lazy", true, {
         opts = {
             options = {
                 theme = "gruvbox_dark",
+                -- theme = "codedark",
+                component_separators = { left = '', right = ''},
+                section_separators = { left = '', right = ''},
             },
             extensions = {
                 "fugitive",
-                -- "lazy",
+                "lazy",
                 "nvim-tree",
                 "quickfix",
-                -- "trouble"
+                "trouble"
             },
             sections = {
                 lualine_b = {

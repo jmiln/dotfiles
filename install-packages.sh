@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Set the file to log to as we go
+touch ~/install_progress_log.txt
 log_file=~/install_progress_log.txt
 
 # Grab where this is
@@ -125,13 +126,20 @@ fi
 
 # Install lua-language-server for nvim config files mainly
 if ! command_exists lua-language-server; then
-    mkdir -p ~/.local/share
-    mkdir -p ~/.local/bin
+    # Get the latest version available
     wget -q -O ~/tmp/lua-language-server.tar.gz $(wget -q -O - 'https://api.github.com/repos/LuaLS/lua-language-server/releases/latest' | jq -r '.assets[] | select(.name | match("lua-language-server.*linux-x64.tar.gz$")).browser_download_url')
+
+    # Clear out any old versions
     rm -rf ~/.local/share/lua-language-server
     rm ~/.local/bin/lua-language-server
-    tar -xzf ~/tmp/lua-language-server.tar.gz -C ~/.local/share
-    ln -s ~/.local/share/lua-lang-server/bin/lua-language-server ~/.local/bin/lua-language-server
+
+    # Create the folders in case they're needed/ not there
+    mkdir -p ~/.local/share/lua-language-server
+    mkdir -p ~/.local/bin
+
+    # Extract the bits and link em where needed
+    tar -xzf ~/tmp/lua-language-server.tar.gz -C ~/.local/share/lua-language-server
+    ln -s ~/.local/share/lua-language-server/bin/lua-language-server ~/.local/bin/lua-language-server
 fi
 
 if ! command_exists eza; then

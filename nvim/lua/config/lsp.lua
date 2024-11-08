@@ -48,34 +48,35 @@ nvim_lsp.html.setup({})
 nvim_lsp.emmet_language_server.setup({})
 
 -- # Lua language server
-nvim_lsp.lua_ls.setup {
-    on_init = function(client)
-        if client.workspace_folders then
-            local path = client.workspace_folders[1].name
-            if vim.uv.fs_stat(path..'/.luarc.json') or vim.uv.fs_stat(path..'/.luarc.jsonc') then
-                return
+if vim.fn.executable("lua-language-server") == 1 then
+    nvim_lsp.lua_ls.setup {
+        on_init = function(client)
+            if client.workspace_folders then
+                local path = client.workspace_folders[1].name
+                if vim.uv.fs_stat(path..'/.luarc.json') or vim.uv.fs_stat(path..'/.luarc.jsonc') then
+                    return
+                end
             end
-        end
 
-        client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-            runtime = { version = 'LuaJIT' },
-            -- Make the server aware of Neovim runtime files
-            workspace = {
-                checkThirdParty = false,
-                library = {
-                    vim.env.VIMRUNTIME,
-                    -- Depending on the usage, you might want to add additional paths here.
-                    "${3rd}/luv/library"
-                    -- "${3rd}/busted/library",
+            client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                runtime = { version = 'LuaJIT' },
+                -- Make the server aware of Neovim runtime files
+                workspace = {
+                    checkThirdParty = false,
+                    library = {
+                        vim.env.VIMRUNTIME,
+                        -- Depending on the usage, you might want to add additional paths here.
+                        "${3rd}/luv/library"
+                        -- "${3rd}/busted/library",
+                    }
                 }
-            }
-        })
-    end,
-    settings = {
-        Lua = {}
+            })
+        end,
+        settings = {
+            Lua = {}
+        }
     }
-}
-
+end
 
 -- Python language server
 nvim_lsp.jedi_language_server.setup({})
@@ -94,7 +95,7 @@ vim.diagnostic.config({
 
 -- Have a rounded border when using "K" on something to show the signature_help
 vim.lsp.handlers["textDocument/hover"] =
-    vim.lsp.with(vim.lsp.handlers.hover, { border = constants.ui.border })
+    vim.lsp.with(vim.lsp.buf.hover, { border = constants.ui.border })
 
 vim.lsp.handlers["textDocument/signatureHelp"] =
     vim.lsp.with( vim.lsp.handlers.signature_help, { border = constants.ui.border })
