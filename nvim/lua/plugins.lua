@@ -415,8 +415,9 @@ safeRequire("lazy", true, {
         dependencies = "nvim-tree/nvim-web-devicons",
         opts = {
             options = {
-                theme = "gruvbox_dark",
-                -- theme = "codedark",
+                -- theme = "gruvbox_dark",
+                theme = "wombat",
+                -- theme = "powerline_dark",
                 component_separators = { left = '', right = ''},
                 section_separators = { left = '', right = ''},
             },

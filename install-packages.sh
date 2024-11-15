@@ -147,6 +147,9 @@ if ! command_exists lua-language-server; then
     # Extract the bits and link em where needed
     tar -xzf ~/tmp/lua-language-server.tar.gz -C ~/.local/share/lua-language-server
     ln -s ~/.local/share/lua-language-server/bin/lua-language-server ~/.local/bin/lua-language-server
+
+    # Clean up the downloaded package
+    rm -rf ~/tmp/lua-language-server.tar.gz
 fi
 
 if ! command_exists eza; then
