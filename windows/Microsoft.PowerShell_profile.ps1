@@ -4,7 +4,7 @@ Import-Module PSReadLine
 # This import lets me use the `sudo` command wherever needed
 # https://github.com/gerardog/gsudo
 # winget install gerardog.gsudo
-Import-Module gsudoModule
+# Import-Module gsudoModule  # If it's commented out, just use "gsudo" instead (Also makes it so it doesn't whine when it's not installed)
 
 Set-PSReadlineOption -EditMode Emacs
 Set-PSReadlineOption -BellStyle "None";

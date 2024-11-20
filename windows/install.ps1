@@ -45,11 +45,13 @@ $defaultPrograms = @{
     "7Zip"             = "7zip.7zip";
     "Powershell 7"     = "Microsoft.PowerShell";
     "Windows Terminal" = "Microsoft.WindowsTerminal";
+    "git"              = "Git.Git";
+
+    # NVim / cmd utilities
     "eza"              = "eza-community.eza";   # Cross platform ls alternative
     "fd"               = "sharkdp.fd";          # File/ text finder for Neovim Telescope
     "bat"              = "sharkdp.bat";         # Cat alternative
     "jq"               = "jqlang.jq";           # JSON formatter
-    "git"              = "Git.Git";
     "nvim"             = "Neovim.Neovim";
 }
 foreach ($item in $defaultPrograms.GetEnumerator()) {
