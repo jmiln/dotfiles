@@ -1,9 +1,9 @@
 local M = {}
 M.ReloadConfig = function()
--- function _G.ReloadConfig()
+    -- function _G.ReloadConfig()
     local hls_status = vim.v.hlsearch
-    for name,_ in pairs(package.loaded) do
-        if name:match('^cnull') then
+    for name, _ in pairs(package.loaded) do
+        if name:match("^cnull") then
             package.loaded[name] = nil
         end
     end
@@ -15,4 +15,3 @@ M.ReloadConfig = function()
 end
 
 return M
-

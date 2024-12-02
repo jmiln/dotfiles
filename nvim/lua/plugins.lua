@@ -22,7 +22,7 @@ local function safeRequire(pName, doSetup, setupObj)
     setupObj = setupObj or {}
     local ok, module = pcall(require, pName)
     if not ok then
-        vim.notify("Couldn't load plugin: ".. pName)
+        vim.notify("Couldn't load plugin: " .. pName)
         return
     end
 
@@ -43,7 +43,7 @@ safeRequire("lazy", true, {
                 return
             end
             vim.notify = notify
-        end
+        end,
     },
 
     -- Easily align stuff
@@ -55,23 +55,22 @@ safeRequire("lazy", true, {
                 start = "ga",
                 start_with_preview = "gA",
             },
-        }
+        },
     },
-
 
     -- Color any #ffffff style color codes
     {
         "NvChad/nvim-colorizer.lua",
         event = "VeryLazy",
-        opts = {}
+        opts = {},
     },
 
     -- More in-depth undo
     {
         "mbbill/undotree",
         keys = {
-            { "<F5>", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" }
-        }
+            { "<F5>", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" },
+        },
     },
 
     -- Preview markdown in a floating window (:Glow)
@@ -80,9 +79,9 @@ safeRequire("lazy", true, {
         opts = {
             width = 999,
             height = 999,
-            width_ratio  = 0.8,
+            width_ratio = 0.8,
             height_ratio = 0.8,
-        }
+        },
     },
     {
         "nvim-treesitter/nvim-treesitter",
@@ -90,29 +89,29 @@ safeRequire("lazy", true, {
         opts = {
             highlight = {
                 enable = true,
-                additional_vim_regex_highlighting = false
+                additional_vim_regex_highlighting = false,
             },
             indent = {
-                enable = true
+                enable = true,
             },
             ensure_installed = {
-                "comment",      -- Lets it highlight the TODO comments and such
+                "comment", -- Lets it highlight the TODO comments and such
                 "css",
                 "html",
                 "javascript",
                 "json",
-                "lua",          -- For the nvim config files mainly
+                "lua", -- For the nvim config files mainly
                 "markdown",
                 "markdown_inline",
-                "regex",        -- Ooh, shiny regex
-                "tmux",         -- For tmux.conf
+                "regex", -- Ooh, shiny regex
+                "tmux", -- For tmux.conf
                 "typescript",
-                "vimdoc",       -- Previously help
+                "vimdoc", -- Previously help
                 "yaml",
             },
             -- Recommended false if the cli treesitter isn't installed
             auto_install = false,
-        }
+        },
     },
     -- "nvim-treesitter/playground",
 
@@ -131,23 +130,42 @@ safeRequire("lazy", true, {
             enable_check_bracket_line = false,
             check_ts = true,
             ts_config = {
-                lua = {"string"},
-                javascript = {"template_string"},
-            }
-        }
+                lua = { "string" },
+                javascript = { "template_string" },
+            },
+        },
+    },
+
+    -- Auto-format files on save
+    {
+        "stevearc/conform.nvim",
+        opts = {
+            formatters_by_ft = {
+                javascript = { "biome" },
+                json = { "biome" },
+                typescript = { "biome" },
+                typescriptreact = { "biome" },
+                lua = { "stylua" },
+            },
+            -- format_on_save = {
+            --     -- These options will be passed to conform.format()
+            --     timeout_ms = 500,
+            --     lsp_format = "fallback",
+            -- },
+        },
     },
 
     -- Automatically change strings to `` for template literals (JS)
     {
         "axelvc/template-string.nvim",
-        opts = {}
+        opts = {},
     },
 
     -- Auto-close html tags
     {
         "windwp/nvim-ts-autotag",
-        ft = {"html", "ejs", "css", "scss"},
-        opts = {}
+        ft = { "html", "ejs", "css", "scss" },
+        opts = {},
     },
 
     -- Quick changes for surrounding symbols (Quotes, parens, etc)
@@ -159,7 +177,7 @@ safeRequire("lazy", true, {
             -- "nvim-treesitter/nvim-treesitter-textobjects",
             "nvim-treesitter/nvim-treesitter",
         },
-        opts = {}
+        opts = {},
     },
     -- {
     --     "nvim-treesitter/nvim-treesitter-textobjects",
@@ -181,7 +199,7 @@ safeRequire("lazy", true, {
     -- Easy comments
     {
         "numToStr/Comment.nvim",
-        opts = {}
+        opts = {},
     },
 
     -- Comment properly in embedded filetypes (Ejs, etc)
@@ -189,7 +207,7 @@ safeRequire("lazy", true, {
         "JoosepAlviste/nvim-ts-context-commentstring",
         opts = {
             enable_autocmd = false,
-        }
+        },
     },
 
     -- LSP stuffs
@@ -201,13 +219,27 @@ safeRequire("lazy", true, {
         },
         config = function()
             safeRequire("config.lsp")
-        end
+        end,
     },
     {
         "lewis6991/hover.nvim",
         keys = {
-            { mode = "n", "K", function() require("hover").hover() end, desc = "Show hover desc" },
-            { mode = "n", "gK", function() require("hover").hover_select() end, desc = "Show hover desc (select)" },
+            {
+                mode = "n",
+                "K",
+                function()
+                    require("hover").hover()
+                end,
+                desc = "Show hover desc",
+            },
+            {
+                mode = "n",
+                "gK",
+                function()
+                    require("hover").hover_select()
+                end,
+                desc = "Show hover desc (select)",
+            },
         },
         opts = {
             init = function()
@@ -216,17 +248,17 @@ safeRequire("lazy", true, {
                 require("hover.providers.gh_user")
             end,
             preview_opts = {
-                border = "rounded"
+                border = "rounded",
             },
             preview_window = false,
             title = true,
-        }
+        },
     },
     "nvim-lua/popup.nvim",
     {
         "nvim-telescope/telescope.nvim",
         dependencies = {
-            "nvim-lua/plenary.nvim"
+            "nvim-lua/plenary.nvim",
         },
         keys = {
             { "<leader>fb", ":Telescope buffers<CR>", desc = "Search Buffers" },
@@ -242,20 +274,27 @@ safeRequire("lazy", true, {
             defaults = {
                 file_ignore_patterns = {
                     "node_modules",
-                    ".git"
+                    ".git",
                 },
                 layout_config = {
                     horizontal = {
                         width = 0.9,
-                        preview_width = 0.6
-                    }
+                        preview_width = 0.6,
+                    },
                     -- other layout configuration here
                 },
                 borderchars = {
-                    "─", "│", "─", "│", "╭", "╮", "╯", "╰",
+                    "─",
+                    "│",
+                    "─",
+                    "│",
+                    "╭",
+                    "╮",
+                    "╯",
+                    "╰",
                 },
-            }
-        }
+            },
+        },
     },
 
     -- AI Autocomplete stuffs
@@ -263,17 +302,24 @@ safeRequire("lazy", true, {
         "monkoose/neocodeium",
         event = "VeryLazy",
         -- Only enable if the machine has more than 8GB of RAM available
-        enabled = vim.loop.get_total_memory() > 2^33,
+        enabled = vim.loop.get_total_memory() > 2 ^ 33,
         keys = {
-            { mode = "i", "<A-f>", function() require("neocodeium").accept() end, desc = "Accept suggestion" },
+            {
+                mode = "i",
+                "<A-f>",
+                function()
+                    require("neocodeium").accept()
+                end,
+                desc = "Accept suggestion",
+            },
         },
         opts = {
             debounce = true,
             silent = true,
             filetypes = {
-                TelescopePrompt = false
-            }
-        }
+                TelescopePrompt = false,
+            },
+        },
     },
 
     -- Put errors in the locationlist (<leader>z to open)
@@ -303,13 +349,13 @@ safeRequire("lazy", true, {
             },
             signs = {
                 -- icons / text used for a diagnostic
-                error       = constants.diagnostic.sign.error,
-                warning     = constants.diagnostic.sign.warning,
+                error = constants.diagnostic.sign.error,
+                warning = constants.diagnostic.sign.warning,
                 information = constants.diagnostic.sign.info,
-                hint        = constants.diagnostic.sign.hint,
-                other       = "?"
+                hint = constants.diagnostic.sign.hint,
+                other = "?",
             },
-        }
+        },
     },
 
     -- Git stuff
@@ -318,14 +364,14 @@ safeRequire("lazy", true, {
 
     -- Git changes in the signcolumn
     {
-        "lewis6991/gitsigns.nvim" ,
+        "lewis6991/gitsigns.nvim",
         opts = {
             signs = {
                 -- Update these two from over/underscore so they'll actually show up
-                delete       = { text = "│" },
-                topdelete    = { text = "│" },
+                delete = { text = "│" },
+                topdelete = { text = "│" },
             },
-        }
+        },
     },
 
     -- Uses vim splits to display more info when committing to git
@@ -343,13 +389,13 @@ safeRequire("lazy", true, {
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
-            "hrsh7th/cmp-nvim-lsp",         -- Completion output for the lsp
-            "hrsh7th/cmp-buffer",           -- Completion for strings found in the current buffer/ file
+            "hrsh7th/cmp-nvim-lsp", -- Completion output for the lsp
+            "hrsh7th/cmp-buffer", -- Completion for strings found in the current buffer/ file
             -- "hrsh7th/cmp-path",             -- Completion for file paths  (Seems to trigger on blanks/ spaces too often, and will just show paths from root)
-            "hrsh7th/cmp-nvim-lua",         -- Completion for nvim settings and such (vim.lsp.*, etc)
-            "onsails/lspkind-nvim",         -- Show symbols
-            "L3MON4D3/LuaSnip",             -- Snippets
-            "saadparwaiz1/cmp_luasnip",     -- Show snippets in the cmp popup
+            "hrsh7th/cmp-nvim-lua", -- Completion for nvim settings and such (vim.lsp.*, etc)
+            "onsails/lspkind-nvim", -- Show symbols
+            "L3MON4D3/LuaSnip", -- Snippets
+            "saadparwaiz1/cmp_luasnip", -- Show snippets in the cmp popup
             "rafamadriz/friendly-snippets",
         },
         config = function()
@@ -364,9 +410,9 @@ safeRequire("lazy", true, {
         },
         opts = {
             layout = {
-                min_width = 30
-            }
-        }
+                min_width = 30,
+            },
+        },
     },
 
     -- Nvim file explorer/ tree
@@ -382,10 +428,10 @@ safeRequire("lazy", true, {
         opts = {
             respect_buf_cwd = true,
             filesystem_watchers = {
-                enable = false
+                enable = false,
             },
             view = {
-                adaptive_size = true
+                adaptive_size = true,
             },
             renderer = {
                 add_trailing = true,
@@ -393,10 +439,10 @@ safeRequire("lazy", true, {
                     enable = true,
                     inline_arrows = true,
                     icons = {
-                        edge   = "│",
-                        item   = "├",
+                        edge = "│",
+                        item = "├",
                         corner = "└",
-                        none   = " ",
+                        none = " ",
                     },
                 },
             },
@@ -418,41 +464,41 @@ safeRequire("lazy", true, {
                 -- theme = "gruvbox_dark",
                 theme = "wombat",
                 -- theme = "powerline_dark",
-                component_separators = { left = '', right = ''},
-                section_separators = { left = '', right = ''},
+                component_separators = { left = "", right = "" },
+                section_separators = { left = "", right = "" },
             },
             extensions = {
                 "fugitive",
                 "lazy",
                 "nvim-tree",
                 "quickfix",
-                "trouble"
+                "trouble",
             },
             sections = {
                 lualine_b = {
                     "branch",
                     "diff",
                     -- {
-                        -- "diff",
-                        -- diff_color = {
-                            -- For some reason, the bg colors the text, and the fg colors the background
-                            -- added    = "green",
-                            -- modified = "yellow",
-                            -- removed  = "red",
-                            -- added    = { bg = "green",  fg = "#1C1C1C" },
-                            -- modified = { bg = "yellow", fg = "#1C1C1C" },
-                            -- removed  = { bg = "red",    fg = "#1C1C1C" },
-                        -- },
+                    -- "diff",
+                    -- diff_color = {
+                    -- For some reason, the bg colors the text, and the fg colors the background
+                    -- added    = "green",
+                    -- modified = "yellow",
+                    -- removed  = "red",
+                    -- added    = { bg = "green",  fg = "#1C1C1C" },
+                    -- modified = { bg = "yellow", fg = "#1C1C1C" },
+                    -- removed  = { bg = "red",    fg = "#1C1C1C" },
+                    -- },
                     -- },
                     {
                         "diagnostics",
                         symbols = {
                             error = constants.diagnostic.sign.error,
-                            warn  = constants.diagnostic.sign.warn,
-                            info  = constants.diagnostic.sign.info,
-                            hint  = constants.diagnostic.sign.hint
+                            warn = constants.diagnostic.sign.warn,
+                            info = constants.diagnostic.sign.info,
+                            hint = constants.diagnostic.sign.hint,
                         },
-                    }
+                    },
                 },
                 lualine_x = {
                     "searchcount",
@@ -460,9 +506,7 @@ safeRequire("lazy", true, {
                     "fileformat",
                     "filetype",
                 },
-            }
-        }
+            },
+        },
     },
 })
-
-

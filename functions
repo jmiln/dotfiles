@@ -2,6 +2,11 @@
 ############## My Functions ##############
 ##########################################
 
+# Get assigned IPs for comlink containers
+function getComlinkIPs() {
+    docker compose logs | grep -Eo "^[^']*'[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,4}'"
+}
+
 
 # Various C compiler functions
 

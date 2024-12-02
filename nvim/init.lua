@@ -1,4 +1,5 @@
 vim.deprecate = function() end
+vim.g.clipboard = false
 
 -- Load up whatever lua stuff
 require("settings")

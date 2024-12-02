@@ -18,9 +18,24 @@ autocmd("FileType", {
 
 -- Set filetypes for various file extensions
 vim.cmd([[au BufNewFile,BufRead *.php,*.html,*.css setlocal nocindent smartindent]])
-autocmd({"BufNewFile", "BufRead"}, { pattern = "*.ejs", callback = function() vim.bo.filetype = "html" end })
-autocmd({"BufNewFile", "BufRead"}, { pattern = {"*.sh", ".bashrc", ".aliases"}, callback = function() vim.bo.filetype = "bash" end })
-autocmd({"BufNewFile", "BufRead"}, { pattern = "*.conf", callback = function() vim.bo.filetype = "conf" end })
+autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = "*.ejs",
+    callback = function()
+        vim.bo.filetype = "html"
+    end,
+})
+autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = { "*.sh", ".bashrc", ".aliases" },
+    callback = function()
+        vim.bo.filetype = "bash"
+    end,
+})
+autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = "*.conf",
+    callback = function()
+        vim.bo.filetype = "conf"
+    end,
+})
 
 autocmd("BufWritePre", {
     desc = "Auto create dir when saving a file, in case some intermediate directory does not exist",
@@ -33,7 +48,6 @@ autocmd("BufWritePre", {
         vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
     end,
 })
-
 
 -- If a file is larger than 2MB, turn off some settings to make it load faster
 --  * The foldmethod itself seems to be a massive part of it, at least with large json files
@@ -52,11 +66,11 @@ vim.api.nvim_create_autocmd("BufReadPre", {
 })
 
 -- Remove whitespace on save
-vim.cmd[[au BufWritePre * :%s/\s\+$//e]]
+vim.cmd([[au BufWritePre * :%s/\s\+$//e]])
 
 -- go to last loc when opening a buffer
 -- vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]])
-vim.api.nvim_create_autocmd('BufReadPost', {
+vim.api.nvim_create_autocmd("BufReadPost", {
     callback = function()
         local mark = vim.api.nvim_buf_get_mark(0, '"')
         local lcount = vim.api.nvim_buf_line_count(0)
@@ -67,8 +81,7 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 })
 
 autocmd("FileType", {
-    group = general,
-    pattern = { "help", "checkhealth", },
+    pattern = { "help", "checkhealth" },
     callback = function(event)
         vim.bo[event.buf].buflisted = false
         vim.keymap.set("n", "q", "<cmd>close<cr>", {

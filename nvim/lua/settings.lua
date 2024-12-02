@@ -11,7 +11,6 @@ vim.opt.tabstop     = 4         -- 1 tab == 4 spaces
 vim.opt.softtabstop = 4         -- 1 tab == 4 spaces
 -- vim.opt.indentkeys  = "0{,0},:,0#,!^F,o,O,e,*,<>>,,end,:"
 
-
 ---------------------------------- Searching ----------------------------------
 vim.opt.path:append {"**"} -- add current file location to path
 vim.opt.ignorecase = true
@@ -21,33 +20,33 @@ vim.opt.incsearch  = true
 vim.opt.magic      = true          -- set magic on, for regular expressions
 vim.opt.wrapscan   = true
 vim.opt.wildignore:append {
-  "*/tmp/*",
-  "/var/*",
-  "*.so",
-  "*.swp",
-  "*.zip",
-  "*.tar",
-  "*.pyc"
+    "*/tmp/*",
+    "/var/*",
+    "*.so",
+    "*.swp",
+    "*.zip",
+    "*.tar",
+    "*.pyc"
 }
 vim.opt.wildmode = {"longest:full","list:full"}
 
 
 --------------------------------- Appearance ----------------------------------
-vim.opt.background    = "dark"
-vim.opt.cursorline  = false
-vim.opt.cursorcolumn  = false
-vim.opt.number        = true
+vim.opt.background     = "dark"
+vim.opt.cursorline     = false
+vim.opt.cursorcolumn   = false
+vim.opt.number         = true
 vim.opt.relativenumber = false
-vim.opt.scrolloff     = 1               -- start scrolling when near the last line
-vim.opt.showmatch     = true
-vim.opt.showmode      = true
-vim.opt.sidescrolloff = 5               -- start scrolling when near the last col
-vim.opt.syntax        = "enable"        -- enable syntax highlighting
-vim.opt.termguicolors = true            -- true color support
-vim.opt.showbreak = string.rep(" ", 3)  -- Make it so that long lines wrap smartly
-vim.opt.belloff = "all"                 -- Just turn all the bells off
-vim.wo.signcolumn = "yes"
-vim.go.termguicolors = true
+vim.opt.scrolloff      = 1                     -- start scrolling when near the last line
+vim.opt.showmatch      = true
+vim.opt.showmode       = true
+vim.opt.sidescrolloff  = 5                     -- start scrolling when near the last col
+vim.opt.syntax         = "enable"              -- enable syntax highlighting
+vim.opt.termguicolors  = true                  -- true color support
+vim.opt.showbreak      = string.rep(" ", 3)    -- Make it so that long lines wrap smartly
+vim.opt.belloff        = "all"                 -- Just turn all the bells off
+vim.wo.signcolumn      = "yes"
+vim.go.termguicolors   = true
 
 -- Make cursor blink
 vim.opt.guicursor = {
@@ -117,13 +116,13 @@ vim.opt.sessionoptions = "resize,winpos,winsize,buffers,tabpages,folds,curdir,he
 vim.opt.modeline = false
 vim.opt.modelines = 1
 vim.opt.formatoptions = vim.opt.formatoptions
-  - "a" -- Auto formatting is BAD.
-  - "t" -- Don't auto format my code. I got linters for that.
-  + "q" -- Allow formatting comments w/ gq
-  - "o" -- O and o, don't continue comments
-  + "r" -- But do continue when pressing enter.
-  + "n" -- Indent past the formatlistpat, not underneath it.
-  + "j" -- Auto-remove comments when joining
+    - "a" -- Auto formatting is BAD.
+    - "t" -- Don't auto format my code. I got linters for that.
+    + "q" -- Allow formatting comments w/ gq
+    - "o" -- O and o, don't continue comments
+    + "r" -- But do continue when pressing enter.
+    + "n" -- Indent past the formatlistpat, not underneath it.
+    + "j" -- Auto-remove comments when joining
 
 -- Snagged from:
 -- https://www.reddit.com/r/neovim/comments/1crdv93/comment/l3z0td3/
