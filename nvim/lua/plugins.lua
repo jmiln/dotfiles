@@ -58,6 +58,20 @@ safeRequire("lazy", true, {
         },
     },
 
+    -- Fancy join/ unjoin with extra features
+    {
+        "Wansmer/treesj",
+        keys = {
+            { "<leader>j", "<cmd>TSJToggle<cr>", desc = "Toggle treesj" },
+        },
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        config = function()
+            require("treesj").setup({
+                use_default_keymaps = false,
+            })
+        end,
+    },
+
     -- Color any #ffffff style color codes
     {
         "NvChad/nvim-colorizer.lua",
@@ -139,6 +153,15 @@ safeRequire("lazy", true, {
     -- Auto-format files on save
     {
         "stevearc/conform.nvim",
+        keys = {
+            {
+                "=",
+                function()
+                    require("conform").format({ async = true })
+                end,
+                desc = "Format File",
+            },
+        },
         opts = {
             formatters_by_ft = {
                 javascript = { "biome" },
@@ -146,6 +169,9 @@ safeRequire("lazy", true, {
                 typescript = { "biome" },
                 typescriptreact = { "biome" },
                 lua = { "stylua" },
+            },
+            default_format_opts = {
+                lsp_format = "fallback",
             },
             -- format_on_save = {
             --     -- These options will be passed to conform.format()
@@ -156,10 +182,11 @@ safeRequire("lazy", true, {
     },
 
     -- Automatically change strings to `` for template literals (JS)
-    {
-        "axelvc/template-string.nvim",
-        opts = {},
-    },
+    --  - Seems to have stopped working after a recent nvim update
+    -- {
+    --     "axelvc/template-string.nvim",
+    --     opts = {},
+    -- },
 
     -- Auto-close html tags
     {
@@ -174,27 +201,10 @@ safeRequire("lazy", true, {
         version = "*",
         event = "VeryLazy",
         dependencies = {
-            -- "nvim-treesitter/nvim-treesitter-textobjects",
             "nvim-treesitter/nvim-treesitter",
         },
         opts = {},
     },
-    -- {
-    --     "nvim-treesitter/nvim-treesitter-textobjects",
-    --     opts = {
-    --         textobjects = {
-    --             swap = {
-    --                 enable = true,
-    --                 swap_next = {
-    --                     ["<leader>a"] = "@parameter.inner",
-    --                 },
-    --                 swap_previous = {
-    --                     ["<leader>A"] = "@parameter.inner",
-    --                 },
-    --             },
-    --         },
-    --     }
-    -- },
 
     -- Easy comments
     {
@@ -361,6 +371,13 @@ safeRequire("lazy", true, {
     -- Git stuff
     "tpope/vim-fugitive",
     "sindrets/diffview.nvim",
+
+    -- Git conflict helper
+    {
+        "akinsho/git-conflict.nvim",
+        version = "*",
+        config = true,
+    },
 
     -- Git changes in the signcolumn
     {

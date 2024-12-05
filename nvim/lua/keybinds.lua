@@ -36,6 +36,11 @@ map("n", "N", "Nzzzv", default);
 map("v", "n", "nzzzv", default);
 map("v", "N", "Nzzzv", default);
 
+
+-- Search for a sequence of  <<<<<<<, ======= or >>>>>>>
+-- To use when there is a merge conflict
+map("n", "<leader>/", "/\\(<\\|=\\|>\\)\\{7\\}<CR>", { desc = "Search for merge conflict" })
+
 -- Keep your selection when shifting
 map("v", ">", ">gv", default);
 map("v", "<", "<gv", default);
@@ -60,10 +65,9 @@ map('c', '<Up>',    'wildmenumode() ? "\\<C-p>" : "\\<Up>"',  {noremap = true, e
 map('c', '<Down>',  'wildmenumode() ? "\\<C-n>" : "\\<Down>"',{noremap = true, expr = true})
 
 -- Map ctrl+/ to comment lines
-map("n", "", "<Plug>(comment_toggle_linewise_current)",        {noremap = true, silent=true})
-map("v", "", "<Plug>(comment_toggle_linewise_visual)",         {noremap = true, silent=true})
-map("i", "", "<ESC><Plug>(comment_toggle_linewise_current)i",  {noremap = true, silent=true})
-
+map("n", "", "<plug>(comment_toggle_linewise_current)",      default)
+map("v", "", "<plug>(comment_toggle_linewise_visual)",       default)
+map("i", "", "<esc><plug>(comment_toggle_linewise_current)i",default)
 
 -- LSP mappings
 -- Go to where the variable is defined
