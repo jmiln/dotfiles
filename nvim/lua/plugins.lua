@@ -312,7 +312,7 @@ safeRequire("lazy", true, {
         "monkoose/neocodeium",
         event = "VeryLazy",
         -- Only enable if the machine has more than 8GB of RAM available
-        enabled = vim.loop.get_total_memory() > 2 ^ 33,
+        -- enabled = vim.loop.get_total_memory() > 2^33,
         keys = {
             {
                 mode = "i",
