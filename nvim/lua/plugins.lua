@@ -183,9 +183,18 @@ safeRequire("lazy", true, {
 
     -- Automatically change strings to `` for template literals (JS)
     --  - Seems to have stopped working after a recent nvim update
+    --  - Tried puppeteer as well, but had the same issue of just not working at all.
+    --    * Presumably, v0.11dev just breaks whatever they're using?
     -- {
     --     "axelvc/template-string.nvim",
     --     opts = {},
+    -- },
+    -- {
+    --     "chrisgrieser/nvim-puppeteer",
+    --     lazy = false,
+    --     init = function()
+    --         vim.g.puppeteer_js_quotation_mark = '"'
+    --     end,
     -- },
 
     -- Auto-close html tags
