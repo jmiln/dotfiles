@@ -137,6 +137,26 @@ safeRequire("lazy", true, {
     --     -- tag = "*"
     -- },
 
+    -- Log inserter +
+    -- | Action                   | Keymap  | Description                                   |
+    -- |--------------------------|---------|-----------------------------------------------|
+    -- | insert_log_below         | glj     | Insert a log statement below the cursor       |
+    -- | insert_log_above         | glk     | Insert a log statement above the cursor       |
+    -- | insert_plain_log_below   | glo     | Insert a plain log statement below the cursor |
+    -- | insert_plain_log_above   | glO     | Insert a plain log statement above the cursor |
+    -- | add_log_targets_to_batch | gla     | Add a log target to the batch                 |
+    -- | insert_batch_log         | glb     | Insert a batch log statement                  |
+    {
+        "Goose97/timber.nvim",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        event = "VeryLazy",
+        config = function()
+            require("timber").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end,
+    },
+
     -- Auto-close parentheses and brackets, etc
     {
         "windwp/nvim-autopairs",
@@ -315,6 +335,55 @@ safeRequire("lazy", true, {
             },
         },
     },
+
+    -- Task runner plugin
+    -- {
+    --     "DanWlker/toolbox.nvim",
+    --     keys = {
+    --         {
+    --             "<leader>st",
+    --             function()
+    --                 require("toolbox").show_picker()
+    --             end,
+    --             desc = "[S]earch [T]oolbox",
+    --             mode = { "n", "v" },
+    --         },
+    --     },
+    --     -- Remove this if you don't need to always see telescope's ui when triggering toolbox
+    --     -- keys = {} will cause toolbox to lazy load, therefore if it loads before telescope you
+    --     -- will see the default vim.ui.select.
+    --     --
+    --     -- If you want to use your custom vim.ui.select overrides, remember to add it into dependencies
+    --     -- to ensure it loads first
+    --     --
+    --     -- Note: This is safe to remove, it is just to ensure plugins load in the correct order
+    --     dependencies = { "nvim-telescope/telescope.nvim" },
+    --     opts = {
+    --         commands = {
+    --             {
+    --                 name = "Format Json",
+    --                 execute = "%!jq --indent 4 '.'",
+    --             },
+    --             {
+    --                 name = "Reload plugin",
+    --                 execute = function(name)
+    --                     package.loaded[name] = nil
+    --                     require(name).setup()
+    --                 end,
+    --                 tags = { "first", "second" },
+    --             },
+    --         },
+    --     },
+    --     config = true,
+    -- },
+    -- {
+    --     "stevearc/overseer.nvim",
+    --     keys = {
+    --         { "<leader>sr", "<cmd>OverseerRun<CR>", desc = "Run Overseer", mode = { "n", "v" } },
+    --         { "<leader>st", "<cmd>OverseerToggle<CR>", desc = "Toggle Overseer", mode = { "n", "v" } },
+    --     },
+    --     opts = {},
+    -- },
 
     -- AI Autocomplete stuffs
     {
