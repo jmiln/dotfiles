@@ -61,7 +61,6 @@ alias du="du -kh"           # Makes a more readable output.
 alias df="df -kTh --total"
 alias mkdir="mkdir -p"      # Create directories as needed
 alias mv="mv -ivn"           # Prompts before overwrite
-alias cp="cp -v --update=none"
 alias rm="rm -v"
 alias ap="apropos"          # Use to search for commands
 alias m="more"

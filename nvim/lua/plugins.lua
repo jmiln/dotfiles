@@ -184,6 +184,7 @@ safeRequire("lazy", true, {
         },
         opts = {
             formatters_by_ft = {
+                ejs = { "biome" },
                 javascript = { "biome" },
                 json = { "biome" },
                 typescript = { "biome" },
