@@ -15,7 +15,7 @@ function Set-WindowsFileExplorer-StartFolder {
 
   $RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
 
-  if (-not (Test-PathRegistryKey -Path $RegPath -Name "LaunchTo")) {
+  if (-not (Test-Path -Path $RegPath -Name "LaunchTo")) {
     New-ItemProperty -Path $RegPath -Name "LaunchTo" -PropertyType DWord;
   }
 
@@ -60,7 +60,7 @@ function Set-Classic-ContextMenu-Configuration {
     New-Item -Path $RegPath;
   }
 
-  if (-not (Test-PathRegistryKey -Path $RegPath -Name $RegKey)) {
+  if (-not (Test-Path -Path $RegPath -Name $RegKey)) {
     New-ItemProperty -Path $RegPath -Name $RegKey -PropertyType String;
   }
   Set-ItemProperty -Path $RegPath -Name $RegKey -Value "";
@@ -77,7 +77,7 @@ function Set-SetAsBackground-To-Extended-ContextMenu {
     $RegPath = "HKCR:\SystemFileAssociations\${Extension}\Shell\setdesktopwallpaper";
 
     if (Test-Path $RegPath) {
-      if (-not (Test-PathRegistryKey -Path $RegPath -Name "Extended")) {
+      if (-not (Test-Path -Path $RegPath -Name "Extended")) {
         New-ItemProperty -Path $RegPath -Name "Extended" -PropertyType String;
       }
     }
@@ -88,7 +88,7 @@ function Disable-RecentlyOpenedItems-From-JumpList {
   Write-Host "Configuring Jump List to do not show the list of recently opened items:" -ForegroundColor "Green";
 
   $RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-  if (-not (Test-PathRegistryKey -Path $RegPath -Name "Start_TrackDocs")) {
+  if (-not (Test-Path -Path $RegPath -Name "Start_TrackDocs")) {
     New-ItemProperty -Path $RegPath -Name "Start_TrackDocs" -PropertyType DWord;
   }
   Set-ItemProperty -Path $RegPath -Name "Start_TrackDocs" -Value 0;
