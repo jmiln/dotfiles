@@ -228,7 +228,7 @@ safeRequire("lazy", true, {
     -- Quick changes for surrounding symbols (Quotes, parens, etc)
     {
         "kylechui/nvim-surround",
-        version = "*",
+        version = "^3.0.0",
         event = "VeryLazy",
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
