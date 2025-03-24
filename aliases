@@ -48,7 +48,7 @@ done
 
 # Make it so noclobber and verbose are on for file utils
 for c in cp mv; do
-    alias $c="$c -vn"
+    alias $c="$c -v --update=none"
 done
 
 alias ..="cd .."
