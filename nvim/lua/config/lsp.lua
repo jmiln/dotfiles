@@ -79,7 +79,7 @@ if vim.fn.executable("lua-language-server") == 1 then
 end
 
 -- Python language server
-nvim_lsp.jedi_language_server.setup({})
+-- nvim_lsp.jedi_language_server.setup({})
 
 -- Configure how the code errors and such are displayed
 vim.diagnostic.config({

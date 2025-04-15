@@ -10,7 +10,7 @@ alias less="less -X"
 alias man="man -P 'less -X'"
 alias grep="grep --color=auto"  #
 
-# If exa is installed, alias ls to use it
+# If eza or exa are installed, alias ls to use them
 if command -v eza &> /dev/null; then
     alias ls="eza -F --group-directories-first"
     alias l="ls"
@@ -40,15 +40,19 @@ else
     alias lla="ls -la"
 fi
 
+# If moar is installed, alias more to use it
+if command -v moar &> /dev/null; then
+    alias more="moar"
+fi
 
 # Make file utils more verbose
-for c in rm chmod chown rename; do
-    alias $c="$c -v"
+for com in rm chmod chown rename; do
+    alias $com="$com -v"
 done
 
 # Make it so noclobber and verbose are on for file utils
-for c in cp mv; do
-    alias $c="$c -v --update=none"
+for com in cp mv; do
+    alias $com="$com -v --update=none"
 done
 
 alias ..="cd .."
@@ -56,8 +60,9 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"           # Go to previous dir with -
-alias path="echo -e ${PATH//:/\\n}"     # Print each PATH entry on a different line
+alias path="echo $PATH | sed 's/:/\n/g'"     # Print each PATH entry on a different line
 alias du="du -kh"           # Makes a more readable output.
+alias du.="du -hs * | sort -hr"     # Makes a more readable output & sorts by size.
 alias df="df -kTh --total"
 alias mkdir="mkdir -p"      # Create directories as needed
 alias mv="mv -ivn"           # Prompts before overwrite
@@ -66,7 +71,7 @@ alias ap="apropos"          # Use to search for commands
 alias m="more"
 alias h="history"
 
-# Use Vim if possible
+# Use a Vim varaiant if possible
 if which nvim >/dev/null 2>&1; then
     alias vi="nvim"
 elif which vim >/dev/null 2>&1; then
@@ -114,13 +119,9 @@ alias nfresh="rm -rf node_modules/ package-lock.json && npm install"
 alias py="python"
 
 ### Network aliases ###
-alias myip="dig +short myip.opendns.com @resolver1.opendns.com"   # Show the current IP
 alias ipListen="sudo lsof -i -P -n | grep LISTEN"  # Show the IP/ ports that are being listened to
-alias iftop="TERM=xterm sudo iftop"
 
 ### Hardware aliases ###
-alias ram="ps axch -o cmd:15,%mem --sort=-%mem | head"
-alias cpu="ps axch -o cmd:15,%cpu --sort=-%cpu | head"
 
 ### Git aliases ###
     # Easy git status
