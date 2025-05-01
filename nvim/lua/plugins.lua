@@ -31,6 +31,12 @@ local function safeRequire(pName, doSetup, setupObj)
     end
 end
 
+local has_words_before = function()
+    unpack = unpack or table.unpack
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 safeRequire("lazy", true, {
     -- Notifications
     -- Fancier notification popups in the corner instead of just in the cmd field in the bottom
@@ -269,6 +275,7 @@ safeRequire("lazy", true, {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "pmizio/typescript-tools.nvim",
+            "saghen/blink.cmp",
         },
         config = function()
             safeRequire("config.lsp")
@@ -296,9 +303,19 @@ safeRequire("lazy", true, {
         },
         opts = {
             init = function()
+                require("hover.providers.diagnostic")
                 require("hover.providers.lsp")
                 require("hover.providers.gh")
                 require("hover.providers.gh_user")
+
+                vim.keymap.set("n", "K", require("hover").hover, { desc = "hover.nvim" })
+                vim.keymap.set("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" })
+                vim.keymap.set("n", "<C-p>", function()
+                    require("hover").hover_switch("previous")
+                end, { desc = "hover.nvim (previous source)" })
+                vim.keymap.set("n", "<C-n>", function()
+                    require("hover").hover_switch("next")
+                end, { desc = "hover.nvim (next source)" })
             end,
             preview_opts = {
                 border = "rounded",
@@ -322,6 +339,7 @@ safeRequire("lazy", true, {
             { "<leader>fr", ":Telescope registers<CR>", desc = "Search Registers" },
             { "<leader>fm", ":Telescope marks<CR>", desc = "Search Marks" },
             { "<leader>fs", ":Telescope search_history<CR>", desc = "Search History" },
+            { "<leader>fz", ":Telescope spell_suggest<CR>", desc = "Spelling Suggest" },
         },
         opts = {
             defaults = {
@@ -336,16 +354,7 @@ safeRequire("lazy", true, {
                     },
                     -- other layout configuration here
                 },
-                borderchars = {
-                    "─",
-                    "│",
-                    "─",
-                    "│",
-                    "╭",
-                    "╮",
-                    "╯",
-                    "╰",
-                },
+                borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
             },
         },
     },
@@ -496,21 +505,144 @@ safeRequire("lazy", true, {
 
     -- Completion menus
     {
-        "hrsh7th/nvim-cmp",
+        "saghen/blink.cmp",
+        -- optional: provides snippets for the snippet source
         dependencies = {
-            "hrsh7th/cmp-nvim-lsp", -- Completion output for the lsp
-            "hrsh7th/cmp-buffer", -- Completion for strings found in the current buffer/ file
-            -- "hrsh7th/cmp-path",             -- Completion for file paths  (Seems to trigger on blanks/ spaces too often, and will just show paths from root)
-            "hrsh7th/cmp-nvim-lua", -- Completion for nvim settings and such (vim.lsp.*, etc)
-            "onsails/lspkind-nvim", -- Show symbols
-            "L3MON4D3/LuaSnip", -- Snippets
-            "saadparwaiz1/cmp_luasnip", -- Show snippets in the cmp popup
-            "rafamadriz/friendly-snippets",
+            {
+                "L3MON4D3/LuaSnip",
+                version = "v2.*",
+                build = "make install_jsregexp",
+                dependencies = "rafamadriz/friendly-snippets",
+                config = function()
+                    require("config.snippets")
+                end,
+            },
         },
-        config = function()
-            safeRequire("config.completion")
-        end,
+
+        -- use a release tag to download pre-built binaries
+        version = "1.*",
+        opts = {
+            keymap = {
+                preset = "default",
+                -- ["<Up>"] = { "select_prev", "fallback" },
+                -- ["<Down>"] = { "select_next", "fallback" },
+                ["<Tab>"] = {
+                    function(cmp)
+                        if cmp.is_menu_visible() then
+                            return cmp.select_next()
+                        elseif cmp.snippet_active() then
+                            return cmp.snippet_forward()
+                        elseif has_words_before() then
+                            return cmp.show()
+                        end
+                    end,
+                    "fallback",
+                },
+                ["<S-Tab>"] = {
+                    function(cmp)
+                        if cmp.is_menu_visible() then
+                            return cmp.select_prev()
+                        elseif cmp.snippet_active() then
+                            return cmp.snippet_backward()
+                        end
+                    end,
+                    "fallback",
+                },
+                ["<CR>"] = { "accept", "fallback" },
+                ["<S-CR>"] = {},
+                -- ['<Esc>'] = { 'cancel', 'fallback' },
+                ["<C-E>"] = { "cancel", "fallback" },
+            },
+
+            appearance = {
+                highlight_ns = vim.api.nvim_create_namespace("blink_cmp"),
+                nerd_font_variant = "mono",
+            },
+
+            completion = {
+                accept = { auto_brackets = { enabled = true } },
+                documentation = {
+                    auto_show = false,
+                    auto_show_delay_ms = 250,
+                    treesitter_highlighting = true,
+                    window = { border = "rounded" },
+                },
+                list = {
+                    selection = {
+                        preselect = true,
+                        auto_insert = false,
+                    },
+                },
+                menu = {
+                    auto_show = false,
+                    border = "rounded",
+                    draw = {
+                        columns = {
+                            { "label", "label_description", gap = 1 },
+                            { "kind_icon", "kind", gap = 1 },
+                        },
+
+                        -- This is cool, but doesn't play nice with the popup background color
+                        -- treesitter = { "lsp" }
+                    },
+                },
+            },
+            signature = {
+                enabled = true,
+                window = {
+                    border = "rounded",
+                },
+            },
+            snippets = {
+                preset = "luasnip",
+                -- expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
+                -- active = function(filter)
+                -- 	if filter and filter.direction then
+                -- 		return require('luasnip').jumpable(filter.direction)
+                -- 	end
+                -- 	return require('luasnip').in_snippet()
+                -- end,
+                -- jump = function(direction) require('luasnip').jump(direction) end,
+            },
+            sources = {
+                default = { "lsp", "path", "snippets", "buffer" },
+                providers = {
+                    lsp = {
+                        min_keyword_length = 2, -- Number of characters to trigger provider
+                        score_offset = 0, -- Boost/penalize the score of the items
+                    },
+                    path = {
+                        min_keyword_length = 0,
+                    },
+                    snippets = {
+                        min_keyword_length = 2,
+                    },
+                    buffer = {
+                        min_keyword_length = 4,
+                        max_items = 5,
+                    },
+                },
+            },
+            fuzzy = { implementation = "prefer_rust_with_warning" },
+        },
+        opts_extend = { "sources.default" },
     },
+    -- {
+    --     "hrsh7th/nvim-cmp",
+    --     dependencies = {
+    --         "hrsh7th/cmp-nvim-lsp", -- Completion output for the lsp
+    --         "hrsh7th/cmp-buffer", -- Completion for strings found in the current buffer/ file
+    --         -- "hrsh7th/cmp-path",             -- Completion for file paths  (Seems to trigger on blanks/ spaces too often, and will just show paths from root)
+    --         "hrsh7th/cmp-nvim-lua", -- Completion for nvim settings and such (vim.lsp.*, etc)
+    --         "onsails/lspkind-nvim", -- Show symbols
+    --         "L3MON4D3/LuaSnip", -- Snippets
+    --         "saadparwaiz1/cmp_luasnip", -- Show snippets in the cmp popup
+    --         "rafamadriz/friendly-snippets",
+    --     },
+    --     config = function()
+    --         safeRequire("config.completion")
+    --     end,
+    -- },
     {
         "stevearc/aerial.nvim",
         keys = {

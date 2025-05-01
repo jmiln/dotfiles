@@ -79,10 +79,14 @@ map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", default)
 -- Show info on element under cursor
 map("n", "<leader>ho", "<cmd>lua vim.lsp.buf.hover()<CR>", default)
 
+-- vim.keymap.set('n', 'K', function() vim.lsp.buf.hover { border = 'rounded' } end)
+
 
 -- LSP bindings to jump between issues
-map("n", "<c-j>", ":lua vim.diagnostic.goto_next()<CR>", default)
-map("n", "<c-k>", ":lua vim.diagnostic.goto_prev()<CR>", default)
+-- map("n", "<c-j>", ":lua vim.diagnostic.goto_next()<CR>", default)
+-- map("n", "<c-k>", ":lua vim.diagnostic.goto_prev()<CR>", default)
+map("n", "<c-j>", ":lua vim.diagnostic.jump({count = 1})<CR>", default)
+map("n", "<c-k>", ":lua vim.diagnostic.jump({count = -1})<CR>", default)
 
 
 -- Refresh the config in the current file (Nice, but doesn't work on split up files)
