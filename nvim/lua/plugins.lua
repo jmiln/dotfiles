@@ -93,8 +93,14 @@ safeRequire("lazy", true, {
         },
     },
 
-    -- Preview markdown in a floating window (:Glow)
+    -- Support for icons
     {
+        "nvim-tree/nvim-web-devicons",
+        opts = {},
+    },
+
+    -- Preview markdown in a floating window (:Glow)
+    { -- Not supported anymore, but my preferred option
         "ellisonleao/glow.nvim",
         opts = {
             width = 999,
@@ -103,6 +109,18 @@ safeRequire("lazy", true, {
             height_ratio = 0.8,
         },
     },
+    -- {
+    --     'MeanderingProgrammer/render-markdown.nvim',
+    --     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    --     opts = {
+    --         enabled = false,
+    --         completions = {
+    --             blink = {
+    --                 enabled = true,
+    --             },
+    --         },
+    --     },
+    -- },
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
@@ -703,10 +721,14 @@ safeRequire("lazy", true, {
         opts = {
             options = {
                 -- theme = "gruvbox_dark",
-                theme = "wombat",
+                -- theme = "wombat",
+                theme = "onedark",
+                -- theme = "base16",
                 -- theme = "powerline_dark",
-                component_separators = { left = "", right = "" },
-                section_separators = { left = "", right = "" },
+
+                -- Enable these if the >< icons break on the statusline
+                -- component_separators = { left = "", right = "" },
+                -- section_separators = { left = "", right = "" },
             },
             extensions = {
                 "fugitive",
@@ -719,18 +741,6 @@ safeRequire("lazy", true, {
                 lualine_b = {
                     "branch",
                     "diff",
-                    -- {
-                    -- "diff",
-                    -- diff_color = {
-                    -- For some reason, the bg colors the text, and the fg colors the background
-                    -- added    = "green",
-                    -- modified = "yellow",
-                    -- removed  = "red",
-                    -- added    = { bg = "green",  fg = "#1C1C1C" },
-                    -- modified = { bg = "yellow", fg = "#1C1C1C" },
-                    -- removed  = { bg = "red",    fg = "#1C1C1C" },
-                    -- },
-                    -- },
                     {
                         "diagnostics",
                         symbols = {
@@ -744,6 +754,10 @@ safeRequire("lazy", true, {
                 lualine_x = {
                     "searchcount",
                     "encoding",
+                    -- {
+                    --     "lsp_status",
+                    --     icon = "LSP:"
+                    -- },
                     "fileformat",
                     "filetype",
                 },
