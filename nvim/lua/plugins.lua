@@ -593,7 +593,20 @@ safeRequire("lazy", true, {
                 nerd_font_variant = "mono",
                 use_nvim_cmp_as_default = false,
             },
-
+            cmdline = {
+                keymap = { preset = "inherit" },
+                completion = {
+                    menu = {
+                        auto_show = true,
+                    },
+                    list = {
+                        selection = {
+                            preselect = false,
+                            auto_insert = true,
+                        },
+                    },
+                },
+            },
             completion = {
                 accept = { auto_brackets = { enabled = true } },
                 documentation = {
