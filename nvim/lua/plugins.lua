@@ -123,15 +123,14 @@ safeRequire("lazy", true, {
     -- },
     {
         "nvim-treesitter/nvim-treesitter",
+        event = { "BufReadPre", "BufNewFile" },
         build = ":TSUpdate",
         opts = {
             highlight = {
                 enable = true,
                 additional_vim_regex_highlighting = false,
             },
-            indent = {
-                enable = true,
-            },
+            indent = { enable = true },
             ensure_installed = {
                 "comment", -- Lets it highlight the TODO comments and such
                 "css",
@@ -153,6 +152,12 @@ safeRequire("lazy", true, {
     },
     -- "nvim-treesitter/playground",
 
+    -- Display / explain regex patterns (Looks cool, but doesn't seem to work with js stuff)
+    -- {
+    --     "OXY2DEV/patterns.nvim",
+    --     opts = {},
+    -- },
+
     -- Add documentation comments (JSDoc style)
     -- {
     --     "danymat/neogen",
@@ -162,31 +167,35 @@ safeRequire("lazy", true, {
     -- },
 
     -- Log inserter +
-    -- | Action                   | Keymap  | Description                                   |
-    -- |--------------------------|---------|-----------------------------------------------|
-    -- | insert_log_below         | glj     | Insert a log statement below the cursor       |
-    -- | insert_log_above         | glk     | Insert a log statement above the cursor       |
-    -- | insert_plain_log_below   | glo     | Insert a plain log statement below the cursor |
-    -- | insert_plain_log_above   | glO     | Insert a plain log statement above the cursor |
-    -- | add_log_targets_to_batch | gla     | Add a log target to the batch                 |
-    -- | insert_batch_log         | glb     | Insert a batch log statement                  |
     {
-        "Goose97/timber.nvim",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
-        event = "VeryLazy",
-        config = function()
-            require("timber").setup({
-                -- Configuration here, or leave empty to use defaults
-            })
-        end,
+        "andrewferrier/debugprint.nvim",
+
+        opts = {
+            keymaps = {
+                -- Put the log with a var below the current line with ALT+-
+                -- Put the log without a var below the current line with ALT++
+                normal = {
+                    variable_below = "<M-->",
+                    plain_below = "<M-=>",
+                },
+            }
+        },
+
+        dependencies = {
+            "echasnovski/mini.hipatterns",   -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
+            "nvim-telescope/telescope.nvim", -- Optional: If you want to use the `:Debugprint search` command with telescope.nvim
+        },
+
+        lazy = false, -- Required to make line highlighting work before debugprint is first used
+        version = "*", -- Remove if you DON'T want to use the stable version
     },
 
     -- Auto-close parentheses and brackets, etc
     {
         "windwp/nvim-autopairs",
         opts = {
-            enable_check_bracket_line = false,
             check_ts = true,
+            enable_check_bracket_line = false,
             ts_config = {
                 lua = { "string" },
                 javascript = { "template_string" },
@@ -292,7 +301,14 @@ safeRequire("lazy", true, {
         "neovim/nvim-lspconfig",
         dependencies = {
             "nvim-lua/plenary.nvim",
-            "pmizio/typescript-tools.nvim",
+            {
+                "pmizio/typescript-tools.nvim",
+                dependencies = {
+                    "nvim-lua/plenary.nvim",
+                    "neovim/nvim-lspconfig",
+                },
+                opts = {},
+            },
             "saghen/blink.cmp",
         },
         config = function()
@@ -457,7 +473,7 @@ safeRequire("lazy", true, {
         event = "VeryLazy",
         dependencies = "nvim-tree/nvim-web-devicons",
         keys = {
-            { "<leader>z", "<cmd>TroubleToggle<CR>", desc = "Toggle trouble" },
+            { "<leader>z", "<cmd>Trouble diagnostics toggle filter.buf=0<CR>", desc = "Toggle trouble" },
         },
         -- Trouble settings (Show the diagnostics quickfix window automatically)
         opts = {
@@ -479,7 +495,7 @@ safeRequire("lazy", true, {
             signs = {
                 -- icons / text used for a diagnostic
                 error = constants.diagnostic.sign.error,
-                warning = constants.diagnostic.sign.warning,
+                warning = constants.diagnostic.sign.warn,
                 information = constants.diagnostic.sign.info,
                 hint = constants.diagnostic.sign.hint,
                 other = "?",
@@ -542,8 +558,8 @@ safeRequire("lazy", true, {
         opts = {
             keymap = {
                 preset = "default",
-                -- ["<Up>"] = { "select_prev", "fallback" },
-                -- ["<Down>"] = { "select_next", "fallback" },
+                ["<Up>"] = { "select_prev", "fallback" },
+                ["<Down>"] = { "select_next", "fallback" },
                 ["<Tab>"] = {
                     function(cmp)
                         if cmp.is_menu_visible() then
@@ -575,16 +591,24 @@ safeRequire("lazy", true, {
             appearance = {
                 highlight_ns = vim.api.nvim_create_namespace("blink_cmp"),
                 nerd_font_variant = "mono",
+                use_nvim_cmp_as_default = false,
             },
 
             completion = {
                 accept = { auto_brackets = { enabled = true } },
                 documentation = {
-                    auto_show = false,
-                    auto_show_delay_ms = 250,
-                    treesitter_highlighting = true,
-                    window = { border = "rounded" },
+                    auto_show = true,
+                    auto_show_delay_ms = 100,
+                    window = {
+                        border = vim.g.border_style,
+                        min_width = 35,
+                        direction_priority = {
+                            menu_north = { "e", "w" },
+                            menu_south = { "e", "w" },
+                        },
+                    },
                 },
+                ghost_text = { enabled = false },
                 list = {
                     selection = {
                         preselect = true,
@@ -597,7 +621,7 @@ safeRequire("lazy", true, {
                     draw = {
                         columns = {
                             { "label", "label_description", gap = 1 },
-                            { "kind_icon", "kind", gap = 1 },
+                            { "kind_icon", "kind", "source_name", gap = 1 },
                         },
 
                         -- This is cool, but doesn't play nice with the popup background color
@@ -725,10 +749,12 @@ safeRequire("lazy", true, {
                 theme = "onedark",
                 -- theme = "base16",
                 -- theme = "powerline_dark",
+                -- theme = theme(),
 
                 -- Enable these if the >< icons break on the statusline
                 -- component_separators = { left = "", right = "" },
                 -- section_separators = { left = "", right = "" },
+                icon_enabled = true,
             },
             extensions = {
                 "fugitive",
@@ -738,6 +764,7 @@ safeRequire("lazy", true, {
                 "trouble",
             },
             sections = {
+                lualine_a = { "mode" },
                 lualine_b = {
                     "branch",
                     "diff",
@@ -749,8 +776,16 @@ safeRequire("lazy", true, {
                             info = constants.diagnostic.sign.info,
                             hint = constants.diagnostic.sign.hint,
                         },
+                        diagnostics_color = {
+                            error = 'DiagnosticError',
+                            warn  = 'DiagnosticWarn',
+                            info  = 'DiagnosticInfo',
+                        },
+                        colored = true,
                     },
                 },
+                lualine_c = {"filename"},
+
                 lualine_x = {
                     "searchcount",
                     "encoding",
@@ -761,6 +796,8 @@ safeRequire("lazy", true, {
                     "fileformat",
                     "filetype",
                 },
+                lualine_y = {"progress"},
+                lualine_z = {"location"},
             },
         },
     },

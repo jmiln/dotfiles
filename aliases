@@ -17,7 +17,7 @@ if command -v eza &> /dev/null; then
     alias la="l -a"
     alias ll="l -lh --git --icons=always"
     alias lla="ll -a"
-    alias lt="l --icons=always --tree"
+    alias lt="l --icons=always --tree --ignore-glob \"node_modules\""
     alias llt="ll --tree"
 elif command -v exa &> /dev/null; then
     alias ls="exa -F --group-directories-first"

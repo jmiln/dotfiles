@@ -1,4 +1,7 @@
--- vim.deprecate = function() end
+-- Global variable(s)
+vim.g.have_nerd_font = true
+
+vim.deprecate = function() end
 vim.g.clipboard = false
 
 -- Load up whatever lua stuff

@@ -4,12 +4,6 @@ local constants = require("config.constants")
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
 -- npm install -g typescript-language-server typescript
 
-local lspStatus, nvim_lsp = pcall(require, "lspconfig")
-if not lspStatus then
-    vim.notify("Couldn't load lspconfig")
-    return
-end
-
 -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local capabilities = require('blink.cmp').get_lsp_capabilities()
 
@@ -41,18 +35,26 @@ require("typescript-tools").setup({
     }
 })
 
-nvim_lsp.biome.setup({
+vim.lsp.enable("biome")
+vim.lsp.config("biome", {
     capabilities = capabilities,
 })
 
-nvim_lsp.html.setup({})
+vim.lsp.enable("html")
+vim.lsp.config("html", {
+    capabilities = capabilities,
+})
 
 -- Use `npm i -g @olrtg/emmet-language-server` to make this work
-nvim_lsp.emmet_language_server.setup({})
+vim.lsp.enable("emmet-language-server")
+vim.lsp.config("emmet-language-server", {
+    capabilities = capabilities,
+})
 
 -- # Lua language server
 if vim.fn.executable("lua-language-server") == 1 then
-    nvim_lsp.lua_ls.setup {
+    vim.lsp.enable("lua_ls")
+    vim.lsp.config("lua_ls", {
         capabilities = capabilities,
         on_init = function(client)
             if client.workspace_folders then
@@ -79,8 +81,16 @@ if vim.fn.executable("lua-language-server") == 1 then
         settings = {
             Lua = {}
         }
-    }
+    })
 end
+
+-- JSON language server
+-- npm i -g vscode-langservers-extracted
+vim.lsp.enable("jsonls")
+vim.lsp.config("jsonls", {
+    capabilities = capabilities,
+})
+
 
 -- Python language server
 -- nvim_lsp.jedi_language_server.setup({})
@@ -92,8 +102,26 @@ vim.diagnostic.config({
         source = "if_many",
     },
     jump = {float = true},
-    signs = true,
-    underline = true,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = constants.diagnostic.sign.error .. " ",
+            [vim.diagnostic.severity.WARN]  = constants.diagnostic.sign.warn  .. " ",
+            [vim.diagnostic.severity.INFO]  = constants.diagnostic.sign.info  .. " ",
+            [vim.diagnostic.severity.HINT]  = constants.diagnostic.sign.hint  .. " ",
+        },
+        numhl = {
+            [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+            [vim.diagnostic.severity.WARN]  = "DiagnosticWarn",
+            [vim.diagnostic.severity.INFO]  = "DiagnosticInfo",
+            [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
+        },
+    },
+    underline = { severity = vim.diagnostic.severity.WARN },
     update_in_insert = false,
     virtual_text = false,
+    virtual_lines = {
+        severity = {
+            min = vim.diagnostic.severity.ERROR,
+        },
+    },
 })

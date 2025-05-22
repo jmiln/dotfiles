@@ -8,12 +8,20 @@ local autocmd = vim.api.nvim_create_autocmd
 autocmd("FileType", {
     desc = "Turn on wordwrap and spellckeck in text filetypes",
     group = augroup("wrap_spell"),
-    pattern = { "gitcommit", "markdown" },
+    pattern = { "gitcommit", "markdown", "text" },
     callback = function()
         vim.opt_local.wrap = true
         vim.opt_local.spell = true
         vim.opt.linebreak = true
     end,
+})
+
+-- When in the popup buffers, map q to close it
+autocmd("FileType", {
+  pattern = { "checkhealth", "fugitive*", "git", "help", "man", "lspinfo", "netrw", "notify", "noice", "qf", "query", "Trouble", "trouble", },
+  callback = function()
+    vim.keymap.set("n", "q", vim.cmd.close, { desc = "Close the current buffer", buffer = true })
+  end,
 })
 
 -- Set filetypes for various file extensions

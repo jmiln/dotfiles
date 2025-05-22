@@ -4,10 +4,10 @@ local M = {
     diagnostic = {
         sign = {
             error   = "",
-            hint    = "",
+            hint    = "󰌶",
             info    = "",
             ok      = "",
-            warning = "",
+            warn    = "",
         },
     },
 
