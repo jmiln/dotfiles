@@ -31,12 +31,6 @@ local function safeRequire(pName, doSetup, setupObj)
     end
 end
 
-local has_words_before = function()
-    unpack = unpack or table.unpack
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
 safeRequire("lazy", true, {
     -- Notifications
     -- Fancier notification popups in the corner instead of just in the cmd field in the bottom
@@ -571,34 +565,13 @@ safeRequire("lazy", true, {
                 preset = "default",
                 ["<Up>"] = { "select_prev", "fallback" },
                 ["<Down>"] = { "select_next", "fallback" },
-                ["<Tab>"] = {
-                    function(cmp)
-                        if cmp.is_menu_visible() then
-                            return cmp.select_next()
-                        elseif cmp.snippet_active() then
-                            return cmp.snippet_forward()
-                        elseif has_words_before() then
-                            return cmp.show()
-                        end
-                    end,
-                    "fallback",
-                },
-                ["<S-Tab>"] = {
-                    function(cmp)
-                        if cmp.is_menu_visible() then
-                            return cmp.select_prev()
-                        elseif cmp.snippet_active() then
-                            return cmp.snippet_backward()
-                        end
-                    end,
-                    "fallback",
-                },
+                ["<Tab>"] = {"show", "select_next", "snippet_forward", "fallback"},
+                ["<S-Tab>"] = {"select_prev", "snippet_backward", "fallback"},
                 ["<CR>"] = { "accept", "fallback" },
                 ["<S-CR>"] = {},
                 -- ['<Esc>'] = { 'cancel', 'fallback' },
                 ["<C-E>"] = { "cancel", "fallback" },
             },
-
             appearance = {
                 highlight_ns = vim.api.nvim_create_namespace("blink_cmp"),
                 nerd_font_variant = "mono",
@@ -608,7 +581,7 @@ safeRequire("lazy", true, {
                 keymap = { preset = "inherit" },
                 completion = {
                     menu = {
-                        auto_show = true,
+                        auto_show = false,
                     },
                     list = {
                         selection = {
@@ -652,6 +625,14 @@ safeRequire("lazy", true, {
                         -- treesitter = { "lsp" }
                     },
                 },
+                trigger = {
+                    show_on_keyword = true,
+                    show_on_trigger_character = true,
+                    show_on_blocked_trigger_characters = { " ", "\n", "\t" },
+                    show_on_insert_on_trigger_character = true,
+                    show_on_x_blocked_trigger_characters = { "'", '"', "(", "{", "[" }
+
+                }
             },
             signature = {
                 enabled = true,
