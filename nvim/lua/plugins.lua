@@ -578,7 +578,10 @@ safeRequire("lazy", true, {
                 use_nvim_cmp_as_default = false,
             },
             cmdline = {
-                keymap = { preset = "inherit" },
+                keymap = {
+                    preset = "inherit",
+                    ["<CR>"] = {},
+                },
                 completion = {
                     menu = {
                         auto_show = false,
