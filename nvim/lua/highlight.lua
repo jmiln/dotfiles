@@ -20,13 +20,20 @@ nvim_set_hl(0, "Statement",            {fg="green4"})
 nvim_set_hl(0, "Title",                {fg="lightgrey",  bg="none"})
 nvim_set_hl(0, "@text",                {fg="lightgrey",  bg="none"})
 nvim_set_hl(0, "Type",                 {fg="green3"})
-nvim_set_hl(0, "DiagnosticError",      {fg="#ffa500"})
+nvim_set_hl(0, "DiagnosticError",      {fg="#ed3f32"})
+-- nvim_set_hl(0, "DiagnosticWarn",      {fg="#ed3f32"})
+-- nvim_set_hl(0, "DiagnosticInfo",      {fg="#ed3f32"})
 nvim_set_hl(0, "@lsp.mod.declaration", {fg="#74b4ed"}) -- Light blue
 nvim_set_hl(0, "@lsp.type.variable",   {fg="grey"})
 nvim_set_hl(0, "@text.warning",        {fg="background", bg="yellow"})
 nvim_set_hl(0, "@text.danger",         {fg="background", bg="red"})
 nvim_set_hl(0, "@text.note",           {fg="#ffa500",    bg="background"})
 nvim_set_hl(0, "Conceal",              {fg="background", bg="grey"})
+
+-- Lualine colors
+nvim_set_hl(0, "LualineDiffAdd",    {fg="green", bg="background"})
+nvim_set_hl(0, "LualineDiffChange", {link="DiagnosticWarn"})
+nvim_set_hl(0, "LualineDiffDelete", {link="DiagnosticError"})
 
 -- Comments
 -- Apparently need both for it to be consistent
@@ -49,7 +56,7 @@ nvim_set_hl(0, "CursorLineNR", {})
 nvim_set_hl(0, "DiffAdded",   { fg="green", bg="#1C1C1C" })
 nvim_set_hl(0, "DiffChanged", { fg="yellow", bg="#1C1C1C" })
 nvim_set_hl(0, "DiffText",    { fg="black",  bg="green"   })
-nvim_set_hl(0, "DiffRemoved", { fg="red",    bg="#1C1C1C" })
+nvim_set_hl(0, "DiffRemoved", {link="DiagnosticError"})
 
 -- Gray
 nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg="NONE", strikethrough=true, fg="#808080" })

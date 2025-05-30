@@ -101,6 +101,8 @@ map("n", "]q", "<cmd>cnext<cr>",     { desc = "Next Quickfix" })
 map("n", "[q", "<cmd>cprevious<cr>", { desc = "Prev Quickfix" })
 
 -- Buffer keybinds
+map("n", "]b", "<cmd>bnext<cr>",     { desc = "Next Buffer" })
+map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<leader>bn", "<Cmd>bnext<CR>", { silent = true, desc = "Run [B]buffer [N]ext" })
 map("n", "<leader>bp", "<Cmd>bprevious<CR>", { silent = true, desc = "Run [B]buffer [P]revious" })
 

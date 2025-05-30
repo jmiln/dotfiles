@@ -15,7 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-local constants = require("config.constants")
+local icons = require("config.icons")
 
 -- An extra require function to not break everything if something is missing
 local function safeRequire(pName, doSetup, setupObj)
@@ -62,6 +62,13 @@ safeRequire("lazy", true, {
                 start_with_preview = "gA",
             },
         },
+    },
+
+    -- Garbage collect (Shut down inactive LSPs)
+    {
+        "zeioth/garbage-day.nvim",
+        dependencies = "neovim/nvim-lspconfig",
+        event = "VeryLazy",
     },
 
     -- Fancy join/ unjoin with extra features
@@ -299,6 +306,7 @@ safeRequire("lazy", true, {
     -- LSP stuffs
     {
         "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile", "BufEnter" },
         dependencies = {
             "nvim-lua/plenary.nvim",
             {
@@ -494,10 +502,10 @@ safeRequire("lazy", true, {
             },
             signs = {
                 -- icons / text used for a diagnostic
-                error = constants.diagnostic.sign.error,
-                warning = constants.diagnostic.sign.warn,
-                information = constants.diagnostic.sign.info,
-                hint = constants.diagnostic.sign.hint,
+                error       = icons.diagnostics.Error,
+                warning     = icons.diagnostics.Warn,
+                information = icons.diagnostics.BoldInfo,
+                hint        = icons.diagnostics.Hint,
                 other = "?",
             },
         },
@@ -555,6 +563,9 @@ safeRequire("lazy", true, {
 
         -- use a release tag to download pre-built binaries
         version = "1.*",
+        enabled = function()
+            return (vim.bo.buftype ~= "prompt" and vim.b.completion ~= false)
+        end,
         opts = {
             keymap = {
                 preset = "default",
@@ -780,32 +791,57 @@ safeRequire("lazy", true, {
                 lualine_a = { "mode" },
                 lualine_b = {
                     "branch",
-                    "diff",
                     {
-                        "diagnostics",
+                        "diff",
+                        source = function()
+                            local gitsigns = vim.b.gitsigns_status_dict
+                            if gitsigns then
+                                return {
+                                    added    = gitsigns.added,
+                                    modified = gitsigns.changed,
+                                    removed  = gitsigns.removed,
+                                }
+                            end
+                        end,
                         symbols = {
-                            error = constants.diagnostic.sign.error,
-                            warn = constants.diagnostic.sign.warn,
-                            info = constants.diagnostic.sign.info,
-                            hint = constants.diagnostic.sign.hint,
-                        },
-                        diagnostics_color = {
-                            error = 'DiagnosticError',
-                            warn  = 'DiagnosticWarn',
-                            info  = 'DiagnosticInfo',
+                            added    = icons.git.LineAdded    .. " ",
+                            modified = icons.git.LineModified .. " ",
+                            removed  = icons.git.LineRemoved  .. " ",
                         },
                         colored = true,
+                        always_visible = false,
                     },
+                    {
+                        "diagnostics",
+                        sources = { "nvim_diagnostic" },
+                        sections = { "error", "warn", "info", "hint" },
+                        symbols = {
+                            error = icons.diagnostics.Error,
+                            hint  = icons.diagnostics.Hint,
+                            info  = icons.diagnostics.Info,
+                            warn  = icons.diagnostics.Warning,
+                        },
+                        colored = true,
+                        update_in_insert = false,
+                        always_visible = false,
+                    }
                 },
                 lualine_c = {"filename"},
 
                 lualine_x = {
                     "searchcount",
                     "encoding",
-                    -- {
-                    --     "lsp_status",
-                    --     icon = "LSP:"
-                    -- },
+                    {
+                        "lsp_status",
+                        icon = "", -- f013
+                        symbols = {
+                            spinner = icons.spinner,
+                            done = false,
+                            separator = " ",
+                        },
+                        -- List of LSP names to ignore (e.g., `null-ls`):
+                        ignore_lsp = {},
+                    },
                     "fileformat",
                     "filetype",
                 },

@@ -78,14 +78,78 @@ vim.cmd([[au BufWritePre * :%s/\s\+$//e]])
 
 -- go to last loc when opening a buffer
 -- vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]])
-vim.api.nvim_create_autocmd("BufReadPost", {
-    callback = function()
-        local mark = vim.api.nvim_buf_get_mark(0, '"')
-        local lcount = vim.api.nvim_buf_line_count(0)
-        if mark[1] > 0 and mark[1] <= lcount then
-            pcall(vim.api.nvim_win_set_cursor, 0, mark)
-        end
-    end,
+-- vim.api.nvim_create_autocmd("BufReadPost", {
+--     callback = function()
+--         local mark = vim.api.nvim_buf_get_mark(0, '"')
+--         local lcount = vim.api.nvim_buf_line_count(0)
+--         if mark[1] > 0 and mark[1] <= lcount then
+--             pcall(vim.api.nvim_win_set_cursor, 0, mark)
+--         end
+--     end,
+-- })
+
+-- As above, but from https://github.com/hieulw/nvimrc/blob/lua-config/lua/hieulw/autocmds.lua
+autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
+  desc = "remember cursor position, folds of current buffer",
+  pattern = "?*",
+  group = augroup("remember_folds"),
+  callback = function(e)
+    if vim.b[e.buf].view_activated then
+      vim.cmd.mkview({ mods = { emsg_silent = true } })
+    end
+  end,
+})
+autocmd("BufWinEnter", {
+  desc = "load cursor position, folds of current buffer",
+  pattern = "?*",
+  group = augroup("remember_folds"),
+  callback = function(e)
+    if not vim.b[e.buf].view_activated then
+      local filetype = vim.api.nvim_get_option_value("filetype", { buf = e.buf })
+      local buftype = vim.api.nvim_get_option_value("buftype", { buf = e.buf })
+      local ignore_filetypes = { "gitcommit", "gitrebase" }
+      if buftype == "" and filetype and filetype ~= "" and not vim.tbl_contains(ignore_filetypes, filetype) then
+        vim.b[e.buf].view_activated = true
+        vim.cmd.loadview({ mods = { emsg_silent = true } })
+      end
+    end
+  end,
+})
+
+autocmd("BufWritePre", {
+  desc = "auto create dir when saving a file, in case some intermediate directory does not exist",
+  group = augroup("auto_create_dir"),
+  callback = function(e)
+    if e.match:match("^%w%w+://") then
+      return
+    end
+    local file = vim.loop.fs_realpath(e.match) or e.match
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+  end,
+})
+
+---@see https://www.reddit.com/r/neovim/comments/zy5s0l/you_dont_need_vimrooter
+autocmd("BufEnter", {
+  desc = "Find root and change current directory",
+  group = augroup("change_root"),
+  callback = function(e)
+    RootCache = RootCache or {}
+    local root_patterns = constants.root_patterns
+    local path = vim.api.nvim_buf_get_name(e.buf)
+    if path == "" then
+      return
+    end
+
+    local root = RootCache[vim.fs.dirname(path)]
+    if root == nil then
+      root = vim.fs.root(e.buf, root_patterns)
+      RootCache[path] = root
+    end
+
+    if root ~= nil and root ~= "" then
+      vim.fn.chdir(root)
+    end
+  end,
 })
 
 autocmd("FileType", {

@@ -1,4 +1,4 @@
--- Icons list via 
+-- Icons list via
 -- https://github.com/hieulw/nvimrc/blob/lua-config/lua/hieulw/icons.lua
 return {
   kind = {
@@ -28,7 +28,7 @@ return {
     Object = " ",
     Operator = " ",
     Package = " ",
-    Property = " ", =
+    Property = " ",
     Reference = " ",
     Snippet = " ",
     String = " ",
@@ -135,15 +135,16 @@ return {
   },
   diagnostics = {
     BoldError = "",
-    Error = "",
-    BoldWarning = "",
-    Warning = "",
-    BoldInformation = "",
-    Information = "",
+    Error = "",
+    -- Error = "",
+    BoldWarn = "",
+    Warn = "",
+    BoldInfo = "",
+    Info = "",
     BoldQuestion = "",
     Question = "",
     BoldHint = "",
-    Hint = "",
+    Hint = "󰌶",
     Debug = "",
     Trace = "✎",
   },
