@@ -31,11 +31,10 @@ map("v", "<leader>d", '"_d', default)
 map("n", "<leader>U", "yypVr━", default)
 
 -- Keep search results centered
-map("n", "n", "nzzzv", default);
-map("n", "N", "Nzzzv", default);
-map("v", "n", "nzzzv", default);
-map("v", "N", "Nzzzv", default);
-
+map("n", "n", "nzzzv", default)
+map("n", "N", "Nzzzv", default)
+map("v", "n", "nzzzv", default)
+map("v", "N", "Nzzzv", default)
 
 -- Search for a sequence of  <<<<<<<, ======= or >>>>>>>
 -- To use when there is a merge conflict
@@ -70,8 +69,10 @@ map("v", "", "<plug>(comment_toggle_linewise_visual)",       default)
 map("i", "", "<esc><plug>(comment_toggle_linewise_current)i",default)
 
 -- LSP mappings
--- Go to where the variable is defined
+-- Jump to where a hovered variable is created
 map("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
+map("n", "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", default)
+map("n", "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", default)
 -- Code action options
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
 -- Global (inside file) rename/ refactor
@@ -83,8 +84,6 @@ map("n", "<leader>ho", "<cmd>lua vim.lsp.buf.hover()<CR>", default)
 
 
 -- LSP bindings to jump between issues
--- map("n", "<c-j>", ":lua vim.diagnostic.goto_next()<CR>", default)
--- map("n", "<c-k>", ":lua vim.diagnostic.goto_prev()<CR>", default)
 map("n", "<c-j>", ":lua vim.diagnostic.jump({count = 1})<CR>", default)
 map("n", "<c-k>", ":lua vim.diagnostic.jump({count = -1})<CR>", default)
 
@@ -111,5 +110,3 @@ map("n", "<leader>bp", "<Cmd>bprevious<CR>", { silent = true, desc = "Run [B]buf
 -- Typos
 vim.api.nvim_command("cnoreabbrev Q q")
 vim.api.nvim_command("cnoreabbrev W w")
-
-

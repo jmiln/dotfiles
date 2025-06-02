@@ -33,7 +33,6 @@ vim.opt.wildmode = {"longest:full","list:full"}
 
 --------------------------------- Appearance ----------------------------------
 vim.opt.background     = "dark"
-vim.opt.cursorline     = false
 vim.opt.cursorcolumn   = false
 vim.opt.number         = true
 vim.opt.relativenumber = false

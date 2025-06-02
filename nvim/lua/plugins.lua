@@ -466,6 +466,7 @@ safeRequire("lazy", true, {
             filetypes = {
                 TelescopePrompt = false,
             },
+            show_label = false,  -- Disable the line number showing the suggestion count
         },
     },
 
@@ -693,6 +694,16 @@ safeRequire("lazy", true, {
     --         safeRequire("config.completion")
     --     end,
     -- },
+
+    -- Mouse right click menus (Cool, but something I'll just forget about)
+    -- { "nvzone/volt" , lazy = true },
+    -- { "nvzone/menu" , lazy = true },
+    -- {
+    --     "nvzone/minty",
+    --     cmd = { "Shades", "Huefy" },
+    -- },
+
+    -- Show a code outline
     {
         "stevearc/aerial.nvim",
         keys = {

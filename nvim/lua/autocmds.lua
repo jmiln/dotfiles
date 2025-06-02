@@ -128,29 +128,30 @@ autocmd("BufWritePre", {
   end,
 })
 
----@see https://www.reddit.com/r/neovim/comments/zy5s0l/you_dont_need_vimrooter
-autocmd("BufEnter", {
-  desc = "Find root and change current directory",
-  group = augroup("change_root"),
-  callback = function(e)
-    RootCache = RootCache or {}
-    local root_patterns = constants.root_patterns
-    local path = vim.api.nvim_buf_get_name(e.buf)
-    if path == "" then
-      return
-    end
-
-    local root = RootCache[vim.fs.dirname(path)]
-    if root == nil then
-      root = vim.fs.root(e.buf, root_patterns)
-      RootCache[path] = root
-    end
-
-    if root ~= nil and root ~= "" then
-      vim.fn.chdir(root)
-    end
-  end,
-})
+-- ---@see https://www.reddit.com/r/neovim/comments/zy5s0l/you_dont_need_vimrooter
+-- -- Messes with opening tmux panes... Opens em to the root instead of current dir like I want
+-- autocmd("BufEnter", {
+--   desc = "Find root and change current directory",
+--   group = augroup("change_root"),
+--   callback = function(e)
+--     RootCache = RootCache or {}
+--     local root_patterns = constants.root_patterns
+--     local path = vim.api.nvim_buf_get_name(e.buf)
+--     if path == "" then
+--       return
+--     end
+--
+--     local root = RootCache[vim.fs.dirname(path)]
+--     if root == nil then
+--       root = vim.fs.root(e.buf, root_patterns)
+--       RootCache[path] = root
+--     end
+--
+--     if root ~= nil and root ~= "" then
+--       vim.fn.chdir(root)
+--     end
+--   end,
+-- })
 
 autocmd("FileType", {
     pattern = { "help", "checkhealth" },
