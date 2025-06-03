@@ -72,7 +72,7 @@ case $_myos in
         mkdir -p ~/.config/tmux
 
         ln -sf $dotfiles_dir/aliases            ~/.aliases
-        ln -sf $dotfiles_dir/bashrc             ~/.bashrc
+        ln -sf $dotfiles_dir/bash/bashrc        ~/.bashrc
         ln -sf $dotfiles_dir/git/gitconfig      ~/.gitconfig
         ln -sf $dotfiles_dir/zsh/git-prompt.sh  ~/.git-prompt.sh
         ln -sf $dotfiles_dir/functions          ~/.functions
