@@ -5,22 +5,23 @@ vim.deprecate = function() end
 vim.g.clipboard = false
 
 -- Load up whatever lua stuff
-require("settings")
+require("config.options")
 
 -- Load up the plugins
-require("plugins")
+-- require("plugins")
+require("core.lazy")
 
 -- Load all the plugin configs
-require("config")
+-- require("config")
 
 -- Load up keybinds and such
-require("keybinds")
+require("config.keybinds")
 
 -- Load up highlighting settings
-require("highlight")
+require("config.highlight")
 
 -- Load up autocmds
-require("autocmds")
+require("config.autocmds")
 
 -- Load up some utils
 -- require("utils")
