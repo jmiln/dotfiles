@@ -1,3 +1,9 @@
+local has_words_before = function()
+    unpack = unpack or table.unpack
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 return {
     -- Completion menus
     {
@@ -25,11 +31,22 @@ return {
                 preset = "default",
                 ["<Up>"] = { "select_prev", "fallback" },
                 ["<Down>"] = { "select_next", "fallback" },
-                ["<Tab>"] = {"show", "select_next", "snippet_forward", "fallback"},
+                ["<Tab>"] = { -- Need to keep this, since it doesn't seem to let me use tab normally otherwise
+                    function(cmp)
+                        if cmp.is_menu_visible() then
+                            return cmp.select_next()
+                        elseif cmp.snippet_active() then
+                            return cmp.snippet_forward()
+                        elseif has_words_before() then
+                            return cmp.show()
+                        end
+                    end,
+                    "fallback",
+                },
                 ["<S-Tab>"] = {"select_prev", "snippet_backward", "fallback"},
                 ["<CR>"] = { "accept", "fallback" },
                 ["<S-CR>"] = {},
-                -- ['<Esc>'] = { 'cancel', 'fallback' },
+                ["<Esc>"] = { 'cancel', 'fallback' },
                 ["<C-E>"] = { "cancel", "fallback" },
             },
             appearance = {
@@ -41,6 +58,8 @@ return {
                 keymap = {
                     preset = "inherit",
                     ["<CR>"] = {},
+                    ["<Tab>"] = {"show", "select_next", "fallback"},
+                    ["<S-Tab>"] = {"select_prev", "fallback"},
                 },
                 completion = {
                     menu = {
