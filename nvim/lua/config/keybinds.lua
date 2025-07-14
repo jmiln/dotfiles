@@ -2,7 +2,8 @@
 -- vim.o.pastetoggle="off"
 -- vim.o.pastetoggle="<F6>"
 
-local map = vim.api.nvim_set_keymap
+-- local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 local default = {noremap = true, silent = true}
 
 map("n", "r",          "<C-R>",              default) -- Redo
@@ -14,8 +15,11 @@ map("n", "<Leader>=",  "gg=G",               default) -- Indent whole file
 
 -- Underline the current line with various symbols (such that the number of
 -- underline matches line length and indendation)
-map("n", "<Leader>-", "yypVr-", default)
-map("n", '<Leader>"', 'yypVr"', default)
+-- map("n", "<Leader>-", "yypVr-", default)
+-- map("n", '<Leader>"', 'yypVr"', default)
+
+-- A fancy unicode underline (Goes underneath whatever line you're on
+-- map("n", "<leader>U", "yypVr━", default)
 
 -- Paste over selected text without replacing what's being pasted in the register
 map("v", "<leader>p", '"_dP', default)
@@ -26,9 +30,6 @@ map("v", "<leader>d", '"_d', default)
 -- EasyAlign mappings
 -- map("x", "ga", ":EasyAlign<CR>", default)
 -- map("n", "ga", ":EasyAlign<CR>", default)
-
--- A fancy unicode underline (Goes underneath whatever line you're on
-map("n", "<leader>U", "yypVr━", default)
 
 -- Keep search results centered
 map("n", "n", "nzzzv", default)
@@ -54,10 +55,10 @@ map("v", "!", "!<c-g>u", default);
 map("v", "?", "?<c-g>u", default);
 
 -- TAB/ Up & Down arrows to use the completion menu
-map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<C-h>"', {noremap = true, expr = true})
-map('i', '<Tab>',   'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {noremap = true, expr = true})
-map('i', '<Up>',    'pumvisible() ? "\\<C-p>" : "\\<Up>"',  {noremap = true, expr = true})
-map('i', '<Down>',  'pumvisible() ? "\\<C-n>" : "\\<Down>"',{noremap = true, expr = true})
+-- map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<C-h>"', {noremap = true, expr = true})
+-- map('i', '<Tab>',   'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {noremap = true, expr = true})
+-- map('i', '<Up>',    'pumvisible() ? "\\<C-p>" : "\\<Up>"',  {noremap = true, expr = true})
+-- map('i', '<Down>',  'pumvisible() ? "\\<C-n>" : "\\<Down>"',{noremap = true, expr = true})
 
 -- Let the arrow keys work in the command completion menu
 map('c', '<Up>',    'wildmenumode() ? "\\<C-p>" : "\\<Up>"',  {noremap = true, expr = true})
@@ -73,8 +74,10 @@ map("i", "", "<esc><plug>(comment_toggle_linewise_current)i",default)
 map("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
 map("n", "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", default)
 map("n", "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", default)
--- Code action options
-map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
+
+-- Code action options (Handled by a plugin)
+-- map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
+
 -- Global (inside file) rename/ refactor
 map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", default)
 -- Show info on element under cursor

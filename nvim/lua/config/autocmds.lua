@@ -10,9 +10,10 @@ autocmd("FileType", {
     group = augroup("wrap_spell"),
     pattern = { "gitcommit", "markdown", "text" },
     callback = function()
-        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+        vim.opt_local.spelllang = "en_us"
         vim.opt_local.spell = true
-        vim.opt.linebreak = true
+        vim.opt_local.wrap = true
     end,
 })
 

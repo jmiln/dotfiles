@@ -9,9 +9,11 @@ local colors = {
     background = "#1C1C1C",
 
     -- Greys
+    white = "#ffffff",
     grey = "#5F5F5F",
     darkgrey = "#3A3A3A",
     darkergrey = "#292828",
+    black = "#000000",
 
     -- Reds
     lightred = "#ED3F32",
@@ -19,6 +21,9 @@ local colors = {
     -- Blues
     skyblue = "#74b4ed",
 }
+
+-- Working out setting whole colorscheme?
+-- https://medium.com/@ronxvier/build-your-own-neovim-colorscheme-in-lua-3b01adf019e0
 
 -- Setting the color for Normal seems to control the background color
 nvim_set_hl(0, "Normal",               {bg=colors.background})
@@ -46,6 +51,10 @@ nvim_set_hl(0, "DiagnosticError",      {fg=colors.lightred})
 nvim_set_hl(0, "DiagnosticWarn",       {fg="orange"})
 nvim_set_hl(0, "DiagnosticInfo",       {fg="gold"})
 nvim_set_hl(0, "Error",                {link="DiagnosticError"})
+
+-- Spelling Errors
+nvim_set_hl(0, "SpellBad",             {underline=true})
+nvim_set_hl(0, "SpellCap",             {fg="yellow",        bg="none"})
 
 -- Lualine colors
 nvim_set_hl(0, "LualineDiffAdd",    {fg="green", bg="background"})

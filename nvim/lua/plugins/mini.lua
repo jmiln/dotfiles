@@ -10,4 +10,11 @@ return {
             },
         },
     },
+
+    -- Tetxobject enhancement
+    -- {
+    --     "echasnovski/mini.ai",
+    --     -- version = "false",
+    --     opts = {},
+    -- },
 }

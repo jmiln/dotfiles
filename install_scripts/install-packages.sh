@@ -31,6 +31,13 @@ fi
 # sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 # sudo apt-get install zsh-syntax-highlighting
 
+if ! command_exists unzip; then
+    sudo apt install -y unzip
+    logToFile "unzip installed."
+else
+    logToFile "unzip is already installed."
+fi
+
 if ! command_exists curl; then
     sudo apt install -y curl
     logToFile "curl installed."
@@ -46,16 +53,15 @@ else
 fi
 
 # ---
-# Install NVM to install node/ npm
+# Install FNM to install node/ npm
 # ---
-if ! command_exists nvm; then
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    nvm install --lts
-    logToFile "nvm and the newest Node.js LTS installed."
+if ! command_exists fnm; then
+    curl -fsSL https://fnm.vercel.app/install | bash
+    eval "$(fnm env)"
+    fnm install --lts
+    logToFile "fnm and the newest Node.js LTS installed."
 else
-    logToFile "nvm is already installed."
+    logToFile "fnm is already installed."
 fi
 
 if ! command_exists git; then

@@ -11,28 +11,17 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Add in zsh plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
+zinit ice depth"1"; zinit light zdharma-continuum/fast-syntax-highlighting
+zinit ice depth"1"; zinit light zsh-users/zsh-autosuggestions
+zinit ice depth"1"; zinit light zsh-users/zsh-completions
 
 # Add in snippets
-zinit snippet OMZP::git
-zinit snippet OMZP::sudo
-zinit snippet OMZP::command-not-found
-zinit snippet OMZP::extract
-zinit snippet OMZP::git-commit
-# zinit snippet OMZP::git-prompt
-# zinit snippet OMZP::nvm
-# zinit snippet OMZP::ufw
-export NVM_COMPLETION=true
-export NVM_SYMLINK_CURRENT="true"
-export NVM_LAZY_LOAD=true
-export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim')
-zinit wait lucid light-mode for lukechilds/zsh-nvm
+zinit ice depth"1"; zinit snippet OMZP::command-not-found
+zinit ice depth"1"; zinit snippet OMZP::extract
 
 
 # Load completions
-autoload -Uz compinit promptinit colors && (compinit &)
+autoload -Uz compinit && (compinit &)
 zinit cdreplay -q
 
 
@@ -46,6 +35,7 @@ setopt CSH_NULL_GLOB
 setopt EXTENDED_GLOB
 setopt EXTENDED_HISTORY
 setopt HISTIGNOREDUPS
+setopt HISTIGNORESPACE    # if there's a space at the beginning of a command, don't store it in the history file (Good if you need to put a password in)
 setopt LIST_TYPES
 setopt MARK_DIRS
 setopt MENUCOMPLETE
@@ -54,14 +44,13 @@ setopt NO_CLOBBER
 setopt NO_HIST_BEEP
 setopt NO_MAIL_WARNING
 setopt prompt_subst     # Allows for functions in the prompt
-setopt histignorespace    # if there's a space at the beginning of a command, don't store it in the history file (Good if you need to put a password in)
 
 # History settings
 export HISTFILE=~/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=$HISTSIZE
 setopt appendhistory
-# setopt sharehistory
+# setopt sharehistory   # This will share the history / update it in all tmux panes (Kinda annoying)
 setopt hist_ignore_space
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
@@ -188,6 +177,9 @@ zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*' menu select
 zstyle ':completion:*' verbose yes
 
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+
 # Completion for the kill command
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 zstyle ':completion:*:kill:*' insert-ids single
@@ -195,10 +187,10 @@ zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*' force-list always
 
 # Settings for the nvm plugins
-zstyle ':omz:plugins:nvm' lazy yes
-zstyle ':omz:plugins:nvm' autoload yes
-zstyle ':omz:plugins:nvm' lazy-cmd node npm nvm eslint biome vim nvim
-zstyle ':omz:plugins:nvm' silent-autoload yes
+# zstyle ':omz:plugins:nvm' lazy yes
+# zstyle ':omz:plugins:nvm' autoload yes
+# zstyle ':omz:plugins:nvm' lazy-cmd node npm nvm eslint biome vim nvim
+# zstyle ':omz:plugins:nvm' silent-autoload yes
 
 
 autoload copy-earlier-word && zle -N copy-earlier-word && bindkey '^[,' copy-earlier-word
@@ -239,11 +231,8 @@ _myos="$(uname)"
 # TMUX (checks for install first)
 case $_myos in
    Linux)
-       if which tmux 2>&1 >/dev/null; then
-           if [ -z "$TMUX" ] && [ ${UID} != 0 ]
-           then
-               tmux new-session -A -s main
-           fi
+       if which tmux 2>&1 >/dev/null && [ -z "$TMUX" ] && [ ${UID} != 0 ]; then
+           tmux new-session -A -s main
        fi
        ;;
    Darwin)
@@ -259,3 +248,12 @@ case $_myos in
        ;;
    *) ;;
 esac
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# fnm
+FNM_PATH="$HOME/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$HOME/.local/share/fnm:$PATH"
+  eval "`fnm env`"
+fi
