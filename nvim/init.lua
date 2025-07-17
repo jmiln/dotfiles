@@ -4,6 +4,17 @@ vim.g.have_nerd_font = true
 vim.deprecate = function() end
 vim.g.clipboard = false
 
+-- -- Load different steps if in an ssh session (Google AI result, but seems viable. Haven't tested)
+-- if os.getenv("SSH_TTY") ~= nil then
+--   -- Neovim is running in an SSH session
+--   -- Set specific configurations for remote sessions here
+--   print("Running in SSH session")
+-- else
+--   -- Neovim is running on the local machine
+--   -- Set configurations for local sessions here
+--   print("Running locally")
+-- end
+
 -- Load up whatever lua stuff
 require("config.options")
 

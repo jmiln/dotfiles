@@ -69,6 +69,10 @@ map("n", "", "<plug>(comment_toggle_linewise_current)",      default)
 map("v", "", "<plug>(comment_toggle_linewise_visual)",       default)
 map("i", "", "<esc><plug>(comment_toggle_linewise_current)i",default)
 
+-- Inspect
+map("n", "<leader>i", vim.show_pos, { desc = "Inspect Pos" })
+map("n", "<leader>I", function() vim.treesitter.inspect_tree() vim.api.nvim_input("I") end, { desc = "Inspect Tree" })
+
 -- LSP mappings
 -- Jump to where a hovered variable is created
 map("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
