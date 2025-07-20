@@ -120,6 +120,7 @@ alias py="python"
 
 ### Network aliases ###
 alias ipListen="sudo lsof -i -P -n | grep LISTEN"  # Show the IP/ ports that are being listened to
+alias iftop="TERM=xterm iftop" # Hopefully make sure that the lines show as lines instead of qqqqqqqqqqqqqqqqqqqq
 
 ### Hardware aliases ###
 
