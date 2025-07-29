@@ -18,7 +18,7 @@ if command -v eza &> /dev/null; then
     alias ll="l -lh --git --icons=always"
     alias lla="ll -a"
     alias lt="l --icons=always --tree --ignore-glob \"node_modules\""
-    alias llt="ll --tree"
+    alias llt="lt -l"
 elif command -v exa &> /dev/null; then
     alias ls="exa -F --group-directories-first"
     alias l="ls"
@@ -65,6 +65,7 @@ alias du="du -kh"           # Makes a more readable output.
 alias du.="du -hs * | sort -hr"     # Makes a more readable output & sorts by size.
 alias df="df -kTh --total"
 alias mkdir="mkdir -p"      # Create directories as needed
+alias cp="cp -vn"
 alias mv="mv -ivn"           # Prompts before overwrite
 alias rm="rm -v"
 alias ap="apropos"          # Use to search for commands
@@ -74,16 +75,16 @@ alias h="history"
 # Use a Vim varaiant if possible
 if which nvim >/dev/null 2>&1; then
     alias vi="nvim"
+    alias vim="nvim"
 elif which vim >/dev/null 2>&1; then
     alias vi="vim"
 else
     alias vim="vi"
 fi
 
-
 # Some quick dotfile aliases
-alias .aliases="$EDITOR ~/.aliases"
-alias .functions="$EDITOR ~/.functions"
+alias .aliases="$EDITOR ~/.config/scripts/.aliases"
+alias .functions="$EDITOR ~/config/scripts/.functions"
 alias .inputrc="$EDITOR ~/.inputrc"
 alias .nvim="$EDITOR ~/.config/nvim/init.vim"
 alias .profile="$EDITOR ~/.profile"
@@ -92,17 +93,15 @@ alias .tmux="$EDITOR ~/.config/tmux/tmux.conf"
 alias .vimrc="$EDITOR ~/.vimrc"
 
 alias xs="cd"                   # For when I misstype
-alias untar="tar xvf"
 
 # Reload the shell config
 if [[ "$SHELL" == "/bin/zsh" || "$SHELL" == "/usr/bin/zsh" ]]; then
-    # alias reload="source ~/.zshrc; echo 'Reloading .zshrc'"
     alias reload="exec zsh; echo 'Reloading .zshrc'"
 elif [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
     alias reload="source ~/.bashrc; echo 'Reloading .bashrc'"
 fi
 alias .bashrc="$EDITOR ~/.bashrc"
-alias .zshrc="$EDITOR ~/.zshrc"
+alias .zshrc="$EDITOR ~/.config/zsh/.zshrc"
 
 alias todo="vim ~/.todo"
 

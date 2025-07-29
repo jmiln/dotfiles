@@ -11,18 +11,43 @@ autocmd("FileType", {
     pattern = { "gitcommit", "markdown", "text" },
     callback = function()
         vim.opt_local.linebreak = true
-        vim.opt_local.spelllang = "en_us"
         vim.opt_local.spell = true
+        vim.opt_local.spelllang = "en_us"
         vim.opt_local.wrap = true
     end,
 })
 
+-- Add .env file detection
+autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = { ".env*", "*.env" },
+    command = "set filetype=sh",
+})
+
 -- When in the popup buffers, map q to close it
 autocmd("FileType", {
-  pattern = { "checkhealth", "fugitive*", "git", "help", "man", "lspinfo", "netrw", "notify", "noice", "qf", "query", "Trouble", "trouble", },
-  callback = function()
-    vim.keymap.set("n", "q", vim.cmd.close, { desc = "Close the current buffer", buffer = true })
-  end,
+    pattern = {
+        "checkhealth",
+        "fugitive*",
+        "git",
+        "help",
+        "man",
+        "lspinfo",
+        "netrw",
+        "notify",
+        "noice",
+        "qf",
+        "query",
+        "Trouble",
+        "trouble",
+    },
+    callback = function(event)
+        vim.bo[event.buf].buflisted = false
+        vim.keymap.set("n", "q", "<cmd>close<cr>", {
+            buffer = event.buf,
+            silent = true,
+            desc = "Quit buffer",
+        })
+    end,
 })
 
 -- Set filetypes for various file extensions
@@ -61,21 +86,34 @@ autocmd("BufWritePre", {
 -- If a file is larger than 2MB, turn off some settings to make it load faster
 --  * The foldmethod itself seems to be a massive part of it, at least with large json files
 vim.api.nvim_create_autocmd("BufReadPre", {
-    callback = function()
-        local f = vim.fn.expand("<afile>")
-        if vim.fn.getfsize(f) > constants.perf.file.maxsize then
-            vim.notify("Big file, disabling syntax, folding, filetype")
-            vim.cmd([[
-                syntax clear
-                filetype off
-                set foldmethod=manual
-            ]])
+    callback = function(ev)
+        local max_size = 2 * 1024 * 1024 -- 2 MB
+        local file_size = vim.fn.getfsize(ev.match)
+        if file_size > max_size or file_size == -2 then
+            vim.opt_local.spell = false
+            vim.opt_local.undofile = false
+            vim.opt_local.swapfile = false
+            vim.opt_local.backup = false
+            vim.opt_local.writebackup = false
+            vim.opt_local.foldenable = false
+            vim.g.did_install_syntax_menu = 1
+            vim.cmd("syntax clear")
+            vim.cmd("syntax off")
+            vim.cmd("filetype off")
+            vim.notify("Big file, disabling syntax, folding, filetype, etc")
         end
     end,
 })
 
--- Remove whitespace on save
-vim.cmd([[au BufWritePre * :%s/\s\+$//e]])
+-- Remove trailing whitespace on save
+autocmd("BufWritePre", {
+    pattern = "*",
+    callback = function()
+        local save_cursor = vim.fn.getpos(".")
+        vim.cmd([[%s/\s\+$//e]])
+        vim.fn.setpos(".", save_cursor)
+    end,
+})
 
 -- go to last loc when opening a buffer
 -- vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]])
@@ -91,79 +129,65 @@ vim.cmd([[au BufWritePre * :%s/\s\+$//e]])
 
 -- As above, but from https://github.com/hieulw/nvimrc/blob/lua-config/lua/hieulw/autocmds.lua
 autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
-  desc = "remember cursor position, folds of current buffer",
-  pattern = "?*",
-  group = augroup("remember_folds"),
-  callback = function(e)
-    if vim.b[e.buf].view_activated then
-      vim.cmd.mkview({ mods = { emsg_silent = true } })
-    end
-  end,
+    desc = "remember cursor position, folds of current buffer",
+    pattern = "?*",
+    group = augroup("remember_folds"),
+    callback = function(e)
+        if vim.b[e.buf].view_activated then
+            vim.cmd.mkview({ mods = { emsg_silent = true } })
+        end
+    end,
 })
 autocmd("BufWinEnter", {
-  desc = "load cursor position, folds of current buffer",
-  pattern = "?*",
-  group = augroup("remember_folds"),
-  callback = function(e)
-    if not vim.b[e.buf].view_activated then
-      local filetype = vim.api.nvim_get_option_value("filetype", { buf = e.buf })
-      local buftype = vim.api.nvim_get_option_value("buftype", { buf = e.buf })
-      local ignore_filetypes = { "gitcommit", "gitrebase" }
-      if buftype == "" and filetype and filetype ~= "" and not vim.tbl_contains(ignore_filetypes, filetype) then
-        vim.b[e.buf].view_activated = true
-        vim.cmd.loadview({ mods = { emsg_silent = true } })
-      end
-    end
-  end,
+    desc = "load cursor position, folds of current buffer",
+    pattern = "?*",
+    group = augroup("remember_folds"),
+    callback = function(e)
+        if not vim.b[e.buf].view_activated then
+            local filetype = vim.api.nvim_get_option_value("filetype", { buf = e.buf })
+            local buftype = vim.api.nvim_get_option_value("buftype", { buf = e.buf })
+            local ignore_filetypes = { "gitcommit", "gitrebase" }
+            if buftype == "" and filetype and filetype ~= "" and not vim.tbl_contains(ignore_filetypes, filetype) then
+                vim.b[e.buf].view_activated = true
+                vim.cmd.loadview({ mods = { emsg_silent = true } })
+            end
+        end
+    end,
 })
 
 autocmd("BufWritePre", {
-  desc = "auto create dir when saving a file, in case some intermediate directory does not exist",
-  group = augroup("auto_create_dir"),
-  callback = function(e)
-    if e.match:match("^%w%w+://") then
-      return
-    end
-    local file = vim.loop.fs_realpath(e.match) or e.match
-    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-  end,
+    desc = "auto create dir when saving a file, in case some intermediate directory does not exist",
+    group = augroup("auto_create_dir"),
+    callback = function(e)
+        if e.match:match("^%w%w+://") then
+            return
+        end
+        local file = vim.loop.fs_realpath(e.match) or e.match
+        vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+    end,
 })
 
 ---@see https://www.reddit.com/r/neovim/comments/zy5s0l/you_dont_need_vimrooter
 -- Messes with opening tmux panes when the chdir is there
 autocmd("BufEnter", {
-  desc = "Find the project root",
-  group = augroup("change_root"),
-  callback = function(e)
-    RootCache = RootCache or {}
-    local root_patterns = constants.root_patterns
-    local path = vim.api.nvim_buf_get_name(e.buf)
-    if path == "" then
-      return
-    end
+    desc = "Find the project root",
+    group = augroup("change_root"),
+    callback = function(e)
+        RootCache = RootCache or {}
+        local root_patterns = constants.root_patterns
+        local path = vim.api.nvim_buf_get_name(e.buf)
+        if path == "" then
+            return
+        end
 
-    local root = RootCache[vim.fs.dirname(path)]
-    if root == nil then
-      root = vim.fs.root(e.buf, root_patterns)
-      RootCache[path] = root
-    end
+        local root = RootCache[vim.fs.dirname(path)]
+        if root == nil then
+            root = vim.fs.root(e.buf, root_patterns)
+            RootCache[path] = root
+        end
 
-    -- if root ~= nil and root ~= "" then
-    --   vim.fn.chdir(root)
-    -- end
-  end,
-})
-
-autocmd("FileType", {
-    pattern = { "help", "checkhealth" },
-    callback = function(event)
-        vim.bo[event.buf].buflisted = false
-        vim.keymap.set("n", "q", "<cmd>close<cr>", {
-            buffer = event.buf,
-            silent = true,
-            desc = "Quit buffer",
-        })
+        -- if root ~= nil and root ~= "" then
+        --   vim.fn.chdir(root)
+        -- end
     end,
 })
-
-

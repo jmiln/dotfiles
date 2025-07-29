@@ -10,7 +10,7 @@
 # Variables
 #==============
 # The dotfiles dir, where this script probably is
-dotfiles_dir=~/dotfiles
+DOTFILES_DIR=~/dotfiles
 
 # Grab which OS is being used (Useful later)
 _myos="$(uname)"
@@ -20,6 +20,7 @@ _myos="$(uname)"
 #==============
 rm -rf ~/.aliases                   > /dev/null 2>&1
 rm -rf ~/.bashrc                    > /dev/null 2>&1
+rm -rf ~/.config/btop/btop.conf     > /dev/null 2>&1
 rm -rf ~/.functions                 > /dev/null 2>&1
 rm -rf ~/.gitconfig                 > /dev/null 2>&1
 rm -rf ~/.git-prompt.sh             > /dev/null 2>&1
@@ -48,42 +49,45 @@ case $_myos in
     *MINGW64*)
         # TODO Needs testing
         mkdir ~/.config
-        # cp $dotfiles_dir/windows/wezterm ~/.config
-        # cp $dotfiles_dir/windows/Microsoft.PowerShell_profile.ps1 $HOME\Documents\PowerShell
+        # cp $DOTFILES_DIR/windows/wezterm ~/.config
+        # cp $DOTFILES_DIR/windows/Microsoft.PowerShell_profile.ps1 $HOME\Documents\PowerShell
 
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/aliases            ~/.aliases
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/bashrc             ~/.bashrc
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/functions          ~/.functions
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/git/gitconfig      ~/.gitconfig
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/zsh/git-prompt.sh  ~/.git-prompt.sh
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/htoprc             ~/.config/htop/htoprc
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/inputrc            ~/.inputrc
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/mongoshrc.js       ~/.mongoshrc.js
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/nvim               ~/.config/nvim
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/profile            ~/.profile
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/tmux.conf          ~/.config/tmux/tmux.conf
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/vim/               ~/.vim            # This has the vimrc inside it
-        MSYS=winsymlinks:nativestrict ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/aliases            ~/.aliases
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/bashrc             ~/.bashrc
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/functions          ~/.functions
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/git/gitconfig      ~/.gitconfig
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/zsh/git-prompt.sh  ~/.git-prompt.sh
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/htoprc             ~/.config/htop/htoprc
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/inputrc            ~/.inputrc
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/mongoshrc.js       ~/.mongoshrc.js
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/nvim               ~/.config/nvim
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/profile            ~/.profile
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/tmux.conf          ~/.config/tmux/tmux.conf
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/vim/               ~/.vim            # This has the vimrc inside it
+        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/zsh/zshrc          ~/.zshrc
     ;;
 
     # Linux (Clearly)
     Linux)
         mkdir -p ~/.config/htop
+        mkdir -p ~/.config/btop
         mkdir -p ~/.config/tmux
 
-        ln -sf $dotfiles_dir/aliases            ~/.aliases
-        ln -sf $dotfiles_dir/bash/bashrc        ~/.bashrc
-        ln -sf $dotfiles_dir/git/gitconfig      ~/.gitconfig
-        ln -sf $dotfiles_dir/zsh/git-prompt.sh  ~/.git-prompt.sh
-        ln -sf $dotfiles_dir/functions          ~/.functions
-        ln -sf $dotfiles_dir/htoprc             ~/.config/htop/htoprc
-        ln -sf $dotfiles_dir/inputrc            ~/.inputrc
-        ln -sf $dotfiles_dir/mongoshrc.js       ~/.mongoshrc.js
-        ln -sf $dotfiles_dir/nvim               ~/.config/nvim
-        ln -sf $dotfiles_dir/profile            ~/.profile
-        ln -sf $dotfiles_dir/tmux.conf          ~/.config/tmux/tmux.conf
-        ln -sf $dotfiles_dir/vim/               ~/.vim
-        ln -sf $dotfiles_dir/zsh/zshrc          ~/.zshrc
+        ln -sf $DOTFILES_DIR/aliases            ~/.config/scripts/.aliases
+        ln -sf $DOTFILES_DIR/bash/bashrc        ~/.bashrc
+        ln -sf $DOTFILES_DIR/btop.conf          ~/.config/btop/btop.conf
+        ln -sf $DOTFILES_DIR/git/gitconfig      ~/.gitconfig
+        ln -sf $DOTFILES_DIR/zsh/git-prompt.sh  ~/.config/zsh/.git-prompt.sh
+        ln -sf $DOTFILES_DIR/functions          ~/.config/scripts/.functions
+        ln -sf $DOTFILES_DIR/htoprc             ~/.config/htop/htoprc
+        ln -sf $DOTFILES_DIR/inputrc            ~/.inputrc
+        ln -sf $DOTFILES_DIR/mongoshrc.js       ~/.mongoshrc.js
+        ln -sf $DOTFILES_DIR/nvim               ~/.config/nvim
+        ln -sf $DOTFILES_DIR/profile            ~/.profile
+        ln -sf $DOTFILES_DIR/tmux.conf          ~/.config/tmux/tmux.conf
+        ln -sf $DOTFILES_DIR/vim/               ~/.vim
+        ln -sf $DOTFILES_DIR/zsh/zshrc          ~/.config/zsh/.zshrc
+        ln -sf $DOTFILES_DIR/zsh/zshenv         ~/.zshenv
     ;;
     # Default case (None of the above)
     *);;

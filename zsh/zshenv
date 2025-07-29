@@ -1,0 +1,10 @@
+# Assign these only if they don't have value yet.
+: ${XDG_CACHE_HOME:=$HOME/.cache}
+: ${XDG_CONFIG_HOME:=$HOME/.config}
+: ${XDG_DATA_HOME:=$HOME/.local/share}
+: ${XDG_STATE_HOME:=$HOME/.local/state}
+: ${XDG_SCRIPT_HOME:=$HOME/.local/scripts}
+
+# Set $ZDOTDIR here to be able to store your other Zsh dotfiles
+# outside of $HOME.
+ZDOTDIR=$XDG_CONFIG_HOME/zsh

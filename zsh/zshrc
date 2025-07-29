@@ -1,6 +1,9 @@
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
+# Set the dir that the extra bits and pieces are stored
+SCRIPTS_DIR=~/.config/scripts
+
 # Download Zinit, if it's not there yet
 if [ ! -d "$ZINIT_HOME" ]; then
    mkdir -p "$(dirname $ZINIT_HOME)"
@@ -46,7 +49,8 @@ setopt NO_MAIL_WARNING
 setopt prompt_subst     # Allows for functions in the prompt
 
 # History settings
-export HISTFILE=~/.zsh_history
+# export HISTFILE=~/.zsh_history
+export HISTFILE=$XDG_STATE_HOME/zsh/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=$HISTSIZE
 setopt appendhistory
@@ -63,13 +67,13 @@ TERM=tmux-256color
 # export TERM='xterm-256color'
 
 # import .aliases
-if [ -r ~/.aliases ]; then
-    . ~/.aliases;
+if [ -r $SCRIPTS_DIR/.aliases ]; then
+    . $SCRIPTS_DIR/.aliases;
 fi
 
 # import .functions
-if [ -r ~/.functions ]; then
-    . ~/.functions;
+if [ -r $SCRIPTS_DIR/.functions ]; then
+    . $SCRIPTS_DIR/.functions;
 fi
 
 # List directories when changing directories
@@ -99,6 +103,10 @@ typeset -U PATH
 export PATH=$PATH:~/bin:~/bin/bin:~/.local/bin:~/.cargo/bin:.
 export PYTHONPATH=$PYTHONPATH:~/.local
 
+# Golang paths
+export GOPATH=$HOME/.config/gocode
+export PATH=$PATH:$GOPATH/bin
+
 # System vars
 export VISUAL=vim
 if command -v nvim &> /dev/null; then
@@ -106,6 +114,9 @@ if command -v nvim &> /dev/null; then
 else
     export EDITOR=vim
 fi
+
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 export GIT_EDITOR=$EDITOR
 export PAGER=less
@@ -118,10 +129,6 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
-# Golang paths
-export GOPATH=$HOME/.config/gocode
-export PATH=$PATH:$GOPATH/bin
-
 # Change the timestamp color for `exa --long` so it's readable
 export EXA_COLORS="da=1;34"
 export EZA_COLORS="reset:da=1;34:di=1;34:"
@@ -133,7 +140,7 @@ export FORCE_COLOR=1
 export PS1="%{$fg[green]%}%n%{$fg[blue]%}@%{$reset_color%}%{$fg[lightgrey]%}%M%{$reset_color%}:%{$fg[blue]%}%B%2~%b %B$%b "
 
 # Zsh git integration for the right prompt
-source $HOME/.git-prompt.sh
+source $HOME/.config/zsh/.git-prompt.sh
 
 # ZSH Command completion
 zstyle ':completion:*' use-cache on
@@ -249,7 +256,39 @@ case $_myos in
    *) ;;
 esac
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# ---------
+# Setup fzf
+# ---------
+# If fzf isn't in the path, add it.
+if [[ ! "$PATH" == *${XDG_SCRIPT_HOME}/fzf/bin* ]]; then
+    PATH="${PATH:+${PATH}:}${XDG_SCRIPT_HOME}/fzf/bin"
+fi
+if command -v fzf &> /dev/null; then
+    source <(${XDG_SCRIPT_HOME}/fzf/bin/fzf --zsh)
+fi
+
+bindkey '' fzf-history-widget
+bindkey '' fzf-file-widget
+bindkey '<M-c>' fzf-cd-widget
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_R_OPTS="
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+export FZF_DEFAULT_OPTS="--style full --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}' --height 50% --layout=default --border --color=hl:#2dd4bf --layout=default --border --color=hl:#2dd4bf"
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#0f0f0f,bg+:#2e2e2e
+  --color=hl:#87afd7,hl+:#afd7ff,info:#d7d787,marker:#87af87
+  --color=prompt:#d787d7,spinner:#87d7d7,pointer:#87d7d7,header:#666666
+  --color=border:#87afd7,separator:#666666,label:#d0d0d0,query:#d0d0d0
+  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
+  --marker=">" --pointer="◆" --separator="─" --scrollbar="│"'
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --icons=always --tree --color=always {} | head -200'"
+export FZF_TMUX_OPTS=" -p90%,70% "
+
 
 # fnm
 FNM_PATH="$HOME/.local/share/fnm"
