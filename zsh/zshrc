@@ -260,11 +260,11 @@ esac
 # Setup fzf
 # ---------
 # If fzf isn't in the path, add it.
-if [[ ! "$PATH" == *${XDG_SCRIPT_HOME}/fzf/bin* ]]; then
-    PATH="${PATH:+${PATH}:}${XDG_SCRIPT_HOME}/fzf/bin"
+if [[ ! "$PATH" == *${XDG_SCRIPT_HOME}/.fzf/bin* ]]; then
+    PATH="${XDG_SCRIPT_HOME}/.fzf/bin:$PATH"
 fi
 if command -v fzf &> /dev/null; then
-    source <(${XDG_SCRIPT_HOME}/fzf/bin/fzf --zsh)
+    source <(${XDG_SCRIPT_HOME}/.fzf/bin/fzf --zsh)
 fi
 
 bindkey '' fzf-history-widget

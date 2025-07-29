@@ -72,6 +72,13 @@ case $_myos in
         mkdir -p ~/.config/htop
         mkdir -p ~/.config/btop
         mkdir -p ~/.config/tmux
+        mkdir -p ~/.config/zsh
+
+        # Zsh / shell locations
+        mkdir -p ~/.cache
+        mkdir -p ~/.local/share
+        mkdir -p ~/.local/state
+        mkdir -p ~/.local/scripts
 
         ln -sf $DOTFILES_DIR/aliases            ~/.config/scripts/.aliases
         ln -sf $DOTFILES_DIR/bash/bashrc        ~/.bashrc

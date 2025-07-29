@@ -19,12 +19,16 @@ if command -v eza &> /dev/null; then
     alias lla="ll -a"
     alias lt="l --icons=always --tree --ignore-glob \"node_modules\""
     alias llt="lt -l"
+    alias llta="lt -la"
 elif command -v exa &> /dev/null; then
     alias ls="exa -F --group-directories-first"
     alias l="ls"
     alias la="l -a"
     alias ll="l -lh --git"
     alias lla="ll -a"
+    alias lt="l --tree --ignore-glob \"node_modules\""
+    alias llt="lt -l"
+    alias llta="lt -la"
 else
     # Detect which `ls` flavor is in use
     if ls --color > /dev/null 2>&1; then # GNU `ls`

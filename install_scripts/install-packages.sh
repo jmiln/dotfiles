@@ -16,15 +16,15 @@ logToFile() {
 }
 
 OS=$(uname)
-log "Detected OS: $OS"
+echo "Detected OS: $OS"
 
-if [ "$OS" == "Linux" ]; then
-    log "Running Linux specific commands..."
+if [[ "$OS" == "Linux" ]]; then
+    logToFile "Running Linux specific commands..."
     if command -v apt >/dev/null 2>&1; then
-        log "Using apt to update Linux..."
+        logToFile "Using apt to update Linux..."
         sudo apt update && sudo apt upgrade -y
     elif command -v apt-get >/dev/null 2>&1; then
-        log "Using apt-get to update Linux..."
+        logToFile "Using apt-get to update Linux..."
         sudo apt-get update && sudo apt-get upgrade -y
     fi
 fi
@@ -120,11 +120,11 @@ fi
 
 # Install ripgrep & fd (Mainly for nvim telescope)
 if ! command_exists rg; then
-    sudo apt install ripgrep
+    sudo apt install -y ripgrep
     logtoFile "Ripgrep installed."
 fi
 if ! command_exists fdfind; then
-    sudo apt install fd-find
+    sudo apt install -y fd-find
     mkdir -p ~/.local/bin
     ln -s $(which fdfind) ~/.local/bin/fd
     logToFile "fd installed."
@@ -151,14 +151,14 @@ fi
 
 # JSON utilities
 if ! command_exists jq; then
-    sudo apt install jq -y
+    sudo apt install -y jq
     logToFile "JQ installed"
 else
     logToFile "JQ is already installed"
 fi
 
 if ! command_exists jc; then
-    sudo apt install jc -y
+    sudo apt install -y jc
     logToFile "JC installed"
 else
     logToFile "JC is already installed"
@@ -186,12 +186,12 @@ if ! command_exists lua-language-server; then
 fi
 
 if ! command_exists eza; then
-    sudo apt install eza
+    sudo apt install -y eza
     logToFile "eza installed."
 fi
 
 if ! command_exists bat && ! command_exists batcat; then
-    sudo apt install bat
+    sudo apt install -y bat
     mkdir -p ~/.local/bin
     ln -s /usr/bin/batcat ~/.local/bin/bat
     logToFile "bat installed."
@@ -206,7 +206,8 @@ fi
 # Install fzf
 if ! command_exists fzf; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.local/scripts/.fzf
-    # ~/.fzf/install
+    bash ~/.local/scripts/.fzf/install
+    rm ~/.fzf.bash ~/.fzf.zsh
     logToFile "fzf installed."
 else
     logToFile "fzf is already installed."
