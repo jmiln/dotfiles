@@ -6,6 +6,7 @@ local jsIgnoreCodes = {
     2351,   -- Type has no construct signatures
     2556,   -- A spread argument must either have a tuple type or be passed to a rest parameter
     2732,   -- Cannot find module *.json. Consider using '--resolveJsonModule' to import module with '.json' extension.
+    6133,   -- X is declared but its value is never read.
     7016,   -- Could not find a declaration file for module "{0}". "{1}" implicitly has an "any" type.
     7043,   -- Variable '____' implicitly has an 'any[]' type, but a better type may be inferred from usage.
     7044,   -- Parameter '____' implicitly has an 'any' type, but a better type may be inferred from usage.

@@ -43,11 +43,11 @@ vim.diagnostic.config({
     underline = { severity = vim.diagnostic.severity.WARN },
     update_in_insert = false,
     virtual_text = false,
-    virtual_lines = {
-        severity = {
-            min = vim.diagnostic.severity.ERROR,
-        },
-    },
+    -- virtual_lines = {    -- These are nice, but oh boy, are they distracting
+    --     severity = {
+    --         min = vim.diagnostic.severity.ERROR,
+    --     },
+    -- },
 })
 
 -- Start, Stop, Restart, Log commands
