@@ -50,11 +50,14 @@ Set-Alias -Name vim -Value $EDITOR
 if (Test-CommandExists eza) {
     # If we've installed eza, use that
     rm alias:ls -ErrorAction SilentlyContinue
-    function ls  {eza.exe --time-style=long-iso --group-directories-first @args}
-    function la  {ls -a @args}
-    function ll  {ls -l @args}
-    function lla {ls -la @args}
-    function lt  {ls -l --tree @args}
+    function ls    {eza.exe --time-style=long-iso --group-directories-first @args}
+    function l     {ls @args}
+    function la    {l -a @args}
+    function ll    {l -lh --git --icons=always @args}
+    function lla   {ll -a @args}
+    function lt    {l --icons=always --tree --ignore-glob "node_modules" @args}
+    function llt   {lt -l @args}
+    function llta  {lt -la @args}
 } elseif ($host.Name -eq 'ConsoleHost' && Test-CommandExists git) {
     # Else, if Git is installed, use the ls from git-bash
     function ls_git { & 'C:\Program Files\Git\usr\bin\ls' --color=auto -hF $args }
