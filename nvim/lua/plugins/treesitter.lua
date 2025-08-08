@@ -21,6 +21,7 @@ return {
                 "lua",             -- For the nvim config files mainly
                 "markdown",
                 "markdown_inline",
+                "query",           -- So the treesitter tree doesn't whine when being opened (<leader>I)
                 "regex",           -- Ooh, shiny regex
                 "tmux",            -- For tmux.conf
                 "typescript",
