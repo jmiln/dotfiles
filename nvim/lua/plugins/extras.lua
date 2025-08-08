@@ -56,4 +56,18 @@ return {
         },
         opts = {},
     },
+
+    -- Boolean toggler
+    {
+        "rmagatti/alternate-toggler",
+        opts = {},
+        config = function()
+            vim.keymap.set(
+                "n",
+                "<leader><space>",
+                "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>"
+            )
+        end,
+        event = { "BufReadPost" }, -- lazy load after reading a buffer
+    },
 }
