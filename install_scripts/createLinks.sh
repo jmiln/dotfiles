@@ -66,15 +66,15 @@ case $_myos in
 
     # Linux (Clearly)
     Linux)
-        mkdir -p ~/.config/htop
         mkdir -p ~/.config/btop
         mkdir -p ~/.config/tmux
         mkdir -p ~/.config/zsh
+        mkdir -p ~/.config/scripts
 
         # Zsh / shell locations
         mkdir -p ~/.cache
         mkdir -p ~/.local/share
-        mkdir -p ~/.local/state
+        mkdir -p ~/.local/state/zsh
         mkdir -p ~/.local/scripts
 
         ln -sf $DOTFILES_DIR/aliases            ~/.config/scripts/.aliases
