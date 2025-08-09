@@ -97,7 +97,6 @@ fi
 # ---
 if command_exists git; then
     curl https://github.com/git/git/raw/master/contrib/completion/git-completion.bash -o ~/.config/zsh/.git-completion.bash
-    curl https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.config/zsh/.git-prompt.sh
 
     logToFile "Git & git-completion and git-prompt Installed and Configured"
 fi
