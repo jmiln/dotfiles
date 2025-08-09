@@ -49,12 +49,10 @@ setopt NO_MAIL_WARNING
 setopt prompt_subst     # Allows for functions in the prompt
 
 # History settings
-# export HISTFILE=~/.zsh_history
 export HISTFILE=$XDG_STATE_HOME/zsh/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=$HISTSIZE
 setopt appendhistory
-# setopt sharehistory   # This will share the history / update it in all tmux panes (Kinda annoying)
 setopt hist_ignore_space
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
@@ -62,9 +60,6 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 TERM=tmux-256color
-# TERM=screen-256color
-# TERM=xterm-256color
-# export TERM='xterm-256color'
 
 # import .aliases
 if [ -r $SCRIPTS_DIR/.aliases ]; then
@@ -99,7 +94,6 @@ export LC_CTYPE="en_US.UTF-8"
 
 # My Path.
 typeset -U PATH
-# export PATH=$PATH:~/bin:~/bin/bin:~/.local/bin:~/.vim/bundle:~bin/llvm/Debug+Asserts/bin:.
 export PATH=$PATH:~/bin:~/bin/bin:~/.local/bin:~/.cargo/bin:.
 export PYTHONPATH=$PYTHONPATH:~/.local
 
@@ -192,13 +186,6 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 zstyle ':completion:*:kill:*' insert-ids single
 zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:kill:*' force-list always
-
-# Settings for the nvm plugins
-# zstyle ':omz:plugins:nvm' lazy yes
-# zstyle ':omz:plugins:nvm' autoload yes
-# zstyle ':omz:plugins:nvm' lazy-cmd node npm nvm eslint biome vim nvim
-# zstyle ':omz:plugins:nvm' silent-autoload yes
-
 
 autoload copy-earlier-word && zle -N copy-earlier-word && bindkey '^[,' copy-earlier-word
 
@@ -296,3 +283,6 @@ if [ -d "$FNM_PATH" ]; then
   export PATH="$HOME/.local/share/fnm:$PATH"
   eval "`fnm env`"
 fi
+
+# Homebrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

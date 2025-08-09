@@ -53,10 +53,8 @@ case $_myos in
         # cp $DOTFILES_DIR/windows/Microsoft.PowerShell_profile.ps1 $HOME\Documents\PowerShell
 
         MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/aliases            ~/.aliases
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/bashrc             ~/.bashrc
         MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/functions          ~/.functions
         MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/git/gitconfig      ~/.gitconfig
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/zsh/git-prompt.sh  ~/.git-prompt.sh
         MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/htoprc             ~/.config/htop/htoprc
         MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/inputrc            ~/.inputrc
         MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/mongoshrc.js       ~/.mongoshrc.js
@@ -64,7 +62,6 @@ case $_myos in
         MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/profile            ~/.profile
         MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/tmux.conf          ~/.config/tmux/tmux.conf
         MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/vim/               ~/.vim            # This has the vimrc inside it
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/zsh/zshrc          ~/.zshrc
     ;;
 
     # Linux (Clearly)
@@ -83,9 +80,8 @@ case $_myos in
         ln -sf $DOTFILES_DIR/aliases            ~/.config/scripts/.aliases
         ln -sf $DOTFILES_DIR/bash/bashrc        ~/.bashrc
         ln -sf $DOTFILES_DIR/btop.conf          ~/.config/btop/btop.conf
-        ln -sf $DOTFILES_DIR/git/gitconfig      ~/.gitconfig
-        ln -sf $DOTFILES_DIR/zsh/git-prompt.sh  ~/.config/zsh/.git-prompt.sh
         ln -sf $DOTFILES_DIR/functions          ~/.config/scripts/.functions
+        ln -sf $DOTFILES_DIR/git/gitconfig      ~/.gitconfig
         ln -sf $DOTFILES_DIR/htoprc             ~/.config/htop/htoprc
         ln -sf $DOTFILES_DIR/inputrc            ~/.inputrc
         ln -sf $DOTFILES_DIR/mongoshrc.js       ~/.mongoshrc.js
@@ -93,8 +89,9 @@ case $_myos in
         ln -sf $DOTFILES_DIR/profile            ~/.profile
         ln -sf $DOTFILES_DIR/tmux.conf          ~/.config/tmux/tmux.conf
         ln -sf $DOTFILES_DIR/vim/               ~/.vim
-        ln -sf $DOTFILES_DIR/zsh/zshrc          ~/.config/zsh/.zshrc
+        ln -sf $DOTFILES_DIR/zsh/git-prompt.sh  ~/.config/zsh/.git-prompt.sh
         ln -sf $DOTFILES_DIR/zsh/zshenv         ~/.zshenv
+        ln -sf $DOTFILES_DIR/zsh/zshrc          ~/.config/zsh/.zshrc
     ;;
     # Default case (None of the above)
     *);;

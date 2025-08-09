@@ -26,6 +26,8 @@ if [[ "$OS" == "Linux" ]]; then
     elif command -v apt-get >/dev/null 2>&1; then
         logToFile "Using apt-get to update Linux..."
         sudo apt-get update && sudo apt-get upgrade -y
+    else
+        logToFile "Unable to find package manager to update Linux. Skipping update..."
     fi
 fi
 
@@ -53,30 +55,29 @@ if [ "$(basename "$SHELL")" != "zsh" ]; then
     fi
 fi
 
-## This is now taken care of by plugins in .zshrc
-# cd /usr/share
-# sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-# sudo apt-get install zsh-syntax-highlighting
 
-dependencies = (
-    build-essential
-    curl
-    git
-    python3
-    software-properties-common
-    unzip
-    wget
-)
+# -------------------------------
+# Install common dependencies
+# -------------------------------
+sudo apt install -y build-essential curl git python3 software-properties-common unzip wget
 
-for dependency in "${dependencies[@]}"; do
-    if ! command_exists $dependency; then
-        sudo apt install -y $dependency
-        logToFile "$dependency installed."
-    else
-        logToFile "$dependency is already installed."
-    fi
-done
 
+# -------------------------------
+# Install Homebrew
+# -------------------------------
+if ! command -v brew &>/dev/null; then
+    logToFile "Homebrew not found. Installing Homebrew non-interactively..."
+    NONINTERACTIVE=true /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # Add brew to the current shell session's PATH
+    logToFile "Adding Linuxbrew to PATH for this session..."
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+else
+    logToFile "Homebrew is already installed."
+fi
+
+logToFile "Updating Homebrew and checking status..."
+brew update
 
 # ---
 # Install FNM to install node/ npm
@@ -115,7 +116,10 @@ fi
 if ! [ -d ~/.config/tmux/plugins/tpm ]; then
     mkdir -p ~/.config/tmux/plugins
     git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-    logToFile "TPM installed. Run 'prefix + I' to install plugins."
+
+    # Install the plugins
+    ~/.config/tmux/plugins/tpm/bin/install_plugins
+    logToFile "TPM & plugins installed."
 fi
 
 # Install ripgrep & fd (Mainly for nvim telescope)
@@ -144,6 +148,9 @@ if ! command_exists nvim; then
     sudo update-alternatives --config vim
     sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
     sudo update-alternatives --config editor
+
+    nvim --headless "+Lazy! sync" +qa
+
     logToFile "Neovim installed."
 else
     logToFile "Neovim is already installed."
@@ -186,7 +193,8 @@ if ! command_exists lua-language-server; then
 fi
 
 if ! command_exists eza; then
-    sudo apt install -y eza
+    # sudo apt install -y eza
+    brew install eza
     logToFile "eza installed."
 fi
 
