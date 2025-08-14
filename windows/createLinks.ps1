@@ -1,3 +1,5 @@
+# Requires -RunAsAdministrator
+
 Write-Host "Deleting the old profile then linking to this one"
 Write-Host "> $profile"
 rm $profile
@@ -5,7 +7,8 @@ cmd /c mklink $profile "$PSScriptRoot\Microsoft.PowerShell_profile.ps1"
 
 Write-Host ""
 Write-Host "Deleting the old nvim dir then linking to this one"
-$nvimDir = "$env:LOCALAPPDATA\nvim"
+# $nvimDir = "$env:LOCALAPPDATA\nvim"
+$nvimDir = "$env:USERPROFILE\.config\nvim"
 Write-Host "> $nvimDir"
 rm $nvimDir -ErrorAction SilentlyContinue -Recurse
 cmd /c mklink /d $nvimDir "$PSScriptRoot\..\nvim"

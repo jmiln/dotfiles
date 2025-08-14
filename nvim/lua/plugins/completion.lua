@@ -4,6 +4,15 @@ local has_words_before = function()
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local getFuzzy = function()
+    local os_name = vim.loop.os_uname().sysname
+    if os_name == "Linux" then
+        return "prefer_rust_with_warning"
+    else
+        return "lua"
+    end
+end
+
 return {
     -- Completion menus
     {
@@ -152,7 +161,11 @@ return {
                     },
                 },
             },
-            fuzzy = { implementation = "prefer_rust_with_warning" },
+            fuzzy = {
+                -- Function here to make it use lua unless it's on Linux
+                --  - Mainly an issue with it refusing to download the default one on Windows
+                implementation = getFuzzy()
+            },
         },
         opts_extend = { "sources.default" },
     },
@@ -180,6 +193,7 @@ return {
         event = "VeryLazy",
         -- Only enable if the machine has more than 8GB of RAM available
         -- enabled = vim.loop.get_total_memory() > 2^33,
+        enabled = vim.loop.os_uname().sysname == "Linux",   -- Been having issues getting it to behave on Windows
         keys = {
             {
                 mode = "i",
