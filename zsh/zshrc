@@ -61,6 +61,9 @@ setopt hist_find_no_dups
 
 TERM=tmux-256color
 
+# Homebrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 # import .aliases
 if [ -r $SCRIPTS_DIR/.aliases ]; then
     . $SCRIPTS_DIR/.aliases;
@@ -283,6 +286,3 @@ if [ -d "$FNM_PATH" ]; then
   export PATH="$HOME/.local/share/fnm:$PATH"
   eval "`fnm env`"
 fi
-
-# Homebrew
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
