@@ -45,25 +45,6 @@ rm -rf ~/.zshrc                     > /dev/null 2>&1
 #==============
 # Symlink differently depending on the OS
 case $_myos in
-    # Windows / Git Bash
-    *MINGW64*)
-        # TODO Needs testing
-        mkdir ~/.config
-        # cp $DOTFILES_DIR/windows/wezterm ~/.config
-        # cp $DOTFILES_DIR/windows/Microsoft.PowerShell_profile.ps1 $HOME\Documents\PowerShell
-
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/aliases            ~/.aliases
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/functions          ~/.functions
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/git/gitconfig      ~/.gitconfig
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/htoprc             ~/.config/htop/htoprc
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/inputrc            ~/.inputrc
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/mongoshrc.js       ~/.mongoshrc.js
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/nvim               ~/.config/nvim
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/profile            ~/.profile
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/tmux.conf          ~/.config/tmux/tmux.conf
-        MSYS=winsymlinks:nativestrict ln -sf $DOTFILES_DIR/vim/               ~/.vim            # This has the vimrc inside it
-    ;;
-
     # Linux (Clearly)
     Linux)
         mkdir -p ~/.config/btop
