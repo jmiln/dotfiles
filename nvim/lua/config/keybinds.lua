@@ -87,8 +87,19 @@ map("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
 map("n", "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", default)
 map("n", "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", default)
 
--- Code action options (Handled by a plugin)
--- map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
+-- Code action options
+map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
+map("n", "<leader>co", function()
+    vim.lsp.buf.code_action({
+        filter = function(action)
+            -- You can add more complex filtering here, e.g., by action.title or action.kind
+            -- action.title
+            vim.notify(action.title)
+            return true -- Apply the first one found
+        end,
+        apply = true, -- Automatically apply the action
+    })
+end, { buffer = 0, desc = "Apply first code action" })
 
 -- Global (inside file) rename/ refactor
 map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", default)

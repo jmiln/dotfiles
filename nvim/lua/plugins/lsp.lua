@@ -32,18 +32,6 @@ vim.diagnostic.config({
     -- },
 })
 
-vim.api.nvim_create_user_command("LspLog", function()
-    vim.cmd.vsplit(vim.lsp.log.get_filename())
-end, {
-    desc = "Get all the lsp logs",
-})
-
-vim.api.nvim_create_user_command("LspInfo", function()
-    vim.cmd("silent checkhealth vim.lsp")
-end, {
-    desc = "Get all the information about all LSP attached",
-})
-
 return {
     -- LSP stuffs
     {
@@ -101,27 +89,32 @@ return {
     },
 
 
-    -- Code actions / Diagnostic display
-    {
-        "rachartier/tiny-code-action.nvim",
-        dependencies = {
-            {"nvim-lua/plenary.nvim"},
-            {"nvim-telescope/telescope.nvim"},
-        },
-        event = "LspAttach",
-        opts = {
-            picker = "telescope",
-            opts = {
-                hotkeys = true,
-                hotkeys_mode = "text_diff_based"
-            }
-        },
-        init = function()
-            vim.keymap.set("n", "<leader>ca", function()
-                require("tiny-code-action").code_action()
-            end, { noremap = true, silent = true })
-        end
-    },
+    -- Code actions / Diagnostic display (Looks cool, the diff is really nice, but it's a bit slower without the easy hotkeys that I can get to work)
+    -- {
+    --     "rachartier/tiny-code-action.nvim",
+    --     dependencies = {
+    --         {"nvim-lua/plenary.nvim"},
+    --         {"nvim-telescope/telescope.nvim"},
+    --     },
+    --     event = "LspAttach",
+    --     opts = {
+    --         picker = "telescope",
+    --         opts = {
+    --             auto_preview = true,
+    --             hotkeys = true,
+    --             hotkeys_mode = "sequential",
+    --             custom_keys = {
+    --                 { key = "r", pattern = "Rename.*" }, -- Lua pattern matching
+    --                 { key = "o", pattern = "Organize Imports.*" }, -- Lua pattern matching
+    --             },
+    --         }
+    --     },
+    --     init = function()
+    --         vim.keymap.set("n", "<leader>ca", function()
+    --             require("tiny-code-action").code_action()
+    --         end, { noremap = true, silent = true })
+    --     end
+    -- },
     {
         "rachartier/tiny-inline-diagnostic.nvim",
         event = "VeryLazy", -- Or `LspAttach`

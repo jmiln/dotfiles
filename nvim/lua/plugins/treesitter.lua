@@ -31,6 +31,9 @@ return {
             -- Recommended false if the cli treesitter isn't installed
             auto_install = false,
         },
+        config = function(_, opts)  -- Make it actually install from the list I guess
+            require("nvim-treesitter.configs").setup(opts)
+        end,
     },
     {
         "echasnovski/mini.ai",
