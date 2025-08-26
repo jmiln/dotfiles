@@ -32,62 +32,62 @@ vim.diagnostic.config({
     -- },
 })
 
+vim.lsp.config("*", {
+    capabilities = capabilities
+})
+
 return {
-    -- LSP stuffs
     {
         "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile", "BufEnter" },
         dependencies = {
-            "nvim-lua/plenary.nvim",
-            "saghen/blink.cmp",
-        },
-    },
-    {
-        "mason-org/mason.nvim",
-        init = function()
-            -- Make mason packages available before loading it; allows to lazy-load mason.
-            vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
-            -- Do not crowd home directory with NPM cache folder
-            vim.env.npm_config_cache = vim.env.HOME .. "/.cache/npm"
-        end,
-        opts = {
-            ui = {
-                icons = {
-                    package_installed = "✓",
-                    package_pending = "➜",
-                    package_uninstalled = "✗"
-                },
-            }
-        }
-    },
-    {
-        "mason-org/mason-lspconfig.nvim",
-        dependencies = {
-            "mason-org/mason.nvim",
-            "neovim/nvim-lspconfig",
-        },
-        opts = {
-            automatic_enable = true,
-            ensure_installed = {
-                "biome",    -- JS / TS Linting, formatting, etc
-                "cssls",    -- CSS
-                "emmet_language_server",  -- Emmet (html shortcuts)
-                "html",     -- HTML (duh)
-                "jsonls",   -- JSON
-                "lua_ls",   -- Lua language server
-                -- "stylua",   -- Lua formatter (Mason doesn't like this?)
-                "ts_ls",    -- JS / TS
-            },
-            handlers = {
-                function(server_name)
-                    require("lspconfig")[server_name].setup({
-                        capabilities = capabilities,
-                    })
+            {
+                "williamboman/mason.nvim",
+                init = function()
+                    -- Make mason packages available before loading it; allows to lazy-load mason.
+                    vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
+                    -- Do not crowd home directory with NPM cache folder
+                    vim.env.npm_config_cache = vim.env.HOME .. "/.cache/npm"
                 end,
+                build = ":MasonUpdate",
+                opts = {
+                    ui = {
+                        icons = {
+                            package_installed = "✓",
+                            package_pending = "➜",
+                            package_uninstalled = "✗"
+                        },
+                    }
+                }
             },
+            {"WhoIsSethDaniel/mason-tool-installer.nvim"},
+            {"williamboman/mason-lspconfig.nvim"},
         },
+        lazy = false,
+        config = function()
+            require("mason").setup({
+                ensure_installed = {
+                    "stylua"
+                }
+            })
+            require("mason-lspconfig").setup({
+                automatic_enable = true,
+                ensure_installed = {
+                    "biome",    -- JS / TS Linting, formatting, etc
+                    "cssls",    -- CSS
+                    "emmet_language_server",  -- Emmet (html shortcuts)
+                    "html",     -- HTML (duh)
+                    "jsonls",   -- JSON
+                    "lua_ls",   -- Lua language server
+                    "ts_ls",    -- JS / TS
+                }
+            })
+            require("mason-tool-installer").setup({
+                ensure_installed = {
+                    "stylua",   -- Lua formatter
+                }
+            })
+        end
     },
-
 
     -- Code actions / Diagnostic display (Looks cool, the diff is really nice, but it's a bit slower without the easy hotkeys that I can get to work)
     -- {

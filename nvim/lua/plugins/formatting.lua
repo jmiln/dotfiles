@@ -6,19 +6,22 @@ return {
             {
                 "<leader>cf",
                 function()
-                    require("conform").format({ async = true, lsp_format = "fallback" })
+                    require("conform").format({
+                        async = true,
+                        lsp_format = "fallback",
+                    })
                 end,
                 desc = "Format File",
             },
         },
         opts = {
             formatters_by_ft = {
-                ejs = { "biome" },
-                javascript = { "biome" },
-                json = { "biome" },
-                typescript = { "biome" },
+                ejs             = { "biome" },
+                javascript      = { "biome" },
+                json            = { "biome" },
+                typescript      = { "biome" },
                 typescriptreact = { "biome" },
-                lua = { "stylua" },
+                lua             = { "stylua" },
             },
             default_format_opts = {
                 lsp_format = "fallback",
