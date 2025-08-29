@@ -23,5 +23,5 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-export PATH="$HOME/.cargo/bin:$PATH"
 export TZ="America/Los_Angeles"
+. "$HOME/.cargo/env"

@@ -8,3 +8,5 @@
 # Set $ZDOTDIR here to be able to store your other Zsh dotfiles
 # outside of $HOME.
 ZDOTDIR=$XDG_CONFIG_HOME/zsh
+. "$HOME/.cargo/env"
+. "/home/j_milner359/.local/share/bob/env/env.sh"
