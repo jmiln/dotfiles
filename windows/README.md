@@ -11,3 +11,6 @@
         - The `./wezterm` dir gets linked to `$HOME\.config\wezterm`
         - The Powershell file goes to `$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`
         - The `../nvim` dir goes to `$HOME\AppData\Local\nvim`
+
+    * You need admin perms to run the settings & register altering scripts
+    * You don't need it for the install script, and it messes up the gridview for choosing programs to install
