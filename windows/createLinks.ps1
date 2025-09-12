@@ -1,4 +1,4 @@
-# Requires -RunAsAdministrator
+#Requires -RunAsAdministrator
 
 Write-Host "Deleting the old profile then linking to this one"
 Write-Host "> $profile"

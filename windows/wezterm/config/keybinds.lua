@@ -14,6 +14,8 @@ local M = {}
 -- end
 
 local keys = {
+    { key = 'r', mods = 'LEADER', action = act.ReloadConfiguration, },
+
     -- Split the panes each way
     { key = '\\', mods = 'LEADER', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' }, },
     { key = '_',  mods = 'LEADER|SHIFT', action = act.SplitVertical { domain = 'CurrentPaneDomain' }, },
@@ -41,21 +43,12 @@ local keys = {
     { key = "[", mods = "LEADER",      action = act.ActivateTabRelative(-1) },
     { key = "]", mods = "LEADER",      action = act.ActivateTabRelative(1) },
     { key = "n", mods = "LEADER",      action = act.ShowTabNavigator },
-    { key = "1", mods = "LEADER",      action = act.ActivateTab(0) },
-    { key = "2", mods = "LEADER",      action = act.ActivateTab(1) },
-    { key = "3", mods = "LEADER",      action = act.ActivateTab(2) },
-    { key = "4", mods = "LEADER",      action = act.ActivateTab(3) },
-    { key = "5", mods = "LEADER",      action = act.ActivateTab(4) },
-    { key = "6", mods = "LEADER",      action = act.ActivateTab(5) },
-    { key = "7", mods = "LEADER",      action = act.ActivateTab(6) },
-    { key = "8", mods = "LEADER",      action = act.ActivateTab(7) },
-    { key = "9", mods = "LEADER",      action = act.ActivateTab(8) },
     {
         key = ',',
         mods = 'LEADER',
         action = act.PromptInputLine {
             description = 'Enter new name for tab',
-            action = wezterm.action_callback(function(window, pane, line)
+            action = wezterm.action_callback(function(window, _, line)
                 if string.len(line) then
                     window:active_tab():set_title(line)
                 end
@@ -63,6 +56,11 @@ local keys = {
         },
     },
 };
+
+for i = 1, 9 do
+  -- LEADER + number to activate that tab
+  table.insert(keys, { key = tostring(i), mods = 'LEADER', action = act.ActivateTab(i - 1), })
+end
 
 M.setup = function(config)
     config.keys = keys
