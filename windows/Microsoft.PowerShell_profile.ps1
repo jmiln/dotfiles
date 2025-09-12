@@ -163,7 +163,7 @@ function psUpdate() {
 }
 
 function Update-System() {
-    Install-WindowsUpdate -IgnoreUserInput -IgnoreReboot -AcceptAll
+    # Install-WindowsUpdate -IgnoreUserInput -IgnoreReboot -AcceptAll
     winget update --all
     Update-Module
     Update-Help -Force
