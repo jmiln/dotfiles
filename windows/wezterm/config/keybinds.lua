@@ -17,12 +17,15 @@ local keys = {
     { key = 'r', mods = 'LEADER', action = act.ReloadConfiguration, },
 
     -- Split the panes each way
-    { key = '\\', mods = 'LEADER', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' }, },
-    { key = '_',  mods = 'LEADER|SHIFT', action = act.SplitVertical { domain = 'CurrentPaneDomain' }, },
+    { key = "\\", mods = "LEADER",         action = act.SplitHorizontal { domain = "CurrentPaneDomain" }, },
+    { key = "_",  mods = "LEADER|SHIFT",   action = act.SplitVertical { domain = "CurrentPaneDomain" }, },
+
+    -- Activate copy mode
+    { key = "Escape",  mods = "LEADER",         action = act.ActivateCopyMode, },
 
     -- Swap panes
-    -- { key = '}', mods = 'LEADER|SHIFT', action = wezterm.action_callback(switch_in_direction("Next")) },
-    -- { key = '{', mods = 'LEADER|SHIFT', action = wezterm.action_callback(switch_in_direction("Prev")) },
+    -- { key = "}", mods = "LEADER|SHIFT", action = wezterm.action_callback(switch_in_direction("Next")) },
+    -- { key = "{", mods = "LEADER|SHIFT", action = wezterm.action_callback(switch_in_direction("Prev")) },
 
     -- Move between open panes
     { key = "LeftArrow",  mods = "ALT",    action = act.ActivatePaneDirection("Left") },
@@ -35,6 +38,7 @@ local keys = {
     { key = "UpArrow",    mods = "LEADER", action = act.ActivatePaneDirection("Up") },
     { key = "DownArrow",  mods = "LEADER", action = act.ActivatePaneDirection("Down") },
 
+    -- Toggle fullscreen for the selected pane
     { key = "z",          mods = "LEADER", action = act.TogglePaneZoomState },
 
     -- Work with the tabs

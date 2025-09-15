@@ -1,5 +1,5 @@
 local wezterm = require("wezterm")
-local Config = {}
+local Config = wezterm.config_builder()
 
 local opacity = 0.75
 local transparent_bg = "rgba(22, 24, 26, " .. opacity .. ")"

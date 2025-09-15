@@ -107,13 +107,13 @@ function Set-Power-Configuration {
     powercfg -change "hibernate-timeout-ac" 0;
     powercfg -change "hibernate-timeout-dc" 0;
 
-    # Set sleep timeout (in minutes / 0: never)
+    # Set sleep timeout (in minutes / 0: never - Leave it always running)
     powercfg -change "standby-timeout-ac" 0;
     powercfg -change "standby-timeout-dc" 0;
 
-    # Set turn off screen timeout (in minutes / 0: never)
-    powercfg -change "monitor-timeout-ac" 10;
-    powercfg -change "monitor-timeout-dc" 10;
+    # Set turn off screen timeout (in minutes / 0: never - rely on screensaver only)
+    powercfg -change "monitor-timeout-ac" 0;
+    powercfg -change "monitor-timeout-dc" 0;
 
     # Set turn off screen timeout on lock screen (in seconds / 0: never)
     powercfg /SETACVALUEINDEX SCHEME_CURRENT SUB_VIDEO VIDEOCONLOCK 30;
@@ -133,6 +133,7 @@ function Set-Custom-Regional-Format {
     Set-ItemProperty -Path $RegPath -Name "sLongDate" -Value "dddd, MMMM d, yyyy";    # Friday, September 12, 2025
     Set-ItemProperty -Path $RegPath -Name "sShortTime" -Value "h:mm tt";              # 3:27 PM
     Set-ItemProperty -Path $RegPath -Name "sTimeFormat" -Value "h:mm:ss tt";          # 3:27:32 PM
+    Set-TimeZone -Id "Pacific Standard Time"
 
     Write-Host "Regional format successfully updated." -ForegroundColor "Green";
 }
