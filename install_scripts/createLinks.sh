@@ -19,9 +19,11 @@ _myos="$(uname)"
 # Delete existing dot files and folders
 #==============
 rm -rf ~/.aliases                   > /dev/null 2>&1
+rm -rf ~/.config/scripts/.aliases   > /dev/null 2>&1
 rm -rf ~/.bashrc                    > /dev/null 2>&1
 rm -rf ~/.config/btop/btop.conf     > /dev/null 2>&1
 rm -rf ~/.functions                 > /dev/null 2>&1
+rm -rf ~/.config/scripts/.functions > /dev/null 2>&1
 rm -rf ~/.gitconfig                 > /dev/null 2>&1
 rm -rf ~/.git-prompt.sh             > /dev/null 2>&1
 rm -rf ~/.config/htop/htoprc        > /dev/null 2>&1
@@ -34,6 +36,7 @@ rm -rf ~/.config/tmux/tmux.conf     > /dev/null 2>&1
 rm -rf ~/.vim                       > /dev/null 2>&1
 rm -rf ~/.vimrc                     > /dev/null 2>&1
 rm -rf ~/.zshrc                     > /dev/null 2>&1
+rm -rf ~/.config/zsh/*              > /dev/null 2>&1
 
 
 #==============
