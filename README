@@ -6,13 +6,18 @@ Run createLinks.sh
 Tmux plugin manager:
  - https://github.com/tmux-plugins/tpm#installation
 
-NVM (Node version manager):
- - https://github.com/nvm-sh/nvm#installing-and-updating
- - Run `nvm install node`
+FNM [Fast Node Manager](https://github.com/Schniz/fnm):
+ - https://github.com/Schniz/fnm?tab=readme-ov-file#installation
+ - Run `fnm install lts` or `fnm install <version#>` 
 
-Generally after node is installed, I install eslint & pm2
- - npm i -g eslint pm2
+Generally after node is installed, I install biome, pm2, and ncu
+ - npm i -g @biomejs/biome pm2 npm-check-updates
 
-For Exa, manual installation seems to be required, since the apt version doesn't support git
- - https://the.exa.website/install/linux#manual
+For Eza, manual installation or homebrew may be required, if you want a recent version, as the apt one is rather old
+ - https://github.com/eza-community/eza
 
+Neovim:
+ - [Bob](https://github.com/MordechaiHadad/bob):
+  * Version manager for nvim, similar to nvm or fnm
+  * Installation: https://github.com/MordechaiHadad/bob?tab=readme-ov-file#-installation
+   - Either via Cargo (Rust), or with a downloadable zip
