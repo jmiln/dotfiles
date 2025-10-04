@@ -183,23 +183,10 @@ function most_useless_use_of_zsh {
 }
 
 
-function ii() { # Get current host related info.
-    echo -e "\nYou are logged on ${RED}$HOST"
-    echo -e "\nAdditionnal information:$NC " ; uname -a
-    echo -e "\n${red}Users logged on:$NC " ; w -h
-    echo -e "\n${red}Current date :$NC " ; date
-    echo -e "\n${red}Machine stats :$NC " ; uptime
-    echo -e "\n${red}Memory stats :$NC " ; free
-    my_ip 2>&- ;
-    echo -e "\n${red}Local IP Address :$NC" ; echo ${MY_IP:-"Not connected"}
-    echo -e "\n${red}ISP Address :$NC" ; echo ${MY_ISP:-"Not connected"}
-    echo -e "\n${red}Open connections :$NC "; netstat -pan --inet;
-    echo
-}
-
-
 zombie-process() { ps aux | awk '{ print $8 " " $2 }' | grep -w Z ;}
 
+# Get the weather, with args if you want to get a specified location
+# With not args, it gets the info for whatever the default is
 weather() {
     if [ ${#1} -ne 0 ]
     then
