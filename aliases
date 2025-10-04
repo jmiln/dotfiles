@@ -54,11 +54,6 @@ for com in rm chmod chown rename; do
     alias $com="$com -v"
 done
 
-# Make it so noclobber and verbose are on for file utils
-for com in cp mv; do
-    alias $com="$com -v --update=none"
-done
-
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -69,8 +64,8 @@ alias du="du -kh"           # Makes a more readable output.
 alias du.="du -hs * | sort -hr"     # Makes a more readable output & sorts by size.
 alias df="df -kTh --total"
 alias mkdir="mkdir -p"      # Create directories as needed
-alias cp="cp -vn"
-alias mv="mv -ivn"           # Prompts before overwrite
+alias cp="cp -v --update=none" # No-clobber & verbose
+alias mv="mv -ivn"           # Prompts before overwrite, verbose, and no-clobber
 alias rm="rm -v"
 alias ap="apropos"          # Use to search for commands
 alias m="more"
@@ -125,8 +120,6 @@ alias py="python"
 alias ipListen="sudo lsof -i -P -n | grep LISTEN"  # Show the IP/ ports that are being listened to
 alias iftop="TERM=xterm iftop" # Hopefully make sure that the lines show as lines instead of qqqqqqqqqqqqqqqqqqqq
 
-### Hardware aliases ###
-
 ### Git aliases ###
     # Easy git status
 alias gits="git status"
@@ -138,7 +131,7 @@ alias  glo="git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%C
 alias glod="git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cs)%Creset %s'"
 
 ### NPM Aliases ###
-alias npmg="npm --location=global"
+alias npmg="npm --global"
 
 
 # OS specific aliases
