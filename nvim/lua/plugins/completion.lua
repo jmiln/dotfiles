@@ -1,11 +1,17 @@
 local has_words_before = function()
-    unpack = unpack or table.unpack
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+    local unpack = unpack or table.unpack
+    local _line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    if col == 0 then
+        return false
+    end
+
+    local current_line = vim.api.nvim_get_current_line()
+    local char_before_cursor = current_line:sub(col, col)
+    return not char_before_cursor:match("%s")
 end
 
 local getFuzzy = function()
-    local os_name = vim.loop.os_uname().sysname
+    local os_name = jit.os;
     if os_name == "Linux" then
         return "prefer_rust_with_warning"
     else
@@ -28,6 +34,7 @@ return {
                     require("config.snippets")
                 end,
             },
+            { "joelazar/blink-calc" }
         },
 
         -- use a release tag to download pre-built binaries
@@ -143,7 +150,7 @@ return {
                 -- jump = function(direction) require('luasnip').jump(direction) end,
             },
             sources = {
-                default = { "lsp", "path", "snippets", "buffer" },
+                default = { "lsp", "path", "snippets", "buffer", "calc" },
                 providers = {
                     lsp = {
                         min_keyword_length = 2, -- Number of characters to trigger provider
@@ -159,6 +166,10 @@ return {
                         min_keyword_length = 4,
                         max_items = 5,
                     },
+                    calc = {
+                        name = 'Calc',
+                        module = 'blink-calc',
+                    },
                 },
             },
             fuzzy = {
@@ -169,31 +180,12 @@ return {
         },
         opts_extend = { "sources.default" },
     },
-    -- {
-    --     "hrsh7th/nvim-cmp",
-    --     dependencies = {
-    --         "hrsh7th/cmp-nvim-lsp", -- Completion output for the lsp
-    --         "hrsh7th/cmp-buffer", -- Completion for strings found in the current buffer/ file
-    --         -- "hrsh7th/cmp-path",             -- Completion for file paths  (Seems to trigger on blanks/ spaces too often, and will just show paths from root)
-    --         "hrsh7th/cmp-nvim-lua", -- Completion for nvim settings and such (vim.lsp.*, etc)
-    --         "onsails/lspkind-nvim", -- Show symbols
-    --         "L3MON4D3/LuaSnip", -- Snippets
-    --         "saadparwaiz1/cmp_luasnip", -- Show snippets in the cmp popup
-    --         "rafamadriz/friendly-snippets",
-    --     },
-    --     config = function()
-    --         safeRequire("config.completion")
-    --     end,
-    -- },
-
 
     -- AI Autocomplete stuffs
     {
         "monkoose/neocodeium",
         event = "VeryLazy",
-        -- Only enable if the machine has more than 8GB of RAM available
-        -- enabled = vim.loop.get_total_memory() > 2^33,
-        enabled = vim.loop.os_uname().sysname == "Linux",   -- Been having issues getting it to behave on Windows
+        enabled = jit.os == "Linux",   -- Been having issues getting it to behave on Windows
         keys = {
             {
                 mode = "i",

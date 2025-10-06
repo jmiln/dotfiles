@@ -170,8 +170,10 @@ return {
   },
   lsp = {
     lua_ls = "󰢱",
+    emmylua_ls = "󰢱",
     pyright = "",
     tsserver = "󰛦",
+    ts_ls = "󰛦",
     ["typescript-tools"] = "󰛦",
     tailwindcss = "󱏿",
     eslint = "",

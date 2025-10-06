@@ -1,4 +1,3 @@
-local capabilities = require("blink.cmp").get_lsp_capabilities()
 local constants = require("config.constants")
 local icons = require("config.icons")
 
@@ -30,10 +29,6 @@ vim.diagnostic.config({
     --         min = vim.diagnostic.severity.ERROR,
     --     },
     -- },
-})
-
-vim.lsp.config("*", {
-    capabilities = capabilities
 })
 
 return {
@@ -77,7 +72,8 @@ return {
                     "emmet_language_server",  -- Emmet (html shortcuts)
                     "html",     -- HTML (duh)
                     "jsonls",   -- JSON
-                    "lua_ls",   -- Lua language server
+                    -- "lua_ls",   -- Lua language server
+                    "emmylua_ls",   -- Lua language server (Faster?)
                     "ts_ls",    -- JS / TS
                 }
             })

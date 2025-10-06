@@ -72,7 +72,12 @@ map('c', '<Down>',  'wildmenumode() ? "\\<C-n>" : "\\<Down>"',{noremap = true, e
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
--- Map ctrl+/ to comment lines
+-- Map ctrl+/ to comment lines (Built-in, doesn't play nice with different indents, or when some lines in the selection are commented)
+-- map("n", "", ":normal gcc<Cr>",       {desc = "Toggle Comment", noremap = true, silent = true})
+-- map("v", "", ":'<,'>normal gcc<Cr>",  {desc = "Toggle Comment", noremap = true, silent = true})
+-- map("i", "", "<esc>:normal gcc<Cr>a", {desc = "Toggle Comment", noremap = true, silent = true})
+
+-- Map ctrl+/ to comment lines (With comment.nvim)
 map("n", "", "<plug>(comment_toggle_linewise_current)",      default)
 map("v", "", "<plug>(comment_toggle_linewise_visual)",       default)
 map("i", "", "<esc><plug>(comment_toggle_linewise_current)i",default)
@@ -89,17 +94,6 @@ map("n", "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", default)
 
 -- Code action options
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
-map("n", "<leader>co", function()
-    vim.lsp.buf.code_action({
-        filter = function(action)
-            -- You can add more complex filtering here, e.g., by action.title or action.kind
-            -- action.title
-            vim.notify(action.title)
-            return true -- Apply the first one found
-        end,
-        apply = true, -- Automatically apply the action
-    })
-end, { buffer = 0, desc = "Apply first code action" })
 
 -- Global (inside file) rename/ refactor
 map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.rename()<CR>", default)
