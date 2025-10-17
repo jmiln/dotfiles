@@ -111,15 +111,15 @@ return {
     --         end, { noremap = true, silent = true })
     --     end
     -- },
-    {
-        "rachartier/tiny-inline-diagnostic.nvim",
-        event = "VeryLazy", -- Or `LspAttach`
-        priority = 1000, -- needs to be loaded in first
-        config = function()
-            require('tiny-inline-diagnostic').setup()
-            vim.diagnostic.config({ virtual_text = false })
-        end
-    },
+    -- { -- These are really nice looking, but they also show in front of other text sometimes and get in the way
+    --     "rachartier/tiny-inline-diagnostic.nvim",
+    --     event = "VeryLazy", -- Or `LspAttach`
+    --     priority = 1000, -- needs to be loaded in first
+    --     config = function()
+    --         require('tiny-inline-diagnostic').setup()
+    --         vim.diagnostic.config({ virtual_text = false })
+    --     end
+    -- },
 
     {
         -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins

@@ -175,7 +175,9 @@ bindkey '' kill-line
 bindkey '[Z' reverse-menu-complete
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:::::' completer _force_rehash _complete_plus_last_command_args _approximate
+# zstyle ':completion:::::' completer _force_rehash _complete_plus_last_command_args _approximate
+zstyle ':completion:*' completer _complete _history _expand _oldlist _correct _approximate
+
 
 # Additional ZSH completion stuff
 zstyle -e ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX + $#SUFFIX) / 3 )) )'
@@ -287,7 +289,9 @@ function fzf_rg_search() {
 zle -N fzf_rg_search
 bindkey '^R' fzf_rg_search
 
-export FZF_DEFAULT_OPTS="--style default --preview 'fzf-preview.sh {}' --bind 'focus:transform-header:file --brief {}' --height 90% --layout=default --border --color=hl:#2dd4bf --layout=default --border --color=hl:#2dd4bf"
+export FZF_DEFAULT_OPTS="--style default \
+    --preview 'fzf-preview.sh {}' \
+    --bind 'focus:transform-header:file --brief {}' --height 90% --layout=default --border --color=hl:#2dd4bf --layout=default --border --color=hl:#2dd4bf"
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#0f0f0f,bg+:#2e2e2e
   --color=hl:#87afd7,hl+:#afd7ff,info:#d7d787,marker:#87af87

@@ -70,4 +70,22 @@ return {
         end,
         event = { "BufReadPost" }, -- lazy load after reading a buffer
     },
+
+    -- Search jumper
+    -- Cool, but gets in the way of muscle memory
+    -- {
+    --     "folke/flash.nvim",
+    --     event = "VeryLazy",
+    --     opts = {
+    --         modes = {
+    --             search = {
+    --                 enabled = true,
+    --                 wrap = true,
+    --             },
+    --             char = {
+    --                 jump_labels = true
+    --             }
+    --         }
+    --     },
+    -- }
 }
