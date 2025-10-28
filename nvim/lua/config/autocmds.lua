@@ -78,14 +78,14 @@ autocmd("BufWritePre", {
         if event.match:match("^%w%w+://") then
             return
         end
-        local file = vim.loop.fs_realpath(event.match) or event.match
+        local file = vim.uv.fs_realpath(event.match) or event.match
         vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
     end,
 })
 
 -- If a file is larger than 2MB, turn off some settings to make it load faster
 --  * The foldmethod itself seems to be a massive part of it, at least with large json files
-vim.api.nvim_create_autocmd("BufReadPre", {
+autocmd("BufReadPre", {
     callback = function(ev)
         local max_size = 2 * 1024 * 1024 -- 2 MB
         local file_size = vim.fn.getfsize(ev.match)
@@ -162,7 +162,7 @@ autocmd("BufWritePre", {
         if e.match:match("^%w%w+://") then
             return
         end
-        local file = vim.loop.fs_realpath(e.match) or e.match
+        local file = vim.uv.fs_realpath(e.match) or e.match
         vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
     end,
 })
@@ -190,4 +190,13 @@ autocmd("BufEnter", {
         --   vim.fn.chdir(root)
         -- end
     end,
+})
+
+-- Enable Line Number in Telescope Preview
+autocmd("User", {
+    pattern = "TelescopePreviewerLoaded",
+    callback = function()
+        vim.opt_local.number = true
+    end,
+    desc = "Enable Line Number in Telescope Preview",
 })

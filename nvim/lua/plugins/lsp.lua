@@ -31,6 +31,15 @@ vim.diagnostic.config({
     -- },
 })
 
+-- Doesn't work, but would be nice
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--     desc = "Disable diagnostics for test files",
+--     pattern = { "*.test.js" },
+--     callback = function()
+--         vim.diagnostic.enable(false)
+--     end,
+-- })
+
 return {
     {
         "neovim/nvim-lspconfig",

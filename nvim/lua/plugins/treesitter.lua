@@ -36,7 +36,7 @@ return {
         end,
     },
     {
-        "echasnovski/mini.ai",
+        "nvim-mini/mini.ai",
         event = "BufReadPre",
         dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
         opts = function()

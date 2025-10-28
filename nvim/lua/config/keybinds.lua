@@ -1,4 +1,4 @@
--- Set f to toggle paste mode
+-- Set f6 to toggle paste mode
 -- vim.o.pastetoggle="off"
 -- vim.o.pastetoggle="<F6>"
 
@@ -6,12 +6,10 @@
 local map = vim.keymap.set
 local default = {noremap = true, silent = true}
 
-map("n", "r",          "<C-R>",              default) -- Redo
-map("n", "Y",          "yy",                 default) -- Y grabs whole line
-map("n", "<Space>",    ":nohl<CR>",          default) -- Space to remove search highlights
-map("n", "<Leader>ev", ":vsp $MYVIMRC<CR>",  default) -- Open the vimrc/ init.vim in a vertical split
-map("n", "<Leader>sv", ":RefreshConfig<CR>", default) -- Open the vimrc/ init.vim in a vertical split
-map("n", "<Leader>=",  "gg=G",               default) -- Indent whole file
+map("n", "r",         "<C-R>",     {noremap = true, silent = true, desc = "Redo"})
+map("n", "Y",         "yy",        {noremap = true, silent = true, desc = "Yank whole line"})
+map("n", "<Space>",   ":nohl<CR>", {noremap = true, silent = true, desc = "Clear search highlights"})
+map("n", "<Leader>=", "mzgg=G`z",  {noremap = true, silent = true, desc = "Indent whole file"})
 
 -- Underline the current line with various symbols (such that the number of
 -- underline matches line length and indendation)
@@ -49,6 +47,10 @@ map("n", "<leader>/", "/\\(<\\|=\\|>\\)\\{7\\}<CR>", { desc = "Search for merge 
 map("v", ">", ">gv", default);
 map("v", "<", "<gv", default);
 
+-- Only need to press it once to shift the indent
+map("n", "<", "<<", default)
+map("n", ">", ">>", default)
+
 -- Put the cursor back where it was when joining lines
 map("n", "J", "mzJ`z", default);
 
@@ -71,11 +73,6 @@ map('c', '<Down>',  'wildmenumode() ? "\\<C-n>" : "\\<Down>"',{noremap = true, e
 -- Better up/down movement, so that it doesn't skip over wrapped lines
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
--- Map ctrl+/ to comment lines (Built-in, doesn't play nice with different indents, or when some lines in the selection are commented)
--- map("n", "", ":normal gcc<Cr>",       {desc = "Toggle Comment", noremap = true, silent = true})
--- map("v", "", ":'<,'>normal gcc<Cr>",  {desc = "Toggle Comment", noremap = true, silent = true})
--- map("i", "", "<esc>:normal gcc<Cr>a", {desc = "Toggle Comment", noremap = true, silent = true})
 
 -- Map ctrl+/ to comment lines (With comment.nvim)
 map("n", "", "<plug>(comment_toggle_linewise_current)",      default)
@@ -106,6 +103,7 @@ map("n", "<leader>ho", "<cmd>lua vim.lsp.buf.hover()<CR>", default)
 -- LSP bindings to jump between issues
 map("n", "<c-j>", ":lua vim.diagnostic.jump({count = 1})<CR>", default)
 map("n", "<c-k>", ":lua vim.diagnostic.jump({count = -1})<CR>", default)
+map("n", "<leader>dt", ":lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>", {desc = "Toggle Diagnostics"})
 
 
 -- Refresh the config in the current file (Nice, but doesn't work on split up files)
