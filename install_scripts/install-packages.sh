@@ -134,6 +134,16 @@ if ! command_exists fdfind; then
 fi
 
 # Install nvim normal
+# TODO: Update this to install rust/ cargo, and bob for nvim
+#  Install cargo / rustup
+#  - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+#
+#  Install bob
+#  - cargo install bob-nvim
+#
+#  Install nvim
+#  - bob use nightly
+#
 if ! command_exists nvim; then
     # Add the repo & install neovim (unstable/ nightly) itself
     sudo add-apt-repository ppa:neovim-ppa/unstable
