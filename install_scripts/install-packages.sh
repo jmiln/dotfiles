@@ -27,6 +27,7 @@ if [[ "$OS" == "Linux" ]]; then
         logToFile "Using apt-get to update Linux..."
         sudo apt-get update && sudo apt-get upgrade -y
     else
+        # TODO: Add support for other package managers, if I ever use a non-debian based distro
         logToFile "Unable to find package manager to update Linux. Skipping update..."
     fi
 fi
@@ -106,7 +107,8 @@ fi
 # Install tmux & tpm
 # --
 if ! command_exists tmux; then
-    sudo apt install -y tmux
+    # sudo apt install -y tmux
+    brew install tmux
     logToFile "Tmux installed."
 else
     logToFile "Tmux is already installed."
@@ -143,27 +145,28 @@ fi
 #
 #  Install nvim
 #  - bob use nightly
+
+# if ! command_exists nvim; then
+#     # Add the repo & install neovim (unstable/ nightly) itself
+#     sudo add-apt-repository ppa:neovim-ppa/unstable
+#     sudo apt update
+#     sudo apt -y install neovim python3-neovim
 #
-if ! command_exists nvim; then
-    # Add the repo & install neovim (unstable/ nightly) itself
-    sudo add-apt-repository ppa:neovim-ppa/unstable
-    sudo apt update
-    sudo apt -y install neovim python3-neovim
+#     # Don't do this if installing via Bob, since it screws up opening anything with sudo
+#     # Update to alias vim, vi & $EDITOR to neovim
+#     # sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+#     # sudo update-alternatives --config vi
+#     # sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+#     # sudo update-alternatives --config vim
+#     # sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
+#     # sudo update-alternatives --config editor
 
-    # Update to alias vim, vi & $EDITOR to neovim
-    sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
-    sudo update-alternatives --config vi
-    sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
-    sudo update-alternatives --config vim
-    sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
-    sudo update-alternatives --config editor
+#     nvim --headless "+Lazy! sync" +qa
 
-    nvim --headless "+Lazy! sync" +qa
-
-    logToFile "Neovim installed."
-else
-    logToFile "Neovim is already installed."
-fi
+#     logToFile "Neovim installed."
+# else
+#     logToFile "Neovim is already installed."
+# fi
 
 # JSON utilities
 if ! command_exists jq; then
@@ -180,26 +183,27 @@ else
     logToFile "JC is already installed"
 fi
 
-# Install lua-language-server for nvim config files mainly
-if ! command_exists lua-language-server; then
-    # Get the latest version available
-    wget -q -O ~/tmp/lua-language-server.tar.gz $(wget -q -O - 'https://api.github.com/repos/LuaLS/lua-language-server/releases/latest' | jq -r '.assets[] | select(.name | match("lua-language-server.*linux-x64.tar.gz$")).browser_download_url')
+# # Install lua-language-server for nvim config files mainly
+# -- This is done via Mason now
+# if ! command_exists lua-language-server; then
+#     # Get the latest version available
+#     wget -q -O ~/tmp/lua-language-server.tar.gz $(wget -q -O - 'https://api.github.com/repos/LuaLS/lua-language-server/releases/latest' | jq -r '.assets[] | select(.name | match("lua-language-server.*linux-x64.tar.gz$")).browser_download_url')
 
-    # Clear out any old versions
-    rm -rf ~/.local/share/lua-language-server
-    rm ~/.local/bin/lua-language-server
+#     # Clear out any old versions
+#     rm -rf ~/.local/share/lua-language-server
+#     rm ~/.local/bin/lua-language-server
 
-    # Create the folders in case they're needed/ not there
-    mkdir -p ~/.local/share/lua-language-server
-    mkdir -p ~/.local/bin
+#     # Create the folders in case they're needed/ not there
+#     mkdir -p ~/.local/share/lua-language-server
+#     mkdir -p ~/.local/bin
 
-    # Extract the bits and link em where needed
-    tar -xzf ~/tmp/lua-language-server.tar.gz -C ~/.local/share/lua-language-server
-    ln -s ~/.local/share/lua-language-server/bin/lua-language-server ~/.local/bin/lua-language-server
+#     # Extract the bits and link em where needed
+#     tar -xzf ~/tmp/lua-language-server.tar.gz -C ~/.local/share/lua-language-server
+#     ln -s ~/.local/share/lua-language-server/bin/lua-language-server ~/.local/bin/lua-language-server
 
-    # Clean up the downloaded package
-    rm -rf ~/tmp/lua-language-server.tar.gz
-fi
+#     # Clean up the downloaded package
+#     rm -rf ~/tmp/lua-language-server.tar.gz
+# fi
 
 if ! command_exists eza; then
     # sudo apt install -y eza
@@ -216,7 +220,11 @@ fi
 
 # Install the normal global nodejs packages that I end up using
 if command_exists npm; then
-    npm install -g neovim npm-check-updates @biomejs/biome pm2 typescript typescript-language-server vscode-langservers-extracted
+    npm install -g \
+        neovim \
+        npm-check-updates \
+        @biomejs/biome \
+        pm2
     logToFile "npm global packages installed."
 fi
 
@@ -235,10 +243,11 @@ if ! command_exists docker; then
     logToFile "Docker installed."
 fi
 
-if ! command_exists lazygit; then
-    bash ~/dotfiles/install_scripts/lazygit.sh
-    logToFile "Lazygit installed."
-fi
+# Cool, but I never actually use it
+# if ! command_exists lazygit; then
+#     bash ~/dotfiles/install_scripts/lazygit.sh
+#     logToFile "Lazygit installed."
+# fi
 
 #==============
 # Go back to the dotfiles dir

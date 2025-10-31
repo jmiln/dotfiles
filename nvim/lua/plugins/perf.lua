@@ -5,4 +5,9 @@ return {
         dependencies = "neovim/nvim-lspconfig",
         event = "VeryLazy",
     },
+
+    -- Turns stuff off when opening large files
+    {
+        "pteroctopus/faster.nvim"
+    },
 }
