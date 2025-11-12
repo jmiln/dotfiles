@@ -67,8 +67,12 @@ map("v", "?", "?<c-g>u", default);
 -- map('i', '<Down>',  'pumvisible() ? "\\<C-n>" : "\\<Down>"',{noremap = true, expr = true})
 
 -- Let the arrow keys work in the command completion menu
-map('c', '<Up>',    'wildmenumode() ? "\\<C-p>" : "\\<Up>"',  {noremap = true, expr = true})
-map('c', '<Down>',  'wildmenumode() ? "\\<C-n>" : "\\<Down>"',{noremap = true, expr = true})
+map("c", "<Up>",    'wildmenumode() ? "\\<C-p>" : "\\<Up>"',  {noremap = true, expr = true})
+map("c", "<Down>",  'wildmenumode() ? "\\<C-n>" : "\\<Down>"',{noremap = true, expr = true})
+
+-- Escape should back out of the command line, not accept what's written
+-- ... Apparently the default behavior for nvim is for escape to act the same as enter here... WHY????
+map("c", "<Esc>", "<C-c>", default)
 
 -- Better up/down movement, so that it doesn't skip over wrapped lines
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
