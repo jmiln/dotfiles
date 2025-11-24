@@ -7,6 +7,8 @@ vim.g.have_nerd_font = true
 
 vim.deprecate = function() end
 vim.g.clipboard = false
+vim.lsp.set_log_level("off")
+
 
 -- -- Load different steps if in an ssh session (Google AI result, but seems viable. Haven't tested)
 -- if os.getenv("SSH_TTY") ~= nil then

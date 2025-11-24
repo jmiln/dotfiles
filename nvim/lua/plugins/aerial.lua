@@ -2,9 +2,12 @@ return {
     -- Show a code outline
     {
         "stevearc/aerial.nvim",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons"
+        },
         keys = {
-            { mode = "n", "<F11>", "<cmd>AerialToggle<cr>", desc = "Toggle Aerial" },
-            { mode = "x", "<F11>", "<cmd>AerialToggle<cr>", desc = "Toggle Aerial" },
+            { mode = {"n", "x"}, "<F11>", "<cmd>AerialToggle<cr>", desc = "Toggle Aerial" },
         },
         opts = {
             layout = {

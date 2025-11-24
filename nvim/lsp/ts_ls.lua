@@ -48,26 +48,32 @@ return {
     handlers = {
         -- Modified from:
         -- Via https://www.reddit.com/r/neovim/comments/nv3qh8/how_to_ignore_tsserver_error_file_is_a_commonjs/h1tx1rh
-        ["textDocument/publishDiagnostics"] = function(_, result, ctx)
-            if result.diagnostics ~= nil then
-                local idx = 1
+        ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+            if result.diagnostics == nil then
+                return
+            end
 
-                -- Allow different diagnostics depending on if it's a .ts or .js file
-                local filename = vim.api.nvim_buf_get_name(idx);
-                local isTs = string.find(filename, ".ts")
-                local isJs = string.find(filename, ".js")
+            local idx = 1
 
-                while idx <= #result.diagnostics do
-                    if isTs and contains(tsIgnoreCodes, result.diagnostics[idx].code) then
-                        table.remove(result.diagnostics, idx)
-                    elseif isJs and contains(jsIgnoreCodes, result.diagnostics[idx].code) then
-                        table.remove(result.diagnostics, idx)
-                    else
-                        idx = idx + 1
-                    end
+            -- Allow different diagnostics depending on if it's a .ts or .js file
+            local filename = vim.fn.expand("%:p")
+            local isTs = string.find(filename, ".ts")
+            local isJs = string.find(filename, ".js")
+
+            while idx <= #result.diagnostics do
+                local entry = result.diagnostics[idx]
+                if isTs and contains(tsIgnoreCodes, entry.code) then
+                    table.remove(result.diagnostics, idx)
+                elseif isJs and contains(jsIgnoreCodes, entry.code) then
+                    table.remove(result.diagnostics, idx)
+                else
+                    local formatter = require('format-ts-errors')[entry.code]
+                    entry.message = formatter and formatter(entry.message) or entry.message
+
+                    idx = idx + 1
                 end
             end
-            vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx)
+            vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
         end,
     },
     root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },

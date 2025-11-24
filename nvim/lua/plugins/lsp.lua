@@ -142,5 +142,30 @@ return {
             },
         },
     },
+
+    -- Show TS errors more cleanly?
+    {
+        "davidosomething/format-ts-errors.nvim"
+    },
+
+    -- Make ts errors easier to read?
+    -- {
+    --     "dmmulroy/ts-error-translator.nvim",
+    --     config = function()
+    --         require("ts-error-translator").setup({
+    --         auto_attach = true,
+    --         servers = {
+    --             "ts_ls",
+    --         },
+    --     })
+    --     end,
+    --     -- opts = {
+    --     --     auto_attach = true,
+    --     --     servers = {
+    --     --         "ts_ls",
+    --     --         "typescript-tools",
+    --     --     },
+    --     -- }
+    -- },
 }
 
