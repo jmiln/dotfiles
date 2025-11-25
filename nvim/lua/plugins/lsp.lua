@@ -1,29 +1,67 @@
 local constants = require("config.constants")
 local icons = require("config.icons")
+local severity_names = {
+    [vim.diagnostic.severity.ERROR] = "Error",
+    [vim.diagnostic.severity.WARN] = "Warn",
+    [vim.diagnostic.severity.INFO] = "Info",
+    [vim.diagnostic.severity.HINT] = "Hint",
+}
 
 vim.diagnostic.config({
     float = {
         border = constants.ui.border,
         source = "if_many",
+        prefix = function(diag)
+            local level = severity_names[diag.severity]
+            local prefix = "▍" .. string.format(" %s ", icons.diagnostics[level])
+            return prefix, "Diagnostic" .. level:gsub("^%l", string.upper)
+        end,
+        suffix = "",
     },
-    jump = {float = true},
+    jump = { float = true },
     signs = {
         text = {
             [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error .. " ",
-            [vim.diagnostic.severity.WARN]  = icons.diagnostics.BoldWarn  .. " ",
-            [vim.diagnostic.severity.INFO]  = icons.diagnostics.BoldInfo  .. " ",
-            [vim.diagnostic.severity.HINT]  = icons.diagnostics.Hint  .. " ",
+            [vim.diagnostic.severity.WARN] = icons.diagnostics.BoldWarn .. " ",
+            [vim.diagnostic.severity.INFO] = icons.diagnostics.BoldInfo .. " ",
+            [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint .. " ",
         },
         numhl = {
             [vim.diagnostic.severity.ERROR] = "DiagnosticError",
-            [vim.diagnostic.severity.WARN]  = "DiagnosticWarn",
-            [vim.diagnostic.severity.INFO]  = "DiagnosticInfo",
-            [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
+            [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+            [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+            [vim.diagnostic.severity.HINT] = "DiagnosticHint",
         },
     },
     underline = { severity = vim.diagnostic.severity.WARN },
     update_in_insert = false,
-    virtual_text = false,
+    virtual_text = {
+        severity = {
+            vim.diagnostic.severity.WARN,
+            vim.diagnostic.severity.ERROR,
+        },
+        spacing = 2,
+        format = function(diagnostic)
+            -- Use shorter, nicer names for some sources:
+            local special_sources = {
+                ["Lua Diagnostics."] = "lua",
+                ["Lua Syntax Check."] = "lua",
+            }
+
+            local message = ""
+            if diagnostic.code then
+                message = string.format("%s %s", message, diagnostic.code)
+            end
+            if diagnostic.source then
+                message = string.format("%s[%s]", message, special_sources[diagnostic.source] or diagnostic.source)
+            end
+            if message == "" then
+                message = diagnostic.message
+            end
+
+            return message .. " "
+        end,
+    },
     -- virtual_lines = {    -- These are nice, but oh boy, are they distracting
     --     severity = {
     --         min = vim.diagnostic.severity.ERROR,
@@ -58,40 +96,40 @@ return {
                         icons = {
                             package_installed = "✓",
                             package_pending = "➜",
-                            package_uninstalled = "✗"
+                            package_uninstalled = "✗",
                         },
-                    }
-                }
+                    },
+                },
             },
-            {"WhoIsSethDaniel/mason-tool-installer.nvim"},
-            {"williamboman/mason-lspconfig.nvim"},
+            { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+            { "williamboman/mason-lspconfig.nvim" },
         },
         lazy = false,
         config = function()
             require("mason").setup({
                 ensure_installed = {
-                    "stylua"
-                }
+                    "stylua",
+                },
             })
             require("mason-lspconfig").setup({
                 automatic_enable = true,
                 ensure_installed = {
-                    "biome",    -- JS / TS Linting, formatting, etc
-                    "cssls",    -- CSS
-                    "emmet_language_server",  -- Emmet (html shortcuts)
-                    "html",     -- HTML (duh)
-                    "jsonls",   -- JSON
-                    -- "lua_ls",   -- Lua language server
-                    "emmylua_ls",   -- Lua language server (Faster?)
-                    "ts_ls",    -- JS / TS
-                }
+                    "biome",                 -- JS / TS Linting, formatting, etc
+                    "cssls",                 -- CSS
+                    "emmet_language_server", -- Emmet (html shortcuts)
+                    "html",                  -- HTML (duh)
+                    "jsonls",                -- JSON
+                    -- "lua_ls",             -- Lua language server
+                    "emmylua_ls",            -- Lua language server (Faster?)
+                    "ts_ls",                 -- JS / TS
+                },
             })
             require("mason-tool-installer").setup({
                 ensure_installed = {
-                    "stylua",   -- Lua formatter
-                }
+                    "stylua", -- Lua formatter
+                },
             })
-        end
+        end,
     },
 
     -- Code actions / Diagnostic display (Looks cool, the diff is really nice, but it's a bit slower without the easy hotkeys that I can get to work)
@@ -145,7 +183,7 @@ return {
 
     -- Show TS errors more cleanly?
     {
-        "davidosomething/format-ts-errors.nvim"
+        "davidosomething/format-ts-errors.nvim",
     },
 
     -- Make ts errors easier to read?
@@ -168,4 +206,3 @@ return {
     --     -- }
     -- },
 }
-
