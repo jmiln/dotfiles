@@ -7,6 +7,34 @@ function getComlinkIPs() {
     docker compose logs | grep -Eo "^[^']*'[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{1,4}'"
 }
 
+# Update global npm packages from specified version
+# function updateFnmPack() {
+#     fnm exec --using=${1} npm ls --global --json | jq -r '.dependencies | to_entries[] | .key+"@"+.value.version' | xargs npm i -g
+# }
+
+function updateFnmPack() {
+
+    # Check if an argument was supplied
+    if [[ -z "$1" ]]; then
+        echo "Error: You must supply a Node version."
+        echo "Usage: updateFnmPack <node_version>"
+        return 1
+    fi
+
+    NODE_VERSION="$1"
+
+    # Check if the version exists in fnm (installed versions)
+    if ! fnm list | grep -qE "^\s*${NODE_VERSION}\s*$"; then
+        echo "Error: '${NODE_VERSION}' is not an installed Node version."
+        echo "Installed versions:"
+        fnm list
+        return 1
+    fi
+
+    # If everything is valid, install the packages to the new version
+    fnm exec --using="${NODE_VERSION}" npm ls --global --json | jq -r '.dependencies | to_entries[] | .key+"@"+.value.version' | xargs npm i -g
+}
+
 
 # Various C compiler functions
 
