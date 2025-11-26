@@ -23,14 +23,6 @@ function updateFnmPack() {
 
     NODE_VERSION="$1"
 
-    # Check if the version exists in fnm (installed versions)
-    if ! fnm list | grep -qE "^\s*${NODE_VERSION}\s*$"; then
-        echo "Error: '${NODE_VERSION}' is not an installed Node version."
-        echo "Installed versions:"
-        fnm list
-        return 1
-    fi
-
     # If everything is valid, install the packages to the new version
     fnm exec --using="${NODE_VERSION}" npm ls --global --json | jq -r '.dependencies | to_entries[] | .key+"@"+.value.version' | xargs npm i -g
 }
