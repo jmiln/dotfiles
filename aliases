@@ -112,6 +112,8 @@ alias sudo="sudo "
 
 ### JS aliases ###
 alias nfresh="rm -rf node_modules/ package-lock.json && npm install"
+alias npm="npq-hero"    # Extra security checks when installing node packages
+alias ncu="ncu --cooldown 7"
 
 ### Python aliases ###
 alias py="python"
