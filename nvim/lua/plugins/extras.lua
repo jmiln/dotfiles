@@ -5,12 +5,13 @@ return {
         keys = {
             { "<leader>j", "<cmd>TSJToggle<cr>", desc = "Toggle treesj" },
         },
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
-        config = function()
-            require("treesj").setup({
-                use_default_keymaps = false,
-            })
-        end,
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+        },
+        opts = {
+            max_join_length = 300,
+            use_default_keymaps = false,
+        },
     },
 
     -- Color any #ffffff style color codes
