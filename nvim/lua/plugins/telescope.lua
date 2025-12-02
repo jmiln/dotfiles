@@ -39,6 +39,9 @@ return {
             { "<leader>fm", ":Telescope marks<CR>",          desc = "Search Marks" },
             { "<leader>fs", ":Telescope search_history<CR>", desc = "Search History" },
             { "<leader>fz", ":Telescope spell_suggest<CR>",  desc = "Spelling Suggest" },
+
+            -- Use telescope for spell suggestions
+            { "z=",         ":Telescope spell_suggest<CR>", desc = "Spell suggestions" },
         },
         opts = {
             defaults = {

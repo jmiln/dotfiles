@@ -80,8 +80,9 @@ vim.diagnostic.config({
 
 return {
     {
-        "neovim/nvim-lspconfig",
+        "williamboman/mason-lspconfig.nvim",
         dependencies = {
+            "neovim/nvim-lspconfig",
             {
                 "williamboman/mason.nvim",
                 init = function()
@@ -92,6 +93,9 @@ return {
                 end,
                 build = ":MasonUpdate",
                 opts = {
+                    ensure_installed = {
+                        "stylua",
+                    },
                     ui = {
                         icons = {
                             package_installed = "✓",
@@ -101,35 +105,29 @@ return {
                     },
                 },
             },
-            { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-            { "williamboman/mason-lspconfig.nvim" },
+            {
+                "WhoIsSethDaniel/mason-tool-installer.nvim",
+                opts = {
+                    ensure_installed = {
+                        "stylua", -- Lua formatter
+                    },
+                }
+            },
         },
-        lazy = false,
-        config = function()
-            require("mason").setup({
-                ensure_installed = {
-                    "stylua",
-                },
-            })
-            require("mason-lspconfig").setup({
-                automatic_enable = true,
-                ensure_installed = {
-                    "biome",                 -- JS / TS Linting, formatting, etc
-                    "cssls",                 -- CSS
-                    "emmet_language_server", -- Emmet (html shortcuts)
-                    "html",                  -- HTML (duh)
-                    "jsonls",                -- JSON
-                    -- "lua_ls",             -- Lua language server
-                    "emmylua_ls",            -- Lua language server (Faster?)
-                    "ts_ls",                 -- JS / TS
-                },
-            })
-            require("mason-tool-installer").setup({
-                ensure_installed = {
-                    "stylua", -- Lua formatter
-                },
-            })
-        end,
+        opts = {
+            automatic_enable = true,
+            ensure_installed = {
+                "biome",                 -- JS / TS Linting, formatting, etc
+                "cssls",                 -- CSS
+                "emmet_language_server", -- Emmet (html shortcuts)
+                "html",                  -- HTML (duh)
+                "jsonls",                -- JSON
+                -- "lua_ls",             -- Lua language server
+                "emmylua_ls",            -- Lua language server (Faster?)
+                "ts_ls",                 -- JS / TS
+                -- "tsgo",                  -- JS / TS (Way faster in .ts files, but breaks in .js files, and can't filter the errors)
+            },
+        }
     },
 
     -- Code actions / Diagnostic display (Looks cool, the diff is really nice, but it's a bit slower without the easy hotkeys that I can get to work)

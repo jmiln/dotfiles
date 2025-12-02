@@ -18,7 +18,7 @@ local jsIgnoreCodes = {
     80007,  -- 'await' has no effect on the type of this expression.
 }
 local tsIgnoreCodes = {
-    6133,   -- "X" is declared but its value is never used (Covered by eslint)
+    6133,   -- "X" is declared but its value is never used (Covered by biome)
     80007,  -- 'await' has no effect on the type of this expression.
 }
 
