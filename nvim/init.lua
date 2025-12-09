@@ -9,6 +9,8 @@ vim.deprecate = function() end
 vim.g.clipboard = false
 vim.lsp.set_log_level("off")
 
+-- Ignore perl healthchecks with :checkhealth
+vim.g.loaded_perl_provider = 0
 
 -- -- Load different steps if in an ssh session (Google AI result, but seems viable. Haven't tested)
 -- if os.getenv("SSH_TTY") ~= nil then
