@@ -13,7 +13,7 @@ vim.diagnostic.config({
         source = "if_many",
         prefix = function(diag)
             local level = severity_names[diag.severity]
-            local prefix = "▍" .. string.format(" %s ", icons.diagnostics[level])
+            local prefix = "▍" .. string.format(" %s [%s] ", icons.diagnostics[level], diag.code)
             return prefix, "Diagnostic" .. level:gsub("^%l", string.upper)
         end,
         suffix = "",
@@ -69,6 +69,14 @@ vim.diagnostic.config({
     -- },
 })
 
+-- vim.lsp.config("tsgo", {
+--     cmd = { "tsgo", "--lsp", "--stdio" },
+--     filetypes = {
+--         "ts",
+--     },
+--     root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+-- })
+
 -- Doesn't work, but would be nice
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --     desc = "Disable diagnostics for test files",
@@ -82,7 +90,9 @@ return {
     {
         "williamboman/mason-lspconfig.nvim",
         dependencies = {
-            "neovim/nvim-lspconfig",
+            {
+                "neovim/nvim-lspconfig",
+            },
             {
                 "williamboman/mason.nvim",
                 init = function()

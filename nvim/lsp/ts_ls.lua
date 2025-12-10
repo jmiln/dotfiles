@@ -17,10 +17,6 @@ local jsIgnoreCodes = {
     80001,  -- File is a CommonJS module; it may be converted to an ES6 module.
     80007,  -- 'await' has no effect on the type of this expression.
 }
-local tsIgnoreCodes = {
-    6133,   -- "X" is declared but its value is never used (Covered by biome)
-    80007,  -- 'await' has no effect on the type of this expression.
-}
 
 -- Local helper function
 local function contains (table, val)
@@ -33,17 +29,16 @@ local function contains (table, val)
     return false
 end
 
-
--- npm install -g typescript-language-server typescript
-return {
+vim.lsp.config.ts_ls =  {
+    init_options = { hostInfo = 'neovim' },
     cmd = { "typescript-language-server", "--stdio" },
     filetypes = {
         "javascript",
         "javascriptreact",
         "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
+        -- "typescript",
+        -- "typescriptreact",
+        -- "typescript.tsx",
     },
     handlers = {
         -- Modified from:
@@ -57,14 +52,11 @@ return {
 
             -- Allow different diagnostics depending on if it's a .ts or .js file
             local filename = vim.fn.expand("%:p")
-            local isTs = string.find(filename, ".ts")
             local isJs = string.find(filename, ".js")
 
             while idx <= #result.diagnostics do
                 local entry = result.diagnostics[idx]
-                if isTs and contains(tsIgnoreCodes, entry.code) then
-                    table.remove(result.diagnostics, idx)
-                elseif isJs and contains(jsIgnoreCodes, entry.code) then
+                if isJs and contains(jsIgnoreCodes, entry.code) then
                     table.remove(result.diagnostics, idx)
                 else
                     local formatter = require('format-ts-errors')[entry.code]
@@ -75,6 +67,62 @@ return {
             end
             vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
         end,
+        -- handle rename request for certain code actions like extracting functions / types
+        ['_typescript.rename'] = function(_, result, ctx)
+            local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
+            vim.lsp.util.show_document({
+                uri = result.textDocument.uri,
+                range = {
+                    start = result.position,
+                    ['end'] = result.position,
+                },
+            }, client.offset_encoding)
+            vim.lsp.buf.rename()
+            return vim.NIL
+        end,
     },
+    commands = {
+        ['editor.action.showReferences'] = function(command, ctx)
+            local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
+            local file_uri, position, references = unpack(command.arguments)
+
+            local quickfix_items = vim.lsp.util.locations_to_items(references --[[@as any]], client.offset_encoding)
+            vim.fn.setqflist({}, ' ', {
+                title = command.title,
+                items = quickfix_items,
+                context = {
+                    command = command,
+                    bufnr = ctx.bufnr,
+                },
+            })
+
+            vim.lsp.util.show_document({
+                uri = file_uri --[[@as string]],
+                range = {
+                    start = position --[[@as lsp.Position]],
+                    ['end'] = position --[[@as lsp.Position]],
+                },
+            }, client.offset_encoding)
+            ---@diagnostic enable: assign-type-mismatch
+
+            vim.cmd('botright copen')
+        end,
+    },
+    on_attach = function(client, bufnr)
+        -- ts_ls provides `source.*` code actions that apply to the whole file. These only appear in
+        -- `vim.lsp.buf.code_action()` if specified in `context.only`.
+        vim.api.nvim_buf_create_user_command(bufnr, 'LspTypescriptSourceAction', function()
+            local source_actions = vim.tbl_filter(function(action)
+                return vim.startswith(action, 'source.')
+            end, client.server_capabilities.codeActionProvider.codeActionKinds)
+
+            vim.lsp.buf.code_action({
+                context = {
+                    only = source_actions,
+                    diagnostics = {},
+                },
+            })
+        end, {})
+    end,
     root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
 }
