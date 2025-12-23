@@ -57,6 +57,7 @@ case $_myos in
 
         # Zsh / shell locations
         mkdir -p ~/.cache
+        mkdir -p ~/.local/bin
         mkdir -p ~/.local/share
         mkdir -p ~/.local/state/zsh
         mkdir -p ~/.local/scripts
@@ -76,6 +77,9 @@ case $_myos in
         ln -sf $DOTFILES_DIR/zsh/git-prompt.sh  ~/.config/zsh/.git-prompt.sh
         ln -sf $DOTFILES_DIR/zsh/zshenv         ~/.zshenv
         ln -sf $DOTFILES_DIR/zsh/zshrc          ~/.config/zsh/.zshrc
+
+        # Tmux todo popup
+        ln -sf $DOTFILES_DIR/scripts/find_todo_file.sh ~/.local/bin/find_todo_file.sh
     ;;
     # Default case (None of the above)
     *);;
