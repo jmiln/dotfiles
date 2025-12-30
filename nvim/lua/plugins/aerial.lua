@@ -8,6 +8,7 @@ return {
         },
         keys = {
             { mode = {"n", "x"}, "<F11>", "<cmd>AerialToggle<cr>", desc = "Toggle Aerial" },
+            { mode = {"n", "x"}, "<leader>a", "<cmd>AerialToggle<cr>", desc = "Toggle Aerial" },
         },
         opts = {
             layout = {
