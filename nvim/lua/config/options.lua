@@ -47,6 +47,9 @@ vim.opt.belloff        = "all"                 -- Just turn all the bells off
 vim.wo.signcolumn      = "yes"
 vim.go.termguicolors   = true
 
+-- Make the paren under the cursor not be a block
+vim.g.matchparen_disable_cursor_hl = 1
+
 -- Make cursor blink
 vim.opt.guicursor = {
     "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50",
