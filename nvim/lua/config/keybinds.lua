@@ -78,6 +78,10 @@ map("c", "<Esc>", "<C-c>", default)
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- Disable Shift+Up/Down keys acting like pgup/pgdown outside of putty
+map("n", "<S-Up>", "<Nop>", { noremap = true, silent = true })
+map("n", "<S-Down>", "<Nop>", { noremap = true, silent = true })
+
 -- Map ctrl+/ to comment lines (With comment.nvim)
 map("n", "", "<plug>(comment_toggle_linewise_current)",      default)
 map("v", "", "<plug>(comment_toggle_linewise_visual)",       default)
