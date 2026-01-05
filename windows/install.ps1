@@ -36,6 +36,7 @@ function CheckForFont {
 }
 
 # Install normal module(s)
+InstallModuleIfNotExist posh-git
 InstallModuleIfNotExist PSReadLine
 InstallModuleIfNotExist PSWindowsUpdate
 InstallModuleIfNotExist Microsoft.PowerShell.ConsoleGuiTools

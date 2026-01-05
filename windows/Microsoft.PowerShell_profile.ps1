@@ -1,5 +1,6 @@
 # https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
 Import-Module PSReadLine
+Import-Module posh-git
 
 # This import lets me use the `sudo` command wherever needed
 # https://github.com/gerardog/gsudo
@@ -91,8 +92,7 @@ function touch($file) { "" | Out-File $file -Encoding ASCII }
 
 function prompt {
     # Get up to the last 2 directories
-    $path = $pwd.Path
-    $path = $path.Replace($env:USERPROFILE, '~')
+    $path = $pwd.Path.Replace($env:USERPROFILE, '~')
     $path = $path.Split('\') | Select-Object -Last 2
     $path = $path -join "\"
 
@@ -104,7 +104,30 @@ function prompt {
     Write-host "@" -NoNewline -ForegroundColor Blue
     Write-host "${env:COMPUTERNAME}:" -NoNewline -ForegroundColor White
     Write-host "${path}" -NoNewline -ForegroundColor Blue
-    Write-host ($(if ($IsAdmin) { ' [Admin]' } else { '' })) -BackgroundColor DarkRed -ForegroundColor White -NoNewline
+
+    # Git branch / status
+    $gitStatus = Get-GitStatus -ErrorAction SilentlyContinue
+    if ($gitStatus) {
+        $symbols = ""
+
+        if ($gitStatus.AheadBy -gt 0)  { $symbols += "↑" }
+        if ($gitStatus.BehindBy -gt 0) { $symbols += "↓" }
+        if ($gitStatus.HasWorking -or $gitStatus.HasUntracked) {
+            $symbols += "●"
+        }
+        if ($gitStatus.HasIndex)       { $symbols += "+" } # staged
+
+        if ($symbols) {
+            Write-Host " [$symbols]" -NoNewline -ForegroundColor Yellow
+        }
+
+        Write-Host " [$($gitStatus.Branch)]" -NoNewline -ForegroundColor Cyan
+    }
+
+    # Admin check
+    if ($IsAdmin) {
+        Write-host " [Admin]" -BackgroundColor DarkRed -ForegroundColor White -NoNewline
+    }
     " $ "
 }
 
