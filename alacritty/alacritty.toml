@@ -1,0 +1,66 @@
+[font]
+size = 9
+
+[font.normal]
+family = "SauceCodePro Nerd Font Mono"
+style = "Regular"
+[font.bold]
+family = "SauceCodePro Nerd Font Mono"
+style = "Bold"
+[font.bold_italic]
+family = "SauceCodePro Nerd Font Mono"
+style = "Bold Italic"
+[font.italic]
+family = "SauceCodePro Nerd Font Mono"
+style = "Italic"
+
+[window]
+# decorations="None" # Nice, but can't really move the window as easily
+dynamic_title=true
+decorations_theme_variant = "Dark"
+
+[bell] # Defaults, but just in case
+duration=0
+command="None"
+
+[terminal]
+shell="pwsh"
+
+[general]
+live_config_reload = true
+
+[env]
+TERM = "xterm-256color"
+
+[keyboard]
+bindings = [
+    { key = "Slash", mods = "Control", chars = "\u001f" },
+    { key = "Space", mods = "Control", chars = "\u0000" },
+]
+
+[colors.primary]
+    background = "#000000"
+    foreground = "#BBBBBB"
+[colors.cursor]
+    text = "#000000"
+    cursor = "#BBBBBB"
+[colors.normal]
+    black = "#000000"
+    red = "#BB0000"
+    green = "#00BB00"
+    yellow = "#BBBB00"
+    blue = "#0000BB"
+    magenta = "#BB00BB"
+    cyan = "#00BBBB"
+    white = "#BBBBBB"
+[colors.bright]
+    black = "#555555"
+    red = "#FF5555"
+    green = "#55FF55"
+    yellow = "#FFFF55"
+    blue = "#5555FF"
+    magenta = "#FF55FF"
+    cyan = "#55FFFF"
+    white = "#FFFFFF"
+
+
