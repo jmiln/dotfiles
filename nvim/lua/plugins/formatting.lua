@@ -22,10 +22,25 @@ return {
                 typescript      = { "biome" },
                 typescriptreact = { "biome" },
                 lua             = { "stylua" },
+                toml            = { "taplo" }
             },
             default_format_opts = {
                 lsp_format = "fallback",
             },
+            formatters = {
+                taplo = {
+                    args={
+                        "format",
+                        "--option",
+                        "indent_entries=true",
+                        "--option",
+                        'indent_string=    ',
+                        "--option",
+                        "trailing_newline=true",
+                        "-",
+                    }
+                }
+            }
             -- format_on_save = {
             --     -- These options will be passed to conform.format()
             --     timeout_ms = 500,
