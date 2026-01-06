@@ -129,11 +129,13 @@ return {
             ensure_installed = {
                 "biome",                 -- JS / TS Linting, formatting, etc
                 "cssls",                 -- CSS
+                "dotenv-linter",         -- .env linter
                 "emmet_language_server", -- Emmet (html shortcuts)
                 "html",                  -- HTML (duh)
                 "jsonls",                -- JSON
                 -- "lua_ls",             -- Lua language server
                 "emmylua_ls",            -- Lua language server (Faster?)
+                "taplo",                 -- *.toml formatting/ lsp
                 "ts_ls",                 -- JS / TS
                 -- "tsgo",                  -- JS / TS (Way faster in .ts files, but breaks in .js files, and can't filter the errors)
             },
