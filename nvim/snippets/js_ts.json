@@ -1,0 +1,20 @@
+{
+    "Require inspect": {
+        "prefix": "reqins",
+        "body": [
+            "const {inspect} = require(\"node:util\");"
+        ]
+    },
+    "Import inspect": {
+        "prefix": "impins",
+        "body": [
+            "import { inspect } from \"node:util\""
+        ]
+    },
+    "inspect(, {depth: 5})": {
+        "prefix": "inspectdepth",
+        "body": [
+            "inspect(${1:foo}, {depth: 5});"
+        ]
+    }
+}

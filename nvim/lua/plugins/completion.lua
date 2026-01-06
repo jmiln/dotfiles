@@ -1,7 +1,7 @@
 local has_words_before = function()
     local unpack = unpack or table.unpack
-    local _line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    if col == 0 then
+    local _, col = unpack(vim.api.nvim_win_get_cursor(0))
+    if not col or col <= 0 then
         return false
     end
 
@@ -11,7 +11,7 @@ local has_words_before = function()
 end
 
 local getFuzzy = function()
-    local os_name = jit.os;
+    local os_name = jit.os
     if os_name == "Linux" then
         return "prefer_rust_with_warning"
     else
@@ -23,18 +23,10 @@ return {
     -- Completion menus
     {
         "saghen/blink.cmp",
-        -- optional: provides snippets for the snippet source
         dependencies = {
-            {
-                "L3MON4D3/LuaSnip",
-                version = "v2.*",
-                build = "make install_jsregexp",
-                dependencies = "rafamadriz/friendly-snippets",
-                config = function()
-                    require("config.snippets")
-                end,
-            },
-            { "joelazar/blink-calc" }
+            { "rafamadriz/friendly-snippets" },
+            { "joelazar/blink-calc" },
+            { "moyiz/blink-emoji.nvim" },
         },
 
         -- use a release tag to download pre-built binaries
@@ -59,10 +51,10 @@ return {
                     end,
                     "fallback",
                 },
-                ["<S-Tab>"] = {"select_prev", "snippet_backward", "fallback"},
+                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
                 ["<CR>"] = { "accept", "fallback" },
                 ["<S-CR>"] = {},
-                ["<Esc>"] = { 'cancel', 'fallback' },
+                ["<Esc>"] = { "cancel", "fallback" },
                 ["<C-E>"] = { "cancel", "fallback" },
             },
             appearance = {
@@ -74,8 +66,8 @@ return {
                 keymap = {
                     preset = "inherit",
                     ["<CR>"] = {},
-                    ["<Tab>"] = {"show", "select_next", "fallback"},
-                    ["<S-Tab>"] = {"select_prev", "fallback"},
+                    ["<Tab>"] = { "show", "select_next", "fallback" },
+                    ["<S-Tab>"] = { "select_prev", "fallback" },
                 },
                 completion = {
                     menu = {
@@ -128,9 +120,8 @@ return {
                     show_on_trigger_character = true,
                     show_on_blocked_trigger_characters = { " ", "\n", "\t" },
                     show_on_insert_on_trigger_character = true,
-                    show_on_x_blocked_trigger_characters = { "'", '"', "(", "{", "[" }
-
-                }
+                    show_on_x_blocked_trigger_characters = { "'", '"', "(", "{", "[" },
+                },
             },
             signature = {
                 enabled = true,
@@ -139,18 +130,21 @@ return {
                 },
             },
             snippets = {
-                preset = "luasnip",
-                -- expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
-                -- active = function(filter)
-                -- 	if filter and filter.direction then
-                -- 		return require('luasnip').jumpable(filter.direction)
-                -- 	end
-                -- 	return require('luasnip').in_snippet()
-                -- end,
-                -- jump = function(direction) require('luasnip').jump(direction) end,
+                -- Function to use when expanding LSP provided snippets
+                expand = function(snippet)
+                    vim.snippet.expand(snippet)
+                end,
+                -- Function to use when checking if a snippet is active
+                active = function(filter)
+                    return vim.snippet.active(filter)
+                end,
+                -- Function to use when jumping between tab stops in a snippet, where direction can be negative or positive
+                jump = function(direction)
+                    vim.snippet.jump(direction)
+                end,
             },
             sources = {
-                default = { "lsp", "path", "snippets", "buffer", "calc" },
+                default = { "lsp", "path", "snippets", "buffer", "calc", "emoji" },
                 providers = {
                     lsp = {
                         min_keyword_length = 2, -- Number of characters to trigger provider
@@ -161,21 +155,28 @@ return {
                     },
                     snippets = {
                         min_keyword_length = 2,
+                        opts = {
+                            friendly_snippets = true,
+                        },
                     },
                     buffer = {
                         min_keyword_length = 4,
                         max_items = 5,
                     },
                     calc = {
-                        name = 'Calc',
-                        module = 'blink-calc',
+                        name = "Calc",
+                        module = "blink-calc",
+                    },
+                    emoji = {
+                        name = "Emoji",
+                        module = "blink-emoji",
                     },
                 },
             },
             fuzzy = {
                 -- Function here to make it use lua unless it's on Linux
                 --  - Mainly an issue with it refusing to download the default one on Windows
-                implementation = getFuzzy()
+                implementation = getFuzzy(),
             },
         },
         opts_extend = { "sources.default" },
@@ -185,7 +186,7 @@ return {
     {
         "monkoose/neocodeium",
         event = "VeryLazy",
-        enabled = jit.os == "Linux",   -- Been having issues getting it to behave on Windows
+        enabled = jit.os == "Linux", -- Been having issues getting it to behave on Windows
         keys = {
             {
                 mode = "i",
@@ -202,7 +203,7 @@ return {
             filetypes = {
                 TelescopePrompt = false,
             },
-            show_label = false,  -- Disable the line number showing the suggestion count
+            show_label = false, -- Disable the line number showing the suggestion count
         },
     },
 }
