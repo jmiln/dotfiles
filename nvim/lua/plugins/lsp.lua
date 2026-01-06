@@ -103,9 +103,6 @@ return {
                 end,
                 build = ":MasonUpdate",
                 opts = {
-                    ensure_installed = {
-                        "stylua",
-                    },
                     ui = {
                         icons = {
                             package_installed = "✓",
@@ -119,7 +116,8 @@ return {
                 "WhoIsSethDaniel/mason-tool-installer.nvim",
                 opts = {
                     ensure_installed = {
-                        "stylua", -- Lua formatter
+                        "dotenv-linter",    -- .env linter
+                        "stylua",           -- Lua formatter
                     },
                 }
             },
@@ -129,7 +127,6 @@ return {
             ensure_installed = {
                 "biome",                 -- JS / TS Linting, formatting, etc
                 "cssls",                 -- CSS
-                "dotenv-linter",         -- .env linter
                 "emmet_language_server", -- Emmet (html shortcuts)
                 "html",                  -- HTML (duh)
                 "jsonls",                -- JSON
