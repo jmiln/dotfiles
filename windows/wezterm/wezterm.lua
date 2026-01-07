@@ -6,21 +6,21 @@ local transparent_bg = "rgba(22, 24, 26, " .. opacity .. ")"
 
 local colors = require("config.colors")
 
-if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-    -- Configs for Windows only
-    Config.default_prog = { "pwsh", "-NoLogo", "-ExecutionPolicy", "RemoteSigned", "-NoProfileLoadTime" }
-elseif wezterm.target_triple == 'x86_65-unknown-linux-gnu' then
-    -- Configs for Linux only
-    -- font_dirs    = { '$HOME/.dotfiles/.fonts' }
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	-- Configs for Windows only
+	Config.default_prog = { "pwsh", "-NoLogo", "-ExecutionPolicy", "RemoteSigned", "-NoProfileLoadTime" }
+elseif wezterm.target_triple == "x86_65-unknown-linux-gnu" then
+	-- Configs for Linux only
+	-- font_dirs    = { '$HOME/.dotfiles/.fonts' }
 end
 
 -- Font
 Config.font = wezterm.font_with_fallback({
-    {
-        family = "SauceCodePro Nerd Font Mono",
-        weight = "Medium",
-    },
-    "Segoe UI Emoji",
+	{
+		family = "SauceCodePro Nerd Font Mono",
+		weight = "Medium",
+	},
+	"Segoe UI Emoji",
 })
 Config.font_size = 9
 Config.allow_square_glyphs_to_overflow_width = "WhenFollowedBySpace"
@@ -38,6 +38,12 @@ Config.animation_fps = 60
 Config.cursor_blink_rate = 250
 Config.scrollback_lines = 10000
 Config.default_workspace = "main"
+Config.window_padding = {
+	left = 0,
+	right = 0,
+	top = 0,
+	bottom = 0,
+}
 
 -- Colors
 Config.colors = colors
@@ -50,15 +56,15 @@ Config.show_tab_index_in_tab_bar = false
 Config.use_fancy_tab_bar = false
 Config.tab_bar_at_bottom = true
 Config.colors.tab_bar = {
-   background = transparent_bg,
-   new_tab = { fg_color = colors.foreground, bg_color = colors.background },
-   new_tab_hover = { fg_color = colors.background, bg_color = colors.foreground },
+	background = transparent_bg,
+	new_tab = { fg_color = colors.foreground, bg_color = colors.background },
+	new_tab_hover = { fg_color = colors.background, bg_color = colors.foreground },
 }
 
 -- Dim inactive panes
 Config.inactive_pane_hsb = {
-    saturation = 0.24,
-    brightness = 0.5
+	saturation = 0.24,
+	brightness = 0.5,
 }
 
 require("config.keybinds").setup(Config)
