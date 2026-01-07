@@ -18,7 +18,7 @@ return {
             formatters_by_ft = {
                 ejs             = { "biome" },
                 javascript      = { "biome" },
-                json            = { "biome" },
+                json            = { "biome", "jq" },
                 typescript      = { "biome" },
                 typescriptreact = { "biome" },
                 lua             = { "stylua" },

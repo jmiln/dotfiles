@@ -118,6 +118,7 @@ return {
                     ensure_installed = {
                         "dotenv-linter",    -- .env linter
                         "stylua",           -- Lua formatter
+                        "jq",               -- JSON formatting
                     },
                 }
             },
