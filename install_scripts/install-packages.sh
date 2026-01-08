@@ -112,7 +112,7 @@ fi
 if ! command_exists cargo; then
     logToFile "Installing Rust..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    source "$HOME/.cargo/env"
+    export PATH="$HOME/.cargo/bin:$PATH"
 fi
 if ! command_exists bob; then
     cargo install bob-nvim
