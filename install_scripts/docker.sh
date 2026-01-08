@@ -26,21 +26,5 @@ if [ ! -f /etc/docker/daemon.json ]; then
     echo '{"log-driver":"json-file","log-opts":{"max-size":"10m","max-file":"5"}}' | sudo tee /etc/docker/daemon.json
 fi
 
-echo "<--- installing lazydocker... --->"
-
-# Wrapping in a subshell fixes SC2103 and removes the need for 'cd -'
-(
-    cd /tmp || exit # Fixes SC2164
-
-    LAZYDOCKER_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazydocker/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-
-    # Using x86_64 as per your setup, but consider arch detection for portability
-    curl -sLo lazydocker.tar.gz "https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_${LAZYDOCKER_VERSION}_Linux_x86_64.tar.gz"
-
-    tar -xf lazydocker.tar.gz lazydocker
-    sudo install lazydocker /usr/local/bin
-    rm lazydocker.tar.gz lazydocker
-)
-
-echo "Docker and Lazydocker installed!"
+echo "Docker installed!"
 echo "NOTE: You may need to log out and back in for Docker group permissions to take effect."

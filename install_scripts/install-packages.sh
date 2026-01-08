@@ -15,7 +15,7 @@ APT_PACKAGES=(
     build-essential curl git python3 software-properties-common
     unzip wget ripgrep fd-find jq jc bat
 )
-BREW_PACKAGES=(tmux eza git-delta lazygit)
+BREW_PACKAGES=(tmux eza git-delta lazygit jesseduffield/lazydocker/lazydocker)
 NPM_PACKAGES=(neovim npm-check-updates @biomejs/biome pm2)
 
 # -----
