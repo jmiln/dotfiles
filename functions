@@ -13,18 +13,23 @@ function getComlinkIPs() {
 # }
 
 function updateFnmPack() {
-
-    # Check if an argument was supplied
     if [[ -z "$1" ]]; then
-        echo "Error: You must supply a Node version."
-        echo "Usage: updateFnmPack <node_version>"
+        echo "Error: Supply a Node version (e.g., 20.10.0)"
         return 1
     fi
 
-    NODE_VERSION="$1"
+    if ! command -v jq &> /dev/null; then
+        echo "Error: jq is required."
+        return 1
+    fi
 
-    # If everything is valid, install the packages to the new version
-    fnm exec --using="${NODE_VERSION}" npm ls --global --json | jq -r '.dependencies | to_entries[] | .key+"@"+.value.version' | xargs npm i -g
+    local version="$1"
+    logToFile "Migrating global packages to Node $version..."
+
+    # Get the list from the version provided, then install to CURRENT version
+    fnm exec --using="$version" npm ls --global --json | \
+    jq -r '.dependencies | to_entries[] | .key' | \
+    xargs npm i -g
 }
 
 

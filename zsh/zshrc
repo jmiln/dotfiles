@@ -24,20 +24,16 @@ zinit ice depth"1"; zinit snippet OMZP::extract
 
 
 # Load completions
-autoload -Uz compinit && (compinit &)
+autoload -Uz compinit
+for dump in "${ZDOTDIR:-$HOME}/.zcompdump"(N.mh+24); do
+  compinit
+done
+compinit -C
 zinit cdreplay -q
 
 
 # ZSH modules and settings
 export TZ=US/Pacific
-
-# fnm
-FNM_PATH="$HOME/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-    export PATH="$FNM_PATH:$PATH"
-    eval "$(fnm env)"
-    # eval "$(fnm env --use-on-cd --shell zsh)"
-fi
 
 setopt AUTO_PARAM_SLASH
 setopt AUTO_PUSHD
@@ -67,10 +63,19 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-TERM=tmux-256color
+TERM=xterm-256color
 
-# Homebrew
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# Homebrew - Static path instead of eval for speed
+export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
+export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
+
+# fnm - Fast load
+if [ -d "$HOME/.local/share/fnm" ]; then
+    export PATH="$HOME/.local/share/fnm:$PATH"
+    # Only eval if we aren't already initialized
+    [[ -z "$FNM_MULTISHELL_PATH" ]] && eval "$(fnm env --use-on-cd)"
+fi
 
 # import .aliases
 if [ -r $SCRIPTS_DIR/.aliases ]; then
@@ -104,13 +109,17 @@ export LC_ALL=en_US.UTF-8
 export LC_CTYPE="en_US.UTF-8"
 
 # My Path.
-typeset -U PATH
-export PATH=$PATH:~/bin:~/bin/bin:~/.local/bin:~/.cargo/bin:.
+typeset -U path PATH
 export PYTHONPATH=$PYTHONPATH:~/.local
-
-# Golang paths
 export GOPATH=$HOME/.config/gocode
-export PATH=$PATH:$GOPATH/bin
+path=(
+    $HOME/bin
+    $HOME/.local/bin
+    $HOME/.cargo/bin
+    $GOPATH/bin
+    $path
+)
+
 
 # System vars
 export VISUAL=vim
@@ -239,9 +248,12 @@ _myos="$(uname)"
 # TMUX (checks for install first)
 case $_myos in
    Linux)
-       if which tmux 2>&1 >/dev/null && [ -z "$TMUX" ] && [ ${UID} != 0 ]; then
-           tmux new-session -A -s main
+       if [[ -z "$TMUX" && -z "$STRACE" ]]; then
+           tmux attach-session -t main || tmux new-session -s main
        fi
+       # if which tmux 2>&1 >/dev/null && [ -z "$TMUX" ] && [ ${UID} != 0 ]; then
+       #     tmux new-session -A -s main
+       # fi
        ;;
    Darwin)
        if which ~/bin/bin/bin/tmux 2>&1 >/dev/null; then
@@ -261,11 +273,11 @@ esac
 # Setup fzf
 # ---------
 # If fzf isn't in the path, add it.
-if [[ ! "$PATH" == *${XDG_SCRIPT_HOME}/.fzf/bin* ]]; then
-    PATH="${XDG_SCRIPT_HOME}/.fzf/bin:$PATH"
+if [[ ! "$PATH" == *${XDG_SHARE_HOME}/.fzf/bin* ]]; then
+    PATH="${XDG_SHARE_HOME}/.fzf/bin:$PATH"
 fi
 if command -v fzf &> /dev/null; then
-    source <(${XDG_SCRIPT_HOME}/.fzf/bin/fzf --zsh)
+    source <(${XDG_SHARE_HOME}/.fzf/bin/fzf --zsh)
 fi
 
 # Make the ctrl+R keybind work pretty much like Nvim's Telescope
@@ -287,7 +299,15 @@ function fzf_rg_search() {
         --bind 'enter:become(nvim {1} +{2})'
 }
 zle -N fzf_rg_search
-bindkey '^R' fzf_rg_search
+bindkey '^G' fzf_rg_search
+
+# Stylize the History search on Ctrl+R
+function fzf-history-selection() {
+  LBUFFER=$(history -n 1 | fzf --height 90% --layout=reverse --query="$LBUFFER")
+  zle reset-prompt
+}
+zle -N fzf-history-selection
+bindkey '^R' fzf-history-selection
 
 export FZF_DEFAULT_OPTS="--style default \
     --preview 'fzf-preview.sh {}' \
