@@ -185,8 +185,9 @@ else
     logToFile "fzf is already installed."
 fi
 
-[[ -f "$DOTFILES_DIR/install_scripts/docker.sh" ]] && bash "$DOTFILES_DIR/install_scripts/docker.sh"
-[[ -f "$DOTFILES_DIR/install_scripts/lazygit.sh" ]] && bash "$DOTFILES_DIR/install_scripts/lazygit.sh"
+if ! command_exists docker; then
+    [[ -f "$DOTFILES_DIR/install_scripts/docker.sh" ]] && bash "$DOTFILES_DIR/install_scripts/docker.sh"
+fi
 
 #==============
 # Go back to the dotfiles dir
