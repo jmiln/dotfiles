@@ -1,5 +1,5 @@
 [font]
-    size = 9
+    size = 10
 
 [font.normal]
     family = "SauceCodePro Nerd Font Mono"
@@ -23,13 +23,14 @@
     duration = 0
     command = "None"
 
-[terminal.shell]
-    program = "pwsh"
-    args = [ # Open to ~ if it tries going to the root dir, but go where it wants otherwise (Context menu > open here)
-        "-NoExit",
-        "-Command",
-        "if ($PWD.Path -like '*System32*') { Set-Location ~ }",
-    ]
+# This is great for windows, but breaks stuff if I try using the same config for Linux
+# [terminal.shell]
+#     program = "pwsh"
+#     args = [ # Open to ~ if it tries going to the root dir, but go where it wants otherwise (Context menu > open here)
+#         "-NoExit",
+#         "-Command",
+#         "if ($PWD.Path -like '*System32*') { Set-Location ~ }",
+#     ]
 
 [general]
     live_config_reload = true
