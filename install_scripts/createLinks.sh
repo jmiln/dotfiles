@@ -1,4 +1,5 @@
-#!/bin/zsh
+#!/usr/bin/env bash
+
 #===============================================================================
 #
 #             NOTES: For this to work you must have cloned the github
@@ -6,87 +7,104 @@
 #
 #===============================================================================
 
+# Strict mode
+set -euo pipefail
+IFS=$'\n\t'
+
 #==============
 # Variables
 #==============
 # The dotfiles dir, where this script probably is
-DOTFILES_DIR=~/dotfiles
+DOTFILES_DIR="$HOME/dotfiles"
+
+if [[ ! -d "$DOTFILES_DIR" ]]; then
+    echo "Error: dotfiles directory not found at $DOTFILES_DIR"
+    exit 1
+fi
 
 # Grab which OS is being used (Useful later)
-_myos="$(uname)"
+MY_OS="$(uname -s)"
 
-#==============
-# Delete existing dot files and folders
-#==============
-rm -rf ~/.aliases                   > /dev/null 2>&1
-rm -rf ~/.config/scripts/.aliases   > /dev/null 2>&1
-rm -rf ~/.bashrc                    > /dev/null 2>&1
-rm -rf ~/.config/btop/btop.conf     > /dev/null 2>&1
-rm -rf ~/.functions                 > /dev/null 2>&1
-rm -rf ~/.config/scripts/.functions > /dev/null 2>&1
-rm -rf ~/.gitconfig                 > /dev/null 2>&1
-rm -rf ~/.git-prompt.sh             > /dev/null 2>&1
-rm -rf ~/.config/htop/htoprc        > /dev/null 2>&1
-rm -rf ~/.inputrc                   > /dev/null 2>&1
-rm -rf ~/.mongoshrc.js              > /dev/null 2>&1
-rm -rf ~/.config/nvim               > /dev/null 2>&1
-rm -rf ~/.profile                   > /dev/null 2>&1
-rm -rf ~/.tmux.conf                 > /dev/null 2>&1
-rm -rf ~/.config/tmux/tmux.conf     > /dev/null 2>&1
-rm -rf ~/.vim                       > /dev/null 2>&1
-rm -rf ~/.vimrc                     > /dev/null 2>&1
-rm -rf ~/.zshrc                     > /dev/null 2>&1
-rm -rf ~/.config/zsh/*              > /dev/null 2>&1
+ensure_dir() {
+    mkdir -p "$1"
+}
 
+force_link() {
+    ln -sfn "$1" "$2"
+}
 
+declare -A LINKS=(
+    ["$DOTFILES_DIR/alacritty"]="$HOME/.config/alacritty"
+    ["$DOTFILES_DIR/aliases"]="$HOME/.config/scripts/.aliases"
+    ["$DOTFILES_DIR/bash/bashrc"]="$HOME/.bashrc"
+    ["$DOTFILES_DIR/btop.conf"]="$HOME/.config/btop/btop.conf"
+    ["$DOTFILES_DIR/functions"]="$HOME/.config/scripts/.functions"
+    ["$DOTFILES_DIR/git/gitconfig"]="$HOME/.gitconfig"
+    ["$DOTFILES_DIR/htoprc"]="$HOME/.config/htop/htoprc"
+    ["$DOTFILES_DIR/inputrc"]="$HOME/.inputrc"
+    ["$DOTFILES_DIR/mongoshrc.js"]="$HOME/.mongoshrc.js"
+    ["$DOTFILES_DIR/nvim"]="$HOME/.config/nvim"
+    ["$DOTFILES_DIR/profile"]="$HOME/.profile"
+    ["$DOTFILES_DIR/tmux.conf"]="$HOME/.config/tmux/tmux.conf"
+    ["$DOTFILES_DIR/vim"]="$HOME/.vim"
+    ["$DOTFILES_DIR/zsh/git-prompt.sh"]="$HOME/.config/zsh/.git-prompt.sh"
+    ["$DOTFILES_DIR/zsh/zshenv"]="$HOME/.zshenv"
+    ["$DOTFILES_DIR/zsh/zshrc"]="$HOME/.config/zsh/.zshrc"
+    ["$DOTFILES_DIR/scripts/find_todo_file.sh"]="$HOME/.local/bin/find_todo_file.sh"
+)
+
+#=============
+# Paths to wipe out or create
 #==============
-# Create ~/.config just in case
-#==============
+LEGACY_PATHS=( # Wipe these out
+    "$HOME/.aliases"
+    "$HOME/.functions"
+    "$HOME/.tmux.conf"
+    "$HOME/.vimrc"
+    "$HOME/.zshrc"
+)
+
+REQUIRED_DIRS=( # Ensure these exist
+    "$HOME/.config/btop"
+    "$HOME/.config/tmux"
+    "$HOME/.config/zsh"
+    "$HOME/.config/scripts"
+    "$HOME/.cache"
+    "$HOME/.local/bin"
+    "$HOME/.local/share"
+    "$HOME/.local/state/zsh"
+    "$HOME/.local/scripts"
+)
 
 #==============
 # Create symlinks in the home folder
+# Mainly just linux, but in case I need it on Mac or something someday
 #==============
-# Symlink differently depending on the OS
-case $_myos in
-    # Linux (Clearly)
-    Linux)
-        mkdir -p ~/.config/btop
-        mkdir -p ~/.config/tmux
-        mkdir -p ~/.config/zsh
-        mkdir -p ~/.config/scripts
 
-        # Zsh / shell locations
-        mkdir -p ~/.cache
-        mkdir -p ~/.local/bin
-        mkdir -p ~/.local/share
-        mkdir -p ~/.local/state/zsh
-        mkdir -p ~/.local/scripts
+case "$MY_OS" in
+# Linux (Clearly)
+Linux)
+    for path in "${LEGACY_PATHS[@]}"; do
+        rm -rf "$path"
+    done
 
-        ln -sf $DOTFILES_DIR/aliases            ~/.config/scripts/.aliases
-        ln -sf $DOTFILES_DIR/bash/bashrc        ~/.bashrc
-        ln -sf $DOTFILES_DIR/btop.conf          ~/.config/btop/btop.conf
-        ln -sf $DOTFILES_DIR/functions          ~/.config/scripts/.functions
-        ln -sf $DOTFILES_DIR/git/gitconfig      ~/.gitconfig
-        ln -sf $DOTFILES_DIR/htoprc             ~/.config/htop/htoprc
-        ln -sf $DOTFILES_DIR/inputrc            ~/.inputrc
-        ln -sf $DOTFILES_DIR/mongoshrc.js       ~/.mongoshrc.js
-        ln -sf $DOTFILES_DIR/nvim               ~/.config/nvim
-        ln -sf $DOTFILES_DIR/profile            ~/.profile
-        ln -sf $DOTFILES_DIR/tmux.conf          ~/.config/tmux/tmux.conf
-        ln -sf $DOTFILES_DIR/vim/               ~/.vim
-        ln -sf $DOTFILES_DIR/zsh/git-prompt.sh  ~/.config/zsh/.git-prompt.sh
-        ln -sf $DOTFILES_DIR/zsh/zshenv         ~/.zshenv
-        ln -sf $DOTFILES_DIR/zsh/zshrc          ~/.config/zsh/.zshrc
+    for dir in "${REQUIRED_DIRS[@]}"; do
+        ensure_dir "$dir"
+    done
 
-        # Tmux todo popup
-        ln -sf $DOTFILES_DIR/scripts/find_todo_file.sh ~/.local/bin/find_todo_file.sh
+    for src in "${!LINKS[@]}"; do
+        dst="${LINKS[$src]}"
+
+        [[ -e "$src" ]] || {
+            echo "Missing source: $src"
+            exit 1
+        }
+
+        force_link "$src" "$dst"
+    done
     ;;
-    # Default case (None of the above)
-    *);;
+# Default case (None of the above)
+*) ;;
 esac
 
-
-#==============
-# Give the user a summary of what has been installed
-#==============
-echo -e "\nDone\n"
+echo "Links created"

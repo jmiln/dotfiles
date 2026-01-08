@@ -4,6 +4,7 @@
 : ${XDG_DATA_HOME:=$HOME/.local/share}
 : ${XDG_STATE_HOME:=$HOME/.local/state}
 : ${XDG_SCRIPT_HOME:=$HOME/.local/scripts}
+: ${XDG_SHARE_HOME:=$HOME/.local/share}
 
 # Set $ZDOTDIR here to be able to store your other Zsh dotfiles
 # outside of $HOME.

@@ -1,17 +1,18 @@
+# Lets you use aliases with sudo
+alias sudo="sudo "
+
 # alias sound="alsamixer -V=all"
 
 # Brightness for school moniters (between 0 and 1, otherwise it goes all sorts of funky)
 # alias brightness="xrandr --output eDP --brightness "
 
 # Basic app customization
-    # Mkdir should create any dirs between the current & the target
-alias mkdir="mkdir -p"
 alias less="less -X"
 alias man="man -P 'less -X'"
-alias grep="grep --color=auto"  #
+alias grep="grep --color=auto" #
 
 # If eza or exa are installed, alias ls to use them
-if command -v eza &> /dev/null; then
+if command -v eza &>/dev/null; then
     alias ls="eza -F --group-directories-first"
     alias l="ls"
     alias la="l -a"
@@ -20,7 +21,7 @@ if command -v eza &> /dev/null; then
     alias lt="l --icons=always --tree --ignore-glob \"node_modules\""
     alias llt="lt -l"
     alias llta="lt -la"
-elif command -v exa &> /dev/null; then
+elif command -v exa &>/dev/null; then
     alias ls="exa -F --group-directories-first"
     alias l="ls"
     alias la="l -a"
@@ -31,7 +32,7 @@ elif command -v exa &> /dev/null; then
     alias llta="lt -la"
 else
     # Detect which `ls` flavor is in use
-    if ls --color > /dev/null 2>&1; then # GNU `ls`
+    if ls --color >/dev/null 2>&1; then # GNU `ls`
         lsFlags="-Cp --group-directories-first --color"
     else # macOS `ls`
         lsFlags="-G"
@@ -45,7 +46,7 @@ else
 fi
 
 # If moar is installed, alias more to use it
-if command -v moar &> /dev/null; then
+if command -v moar &>/dev/null; then
     alias more="moar"
 fi
 
@@ -58,16 +59,16 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias -- -="cd -"           # Go to previous dir with -
-alias path="echo $PATH | sed 's/:/\n/g'"     # Print each PATH entry on a different line
-alias du="du -kh"           # Makes a more readable output.
-alias du.="du -hs * | sort -hr"     # Makes a more readable output & sorts by size.
+alias -- -="cd -"                        # Go to previous dir with -
+alias path="echo $PATH | sed 's/:/\n/g'" # Print each PATH entry on a different line
+alias du="du -kh"                        # Makes a more readable output.
+alias du.="du -hs * | sort -hr"          # Makes a more readable output & sorts by size.
 alias df="df -kTh --total"
-alias mkdir="mkdir -p"      # Create directories as needed
-alias cp="cp -v --update=none" # No-clobber & verbose
-alias mv="mv -ivn"           # Prompts before overwrite, verbose, and no-clobber
-alias rm="rm -v"
-alias ap="apropos"          # Use to search for commands
+alias mkdir="mkdir -p" # Create directories as needed
+alias cp="cp -iv"      # No-clobber & verbose
+alias mv="mv -ivn"     # Prompts before overwrite, verbose, and no-clobber
+alias rm="rm -Iv"
+alias ap="apropos" # Use to search for commands
 alias m="more"
 alias h="history"
 
@@ -82,21 +83,21 @@ else
 fi
 
 # Some quick dotfile aliases
-alias .aliases="$EDITOR ~/.config/scripts/.aliases"
-alias .functions="$EDITOR ~/config/scripts/.functions"
-alias .inputrc="$EDITOR ~/.inputrc"
-alias .nvim="$EDITOR ~/.config/nvim/init.vim"
-alias .profile="$EDITOR ~/.profile"
-alias .screenrc="$EDITOR ~/.screenrc"
-alias .tmux="$EDITOR ~/.config/tmux/tmux.conf"
-alias .vimrc="$EDITOR ~/.vimrc"
+alias .aliases="$EDITOR $HOME/.config/scripts/.aliases"
+alias .functions="$EDITOR $HOME/.config/scripts/.functions"
+alias .inputrc="$EDITOR $HOME/.inputrc"
+alias .nvim="$EDITOR $HOME/.config/nvim/init.vim"
+alias .profile="$EDITOR $HOME/.profile"
+alias .screenrc="$EDITOR $HOME/.screenrc"
+alias .tmux="$EDITOR $HOME/.config/tmux/tmux.conf"
+alias .vimrc="$EDITOR $HOME/.vimrc"
 
-alias xs="cd"                   # For when I misstype
+alias xs="cd" # For when I misstype
 
 # Reload the shell config
-if [[ "$SHELL" == "/bin/zsh" || "$SHELL" == "/usr/bin/zsh" ]]; then
+if [ -n "$ZSH_VERSION" ]; then
     alias reload="exec zsh; echo 'Reloading .zshrc'"
-elif [[ "$SHELL" == "/bin/bash" || "$SHELL" == "/usr/bin/bash" ]]; then
+elif [ -n "$BASH_VERSION" ]; then
     alias reload="source ~/.bashrc; echo 'Reloading .bashrc'"
 fi
 alias .bashrc="$EDITOR ~/.bashrc"
@@ -107,13 +108,11 @@ alias todo="vim ~/.todo"
 # Reconnect to the main tmux session
 alias mtmux="tmux new-session -A -s main"
 
-# Lets you use aliases with sudo
-alias sudo="sudo "
 
 ### JS aliases ###
 alias nfresh="rm -rf node_modules/ package-lock.json && npm install"
-if command -v npq-hero  &> /dev/null; then
-    alias npm="npq-hero"    # Extra security checks when installing node packages
+if command -v npq &>/dev/null; then
+    alias npm="npq" # Extra security checks when installing node packages (Brew package)
 fi
 alias ncu="ncu --cooldown 7"
 
@@ -121,44 +120,41 @@ alias ncu="ncu --cooldown 7"
 alias py="python"
 
 ### Network aliases ###
-alias ipListen="sudo lsof -i -P -n | grep LISTEN"  # Show the IP/ ports that are being listened to
-alias iftop="TERM=xterm iftop" # Hopefully make sure that the lines show as lines instead of qqqqqqqqqqqqqqqqqqqq
+alias ipListen="sudo lsof -i -P -n | grep LISTEN" # Show the IP/ ports that are being listened to
+alias ports="sudo ss -tulpn | grep LISTEN"  # Ubuntu specific? to check used ports
+alias iftop="TERM=xterm iftop"                    # Hopefully make sure that the lines show as lines instead of qqqqqqqqqqqqqqqqqqqq
+
+### Systemctl ###
+alias s="sudo systemctl"
+alias su="sudo systemctl start"
+alias sd="sudo systemctl stop"
+alias sr="sudo systemctl restart"
+alias st="systemctl status" # No sudo needed for status usually
 
 ### Git aliases ###
-    # Easy git status
+# Easy git status
 alias gits="git status"
-    # An easy & nice looking summary of the last bunch of commits
+# An easy & nice looking summary of the last bunch of commits
 # alias glo="git log --pretty=oneline --abbrev-commit --graph --decorate --all"
-    # Similar to above but with relative dates (3 days ago, 1 week ago, etc)
-alias  glo="git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
-    # Similar to above but with YYYY-MM-DD dates
+# Similar to above but with relative dates (3 days ago, 1 week ago, etc)
+alias glo="git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s'"
+# Similar to above but with YYYY-MM-DD dates
 alias glod="git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cs)%Creset %s'"
 
 ### NPM Aliases ###
 alias npmg="npm --global"
 
-
 # OS specific aliases
 _myos="$(uname)"
 case $_myos in
-    # Windows / Git Bash
-    *MINGW64*)
-        ### VB Aliases ###
-        alias node="winpty node"
-        alias ncu="winpty ncu.cmd"
-        alias gti="cd ~/../Fiddling/nodeAHK"
-        alias i="node index.js "
-        ;;
-    # Default
-    *) ;;
+# Windows / Git Bash
+*MINGW64*)
+    ### VB Aliases ###
+    alias node="winpty node"
+    alias ncu="winpty ncu.cmd"
+    alias gti="cd ~/../Fiddling/nodeAHK"
+    alias i="node index.js "
+    ;;
+# Default
+*) ;;
 esac
-
-
-
-
-
-
-
-
-
-
