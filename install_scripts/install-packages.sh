@@ -12,7 +12,7 @@ touch "$log_file"
 # Specify which programs are installed from where
 # -----
 APT_PACKAGES=(
-    build-essential curl git python3 software-properties-common
+    build-essential curl git git-delta python3 software-properties-common
     unzip wget ripgrep fd-find jq jc bat
 )
 BREW_PACKAGES=(tmux eza)

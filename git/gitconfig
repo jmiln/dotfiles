@@ -2,10 +2,22 @@
     path = ~/.gitconfig.local
 [core]
     whitespace = -trailing-space,-indent-with-non-tab,-tab-in-indent
-    editor = vim
+    editor = nvim
+    pager = delta
+[delta]
+    navigate = true
+    dark = true
+    line-numbers = true
+[pager]
+    diff = delta --line-numbers --paging=never
+    show = delta --line-numbers --paging=never
+[interactive]
+    diffFilter = delta --color-only
 [merge]
     tool = vimdiff
-    conflictstyle = diff3
+    conflictstyle = zdiff3
+[diff]
+    colorMoved = default
 [difftool]
     prompt = false
 [color]
@@ -27,4 +39,4 @@
 [commit]
 	verbose = true
 [credential]
-	helper = store
+	helper = cache --timeout=3600
