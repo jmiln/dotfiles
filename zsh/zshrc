@@ -63,7 +63,7 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-TERM=xterm-256color
+TERM=tmux-256color
 
 # Homebrew - Static path instead of eval for speed
 export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
@@ -272,13 +272,6 @@ esac
 # ---------
 # Setup fzf
 # ---------
-# If fzf isn't in the path, add it.
-if [[ ! "$PATH" == *${XDG_SHARE_HOME}/.fzf/bin* ]]; then
-    PATH="${XDG_SHARE_HOME}/.fzf/bin:$PATH"
-fi
-if command -v fzf &> /dev/null; then
-    source <(${XDG_SHARE_HOME}/.fzf/bin/fzf --zsh)
-fi
 
 # Make the ctrl+R keybind work pretty much like Nvim's Telescope
 function fzf_rg_search() {

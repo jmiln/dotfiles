@@ -9,8 +9,8 @@
     dark = true
     line-numbers = true
 [pager]
-    diff = delta --line-numbers --paging=never
-    show = delta --line-numbers --paging=never
+    diff = delta --line-numbers
+    show = delta --line-numbers
 [interactive]
     diffFilter = delta --color-only
 [merge]
