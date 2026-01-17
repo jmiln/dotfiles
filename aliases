@@ -111,9 +111,6 @@ alias mtmux="tmux new-session -A -s main"
 
 ### JS aliases ###
 alias nfresh="rm -rf node_modules/ package-lock.json && npm install"
-if command -v npq &>/dev/null; then
-    alias npm="npq" # Extra security checks when installing node packages (Brew package)
-fi
 alias ncu="ncu --cooldown 7"
 
 ### Python aliases ###

@@ -218,6 +218,10 @@ typeset -A key
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
 
+# Ctrl+Right/Left
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
 [[ -n "${terminfo[khome]}"    ]]  && bindkey  "${terminfo[khome]}"  beginning-of-line                   # Home key
 [[ -n "${terminfo[kend]}"     ]]  && bindkey  "${terminfo[kend]}"   end-of-line                         # End key
 [[ -n "${terminfo[kich1]}"    ]]  && bindkey  "${terminfo[kich1]}"  overwrite-mode                      # Insert
