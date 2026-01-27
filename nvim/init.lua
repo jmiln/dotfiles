@@ -26,6 +26,9 @@ vim.g.loaded_perl_provider = 0
 -- Load up whatever lua stuff
 require("config.options")
 
+-- Load up highlighting settings
+require("config.highlight")
+
 -- Load up the plugins
 -- require("plugins")
 require("core.lazy")
@@ -35,9 +38,6 @@ require("core.lazy")
 
 -- Load up keybinds and such
 require("config.keybinds")
-
--- Load up highlighting settings
-require("config.highlight")
 
 -- Load up autocmds
 require("config.autocmds")
