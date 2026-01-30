@@ -5,41 +5,45 @@ function Test-CommandExists {
     return $exists
 }
 
+if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    exit
+}
+
+$ProgressPreference = "SilentlyContinue" # Speeds up downloads by hiding the progress bar
+Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted -ErrorAction SilentlyContinue
+
 function InstallPackageIfNotExist([string]$name, [string]$id) {
-    # if (!(Test-CommandExists $name)) {
-    if (!(winget list -q --id $id)) {
-        echo "Installing $name"
-        winget install $id -e --silent
-        echo "$name installed."
+    Write-Host "Checking $name..." -ForegroundColor Cyan
+    # winget list returns 0 if found, non-zero if not.
+    winget list --id $id --source winget > $null 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Installing $name..." -ForegroundColor Yellow
+        winget install --id $id -e --silent --accept-source-agreements --accept-package-agreements
     } else {
-        echo "$name is already installed."
+        Write-Host "$name is already installed." -ForegroundColor Green
     }
 }
 
+# 4. Improved Module Install (Handles NuGet provider)
 function InstallModuleIfNotExist([string]$name) {
     if (-not (Get-Module -ListAvailable -Name $name)) {
-        Write-Host "Installing $name"
-        Install-Module $name
+        Write-Host "Installing Module: $name" -ForegroundColor Yellow
+        Install-Module $name -Force -AllowClobber -Scope CurrentUser
     }
     Import-Module $name
 }
 
 function CheckForFont {
     param ( [string]$fontString )
-    $AllFonts = (New-Object System.Drawing.Text.InstalledFontCollection).Families.Name;
-    $FoundFont = $($AllFonts | Select-String -Pattern ".*${fontString}.*");
-
-    if ($FoundFont) {
-        return $true;
-    }
-    return $false;
+    Add-Type -AssemblyName System.Drawing
+    $AllFonts = (New-Object System.Drawing.Text.InstalledFontCollection).Families.Name
+    return [bool]($AllFonts -like "*$fontString*")
 }
 
 # Install normal module(s)
-InstallModuleIfNotExist posh-git
-InstallModuleIfNotExist PSReadLine
-InstallModuleIfNotExist PSWindowsUpdate
-InstallModuleIfNotExist Microsoft.PowerShell.ConsoleGuiTools
+$modules = @("posh-git", "PSReadLine", "PSWindowsUpdate", "Microsoft.PowerShell.ConsoleGuiTools", "Microsoft.WinGet.Client")
+foreach ($mod in $modules) { InstallModuleIfNotExist $mod }
 
 
 $defaultPrograms = @{
@@ -56,12 +60,13 @@ $defaultPrograms = @{
     "nvim"             = "Neovim.Neovim";
 }
 foreach ($item in $defaultPrograms.GetEnumerator()) {
-    InstallPackageIfNotExist $($item.Key) $($item.Value)
+    InstallPackageIfNotExist $item.Key $item.Value
 }
 
 
 # Programs that aren't always installed, so query for each
 $queryPrograms = @{
+    "Alacritty"     = "Alacritty.Alacritty";
     "AutoHotKey"    = "AutoHotkey.AutoHotkey";
     "Google Chrome" = "Google.Chrome";
     "Node.js"       = "OpenJS.NodeJS";
@@ -79,36 +84,24 @@ $queryPrograms = @{
     "GSudo" = "gerardog.gsudo";
 }
 
-# If we have Out-ConsoleGridView installed & available, use that to let the user choose which programs to install.
-# Otherwise, just ask for each as we go
-if (Get-Module -Name Microsoft.PowerShell.ConsoleGuiTools) {
-    Write-Host ""
-    Write-Host "Getting user input of items"
-    Write-Host ""
-    $programsToInstall = $queryPrograms | Out-ConsoleGridView
-    if ($programsToInstall.length -ne 0){
-        Write-Host "Installing these programs: ${programsToInstall}"
-        foreach ($item in $programsToInstall.GetEnumerator()) {
-            InstallPackageIfNotExist $($item.Key) $($item.Value)
-        }
+if (Get-Command Out-ConsoleGridView -ErrorAction SilentlyContinue) {
+    Write-Host "`nOpening Selection Menu..." -ForegroundColor Magenta
+    $selection = $queryPrograms.GetEnumerator() |
+                 Select-Object @{N="Name";E={$_.Key}}, @{N="ID";E={$_.Value}} |
+                 Out-ConsoleGridView -Title "Select Optional Software" -OutputMode Multiple
+
+    foreach ($app in $selection) {
+        InstallPackageIfNotExist $app.Name $app.ID
     }
 } else {
     foreach ($item in $queryPrograms.GetEnumerator()) {
-        $Confirm = Read-Host -Prompt "Do you want to install $($item.Key)? (Y/N)"
-        if ($confirm -eq 'y') {
-            InstallPackageIfNotExist $($item.Key) $($item.Value)
-        } else {
-            Write-Host "Ignoring $($item.Key)"
-        }
+        $confirm = Read-Host "Install $($item.Key)? (y/n)"
+        if ($confirm -eq "y") { InstallPackageIfNotExist $item.Key $item.Value }
     }
 }
 
-if (-not (Get-InstalledPSResource -Name "NerdFonts")) {
-    Install-PSResource -Name NerdFonts;
+if (-not (CheckForFont "SauceCode")) {
+    Write-Host "Installing Nerd Fonts..." -ForegroundColor Yellow
+    # Using winget for the font is often more reliable than the PSResource module
+    winget install "NerdFonts.SourceCodePro" --silent --accept-package-agreements
 }
-
-if (-not (CheckForFont SauceCode) -and (Get-InstalledPSResource -Name "NerdFonts")) {
-    Import-Module -Name NerdFonts;
-    Install-NerdFont -Name "SourceCodePro" -Scope AllUsers;
-}
-

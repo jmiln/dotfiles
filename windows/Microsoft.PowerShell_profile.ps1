@@ -2,17 +2,18 @@
 Import-Module PSReadLine
 Import-Module posh-git
 
-# This import lets me use the `sudo` command wherever needed
-# https://github.com/gerardog/gsudo
-# winget install gerardog.gsudo
-# Import-Module gsudoModule  # If it's commented out, just use "gsudo" instead (Also makes it so it doesn't whine when it's not installed)
-
 Set-PSReadlineOption -EditMode Emacs
 Set-PSReadlineOption -BellStyle "None";
 
 # History search for up/down arrows
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
+
+# This adds the "shadow text" suggestions based on your history
+if ($PSVersionTable.PSVersion.Major -ge 7) {
+    Set-PSReadLineOption -PredictionSource History
+    Set-PSReadLineOption -PredictionViewStyle InlineView
+}
 
 # Ctrl+right/left arrow to move between words easily
 Set-PSReadLineKeyHandler -Chord 'Ctrl+LeftArrow' -Function BackwardWord
@@ -23,9 +24,6 @@ Set-PSReadLineKeyHandler -Chord "Ctrl+e" -Function EndOfLine
 
 # Bash-style tab complete
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
-
-# Quick alias for git status
-function gits {git status}
 
 # Make it so ctrl+d will close the terminal if in an empty prompt
 Set-PSReadlineKeyHandler -Key ctrl+d -Function DeleteCharOrExit
@@ -38,38 +36,30 @@ function Test-CommandExists {
 }
 
 # Editor Configs
-$EDITOR = if (Test-CommandExists nvim) { 'nvim' }
-      elseif (Test-CommandExists pvim) { 'pvim' }
-      elseif (Test-CommandExists vim)  { 'vim' }
-      elseif (Test-CommandExists vi)   { 'vi' }
-      elseif (Test-CommandExists code) { 'code' }
-      elseif (Test-CommandExists notepad++) { 'notepad++' }
-      else { 'notepad' }
-Set-Alias -Name vim -Value $EDITOR
+$DefaultEditor = (Get-Command nvim, pvim, vim, vi, code, notepad++ -ErrorAction SilentlyContinue | Select-Object -First 1).Source
+if (-not $DefaultEditor) { $DefaultEditor = "notepad.exe" }
+$env:EDITOR = $DefaultEditor
+Set-Alias -Name vim -Value $DefaultEditor
 
 # Enhanced Listing
 if (Test-CommandExists eza) {
-    # If we've installed eza, use that
-    rm alias:ls -ErrorAction SilentlyContinue
-    function ls    {eza.exe --time-style=long-iso --group-directories-first @args}
-    function l     {ls @args}
-    function la    {l -a @args}
-    function ll    {l -lh --git --icons=always @args}
-    function lla   {ll -a @args}
-    function lt    {l --icons=always --tree --ignore-glob "node_modules" @args}
-    function llt   {lt -l @args}
-    function llta  {lt -la @args}
-} elseif ($host.Name -eq 'ConsoleHost' && Test-CommandExists git) {
-    # Else, if Git is installed, use the ls from git-bash
-    function ls_git { & 'C:\Program Files\Git\usr\bin\ls' --color=auto -hF $args }
-    Set-Alias -Name ls -Value ls_git -Option Private
-    function la {ls_git -a @args}
-    function ll {ls_git -l @args}
-    function lla {ls_git -la @args}
+    if (Get-Alias ls -ErrorAction SilentlyContinue) { Remove-Item alias:ls }
+    function ls { eza.exe --time-style=long-iso --group-directories-first $args }
+    function l  { ls $args }
+    function la { ls -a $args }
+    function ll { ls -lh --git --icons=always $args }
+    function lla { ll -a $args }
+    function lt { ls --icons=always --tree --ignore-glob "node_modules" $args }
+    function llt   {lt -l $args}
+    function llta  {lt -la $args}
+} elseif (Test-CommandExists git -And $host.Name -eq 'ConsoleHost') {
+    $gitLs = "$env:ProgramFiles\Git\usr\bin\ls.exe"
+    function ls { & $gitLs --color=auto -hF $args }
+    function la { & $gitLs --color=auto -hFa $args }
+    function ll { & $gitLs --color=auto -hFl $args }
 } else {
-    # Then if we really need to, use the basic powershell commands
     function la { Get-ChildItem -Path . -Force | Format-Table -AutoSize }
-    function ll { Get-ChildItem -Path . -Force -Hidden | Format-Table -AutoSize }
+    function ll { Get-ChildItem -Path . -Force | Format-Table -AutoSize }
 }
 Set-Alias -Name l -Value ls
 
@@ -84,26 +74,28 @@ ${function:......} = { Set-Location ..\..\..\..\.. }
 function dt   { Set-Location ~\Desktop }
 function docs { Set-Location ~\Documents }
 function dl   { Set-Location ~\Downloads }
+function dotfiles { Set-Location $env:DOTFILES }
 
 # Basic commands
+function gits {git status}
 function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue }
-function touch($file) { "" | Out-File $file -Encoding ASCII }
-
+function touch {
+    param([Parameter(Mandatory=$true)]$Path)
+    New-Item -ItemType File -Path $Path -Force | Out-Null
+}
 
 function prompt {
-    # Get up to the last 2 directories
     $path = $pwd.Path.Replace($env:USERPROFILE, '~')
-    $path = $path.Split('\') | Select-Object -Last 2
-    $path = $path -join "\"
+    # Better path splitting that handles root directories (C:\) safely
+    $parts = $path.Split('\')
+    $displayPath = if ($parts.Length -gt 2) { $parts[-2..-1] -join "\" } else { $path }
 
-    # Test for Admin / Elevated
-    $IsAdmin = (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+    $IsAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-    # Put together & color the prompt itself
     Write-host "${env:USERNAME}" -NoNewline -ForegroundColor Green
     Write-host "@" -NoNewline -ForegroundColor Blue
     Write-host "${env:COMPUTERNAME}:" -NoNewline -ForegroundColor White
-    Write-host "${path}" -NoNewline -ForegroundColor Blue
+    Write-host "${displayPath}" -NoNewline -ForegroundColor Blue
 
     # Git branch / status
     $gitStatus = Get-GitStatus -ErrorAction SilentlyContinue
@@ -131,43 +123,24 @@ function prompt {
     " $ "
 }
 
-
-
-# Initial GitHub.com connectivity check with 1 second timeout
-$canConnectToGitHub = Test-Connection github.com -Count 1 -Quiet -TimeoutSeconds 1
-
 function Update-PowerShell {
-    if (-not $global:canConnectToGitHub) {
-        Write-Host "Skipping PowerShell update check due to GitHub.com not responding within 1 second." -ForegroundColor Yellow
-        return
-    }
-
+    Write-Host "Checking for PowerShell updates..." -ForegroundColor Cyan
     try {
-        Write-Host "Checking for PowerShell updates..." -ForegroundColor Cyan
-        $updateNeeded = $false
         $currentVersion = $PSVersionTable.PSVersion.ToString()
-        $gitHubApiUrl = "https://api.github.com/repos/PowerShell/PowerShell/releases/latest"
-        $latestReleaseInfo = Invoke-RestMethod -Uri $gitHubApiUrl
-        $latestVersion = $latestReleaseInfo.tag_name.Trim('v')
-        if ($currentVersion -lt $latestVersion) {
-            $updateNeeded = $true
-        }
+        $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/PowerShell/PowerShell/releases/latest" -TimeoutSec 2
+        $latestVersion = $latestRelease.tag_name.Trim('v')
 
-        if ($updateNeeded) {
-            Write-Host "Updating PowerShell..." -ForegroundColor Yellow
+        if ($currentVersion -lt $latestVersion) {
+            Write-Host "Updating PowerShell to $latestVersion..." -ForegroundColor Yellow
             winget upgrade "Microsoft.PowerShell" --accept-source-agreements --accept-package-agreements
-            Write-Host "PowerShell has been updated. Please restart your shell to reflect changes" -ForegroundColor Magenta
         } else {
-            Write-Host "Your PowerShell is up to date." -ForegroundColor Green
+            Write-Host "PowerShell is up to date." -ForegroundColor Green
         }
     } catch {
-        Write-Error "Failed to update PowerShell. Error: $_"
+        Write-Warning "Could not check for updates (Check your internet connection)."
     }
 }
 
-function dotfiles () {
-    cd $env:DOTFILES;
-}
 
 # Set up autocomplete for winget
 # via: https://github.com/microsoft/winget-cli/blob/master/doc/Completion.md
@@ -185,13 +158,13 @@ function psUpdate() {
     Update-PowerShell
 }
 
-function Update-System() {
-    # Install-WindowsUpdate -IgnoreUserInput -IgnoreReboot -AcceptAll
-    winget update --all
-    Update-Module
-    Update-Help -Force
-    if ((which npm)) {
-        npm i -g npm
-        npm update -g
+function Update-System {
+    Write-Host "Updating System Packages..." -ForegroundColor Cyan
+    winget update --all --accept-source-agreements
+    Update-Module -Name * -ErrorAction SilentlyContinue
+    if (Get-Command npm -ErrorAction SilentlyContinue) {
+        Write-Host "Updating NPM..." -ForegroundColor Yellow
+        npm i -g npm; npm update -g
     }
 }
+

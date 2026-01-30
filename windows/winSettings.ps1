@@ -27,45 +27,30 @@ function Set-Multitasking-Configuration {
 
     $RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
 
-    # When I snap a window, show what I can snap next to it.
-    Set-ItemProperty -Path $RegPath -Name "SnapAssist" -Value 0;
-    # Show snap layouts that the app is part of when I hover over the taskbar buttons.
-    Set-ItemProperty -Path $RegPath -Name "EnableTaskGroups" -Value 0;
-    # When I resize a snapped window, simultaneously resize any adjacent snapped window.
-    Set-ItemProperty -Path $RegPath -Name "JointResize" -Value 0;
+    $settings = @{
+        "SnapAssist"             = 0 # Disable showing what to snap next
+        "EnableTaskGroups"       = 0 # Disable taskbar hover layouts
+        "JointResize"            = 0 # Disable simultaneous resize
+        "EnableSnapAssistFlyout" = 0 # Disable maximize button hover menu
+        "SnapFill"               = 0 # Disable auto-fill space
+    }
 
-    # Show snap layout when I hover over a window's maximize button.
-    Set-ItemProperty -Path $RegPath -Name "EnableSnapAssistFlyout" -Value 0;
-    # When I drag a window, let me snap it without dragging all the way to the screen edge.
-    Set-ItemProperty -Path $RegPath -Name "DITest" -Value 1;
-    # When I snap a window, automatically size it to fill available space.
-    Set-ItemProperty -Path $RegPath -Name "SnapFill" -Value 0;
+    foreach ($name in $settings.Keys) {
+        Set-ItemProperty -Path $RegPath -Name $name -Value $settings[$name]
+    }
 
     Write-Host "Multitasking successfully updated." -ForegroundColor "Green";
 }
 
 function Set-Classic-ContextMenu-Configuration {
-    Write-Host "Activating classic Context Menu:" -ForegroundColor "Green";
+    Write-Host "Activating Classic Context Menu (Win10 Style)" -ForegroundColor Green
+    $RegPath = "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
 
-    $RegPath = "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}";
-    $RegKey = "(Default)";
-
-    if (-not (Test-Path -Path $RegPath)) {
-        New-Item -Path $RegPath;
+    if (-not (Test-Path $RegPath)) {
+        New-Item -Path $RegPath -Force | Out-Null
     }
-
-    $RegPath = $RegPath | Join-Path -ChildPath "InprocServer32";
-
-    if (-not (Test-Path -Path $RegPath)) {
-        New-Item -Path $RegPath;
-    }
-
-    if (-not (Test-Path -Path $RegPath)) {
-        New-ItemProperty -Path $RegPath -Name $RegKey -PropertyType String;
-    }
-    Set-ItemProperty -Path $RegPath -Name $RegKey -Value "";
-
-    Write-Host "Classic Context Menu successfully activated." -ForegroundColor "Green";
+    # Setting the (Default) value to empty string triggers the classic menu
+    Set-ItemProperty -Path $RegPath -Name "(Default)" -Value ""
 }
 
 function Set-SetAsBackground-To-Extended-ContextMenu {
@@ -167,6 +152,9 @@ Set-Multitasking-Configuration;
 Set-Classic-ContextMenu-Configuration;
 Set-SetAsBackground-To-Extended-ContextMenu;
 Disable-RecentlyOpenedItems-From-JumpList;
-Set-Power-Configuration;
+# Set-Power-Configuration;
 Set-Custom-Regional-Format;
 # Rename-PC;
+
+Write-Host "`nRestarting Explorer to apply changes..." -ForegroundColor Yellow
+Stop-Process -Name explorer -Force
