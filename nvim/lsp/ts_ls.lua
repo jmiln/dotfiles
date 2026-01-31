@@ -126,3 +126,6 @@ vim.lsp.config.ts_ls =  {
     end,
     root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
 }
+
+-- Return empty table to satisfy nvim 0.12 loader
+return {}

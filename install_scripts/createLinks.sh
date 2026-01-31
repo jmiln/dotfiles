@@ -30,7 +30,31 @@ ensure_dir() {
 }
 
 force_link() {
-    ln -sfn "$1" "$2"
+    local src="$1"
+    local dst="$2"
+
+    # If destination exists and is not already the correct link
+    if [[ -e "$dst" || -L "$dst" ]]; then
+        # Check if it's already the correct symlink
+        if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
+            echo "  ✓ Already linked correctly: $dst"
+            return 0
+        fi
+
+        # Backup existing file/directory
+        local backup="${dst}.bak"
+        echo "  → Backing up existing: $dst to $backup"
+        # Remove old backup if exists
+        [[ -e "$backup" ]] && rm -rf "$backup"
+        mv "$dst" "$backup"
+    fi
+
+    # Ensure parent directory exists
+    ensure_dir "$(dirname "$dst")"
+
+    # Create the symlink
+    ln -sfn "$src" "$dst"
+    echo "  ✓ Linked: $dst -> $src"
 }
 
 declare -A LINKS=(

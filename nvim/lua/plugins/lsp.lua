@@ -136,7 +136,7 @@ return {
                 -- "lua_ls",             -- Lua language server
                 "emmylua_ls",            -- Lua language server (Faster?)
                 "taplo",                 -- *.toml formatting/ lsp
-                "ts_ls",                 -- JS / TS
+                -- "ts_ls",                 -- JS / TS
                 -- "tsgo",                  -- JS / TS (Way faster in .ts files, but breaks in .js files, and can't filter the errors)
             },
         }

@@ -39,7 +39,6 @@ vim.lsp.config.tsgo = {
 
             while idx <= #result.diagnostics do
                 local entry = result.diagnostics[idx]
-                vim.notify(entry.code)
                 if isTs and contains(tsIgnoreCodes, entry.code) then
                     table.remove(result.diagnostics, idx)
                 else
@@ -74,3 +73,6 @@ vim.lsp.config.tsgo = {
     end,
     -- root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
 }
+
+-- Return empty table to satisfy nvim 0.12 loader
+return {}
