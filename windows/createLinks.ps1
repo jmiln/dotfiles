@@ -53,7 +53,7 @@ Set-DotfileLink "PowerShell Profile" $profile.CurrentUserAllHosts "$PSScriptRoot
 Set-DotfileLink "Neovim" "$env:USERPROFILE\.config\nvim" "$PSScriptRoot\..\nvim" -IsDirectory
 
 # Alacritty (Directory)
-Set-DotfileLink "Alacritty" "$env:APPDATA\alacritty" "$PSScriptRoot\alacritty" -IsDirectory
+Set-DotfileLink "Alacritty" "$env:APPDATA\alacritty" "$PSScriptRoot\..\alacritty" -IsDirectory
 
 # Update Environment Variable
 $dotfilesPath = (Get-Item "$PSScriptRoot\..").FullName

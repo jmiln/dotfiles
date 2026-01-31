@@ -83,7 +83,7 @@ $ConsentStore = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAcces
     "userDataTasks",
     "userNotificationListener",
     "videosLibrary",
-    "webcam",
+    "webcam"
 ) | ForEach-Object {
     Set-RegKey "$ConsentStore\$_" "Value" "Deny" -Type String
 }

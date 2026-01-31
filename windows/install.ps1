@@ -19,7 +19,7 @@ function InstallPackageIfNotExist([string]$name, [string]$id) {
     winget list --id $id --source winget > $null 2>&1
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Installing $name..." -ForegroundColor Yellow
-        winget install --id $id -e --silent --accept-source-agreements --accept-package-agreements
+        winget install --id $id -e --silent --accept-source-agreements --accept-package-agreements --source winget
     } else {
         Write-Host "$name is already installed." -ForegroundColor Green
     }
