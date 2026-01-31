@@ -8,11 +8,19 @@ function Set-DotfileLink {
         [switch]$IsDirectory
     )
 
+    # Validate source path exists
+    if (!(Test-Path $SourcePath)) {
+        Write-Host "`n--- Linking $Name ---" -ForegroundColor Cyan
+        Write-Host "ERROR: Source path does not exist: $SourcePath" -ForegroundColor Red
+        return
+    }
+
     # Convert to absolute paths to prevent broken links
     $SourcePath = (Get-Item $SourcePath).FullName
 
     Write-Host "`n--- Linking $Name ---" -ForegroundColor Cyan
     Write-Host "Target: $TargetPath"
+    Write-Host "Source: $SourcePath" -ForegroundColor Gray
 
     # 1. Check if the link already exists and is correct
     if (Test-Path $TargetPath) {
@@ -54,6 +62,9 @@ Set-DotfileLink "Neovim" "$env:USERPROFILE\.config\nvim" "$PSScriptRoot\..\nvim"
 
 # Alacritty (Directory)
 Set-DotfileLink "Alacritty" "$env:APPDATA\alacritty" "$PSScriptRoot\..\alacritty" -IsDirectory
+
+# Wezterm (Directory)
+Set-DotfileLink "Wezterm" "$env:USERPROFILE\.config\wezterm" "$PSScriptRoot\wezterm" -IsDirectory
 
 # Update Environment Variable
 $dotfilesPath = (Get-Item "$PSScriptRoot\..").FullName

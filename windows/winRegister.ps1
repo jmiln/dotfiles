@@ -9,7 +9,7 @@ function Set-RegKey {
         $Value,
         [string]$Type = "DWord"
     )
-    if (!(Test-Path $Path)) { New-Item -Path $path -Force | Out-Null }
+    if (!(Test-Path $Path)) { New-Item -Path $Path -Force | Out-Null }
     Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type -Force
 }
 

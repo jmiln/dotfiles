@@ -11,6 +11,10 @@
         - The `./wezterm` dir gets linked to `$HOME\.config\wezterm`
         - The Powershell file goes to `$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`
         - The `../nvim` dir goes to `$HOME\AppData\Local\nvim`
+        - The `../alacritty` dir goes to `$APPDATA\alacritty`
 
-    * You need admin perms to run the settings & register altering scripts
-    * You don't need it for the install script, and it messes up the gridview for choosing programs to install
+    * Admin permissions required for:
+        - CreateLinks script (creates symlinks/junctions)
+        - winSettings.ps1 (modifies system settings)
+        - winRegister.ps1 (modifies registry)
+    * Admin NOT required for install.ps1 (and it messes up the gridview for choosing programs)

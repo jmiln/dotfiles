@@ -8,13 +8,23 @@ function Test-CommandExists {
 $ProgressPreference = "SilentlyContinue" # Speeds up downloads by hiding the progress bar
 Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted -ErrorAction SilentlyContinue
 
-function InstallPackageIfNotExist([string]$name, [string]$id) {
+function InstallPackageIfNotExist([string]$name, [string]$id, [string]$source) {
     Write-Host "Checking $name..." -ForegroundColor Cyan
     # winget list returns 0 if found, non-zero if not.
     winget list --id $id --source winget > $null 2>&1
+
+    if (!$source) {
+        $source = "winget"
+    }
+
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Installing $name..." -ForegroundColor Yellow
-        winget install --id $id -e --silent --accept-source-agreements --accept-package-agreements --source winget
+        winget install --id $id -e --silent --accept-source-agreements --accept-package-agreements --source $source
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "WARNING: Failed to install $name" -ForegroundColor Red
+        } else {
+            Write-Host "$name installed successfully." -ForegroundColor Green
+        }
     } else {
         Write-Host "$name is already installed." -ForegroundColor Green
     }

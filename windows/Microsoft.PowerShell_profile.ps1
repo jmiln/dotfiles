@@ -36,7 +36,7 @@ function Test-CommandExists {
 }
 
 # Editor Configs
-$DefaultEditor = (Get-Command nvim, pvim, vim, vi, code, notepad++ -ErrorAction SilentlyContinue | Select-Object -First 1).Source
+$DefaultEditor = (Get-Command nvim, vim, code, notepad++ -ErrorAction SilentlyContinue | Select-Object -First 1).Source
 if (-not $DefaultEditor) { $DefaultEditor = "notepad.exe" }
 $env:EDITOR = $DefaultEditor
 Set-Alias -Name vim -Value $DefaultEditor
@@ -164,7 +164,11 @@ function Update-System {
     Update-Module -Name * -ErrorAction SilentlyContinue
     if (Get-Command npm -ErrorAction SilentlyContinue) {
         Write-Host "Updating NPM..." -ForegroundColor Yellow
-        npm i -g npm; npm update -g
+        npm i -g npm
+        if (Get-Command ncu -ErrorAction SilentlyContinue) {
+            Write-Host "Updating global npm packages..." -ForegroundColor Yellow
+            ncu -g --upgrade
+        }
     }
 }
 
