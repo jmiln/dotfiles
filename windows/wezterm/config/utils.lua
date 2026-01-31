@@ -33,7 +33,7 @@ end
 M.get_cwd_hostname = function(pane, platform)
     local cwd, hostname = "", ""
     local cwd_uri = pane:get_current_working_dir()
-    local home = (os.getenv "USERPROFILE" or os.getenv "HOME" or wez.home_dir or ""):gsub("\\", "/")
+    local home = (os.getenv "USERPROFILE" or os.getenv "HOME" or wezterm.home_dir or ""):gsub("\\", "/")
     if cwd_uri then
         if type(cwd_uri) == "userdata" then
             -- Running on a newer version of wezterm and we have

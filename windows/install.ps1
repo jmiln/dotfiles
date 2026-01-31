@@ -5,11 +5,6 @@ function Test-CommandExists {
     return $exists
 }
 
-if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
-    exit
-}
-
 $ProgressPreference = "SilentlyContinue" # Speeds up downloads by hiding the progress bar
 Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted -ErrorAction SilentlyContinue
 

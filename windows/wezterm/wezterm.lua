@@ -9,7 +9,7 @@ local colors = require("config.colors")
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	-- Configs for Windows only
 	Config.default_prog = { "pwsh", "-NoLogo", "-ExecutionPolicy", "RemoteSigned", "-NoProfileLoadTime" }
-elseif wezterm.target_triple == "x86_65-unknown-linux-gnu" then
+elseif wezterm.target_triple == "x86_64-unknown-linux-gnu" then
 	-- Configs for Linux only
 	-- font_dirs    = { '$HOME/.dotfiles/.fonts' }
 end
