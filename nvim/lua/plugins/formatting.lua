@@ -1,4 +1,12 @@
 local lsp_format_opt = "never"
+
+local function toggle_autoformat()
+  vim.g.disable_autoformat = not vim.g.disable_autoformat
+  print("Autoformat " .. (vim.g.disable_autoformat and "disabled" or "enabled"))
+end
+vim.api.nvim_create_user_command("ToggleAutoformat", toggle_autoformat, {})
+
+
 return {
     -- Auto-format files on save
     {
@@ -34,6 +42,9 @@ return {
                 -- * Disable for lua since I like my config files to be formatted in a more readable way
                 local ignore_filetypes = { "lua" }
                 if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
+                    return
+                end
+                if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
                     return
                 end
                 return {
