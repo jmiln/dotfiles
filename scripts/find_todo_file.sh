@@ -31,7 +31,7 @@ fi
 
 # Create pane and open editor
 # tmux display-popup -E -w 80% -h 80% -x C -y C "$EDITOR $TODO_FILE"
-tmux display-popup -E -w 85% -h 85% -d "$PANE_PATH" \
+tmux display-popup -E -w 95% -h 95% -d "$PANE_PATH" \
     -b rounded \
     -T "#[fg=orange,bold]$LABEL#[default]" \
     "$EDITOR $TODO_FILE"
