@@ -23,14 +23,17 @@
     duration = 0
     command = "None"
 
-# This is great for windows, but breaks stuff if I try using the same config for Linux
-# [terminal.shell]
-#     program = "pwsh"
-#     args = [ # Open to ~ if it tries going to the root dir, but go where it wants otherwise (Context menu > open here)
-#         "-NoExit",
-#         "-Command",
-#         "if ($PWD.Path -like '*System32*') { Set-Location ~ }",
-#     ]
+    # This is great for windows, but breaks stuff if I try using the same config for Linux
+    # [terminal.shell]
+    #     program = "pwsh"
+    #     args = [ # Open to ~ if it tries going to the root dir, but go where it wants otherwise (Context menu > open here)
+    #         "-NoExit",
+    #         "-Command",
+    #         "if ($PWD.Path -like '*System32*') { Set-Location ~ }",
+    #     ]
+
+[terminal]
+    osc52 = "CopyPaste" # Helps with clipboard operations
 
 [general]
     live_config_reload = true
@@ -43,8 +46,9 @@
     bindings = [
         { key = "Slash", mods = "Control", chars = "\u001f" }, # Ctrl+/     (Nvim comment)
         { key = "Space", mods = "Control", chars = "\u0000" }, # Ctrl+Space (Tmux prefix)
-        { key = "End", mods = "None", chars = "\u001b[F" }, # End key
-        { key = "Home", mods = "None", chars = "\u001b[H" }, # End key
+        { key = "End", mods = "None", chars = "\u001b[F" },    # End key
+        { key = "Home", mods = "None", chars = "\u001b[H" },   # End key
+	{ key = "Return", mods = "Shift", chars = "\u001b\r"},   # Shift-Enter for line return on claude
     ]
 
 [cursor]
@@ -76,3 +80,5 @@
     magenta = "#FF55FF"
     cyan = "#00BBBB"
     white = "#FFFFFF"
+
+
