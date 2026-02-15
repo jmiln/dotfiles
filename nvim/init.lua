@@ -4,6 +4,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Global variable(s)
 vim.g.have_nerd_font = true
+vim.g.disable_autoformat = false
 
 vim.deprecate = function() end
 vim.g.clipboard = false
