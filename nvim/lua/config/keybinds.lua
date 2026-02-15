@@ -82,6 +82,10 @@ map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent =
 map({"n", "v", "o", "i"}, "<S-Up>", "<Up>", { noremap = true, silent = true })
 map({"n", "v", "o", "i"}, "<S-Down>", "<Down>", { noremap = true, silent = true })
 
+-- Disable Shift+Enter key acting like escape
+map("i", "<S-CR>", "<CR>", { noremap = true })
+map("i", "<M-CR>", "<CR>", { noremap = true })
+
 -- Map ctrl+/ to comment lines (With comment.nvim)
 map("n", "", "<plug>(comment_toggle_linewise_current)",      default)
 map("v", "", "<plug>(comment_toggle_linewise_visual)",       default)
