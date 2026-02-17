@@ -1,5 +1,5 @@
 [font]
-    size = 10
+    size = 9
 
 [font.normal]
     family = "SauceCodePro Nerd Font Mono"
@@ -44,11 +44,11 @@
 
 [keyboard]
     bindings = [
-        { key = "Slash", mods = "Control", chars = "\u001f" }, # Ctrl+/     (Nvim comment)
-        { key = "Space", mods = "Control", chars = "\u0000" }, # Ctrl+Space (Tmux prefix)
-        { key = "End", mods = "None", chars = "\u001b[F" },    # End key
-        { key = "Home", mods = "None", chars = "\u001b[H" },   # End key
-	{ key = "Return", mods = "Shift", chars = "\u001b\r"},   # Shift-Enter for line return on claude
+        { key = "Slash", mods = "Control", chars = "\u001f" },  # Ctrl+/     (Nvim comment)
+        { key = "Space", mods = "Control", chars = "\u0000" },  # Ctrl+Space (Tmux prefix)
+        { key = "End", mods = "None", chars = "\u001b[F" },     # End key
+        { key = "Home", mods = "None", chars = "\u001b[H" },    # End key
+        { key = "Return", mods = "Shift", chars = "\u001b\r" }, # Shift-Enter for line return on claude
     ]
 
 [cursor]
@@ -80,5 +80,3 @@
     magenta = "#FF55FF"
     cyan = "#00BBBB"
     white = "#FFFFFF"
-
-

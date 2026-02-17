@@ -23,7 +23,6 @@ return {
             title = true,
         },
     },
-    "nvim-lua/popup.nvim",
     {
         "nvim-telescope/telescope.nvim",
         dependencies = {
