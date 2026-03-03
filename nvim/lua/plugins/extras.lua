@@ -16,7 +16,7 @@ return {
 
     -- Color any #ffffff style color codes
     {
-        "NvChad/nvim-colorizer.lua",
+        "catgoose/nvim-colorizer.lua",
         event = "VeryLazy",
         opts = {},
     },
