@@ -186,7 +186,7 @@ bindkey '[Z' reverse-menu-complete
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # zstyle ':completion:::::' completer _force_rehash _complete_plus_last_command_args _approximate
-zstyle ':completion:*' completer _complete _history _expand _oldlist _correct _approximate
+zstyle ':completion:*' completer _complete _expand _oldlist _correct _approximate
 
 
 # Additional ZSH completion stuff

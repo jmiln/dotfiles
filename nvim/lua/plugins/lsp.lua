@@ -117,6 +117,7 @@ return {
                 opts = {
                     ensure_installed = {
                         "dotenv-linter",    -- .env linter
+                        "bashls",           -- Bash linter / lsp
                         "shellcheck",       -- Shell linter
                         "shfmt",            -- Shell formatter
                         "stylua",           -- Lua formatter

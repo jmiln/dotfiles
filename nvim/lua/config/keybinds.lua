@@ -100,6 +100,8 @@ map("n", "<leader>I", function() vim.treesitter.inspect_tree() vim.api.nvim_inpu
 map("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", default)
 map("n", "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", default)
 map("n", "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", default)
+map("n", "<M-p>", "<cmd>lua vim.lsp.buf.signature_help({border = 'rounded'})<CR>", default)
+
 
 -- Code action options
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", default)
