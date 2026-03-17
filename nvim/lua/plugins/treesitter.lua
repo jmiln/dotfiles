@@ -33,7 +33,7 @@ return {
             auto_install = false,
         },
         config = function(_, opts)  -- Make it actually install from the list I guess
-            require("nvim-treesitter.configs").setup(opts)
+            require("nvim-treesitter.config").setup(opts)
         end,
     },
     {

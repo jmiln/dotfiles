@@ -60,6 +60,7 @@ $defaultPrograms = @{
     # NVim / cmd utilities
     "eza"              = "eza-community.eza";   # Cross platform ls alternative
     "fd"               = "sharkdp.fd";          # File/ text finder for Neovim Telescope
+    "rg"               = "BurntSushi.ripgrep.MSVC",
     "bat"              = "sharkdp.bat";         # Cat alternative
     "jq"               = "jqlang.jq";           # JSON formatter
     "nvim"             = "Neovim.Neovim";

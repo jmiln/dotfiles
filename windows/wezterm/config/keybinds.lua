@@ -53,11 +53,14 @@ local keys = {
         action = act.PromptInputLine {
             description = 'Enter new name for tab',
             action = wezterm.action_callback(function(window, _, line)
-                if string.len(line) then
-                    window:active_tab():set_title(line)
-                end
+                window:active_tab():set_title(line)
             end),
         },
+    },
+    {
+        key = 'Enter',
+        mods = 'SHIFT',
+        action = wezterm.action.SendString('\n'),
     },
 };
 
