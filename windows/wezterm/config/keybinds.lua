@@ -38,6 +38,13 @@ local keys = {
     { key = "UpArrow",    mods = "LEADER", action = act.ActivatePaneDirection("Up") },
     { key = "DownArrow",  mods = "LEADER", action = act.ActivatePaneDirection("Down") },
 
+    -- Kill the current pane
+    {
+        key = "x",
+        mods = "LEADER",
+        action = wezterm.action.CloseCurrentPane { confirm = true },
+    },
+
     -- Toggle fullscreen for the selected pane
     { key = "z",          mods = "LEADER", action = act.TogglePaneZoomState },
 

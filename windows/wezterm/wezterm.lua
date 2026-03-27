@@ -26,6 +26,7 @@ Config.font_size = 9
 Config.allow_square_glyphs_to_overflow_width = "WhenFollowedBySpace"
 
 -- Window
+Config.pane_focus_follows_mouse = false
 Config.adjust_window_size_when_changing_font_size = false
 Config.audible_bell = "Disabled"
 Config.initial_rows = 45
