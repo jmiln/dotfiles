@@ -1,7 +1,6 @@
 return {
     -- Git stuff
     "tpope/vim-fugitive",
-    "sindrets/diffview.nvim",
 
     -- Git conflict helper
     {

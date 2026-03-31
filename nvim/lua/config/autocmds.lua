@@ -155,19 +155,7 @@ autocmd("BufWinEnter", {
     end,
 })
 
-autocmd("BufWritePre", {
-    desc = "auto create dir when saving a file, in case some intermediate directory does not exist",
-    group = augroup("auto_create_dir"),
-    callback = function(e)
-        if e.match:match("^%w%w+://") then
-            return
-        end
-        local file = vim.uv.fs_realpath(e.match) or e.match
-        vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-    end,
-})
-
----@see https://www.reddit.com/r/neovim/comments/zy5s0l/you_dont_need_vimrooter
+--- https://www.reddit.com/r/neovim/comments/zy5s0l/you_dont_need_vimrooter
 -- Messes with opening tmux panes when the chdir is there
 autocmd("BufEnter", {
     desc = "Find the project root",

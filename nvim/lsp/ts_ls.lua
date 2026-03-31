@@ -36,9 +36,9 @@ vim.lsp.config.ts_ls =  {
         "javascript",
         "javascriptreact",
         "javascript.jsx",
-        -- "typescript",
-        -- "typescriptreact",
-        -- "typescript.tsx",
+        "typescript",
+        "typescriptreact",
+        "typescript.tsx",
     },
     handlers = {
         -- Modified from:
@@ -52,7 +52,7 @@ vim.lsp.config.ts_ls =  {
 
             -- Allow different diagnostics depending on if it's a .ts or .js file
             local filename = vim.fn.expand("%:p")
-            local isJs = string.find(filename, ".js")
+            local isJs = string.find(filename, "%.js")
 
             while idx <= #result.diagnostics do
                 local entry = result.diagnostics[idx]
@@ -65,7 +65,7 @@ vim.lsp.config.ts_ls =  {
                     idx = idx + 1
                 end
             end
-            vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+            vim.lsp.handlers["textDocument/publishDiagnostics"](_, result, ctx, config)
         end,
         -- handle rename request for certain code actions like extracting functions / types
         ['_typescript.rename'] = function(_, result, ctx)

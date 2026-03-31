@@ -2,15 +2,14 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         event = { "BufReadPre", "BufNewFile" },
-        lazy = false,
+        branch = "main",
         build = ":TSUpdate",
         dependencies = {
-            "nvim-treesitter/nvim-treesitter-textobjects",
+            { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
         },
         opts = {
             highlight = {
                 enable = true,
-                additional_vim_regex_highlighting = false,
             },
             indent = { enable = true },
             ensure_installed = {
