@@ -42,26 +42,33 @@ $env:EDITOR = $DefaultEditor
 Set-Alias -Name vim -Value $DefaultEditor
 
 # Enhanced Listing
+if (Get-Alias ls -ErrorAction SilentlyContinue) { Remove-Item alias:ls }
 if (Test-CommandExists eza) {
-    if (Get-Alias ls -ErrorAction SilentlyContinue) { Remove-Item alias:ls }
-    function ls { eza.exe --time-style=long-iso --group-directories-first $args }
-    function l  { ls $args }
-    function la { ls -a $args }
-    function ll { ls -lh --git --icons=always $args }
-    function lla { ll -a $args }
-    function lt { ls --icons=always --tree --ignore-glob "node_modules" $args }
-    function llt   {lt -l $args}
-    function llta  {lt -la $args}
+    function ls   { eza.exe --time-style=long-iso --group-directories-first $args }
+    function l    { ls $args }
+    function la   { ls -a $args }
+    function ll   { ls -lh --git --icons=always $args }
+    function lla  { ll -a $args }
+    function lt   { ls --icons=always --tree --ignore-glob "node_modules" $args }
+    function llt  { lt -l $args }
+    function llta { lt -la $args }
 } elseif (Test-CommandExists git -And $host.Name -eq 'ConsoleHost') {
     $gitLs = "$env:ProgramFiles\Git\usr\bin\ls.exe"
-    function ls { & $gitLs --color=auto -hF $args }
-    function la { & $gitLs --color=auto -hFa $args }
-    function ll { & $gitLs --color=auto -hFl $args }
+    function ls   { & $gitLs --color=auto -hF --group-directories-first $args }
+    function l    { ls $args }
+    function la   { ls -a $args }
+    function ll   { ls -l $args }
+    function lla  { ll -a $args }
 } else {
-    function la { Get-ChildItem -Path . -Force | Format-Table -AutoSize }
-    function ll { Get-ChildItem -Path . -Force | Format-Table -AutoSize }
+    function ls   { Get-ChildItem $args | Format-Table -AutoSize }
+    function l    { ls $args }
+    function la   { ls -Force $args }
+    function ll   { Get-ChildItem $args | Format-Table Name, Mode, Length, LastWriteTime -AutoSize }
+    function lla  { Get-ChildItem -Force $args | Format-Table Name, Mode, Length, LastWriteTime -AutoSize }
+    function lt   { Get-ChildItem -Recurse $args | Format-Table FullName -AutoSize }
+    function llt  { Get-ChildItem -Recurse $args | Format-Table FullName, Mode, Length, LastWriteTime -AutoSize }
+    function llta { Get-ChildItem -Recurse -Force $args | Format-Table FullName, Mode, Length, LastWriteTime -AutoSize }
 }
-Set-Alias -Name l -Value ls
 
 # Quick CD back up the file tree
 ${function:Set-ParentLocation} = { Set-Location .. }; Set-Alias ".." Set-ParentLocation
@@ -77,7 +84,9 @@ function dl   { Set-Location ~\Downloads }
 function dotfiles { Set-Location $env:DOTFILES }
 
 # Basic commands
-function gits {git status}
+function gits { git status }
+function glo { git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %s' }
+
 function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue }
 function touch {
     param([Parameter(Mandatory=$true)]$Path)
@@ -130,7 +139,7 @@ function Update-PowerShell {
         $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/PowerShell/PowerShell/releases/latest" -TimeoutSec 2
         $latestVersion = $latestRelease.tag_name.Trim('v')
 
-        if ($currentVersion -lt $latestVersion) {
+        if ([version]$currentVersion -lt [version]$latestVersion) {
             Write-Host "Updating PowerShell to $latestVersion..." -ForegroundColor Yellow
             winget upgrade "Microsoft.PowerShell" --accept-source-agreements --accept-package-agreements
         } else {

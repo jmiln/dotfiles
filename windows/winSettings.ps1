@@ -62,9 +62,7 @@ function Set-SetAsBackground-To-Extended-ContextMenu {
         $RegPath = "HKCR:\SystemFileAssociations\${Extension}\Shell\setdesktopwallpaper";
 
         if (Test-Path $RegPath) {
-            if (-not (Test-Path -Path $RegPath)) {
-                New-ItemProperty -Path $RegPath -Name "Extended" -PropertyType String;
-            }
+            New-ItemProperty -Path $RegPath -Name "Extended" -PropertyType String -Force | Out-Null;
         }
     }
 }

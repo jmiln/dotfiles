@@ -46,9 +46,6 @@ M.setup = function(colors)
         local cwd = utils.get_cwd_hostname(pane, platform)
         local hostname = wezterm.hostname()
 
-        -- Time
-        local time = wezterm.strftime("%H:%M")
-
         -- Left status (left of the tab line)
         window:set_left_status(wezterm.format({
             { Foreground = { Color = stat_color } },

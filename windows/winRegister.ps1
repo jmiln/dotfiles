@@ -72,7 +72,6 @@ $ConsentStore = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAcces
     "graphicsCaptureProgrammatic",
     "graphicsCaptureWithoutBorder",
     "location",
-    "location",
     "microphone",
     "musicLibrary",
     "phoneCall",
@@ -251,7 +250,7 @@ Write-Host "Configuring Accessibility..." -ForegroundColor "Yellow"
 Set-RegKey "HKCU:\SOFTWARE\Microsoft\Narrator\NoRoam" "WinEnterLaunchEnabled" 0
 
 # Disable "Window Snap" Automatic Window Arrangement: Enable: 1, Disable: 0
-Set-RegKey "HKCU:\Control Panel\Desktop" "WindowArrangementActive" 1
+Set-RegKey "HKCU:\Control Panel\Desktop" "WindowArrangementActive" 0
 
 # Disable automatic fill to space on Window Snap: Enable: 1, Disable: 0
 Set-RegKey "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SnapFill" 0
