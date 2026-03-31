@@ -8,10 +8,6 @@ function getComlinkIPs() {
 }
 
 # Update global npm packages from specified version
-# function updateFnmPack() {
-#     fnm exec --using=${1} npm ls --global --json | jq -r '.dependencies | to_entries[] | .key+"@"+.value.version' | xargs npm i -g
-# }
-
 function updateFnmPack() {
     if [[ -z "$1" ]]; then
         echo "Error: Supply a Node version (e.g., 20.10.0)"
@@ -75,8 +71,6 @@ function cm99all() {
 #---------- Language Help ---------- {{{
 #---------------------------------------
 
-# Python help
-py-help27() { python2.7 -c "help('$1')" ;}
 
 # Vim help
 function :h { vim +":h $1" +'wincmd o' +'nnoremap q :q!<CR>' ;}
@@ -99,10 +93,10 @@ d2b(){ echo "obase=2; $@"| bc }
 b2d(){ echo "ibase=2; $@"| bc }
 
 # Hex to Binary
-h2b(){ echo "obase=2; ibase=F; $@ "|bc }
+h2b(){ echo "obase=2; ibase=16; ${(U)@}" | bc }
 
 # Binary to Hex
-b2h(){ echo "obase=F; ibase=2; ; $@ "|bc }
+b2h(){ echo "obase=16; ibase=2; $@" | bc }
 
 
 #--------------------------------------------
@@ -120,7 +114,7 @@ m-ip() {
     ip addr | awk '/global/ {print $3,$4}'
     ip addr | awk '/ether/ {print $1,$2}'
     ip addr | awk '/scope link/ {print $1,$2}' | cut -d\/ -f1
-    echo Current IP $(curl -s http://checkip.dyndns.org/ | grep -o "[[:digit:].]\+")
+    echo Current IP $(curl -sf --max-time 5 https://api.ipify.org || echo "unavailable")
     echo "---------------------------------------------------"
 }
 
@@ -130,15 +124,14 @@ m-ip() {
 #-------------------------------------------
 
 function swap() { # Swap 2 filenames around, if they exist
-    local TMPFILE=tmp.$$
-
     [ $# -ne 2 ] && echo "swap: 2 arguments needed" && return 1
     [ ! -e $1 ] && echo "swap: $1 does not exist" && return 1
     [ ! -e $2 ] && echo "swap: $2 does not exist" && return 1
 
-    mv "$1" $TMPFILE
+    local TMPFILE=$(mktemp)
+    mv "$1" "$TMPFILE"
     mv "$2" "$1"
-    mv $TMPFILE "$2"
+    mv "$TMPFILE" "$2"
 }
 
 
@@ -173,20 +166,19 @@ function swap() { # Swap 2 filenames around, if they exist
 # Usage: smartcompress <file> (<type>)
 # Description: compresses files or a directory.  Defaults to tar.gz
 smartcompress() {
-if [ '$2' ];
-then
-    case '$2' in
-        tgz | tar.gz)   tar -zcvf$1.$2  '$1' ;;
-        tbz2 | tar.bz2) tar -jcvf$1.$2  '$1' ;;
-        tar.Z)          tar -Zcvf$1.$2  '$1' ;;
-        tar)            tar -cvf$1.$2   '$1' ;;
-        gz | gzip)      gzip            '$1' ;;
-        bz2 | bzip2)    bzip2           '$1' ;;
+if [ -n "$2" ]; then
+    case "$2" in
+        tgz | tar.gz)   tar -zcvf "$1.$2"  "$1" ;;
+        tbz2 | tar.bz2) tar -jcvf "$1.$2"  "$1" ;;
+        tar.Z)          tar -Zcvf "$1.$2"  "$1" ;;
+        tar)            tar -cvf  "$1.$2"  "$1" ;;
+        gz | gzip)      gzip               "$1" ;;
+        bz2 | bzip2)    bzip2              "$1" ;;
         *)
     echo "Error: $2 is not a valid compression type" ;;
     esac
 else
-    smartcompress '$1' tar.gz
+    smartcompress "$1" tar.gz
 fi
 }
 
@@ -213,8 +205,7 @@ zombie-process() { ps aux | awk '{ print $8 " " $2 }' | grep -w Z ;}
 # Get the weather, with args if you want to get a specified location
 # With not args, it gets the info for whatever the default is
 weather() {
-    if [ ${#1} -ne 0 ]
-    then
+    if [ -n "$1" ]; then
         curl https://v2.wttr.in/${1}
     else
         curl https://v2.wttr.in/

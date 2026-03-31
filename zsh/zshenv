@@ -4,15 +4,23 @@
 : ${XDG_DATA_HOME:=$HOME/.local/share}
 : ${XDG_STATE_HOME:=$HOME/.local/state}
 : ${XDG_SCRIPT_HOME:=$HOME/.local/scripts}
-: ${XDG_SHARE_HOME:=$HOME/.local/share}
 
 # Set $ZDOTDIR here to be able to store your other Zsh dotfiles
 # outside of $HOME.
 ZDOTDIR=$XDG_CONFIG_HOME/zsh
-. "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
 # Settings for using nvim via bob
-. "$HOME/.local/share/bob/env/env.sh"
+[[ -f "$HOME/.local/share/bob/env/env.sh" ]] && . "$HOME/.local/share/bob/env/env.sh"
 # This should let us use nvim with sudo, via sudoedit
 export SUDO_EDITOR=$HOME/.local/share/bob/nvim-bin/nvim
-# VISUAL=$HOME/.local/share/bob/nvim-bin/nvim
+
+export TZ=US/Pacific
+
+if command -v nvim &>/dev/null; then
+    export EDITOR=nvim
+    export VISUAL=nvim
+else
+    export EDITOR=vim
+    export VISUAL=vim
+fi

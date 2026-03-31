@@ -33,12 +33,10 @@ elif command -v exa &>/dev/null; then
 else
     # Detect which `ls` flavor is in use
     if ls --color >/dev/null 2>&1; then # GNU `ls`
-        lsFlags="-Cp --group-directories-first --color"
+        alias ls="ls -CF -Cp --group-directories-first --color"
     else # macOS `ls`
-        lsFlags="-G"
+        alias ls="ls -CF -G"
     fi
-
-    alias ls="ls -CF ${lsFlags}"
     alias l="ls"
     alias la="ls -A"
     alias ll="ls -lh"
@@ -51,7 +49,7 @@ if command -v moar &>/dev/null; then
 fi
 
 # Make file utils more verbose
-for com in rm chmod chown rename; do
+for com in chmod chown rename; do
     alias $com="$com -v"
 done
 
@@ -60,7 +58,7 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"                        # Go to previous dir with -
-alias path="echo $PATH | sed 's/:/\n/g'" # Print each PATH entry on a different line
+alias path='echo $PATH | tr ":" "\n"' # Print each PATH entry on a different line
 alias du="du -kh"                        # Makes a more readable output.
 alias du.="du -hs * | sort -hr"          # Makes a more readable output & sorts by size.
 alias df="df -kTh --total"
@@ -73,7 +71,7 @@ alias m="more"
 alias h="history"
 
 # Use a Vim varaiant if possible
-if which nvim >/dev/null 2>&1; then
+if command -v nvim &>/dev/null; then
     alias vi="nvim"
     alias vim="nvim"
 elif which vim >/dev/null 2>&1; then
@@ -86,7 +84,7 @@ fi
 alias .aliases="$EDITOR $HOME/.config/scripts/.aliases"
 alias .functions="$EDITOR $HOME/.config/scripts/.functions"
 alias .inputrc="$EDITOR $HOME/.inputrc"
-alias .nvim="$EDITOR $HOME/.config/nvim/init.vim"
+alias .nvim="$EDITOR $HOME/.config/nvim/init.lua"
 alias .profile="$EDITOR $HOME/.profile"
 alias .screenrc="$EDITOR $HOME/.screenrc"
 alias .tmux="$EDITOR $HOME/.config/tmux/tmux.conf"
@@ -96,14 +94,14 @@ alias xs="cd" # For when I misstype
 
 # Reload the shell config
 if [ -n "$ZSH_VERSION" ]; then
-    alias reload="exec zsh; echo 'Reloading .zshrc'"
+    alias reload="echo 'Reloading .zshrc' && exec zsh"
 elif [ -n "$BASH_VERSION" ]; then
     alias reload="source ~/.bashrc; echo 'Reloading .bashrc'"
 fi
 alias .bashrc="$EDITOR ~/.bashrc"
 alias .zshrc="$EDITOR ~/.config/zsh/.zshrc"
 
-alias todo="vim ~/.todo"
+alias todo="$EDITOR ~/.todo"
 
 # Reconnect to the main tmux session
 alias mtmux="tmux new-session -A -s main"
@@ -114,19 +112,15 @@ alias nfresh="rm -rf node_modules/ package-lock.json && npm install"
 alias ncu="ncu --cooldown 7"
 
 ### Python aliases ###
-alias py="python"
+alias py="python3"
 
 ### Network aliases ###
 alias ipListen="sudo lsof -i -P -n | grep LISTEN" # Show the IP/ ports that are being listened to
 alias ports="sudo ss -tulpn | grep LISTEN"  # Ubuntu specific? to check used ports
 alias iftop="TERM=xterm iftop"                    # Hopefully make sure that the lines show as lines instead of qqqqqqqqqqqqqqqqqqqq
 
-### Systemctl ###
-alias s="sudo systemctl"
-alias su="sudo systemctl start"
-alias sd="sudo systemctl stop"
-alias sr="sudo systemctl restart"
-alias st="systemctl status" # No sudo needed for status usually
+### System aliases ###
+alias suspend="systemctl suspend"
 
 ### Git aliases ###
 # Easy git status

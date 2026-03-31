@@ -33,16 +33,12 @@ zinit cdreplay -q
 
 
 # ZSH modules and settings
-export TZ=US/Pacific
-
 setopt AUTO_PARAM_SLASH
 setopt AUTO_PUSHD
 setopt CORRECT
 setopt CSH_NULL_GLOB
 setopt EXTENDED_GLOB
 setopt EXTENDED_HISTORY
-setopt HISTIGNOREDUPS
-setopt HISTIGNORESPACE    # if there's a space at the beginning of a command, don't store it in the history file (Good if you need to put a password in)
 setopt LIST_TYPES
 setopt MARK_DIRS
 setopt MENUCOMPLETE
@@ -53,17 +49,21 @@ setopt NO_MAIL_WARNING
 setopt prompt_subst     # Allows for functions in the prompt
 
 # History settings
+mkdir -p "$XDG_STATE_HOME/zsh"
 export HISTFILE=$XDG_STATE_HOME/zsh/.zsh_history
 export HISTSIZE=10000
 export SAVEHIST=$HISTSIZE
 setopt appendhistory
-setopt hist_ignore_space
+setopt hist_ignore_space  # if there's a space at the beginning of a command, don't store it in the history file (good if you need to put a password in)
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
-setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-TERM=tmux-256color
+if [[ -n "$TMUX" ]]; then
+    TERM=tmux-256color
+else
+    TERM=xterm-256color
+fi
 
 # Homebrew - Static path instead of eval for speed
 export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
@@ -78,39 +78,28 @@ if [ -d "$HOME/.local/share/fnm" ]; then
 fi
 
 # import .aliases
-if [ -r $SCRIPTS_DIR/.aliases ]; then
-    . $SCRIPTS_DIR/.aliases;
+if [ -r "$SCRIPTS_DIR/.aliases" ]; then
+    . "$SCRIPTS_DIR/.aliases"
 fi
 
 # import .functions
-if [ -r $SCRIPTS_DIR/.functions ]; then
-    . $SCRIPTS_DIR/.functions;
+if [ -r "$SCRIPTS_DIR/.functions" ]; then
+    . "$SCRIPTS_DIR/.functions"
 fi
 
 # List directories when changing directories
 chpwd() {
     ls
 }
-preexec() {
-    ODIR="$(pwd)"
-}
-precmd() {
-    [[ "$(pwd)" != $ODIR ]] \
-    && [[ "$(pwd)" != $HOME ]] \
-    && ODIR="$(pwd)"
-}
 
 # Disable pausing/resuming terminal with C-s and C-q
 stty ixoff -ixon
 stty stop undef
 
-# Use unicode for Locale (en_US.UTF-8)
-export LC_ALL=en_US.UTF-8
-export LC_CTYPE="en_US.UTF-8"
 
 # My Path.
 typeset -U path PATH
-export PYTHONPATH=$PYTHONPATH:~/.local
+export PYTHONPATH="$PYTHONPATH:$HOME/.local"
 export GOPATH=$HOME/.config/gocode
 path=(
     $HOME/bin
@@ -121,21 +110,14 @@ path=(
 )
 
 
-# System vars
-export VISUAL=vim
-if command -v nvim &> /dev/null; then
-    export EDITOR=nvim
-    export VISUAL=nvim
-else
-    export EDITOR=vim
-fi
-
-export LANG=en_US.UTF-8
+# Use unicode for Locale (en_US.UTF-8)
 export LC_ALL=en_US.UTF-8
+export LC_CTYPE="en_US.UTF-8"
+export LANG=en_US.UTF-8
 
 export GIT_EDITOR=$EDITOR
 export PAGER=less
-export INPUTRC=~/.inputrc
+export INPUTRC=$HOME/.inputrc
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;34m'
 export LESS_TERMCAP_me=$'\E[0m'
@@ -161,19 +143,6 @@ source $HOME/.config/zsh/.git-prompt.sh
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.local/share/zsh
 
-# Sets up [Tab][Tab] to show labels
-# as well as previous command args
-_complete_plus_last_command_args() {
-    last_command=$history[$[HISTCMD-1]]
-    last_command_array=("${(s/ /)last_command}")
-    _sep_parts last_command_array
-    _complete
-}
-
-_force_rehash() {
-    (( CURRENT == 1 )) && rehash
-    return 1 # Because we didn't really complete anything
-}
 
 # Make it so zsh does not try using vim-keys
 bindkey -e
@@ -261,7 +230,7 @@ case $_myos in
        # fi
        ;;
    Darwin)
-       if which ~/bin/bin/bin/tmux 2>&1 >/dev/null; then
+       if which tmux 2>&1 >/dev/null; then
            # if no session is started, start a new session
            test -z ${TMUX} && tmux
 
@@ -301,7 +270,7 @@ bindkey '^G' fzf_rg_search
 
 # Stylize the History search on Ctrl+R
 function fzf-history-selection() {
-  LBUFFER=$(history -n 1 | fzf --height 90% --layout=reverse --query="$LBUFFER")
+  LBUFFER=$(fc -ln -r 1 | fzf --height 90% --layout=reverse --query="$LBUFFER" | sed 's/^ *//')
   zle reset-prompt
 }
 zle -N fzf-history-selection
