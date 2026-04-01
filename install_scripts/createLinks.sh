@@ -25,6 +25,17 @@ fi
 # Grab which OS is being used (Useful later)
 MY_OS="$(uname -s)"
 
+# Colors
+DIM='\033[2m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+ALREADY_LINKED=()
+NEWLY_LINKED=()
+BACKED_UP=()
+
 ensure_dir() {
     mkdir -p "$1"
 }
@@ -33,28 +44,33 @@ force_link() {
     local src="$1"
     local dst="$2"
 
-    # If destination exists and is not already the correct link
     if [[ -e "$dst" || -L "$dst" ]]; then
-        # Check if it's already the correct symlink
         if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
-            echo "  ✓ Already linked correctly: $dst"
+            ALREADY_LINKED+=("$dst")
             return 0
         fi
 
-        # Backup existing file/directory
         local backup="${dst}.bak"
-        echo "  → Backing up existing: $dst to $backup"
-        # Remove old backup if exists
         [[ -e "$backup" ]] && rm -rf "$backup"
         mv "$dst" "$backup"
+        BACKED_UP+=("$dst -> $backup")
     fi
 
-    # Ensure parent directory exists
     ensure_dir "$(dirname "$dst")"
-
-    # Create the symlink
     ln -sfn "$src" "$dst"
-    echo "  ✓ Linked: $dst -> $src"
+    NEWLY_LINKED+=("$dst -> $src")
+}
+
+print_section() {
+    local header="$1"
+    local color="$2"
+    shift 2
+    local items=("$@")
+
+    echo -e "\n${color}${BOLD}${header}${RESET}"
+    for item in "${items[@]}"; do
+        echo -e "  ${color}${item}${RESET}"
+    done
 }
 
 declare -A LINKS=(
@@ -67,6 +83,7 @@ declare -A LINKS=(
     ["$DOTFILES_DIR/htoprc"]="$HOME/.config/htop/htoprc"
     ["$DOTFILES_DIR/inputrc"]="$HOME/.inputrc"
     ["$DOTFILES_DIR/mongoshrc.js"]="$HOME/.mongoshrc.js"
+    ["$DOTFILES_DIR/npmrc"]="$HOME/.npmrc"
     ["$DOTFILES_DIR/nvim"]="$HOME/.config/nvim"
     ["$DOTFILES_DIR/profile"]="$HOME/.profile"
     ["$DOTFILES_DIR/tmux.conf"]="$HOME/.config/tmux/tmux.conf"
@@ -126,9 +143,13 @@ Linux)
 
         force_link "$src" "$dst"
     done
+
+    [[ ${#NEWLY_LINKED[@]}  -gt 0 ]] && print_section "Linked:"         "$GREEN"  "${NEWLY_LINKED[@]}"
+    [[ ${#BACKED_UP[@]}     -gt 0 ]] && print_section "Backed up:"      "$YELLOW" "${BACKED_UP[@]}"
+    [[ ${#ALREADY_LINKED[@]} -gt 0 ]] && print_section "Already linked:" "$DIM"    "${ALREADY_LINKED[@]}"
+
+    echo ""
     ;;
 # Default case (None of the above)
 *) ;;
 esac
-
-echo "Links created"
