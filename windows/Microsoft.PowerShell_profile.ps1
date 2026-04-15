@@ -44,30 +44,30 @@ Set-Alias -Name vim -Value $DefaultEditor
 # Enhanced Listing
 if (Get-Alias ls -ErrorAction SilentlyContinue) { Remove-Item alias:ls }
 if (Test-CommandExists eza) {
-    function ls   { eza.exe --time-style=long-iso --group-directories-first $args }
-    function l    { ls $args }
-    function la   { ls -a $args }
-    function ll   { ls -lh --git --icons=always $args }
-    function lla  { ll -a $args }
-    function lt   { ls --icons=always --tree --ignore-glob "node_modules" $args }
-    function llt  { lt -l $args }
-    function llta { lt -la $args }
+    function ls   { eza.exe --time-style=long-iso --group-directories-first @args }
+    function l    { ls @args }
+    function la   { ls -a @args }
+    function ll   { ls -lh --git --icons=always @args }
+    function lla  { ll -a @args }
+    function lt   { ls --icons=always --tree --ignore-glob "node_modules" @args }
+    function llt  { lt -l @args }
+    function llta { lt -la @args }
 } elseif (Test-CommandExists git -And $host.Name -eq 'ConsoleHost') {
     $gitLs = "$env:ProgramFiles\Git\usr\bin\ls.exe"
-    function ls   { & $gitLs --color=auto -hF --group-directories-first $args }
-    function l    { ls $args }
-    function la   { ls -a $args }
-    function ll   { ls -l $args }
-    function lla  { ll -a $args }
+    function ls   { & $gitLs --color=auto -hF --group-directories-first @args }
+    function l    { ls @args }
+    function la   { ls -a @args }
+    function ll   { ls -l @args }
+    function lla  { ll -a @args }
 } else {
-    function ls   { Get-ChildItem $args | Format-Table -AutoSize }
-    function l    { ls $args }
-    function la   { ls -Force $args }
-    function ll   { Get-ChildItem $args | Format-Table Name, Mode, Length, LastWriteTime -AutoSize }
-    function lla  { Get-ChildItem -Force $args | Format-Table Name, Mode, Length, LastWriteTime -AutoSize }
-    function lt   { Get-ChildItem -Recurse $args | Format-Table FullName -AutoSize }
-    function llt  { Get-ChildItem -Recurse $args | Format-Table FullName, Mode, Length, LastWriteTime -AutoSize }
-    function llta { Get-ChildItem -Recurse -Force $args | Format-Table FullName, Mode, Length, LastWriteTime -AutoSize }
+    function ls   { Get-ChildItem @args | Format-Table -AutoSize }
+    function l    { ls @args }
+    function la   { ls -Force @args }
+    function ll   { Get-ChildItem @args | Format-Table Name, Mode, Length, LastWriteTime -AutoSize }
+    function lla  { Get-ChildItem -Force @args | Format-Table Name, Mode, Length, LastWriteTime -AutoSize }
+    function lt   { Get-ChildItem -Recurse @args | Format-Table FullName -AutoSize }
+    function llt  { Get-ChildItem -Recurse @args | Format-Table FullName, Mode, Length, LastWriteTime -AutoSize }
+    function llta { Get-ChildItem -Recurse -Force @args | Format-Table FullName, Mode, Length, LastWriteTime -AutoSize }
 }
 
 # Quick CD back up the file tree
