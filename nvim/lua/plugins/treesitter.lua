@@ -1,3 +1,20 @@
+local grammarLangs = {
+    "comment",         -- Lets it highlight the TODO comments and such
+    "css",
+    "html",
+    "javascript",
+    "json",
+    "lua",             -- For the nvim config files mainly
+    "markdown",
+    "markdown_inline",
+    "query",           -- So the treesitter tree doesn't whine when being opened (<leader>I)
+    "regex",           -- Ooh, shiny regex
+    "tmux",            -- For tmux.conf
+    "typescript",
+    "vimdoc",          -- Previously help
+    "yaml",
+}
+
 return {
     {
         "nvim-treesitter/nvim-treesitter",
@@ -12,27 +29,16 @@ return {
                 enable = true,
             },
             indent = { enable = true },
-            ensure_installed = {
-                "comment",         -- Lets it highlight the TODO comments and such
-                "css",
-                "html",
-                "javascript",
-                "json",
-                "lua",             -- For the nvim config files mainly
-                "markdown",
-                "markdown_inline",
-                "query",           -- So the treesitter tree doesn't whine when being opened (<leader>I)
-                "regex",           -- Ooh, shiny regex
-                "tmux",            -- For tmux.conf
-                "typescript",
-                "vimdoc",          -- Previously help
-                "yaml",
-            },
+            -- ensure_installed = grammarLangs,
             -- Recommended false if the cli treesitter isn't installed
             auto_install = false,
         },
+        init = function()
+            require("nvim-treesitter").install(grammarLangs)
+        end,
         config = function(_, opts)
             require("nvim-treesitter.config").setup(opts)
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
     },
     {

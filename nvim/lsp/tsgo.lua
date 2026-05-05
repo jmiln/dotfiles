@@ -18,9 +18,9 @@ end
 vim.lsp.config.tsgo = {
     cmd = { 'tsgo', '--lsp', '--stdio' },
     filetypes = {
-        -- "typescript",
-        -- "typescriptreact",
-        -- "typescript.tsx",
+        "typescript",
+        "typescriptreact",
+        "typescript.tsx",
     },
     handlers = {
         ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)

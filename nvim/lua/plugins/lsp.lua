@@ -69,23 +69,6 @@ vim.diagnostic.config({
     -- },
 })
 
--- vim.lsp.config("tsgo", {
---     cmd = { "tsgo", "--lsp", "--stdio" },
---     filetypes = {
---         "ts",
---     },
---     root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
--- })
-
--- Doesn't work, but would be nice
--- vim.api.nvim_create_autocmd("BufEnter", {
---     desc = "Disable diagnostics for test files",
---     pattern = { "*.test.js" },
---     callback = function()
---         vim.diagnostic.enable(false)
---     end,
--- })
-
 return {
     {
         "williamboman/mason-lspconfig.nvim",
@@ -138,7 +121,7 @@ return {
                 "emmylua_ls",            -- Lua language server (Faster?)
                 "taplo",                 -- *.toml formatting/ lsp
                 -- "ts_ls",                 -- JS / TS
-                -- "tsgo",                  -- JS / TS (Way faster in .ts files, but breaks in .js files, and can't filter the errors)
+                "tsgo",                  -- JS / TS (Way faster in .ts files, and seems to work now with a newer version)
             },
         }
     },
@@ -196,24 +179,4 @@ return {
     {
         "davidosomething/format-ts-errors.nvim",
     },
-
-    -- Make ts errors easier to read?
-    -- {
-    --     "dmmulroy/ts-error-translator.nvim",
-    --     config = function()
-    --         require("ts-error-translator").setup({
-    --         auto_attach = true,
-    --         servers = {
-    --             "ts_ls",
-    --         },
-    --     })
-    --     end,
-    --     -- opts = {
-    --     --     auto_attach = true,
-    --     --     servers = {
-    --     --         "ts_ls",
-    --     --         "typescript-tools",
-    --     --     },
-    --     -- }
-    -- },
 }

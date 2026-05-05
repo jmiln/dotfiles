@@ -36,9 +36,9 @@ vim.lsp.config.ts_ls =  {
         "javascript",
         "javascriptreact",
         "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
+        -- "typescript",
+        -- "typescriptreact",
+        -- "typescript.tsx",
     },
     handlers = {
         -- Modified from:

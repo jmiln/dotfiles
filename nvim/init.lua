@@ -24,6 +24,12 @@ vim.g.loaded_perl_provider = 0
 --   print("Running locally")
 -- end
 
+-- Enable the treesitter for highlighting
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "<filetype>" },
+  callback = function() vim.treesitter.start() end,
+})
+
 -- Load up whatever lua stuff
 require("config.options")
 
