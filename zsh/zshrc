@@ -99,7 +99,7 @@ stty stop undef
 
 # My Path.
 typeset -U path PATH
-export PYTHONPATH="$PYTHONPATH:$HOME/.local"
+export PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$HOME/.local"
 export GOPATH=$HOME/.config/gocode
 path=(
     $HOME/bin
@@ -143,6 +143,16 @@ source $HOME/.config/zsh/.git-prompt.sh
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.local/share/zsh
 
+
+# Bracketed paste: treat pasted text as data, not keystrokes
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+
+# Reset cursor key mode on each prompt draw (recovers from terminal state corruption caused by paste)
+function _reset_cursor_key_mode() {
+    printf '\e[?1l'
+}
+add-zsh-hook precmd _reset_cursor_key_mode
 
 # Make it so zsh does not try using vim-keys
 bindkey -e
@@ -225,12 +235,9 @@ case $_myos in
        if [[ -z "$TMUX" && -z "$STRACE" ]]; then
            tmux attach-session -t main || tmux new-session -s main
        fi
-       # if which tmux 2>&1 >/dev/null && [ -z "$TMUX" ] && [ ${UID} != 0 ]; then
-       #     tmux new-session -A -s main
-       # fi
        ;;
    Darwin)
-       if which tmux 2>&1 >/dev/null; then
+       if command -v tmux >/dev/null 2>&1; then
            # if no session is started, start a new session
            test -z ${TMUX} && tmux
 
@@ -278,7 +285,7 @@ bindkey '^R' fzf-history-selection
 
 export FZF_DEFAULT_OPTS="--style default \
     --preview 'fzf-preview.sh {}' \
-    --bind 'focus:transform-header:file --brief {}' --height 90% --layout=default --border --color=hl:#2dd4bf --layout=default --border --color=hl:#2dd4bf"
+    --bind 'focus:transform-header:file --brief {}' --height 90% --layout=default --border --color=hl:#2dd4bf"
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#0f0f0f,bg+:#2e2e2e
   --color=hl:#87afd7,hl+:#afd7ff,info:#d7d787,marker:#87af87

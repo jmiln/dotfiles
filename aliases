@@ -9,7 +9,7 @@ alias sudo="sudo "
 # Basic app customization
 alias less="less -X"
 alias man="man -P 'less -X'"
-alias grep="grep --color=auto" #
+alias grep="grep --color=auto"
 
 # If eza or exa are installed, alias ls to use them
 if command -v eza &>/dev/null; then
@@ -70,11 +70,11 @@ alias ap="apropos" # Use to search for commands
 alias m="more"
 alias h="history"
 
-# Use a Vim varaiant if possible
+# Use a Vim variant if possible
 if command -v nvim &>/dev/null; then
     alias vi="nvim"
     alias vim="nvim"
-elif which vim >/dev/null 2>&1; then
+elif command -v vim >/dev/null 2>&1; then
     alias vi="vim"
 else
     alias vim="vi"
@@ -86,11 +86,10 @@ alias .functions="$EDITOR $HOME/.config/scripts/.functions"
 alias .inputrc="$EDITOR $HOME/.inputrc"
 alias .nvim="$EDITOR $HOME/.config/nvim/init.lua"
 alias .profile="$EDITOR $HOME/.profile"
-alias .screenrc="$EDITOR $HOME/.screenrc"
 alias .tmux="$EDITOR $HOME/.config/tmux/tmux.conf"
 alias .vimrc="$EDITOR $HOME/.vimrc"
 
-alias xs="cd" # For when I misstype
+alias xs="cd" # For when I mistype
 
 # Reload the shell config
 if [ -n "$ZSH_VERSION" ]; then

@@ -47,7 +47,7 @@
         { key = "Slash", mods = "Control", chars = "\u001f" },  # Ctrl+/     (Nvim comment)
         { key = "Space", mods = "Control", chars = "\u0000" },  # Ctrl+Space (Tmux prefix)
         { key = "End", mods = "None", chars = "\u001b[F" },     # End key
-        { key = "Home", mods = "None", chars = "\u001b[H" },    # End key
+        { key = "Home", mods = "None", chars = "\u001b[H" },    # Home key
         { key = "Return", mods = "Shift", chars = "\u001b\r" }, # Shift-Enter for line return on claude
     ]
 
