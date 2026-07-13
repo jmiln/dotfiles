@@ -21,6 +21,13 @@ return {
         opts = {},
     },
 
+    -- Quickfix list improvements
+    {
+        'stevearc/quicker.nvim',
+        ft = "qf",
+        opts = {},
+    },
+
     -- More in-depth undo
     {
         "mbbill/undotree",
