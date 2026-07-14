@@ -118,14 +118,24 @@ vim.opt.sessionoptions = "resize,winpos,winsize,buffers,tabpages,folds,curdir,he
 
 vim.opt.modeline = false
 vim.opt.modelines = 1
-vim.opt.formatoptions = vim.opt.formatoptions
-    - "a" -- Auto formatting is BAD.
-    - "t" -- Don't auto format my code. I got linters for that.
-    + "q" -- Allow formatting comments w/ gq
-    - "o" -- O and o, don't continue comments
-    + "r" -- But do continue when pressing enter.
-    + "n" -- Indent past the formatlistpat, not underneath it.
-    + "j" -- Auto-remove comments when joining
+-- Auto formatting is BAD.
+-- Don't auto format my code. I got linters for that.
+-- O and o don't continue comments.
+vim.opt.formatoptions:remove({ "a", "t", "o" })
+
+-- Allow formatting comments with gq.
+-- Continue comments when pressing Enter.
+-- Indent past the formatlistpat, not underneath it.
+-- Auto-remove comment leaders when joining lines.
+vim.opt.formatoptions:append({ "q", "r", "n", "j" })
+-- vim.opt.formatoptions = vim.opt.formatoptions
+--     - "a" -- Auto formatting is BAD.
+--     - "t" -- Don't auto format my code. I got linters for that.
+--     + "q" -- Allow formatting comments w/ gq
+--     - "o" -- O and o, don't continue comments
+--     + "r" -- But do continue when pressing enter.
+--     + "n" -- Indent past the formatlistpat, not underneath it.
+--     + "j" -- Auto-remove comments when joining
 
 -- Snagged from:
 -- https://www.reddit.com/r/neovim/comments/1crdv93/comment/l3z0td3/
