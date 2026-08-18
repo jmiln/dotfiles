@@ -120,8 +120,7 @@ return {
                 -- "lua_ls",             -- Lua language server
                 "emmylua_ls",            -- Lua language server (Faster?)
                 "taplo",                 -- *.toml formatting/ lsp
-                -- "ts_ls",                 -- JS / TS
-                "tsgo",                  -- JS / TS (Way faster in .ts files, and seems to work now with a newer version)
+                "tsc",                   -- JS / TS
             },
         }
     },

@@ -9,7 +9,7 @@ local grammarLangs = {
     "markdown_inline",
     "query",           -- So the treesitter tree doesn't whine when being opened (<leader>I)
     "regex",           -- Ooh, shiny regex
-    "tmux",            -- For tmux.conf
+    -- "tmux",            -- For tmux.conf
     "typescript",
     "vimdoc",          -- Previously help
     "yaml",

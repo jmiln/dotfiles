@@ -1,6 +1,6 @@
 local tsIgnoreCodes = {
     6133,   -- "X" is declared but its value is never used (Covered by biome)
-    80007,  -- 'await' has no effect on the type of this expression.
+    -- 80007,  -- 'await' has no effect on the type of this expression.
 }
 
 -- Local helper function
@@ -15,8 +15,9 @@ local function contains (table, val)
 end
 
 
-vim.lsp.config.tsgo = {
-    cmd = { 'tsgo', '--lsp', '--stdio' },
+-- vim.lsp.config.tsc =
+return {
+    cmd = { 'tsc', '--lsp', '--stdio' },
     filetypes = {
         "typescript",
         "typescriptreact",
@@ -34,8 +35,6 @@ vim.lsp.config.tsgo = {
                 if contains(tsIgnoreCodes, entry.code) then
                     table.remove(result.diagnostics, idx)
                 else
-                    local formatter = require('format-ts-errors')[entry.code]
-                    entry.message = formatter and formatter(entry.message) or entry.message
                     idx = idx + 1
                 end
             end
@@ -48,7 +47,7 @@ vim.lsp.config.tsgo = {
             return
         end
 
-        -- Prioritise tsconfig.json as the root since that's what tsgo needs.
+        -- Prioritise tsconfig.json as the root since that's what tsc needs.
         -- Fall back to lock files (monorepo-friendly), then .git, then cwd.
         local tsconfig_root = vim.fs.root(bufnr, { 'tsconfig.json', 'jsconfig.json' })
         if tsconfig_root then
@@ -66,4 +65,4 @@ vim.lsp.config.tsgo = {
 }
 
 -- Return empty table to satisfy nvim 0.12 loader
-return {}
+-- return {}
