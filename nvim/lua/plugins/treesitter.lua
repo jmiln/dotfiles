@@ -1,4 +1,5 @@
 local grammarLangs = {
+    "bash",
     "comment",         -- Lets it highlight the TODO comments and such
     "css",
     "html",

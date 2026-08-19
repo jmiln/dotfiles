@@ -19,8 +19,11 @@ autocmd("FileType", {
 
 -- Add .env file detection
 autocmd({ "BufNewFile", "BufRead" }, {
-    pattern = { ".env*", "*.env" },
-    command = "set filetype=sh",
+    pattern = { ".env*", "*.env", "sh", "env" },
+    callback = function()
+        vim.bo.filetype = "sh"
+        vim.bo.commentstring = "# %s"
+    end,
 })
 
 -- When in the popup buffers, map q to close it
