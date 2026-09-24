@@ -36,12 +36,11 @@ Installs all dependencies and development tools.
 
 **What it does:**
 - Updates system packages via APT
-- Installs Homebrew and brew packages (tmux, eza, lazygit, etc.)
+- Installs Homebrew and brew packages (tmux, eza, fzf, lazygit, etc.)
 - Installs Rust/Cargo for Bob neovim manager
 - Installs FNM (Fast Node Manager) and Node.js LTS
 - Installs global npm packages
 - Installs tmux plugin manager and plugins
-- Installs fzf (fuzzy finder)
 - Changes default shell to zsh
 - Optionally installs Docker (via docker.sh)
 

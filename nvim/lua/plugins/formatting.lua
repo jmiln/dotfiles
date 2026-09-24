@@ -27,7 +27,8 @@ return {
         },
         opts = {
             formatters_by_ft = {
-                ["**sh"]        = { "shfmt", "shellcheck" },
+                bash            = { "shfmt", "shellcheck" },
+                sh              = { "shfmt", "shellcheck" },
                 ejs             = { "biome" },
                 javascript      = { "biome", "biome-organize-imports"},
                 json            = { "biome", "jq" },

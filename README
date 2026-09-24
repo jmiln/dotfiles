@@ -10,8 +10,8 @@ FNM [Fast Node Manager](https://github.com/Schniz/fnm):
  - https://github.com/Schniz/fnm?tab=readme-ov-file#installation
  - Run `fnm install lts` or `fnm install <version#>` 
 
-Generally after node is installed, I install biome, pm2, and ncu
- - npm i -g @biomejs/biome pm2 npm-check-updates
+Generally after node is installed, I install biome and ncu
+ - npm i -g @biomejs/biome npm-check-updates
 
 For Eza, manual installation or homebrew may be required, if you want a recent version, as the apt one is rather old
  - https://github.com/eza-community/eza

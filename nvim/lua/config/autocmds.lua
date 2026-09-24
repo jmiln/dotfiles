@@ -1,7 +1,7 @@
 local constants = require("config.constants")
 
 local augroup = function(name)
-    vim.api.nvim_create_augroup(name, { clear = true })
+    return vim.api.nvim_create_augroup(name, { clear = true })
 end
 local autocmd = vim.api.nvim_create_autocmd
 
@@ -88,21 +88,32 @@ autocmd("BufWritePre", {
 
 -- If a file is larger than 2MB, turn off some settings to make it load faster
 --  * The foldmethod itself seems to be a massive part of it, at least with large json files
+local function is_big_file(path)
+    local file_size = vim.fn.getfsize(path)
+    return file_size > constants.perf.file.maxsize or file_size == -2
+end
+
+-- Nothing is registered for the "bigfile" filetype, so syntax, ftplugins, LSP, and treesitter skip the buffer
+vim.filetype.add({
+    pattern = {
+        [".*"] = {
+            function(path)
+                return is_big_file(path) and "bigfile" or nil
+            end,
+            { priority = math.huge },
+        },
+    },
+})
+
 autocmd("BufReadPre", {
     callback = function(ev)
-        local max_size = 2 * 1024 * 1024 -- 2 MB
-        local file_size = vim.fn.getfsize(ev.match)
-        if file_size > max_size or file_size == -2 then
+        if is_big_file(ev.match) then
             vim.opt_local.spell = false
             vim.opt_local.undofile = false
             vim.opt_local.swapfile = false
             vim.opt_local.backup = false
             vim.opt_local.writebackup = false
             vim.opt_local.foldenable = false
-            vim.g.did_install_syntax_menu = 1
-            vim.cmd("syntax clear")
-            vim.cmd("syntax off")
-            vim.cmd("filetype off")
             vim.notify("Big file, disabling syntax, folding, filetype, etc")
         end
     end,
@@ -131,10 +142,11 @@ autocmd("BufWritePre", {
 -- })
 
 -- As above, but from https://github.com/hieulw/nvimrc/blob/lua-config/lua/hieulw/autocmds.lua
+local remember_folds = augroup("remember_folds")
 autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
     desc = "remember cursor position, folds of current buffer",
     pattern = "?*",
-    group = augroup("remember_folds"),
+    group = remember_folds,
     callback = function(e)
         if vim.b[e.buf].view_activated then
             vim.cmd.mkview({ mods = { emsg_silent = true } })
@@ -144,7 +156,7 @@ autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
 autocmd("BufWinEnter", {
     desc = "load cursor position, folds of current buffer",
     pattern = "?*",
-    group = augroup("remember_folds"),
+    group = remember_folds,
     callback = function(e)
         if not vim.b[e.buf].view_activated then
             local filetype = vim.api.nvim_get_option_value("filetype", { buf = e.buf })

@@ -6,8 +6,11 @@
     pager = delta
 [delta]
     navigate = true
-    dark = true
+	dark = true
     line-numbers = true
+    #                   fg        bg
+    plus-style =      "#e0e0e0" "#003800"
+    plus-emph-style = "#c0c0c0" "#005e00"
 [pager]
     diff = delta --line-numbers
     show = delta --line-numbers

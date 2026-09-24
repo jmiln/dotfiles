@@ -15,8 +15,8 @@ APT_PACKAGES=(
     build-essential curl git python3 software-properties-common
     unzip wget ripgrep fd-find jq jc bat
 )
-BREW_PACKAGES=(tmux eza git-delta lazygit jesseduffield/lazydocker/lazydocker)
-NPM_PACKAGES=(neovim npm-check-updates @biomejs/biome pm2)
+BREW_PACKAGES=(tmux eza fzf git-delta lazygit jesseduffield/lazydocker/lazydocker)
+NPM_PACKAGES=(neovim npm-check-updates @biomejs/biome)
 
 # -----
 # Helper functions
@@ -248,9 +248,6 @@ else
 fi
 
 
-# ---
-# Install git integration for zsh
-# ---
 if command_exists git; then
     # Check if git is configured
     if ! git config --global user.name >/dev/null 2>&1 || ! git config --global user.email >/dev/null 2>&1; then
@@ -264,12 +261,6 @@ if command_exists git; then
         echo ""
         logToFile "WARNING: Git user.name or user.email not configured"
     fi
-
-    mkdir -p "$HOME/.config/zsh"
-    curl -fsSL https://github.com/git/git/raw/master/contrib/completion/git-completion.bash \
-        -o "$HOME/.config/zsh/.git-completion.bash"
-
-    logToFile "git-completion Installed and Configured"
 fi
 
 # ---
@@ -293,18 +284,6 @@ if ! [ -d ~/.config/tmux/plugins/tpm ]; then
     fi
 else
     logToFile "TPM already installed."
-fi
-
-# Install fzf
-if ! command_exists fzf; then
-    rm -rf "$HOME/.local/share/.fzf"
-    git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.local/share/.fzf"
-
-    "$HOME/.local/share/.fzf/install" --bin
-    ln -sf "$HOME/.local/share/.fzf/bin/fzf" "$HOME/.local/bin/fzf"
-    logToFile "fzf installed."
-else
-    logToFile "fzf is already installed."
 fi
 
 if ! command_exists docker; then

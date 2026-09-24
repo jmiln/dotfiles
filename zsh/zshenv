@@ -15,8 +15,6 @@ ZDOTDIR=$XDG_CONFIG_HOME/zsh
 # This should let us use nvim with sudo, via sudoedit
 export SUDO_EDITOR=$HOME/.local/share/bob/nvim-bin/nvim
 
-export TZ=US/Pacific
-
 if command -v nvim &>/dev/null; then
     export EDITOR=nvim
     export VISUAL=nvim

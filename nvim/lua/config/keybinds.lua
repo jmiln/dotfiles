@@ -55,10 +55,10 @@ map("n", ">", ">>", default)
 map("n", "J", "mzJ`z", default);
 
 -- Extra undo break points
-map("v", ",", ",<c-g>u", default);
-map("v", ".", ".<c-g>u", default);
-map("v", "!", "!<c-g>u", default);
-map("v", "?", "?<c-g>u", default);
+map("i", ",", ",<c-g>u", default);
+map("i", ".", ".<c-g>u", default);
+map("i", "!", "!<c-g>u", default);
+map("i", "?", "?<c-g>u", default);
 
 -- TAB/ Up & Down arrows to use the completion menu
 -- map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<C-h>"', {noremap = true, expr = true})

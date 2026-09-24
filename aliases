@@ -100,7 +100,7 @@ fi
 alias .bashrc="$EDITOR ~/.bashrc"
 alias .zshrc="$EDITOR ~/.config/zsh/.zshrc"
 
-alias todo="$EDITOR ~/.todo"
+alias todo="$EDITOR ~/.todo.md"
 
 # Reconnect to the main tmux session
 alias mtmux="tmux new-session -A -s main"

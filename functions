@@ -24,8 +24,8 @@ function updateFnmPack() {
 
     # Get the list from the version provided, then install to CURRENT version
     fnm exec --using="$version" npm ls --global --json | \
-    jq -r '.dependencies | to_entries[] | .key' | \
-    xargs npm i -g
+    jq -r '(.dependencies // {}) | keys[] | select(. != "npm" and . != "corepack")' | \
+    xargs -r npm i -g
 }
 
 
@@ -39,11 +39,11 @@ function c() {
 }
 
 function cm() {
-    gcc -lm -g -o ${1} ${1}.c
+    gcc -g -o ${1} ${1}.c -lm
 }
 
 function cmall() {
-    gcc -lm -Wall -pedantic -g  -o ${1} ${1}.c
+    gcc -Wall -pedantic -g  -o ${1} ${1}.c -lm
 }
 
 function call() {
@@ -55,7 +55,7 @@ function c99() {
 }
 
 function cm99() {
-    gcc -lm -std=c99 -g -o ${1} ${1}.c
+    gcc -std=c99 -g -o ${1} ${1}.c -lm
 }
 
 function c99all() {
@@ -63,7 +63,7 @@ function c99all() {
 }
 
 function cm99all() {
-    gcc -lm -Wall -pedantic -g -std=c99 -o ${1} ${1}.c
+    gcc -Wall -pedantic -g -std=c99 -o ${1} ${1}.c -lm
 }
 
 
@@ -125,13 +125,13 @@ m-ip() {
 
 function swap() { # Swap 2 filenames around, if they exist
     [ $# -ne 2 ] && echo "swap: 2 arguments needed" && return 1
-    [ ! -e $1 ] && echo "swap: $1 does not exist" && return 1
-    [ ! -e $2 ] && echo "swap: $2 does not exist" && return 1
+    [ ! -e "$1" ] && echo "swap: $1 does not exist" && return 1
+    [ ! -e "$2" ] && echo "swap: $2 does not exist" && return 1
 
     local TMPFILE=$(mktemp)
-    mv "$1" "$TMPFILE"
-    mv "$2" "$1"
-    mv "$TMPFILE" "$2"
+    command mv "$1" "$TMPFILE"
+    command mv "$2" "$1"
+    command mv "$TMPFILE" "$2"
 }
 
 
