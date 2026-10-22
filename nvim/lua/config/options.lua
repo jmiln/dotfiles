@@ -121,13 +121,13 @@ vim.opt.modelines = 1
 -- Auto formatting is BAD.
 -- Don't auto format my code. I got linters for that.
 -- O and o don't continue comments.
-vim.opt.formatoptions:remove({ "a", "t", "o" })
+for _, flag in ipairs({ "a", "t", "o" }) do vim.opt.formatoptions:remove(flag) end
 
 -- Allow formatting comments with gq.
 -- Continue comments when pressing Enter.
 -- Indent past the formatlistpat, not underneath it.
 -- Auto-remove comment leaders when joining lines.
-vim.opt.formatoptions:append({ "q", "r", "n", "j" })
+for _, flag in ipairs({ "q", "r", "n", "j" }) do vim.opt.formatoptions:append(flag) end
 -- vim.opt.formatoptions = vim.opt.formatoptions
 --     - "a" -- Auto formatting is BAD.
 --     - "t" -- Don't auto format my code. I got linters for that.
