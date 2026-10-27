@@ -56,6 +56,9 @@ Docker is automatically installed by `install-packages.sh` if not already presen
 
 **Note:** After Docker installation, log out and back in for group permissions to take effect.
 
+After an Ubuntu release upgrade, rerun `./docker.sh`: the upgrade disables Docker's apt repo, and
+the script re-points it at the new release without reinstalling.
+
 ## Troubleshooting
 
 - **"Permission denied"**: Make sure scripts are executable (`chmod +x *.sh`)
