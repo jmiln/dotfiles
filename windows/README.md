@@ -9,9 +9,10 @@
 
     * CreateLinks script will link the configs in this dir over to where they need to be to work
         - The `./wezterm` dir gets linked to `$HOME\.config\wezterm`
-        - The Powershell file goes to `$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`
-        - The `../nvim` dir goes to `$HOME\AppData\Local\nvim`
+        - The Powershell file goes to `$PROFILE.CurrentUserAllHosts` (`$HOME\Documents\PowerShell\profile.ps1`)
+        - The `../nvim` dir goes to `$HOME\.config\nvim`
         - The `../alacritty` dir goes to `$APPDATA\alacritty`
+        - The `../npmrc` file goes to `$HOME\.npmrc`
 
     * Admin permissions required for:
         - CreateLinks script (creates symlinks/junctions)

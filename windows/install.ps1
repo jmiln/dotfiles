@@ -30,7 +30,7 @@ function InstallPackageIfNotExist([string]$name, [string]$id, [string]$source) {
     }
 }
 
-# 4. Improved Module Install (Handles NuGet provider)
+# Install a PowerShell module if missing (Handles NuGet provider)
 function InstallModuleIfNotExist([string]$name) {
     if (-not (Get-Module -ListAvailable -Name $name)) {
         Write-Host "Installing Module: $name" -ForegroundColor Yellow

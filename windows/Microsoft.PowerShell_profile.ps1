@@ -52,7 +52,7 @@ if (Test-CommandExists eza) {
     function lt   { ls --icons=always --tree --ignore-glob "node_modules" @args }
     function llt  { lt -l @args }
     function llta { lt -la @args }
-} elseif (Test-CommandExists git -And $host.Name -eq 'ConsoleHost') {
+} elseif ((Test-CommandExists git) -and ($host.Name -eq 'ConsoleHost')) {
     $gitLs = "$env:ProgramFiles\Git\usr\bin\ls.exe"
     function ls   { & $gitLs --color=auto -hF --group-directories-first @args }
     function l    { ls @args }
@@ -176,7 +176,7 @@ function Update-System {
         npm i -g npm
         if (Get-Command ncu -ErrorAction SilentlyContinue) {
             Write-Host "Updating global npm packages..." -ForegroundColor Yellow
-            ncu -g --upgrade
+            ncu -g --upgrade --cooldown 7
         }
     }
 }

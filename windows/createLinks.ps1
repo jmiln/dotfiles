@@ -66,6 +66,9 @@ Set-DotfileLink "Alacritty" "$env:APPDATA\alacritty" "$PSScriptRoot\..\alacritty
 # Wezterm (Directory)
 Set-DotfileLink "Wezterm" "$env:USERPROFILE\.config\wezterm" "$PSScriptRoot\wezterm" -IsDirectory
 
+# npm (File): same 7-day release-age gate and script blocking as Linux
+Set-DotfileLink "npmrc" "$env:USERPROFILE\.npmrc" "$PSScriptRoot\..\npmrc"
+
 # Update Environment Variable
 $dotfilesPath = (Get-Item "$PSScriptRoot\..").FullName
 Write-Host "`nSetting DOTFILES env var to: $dotfilesPath" -ForegroundColor Green

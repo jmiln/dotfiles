@@ -59,7 +59,8 @@ function Set-SetAsBackground-To-Extended-ContextMenu {
     $Extensions = ".bmp", ".dib", ".gif", ".jfif", ".jpe", ".jpeg", ".jpg", ".png", ".tif", ".tiff", ".wdp";
 
     foreach ($Extension in $Extensions) {
-        $RegPath = "HKCR:\SystemFileAssociations\${Extension}\Shell\setdesktopwallpaper";
+        # PowerShell has no HKCR: drive by default, so Test-Path on it was always false
+        $RegPath = "Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\${Extension}\Shell\setdesktopwallpaper";
 
         if (Test-Path $RegPath) {
             New-ItemProperty -Path $RegPath -Name "Extended" -PropertyType String -Force | Out-Null;

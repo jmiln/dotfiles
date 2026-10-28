@@ -60,7 +60,10 @@ local keys = {
         action = act.PromptInputLine {
             description = 'Enter new name for tab',
             action = wezterm.action_callback(function(window, _, line)
-                window:active_tab():set_title(line)
+                -- line is nil when the prompt is cancelled with Escape
+                if line then
+                    window:active_tab():set_title(line)
+                end
             end),
         },
     },
