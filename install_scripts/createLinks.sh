@@ -12,7 +12,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 if [[ $EUID -eq 0 ]]; then
-    echo "Error: run this as your own user, not with sudo (it links into \$HOME)"
+    echo "ERROR: Run this as your own user, not with sudo. It links into \$HOME."
     exit 1
 fi
 
@@ -23,7 +23,7 @@ fi
 DOTFILES_DIR="$HOME/dotfiles"
 
 if [[ ! -d "$DOTFILES_DIR" ]]; then
-    echo "Error: dotfiles directory not found at $DOTFILES_DIR"
+    echo "ERROR: dotfiles directory not found at $DOTFILES_DIR"
     exit 1
 fi
 

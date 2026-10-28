@@ -35,10 +35,12 @@ previous backup of the same file.
 ### 2. Install Packages
 
 ```bash
-./install-packages.sh
+./install-packages.sh                     # timezone defaults to America/Los_Angeles
+./install-packages.sh America/New_York    # or pass a different one
 ```
 
 Installs all dependencies and development tools.
+to the default or the one passed in; answer `n` to type a different one, or leave it blank to skip.
 
 **What it does:**
 - Updates system packages via APT

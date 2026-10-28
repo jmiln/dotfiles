@@ -35,11 +35,19 @@ echo "Detected: $DISTRO_LOWER $CODENAME"
 
 # Setup Docker Repository
 sudo install -m 0755 -d /etc/apt/keyrings
-sudo wget -qO /etc/apt/keyrings/docker.asc "https://download.docker.com/linux/${DISTRO_LOWER}/gpg"
+sudo curl -fsSL "https://download.docker.com/linux/${DISTRO_LOWER}/gpg" -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Build the source list
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/${DISTRO_LOWER} ${CODENAME} stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+sudo tee /etc/apt/sources.list.d/docker.sources >/dev/null <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/${DISTRO_LOWER}
+Suites: ${CODENAME}
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+# Older runs wrote the one-line format; leaving it would make apt warn about a duplicate source
+sudo rm -f /etc/apt/sources.list.d/docker.list
 
 sudo apt update
 
@@ -67,8 +75,7 @@ fi
 sudo usermod -aG docker "${USER}"
 
 # Limit log size (Crucial for servers)
-# We use -n to avoid overwriting if you've already customized this
-if [ ! -f /etc/docker/daemon.json ]; then
+if [[ ! -f /etc/docker/daemon.json ]]; then
     echo '{"log-driver":"json-file","log-opts":{"max-size":"10m","max-file":"5"}}' | sudo tee /etc/docker/daemon.json
 fi
 
