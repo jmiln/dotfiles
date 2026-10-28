@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ $EUID -eq 0 ]]; then
+    echo "ERROR: Run this as your own user, not with sudo. It asks for sudo itself and adds \$USER to the docker group."
+    exit 1
+fi
+
 echo "<--- installing docker... --->"
 
 # Detect the distribution

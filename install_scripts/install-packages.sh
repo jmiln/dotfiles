@@ -2,6 +2,12 @@
 
 # Strict mode
 set -Eeuo pipefail
+
+if [[ $EUID -eq 0 ]]; then
+    echo "ERROR: Run this as your own user, not with sudo. It asks for sudo itself where needed."
+    exit 1
+fi
+
 trap 'echo "ERROR: Script failed on line $LINENO" >> "$log_file"' ERR
 
 DOTFILES_DIR="$HOME/dotfiles"
@@ -227,12 +233,7 @@ fi
 
 # Re-verify PATH for this process
 export PATH="$HOME/.local/share/fnm:$PATH"
-# Detect current shell (bash or sh/dash)
-if [[ -n "$BASH_VERSION" ]]; then
-    eval "$(fnm env --shell bash)"
-else
-    eval "$(fnm env --shell posix)"
-fi
+eval "$(fnm env --shell bash)"
 
 if command_exists npm; then
     logToFile "Installing Global NPM packages: ${NPM_PACKAGES[*]}"
@@ -287,7 +288,11 @@ else
 fi
 
 if ! command_exists docker; then
-    if [[ -f "$DOTFILES_DIR/install_scripts/docker.sh" ]]; then
+    read -p "Install Docker? (y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        logToFile "Docker install skipped"
+    elif [[ -f "$DOTFILES_DIR/install_scripts/docker.sh" ]]; then
         if bash "$DOTFILES_DIR/install_scripts/docker.sh"; then
             logToFile "Docker installation completed"
         else

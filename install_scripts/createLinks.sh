@@ -11,6 +11,11 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+if [[ $EUID -eq 0 ]]; then
+    echo "Error: run this as your own user, not with sudo (it links into \$HOME)"
+    exit 1
+fi
+
 #==============
 # Variables
 #==============
@@ -32,12 +37,27 @@ YELLOW='\033[0;33m'
 BOLD='\033[1m'
 RESET='\033[0m'
 
+BACKUP_DIR="$HOME/tmp/backup_dots"
+
 ALREADY_LINKED=()
 NEWLY_LINKED=()
 BACKED_UP=()
 
 ensure_dir() {
     mkdir -p "$1"
+}
+
+# Mirrors the path under $HOME so ~/.zshrc and ~/.config/zsh/.zshrc can't collide
+backup_path() {
+    local path="$1"
+    local backup="$BACKUP_DIR/${path#"$HOME"/}"
+
+    ensure_dir "$(dirname "$backup")"
+    if [[ -e "$backup" || -L "$backup" ]]; then
+        rm -rf "$backup"
+    fi
+    mv "$path" "$backup"
+    BACKED_UP+=("$path -> $backup")
 }
 
 force_link() {
@@ -50,10 +70,7 @@ force_link() {
             return 0
         fi
 
-        local backup="${dst}.bak"
-        [[ -e "$backup" ]] && rm -rf "$backup"
-        mv "$dst" "$backup"
-        BACKED_UP+=("$dst -> $backup")
+        backup_path "$dst"
     fi
 
     ensure_dir "$(dirname "$dst")"
@@ -97,7 +114,7 @@ declare -A LINKS=(
 #=============
 # Paths to wipe out or create
 #==============
-LEGACY_PATHS=( # Wipe these out
+LEGACY_PATHS=( # Move these to $BACKUP_DIR
     "$HOME/.aliases"
     "$HOME/.functions"
     "$HOME/.tmux.conf"
@@ -126,7 +143,9 @@ case "$MY_OS" in
 # Linux (Clearly)
 Linux)
     for path in "${LEGACY_PATHS[@]}"; do
-        rm -rf "$path"
+        if [[ -e "$path" || -L "$path" ]]; then
+            backup_path "$path"
+        fi
     done
 
     for dir in "${REQUIRED_DIRS[@]}"; do

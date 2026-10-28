@@ -293,3 +293,7 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --marker=">" --pointer="◆" --separator="─" --scrollbar="│"'
 export FZF_TMUX_OPTS=" -p90%,90% "
 
+# Make sure to load up docker keys from pass?
+export GPG_TTY=$TTY
+gpg-connect-agent updatestartuptty /bye >/dev/null
+

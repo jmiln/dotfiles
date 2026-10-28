@@ -4,7 +4,8 @@ These scripts set up a new Linux system with dotfiles and development tools.
 
 ## Prerequisites
 
-- **Sudo access required** for both scripts
+- **Run as your own user**, not with `sudo`: `install-packages.sh` and `docker.sh` ask for sudo
+  themselves, and all three scripts refuse to run as root
 - **Supported distributions:** Ubuntu and Debian
 - **Repository location:** Must be cloned to `~/dotfiles`
 
@@ -18,13 +19,18 @@ Run the scripts in this order:
 ./createLinks.sh
 ```
 
-Creates symlinks from `~/dotfiles` to their system locations (e.g., `~/.config/nvim`, `~/.zshrc`).
+Creates symlinks from `~/dotfiles` to their system locations (e.g., `~/.config/nvim`,
+`~/.config/zsh/.zshrc`).
 
 **What it does:**
-- Removes legacy config files from `~/.aliases`, `~/.tmux.conf`, etc.
+- Moves legacy config files (`~/.aliases`, `~/.tmux.conf`, `~/.zshrc`, etc.) to the backup dir
 - Creates required directories (`~/.config`, `~/.local`, etc.)
 - Symlinks all dotfiles to proper locations
-- Backs up existing files to `.bak` if they exist
+- Moves any existing file it would replace to the backup dir
+
+**Backups:** go to `~/tmp/backup_dots`, mirroring their path under `~`
+(`~/.config/zsh/.zshrc` becomes `~/tmp/backup_dots/.config/zsh/.zshrc`). A rerun replaces the
+previous backup of the same file.
 
 ### 2. Install Packages
 
@@ -42,13 +48,14 @@ Installs all dependencies and development tools.
 - Installs global npm packages
 - Installs tmux plugin manager and plugins
 - Changes default shell to zsh
-- Optionally installs Docker (via docker.sh)
+- If Docker is missing, asks whether to install it (via docker.sh)
 
 **Installation log:** Progress is logged to `~/dotfiles/install_progress_log.txt`
 
 ### 3. Docker (Optional)
 
-Docker is automatically installed by `install-packages.sh` if not already present. You can also run it manually:
+`install-packages.sh` offers to install Docker if it's not already present. You can also run it
+manually:
 
 ```bash
 ./docker.sh
