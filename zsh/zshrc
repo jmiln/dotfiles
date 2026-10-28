@@ -266,6 +266,7 @@ function fzf_rg_search() {
             --line-range $((LINE > 15 ? LINE - 15 : 1)):$((LINE + 45))
         ' \
         --tmux "90%,90%" \
+        --border-label ' Grep files (Ctrl+G) ' \
         --bind 'enter:become(nvim {1} +{2})'
 }
 zle -N fzf_rg_search
@@ -274,7 +275,7 @@ bindkey '^G' fzf_rg_search
 # Stylize the History search on Ctrl+R
 function fzf-history-selection() {
   local selected
-  selected=$(fc -ln -r 1 | fzf --height 90% --layout=reverse --query="$LBUFFER" | sed 's/^ *//')
+  selected=$(fc -ln -r 1 | fzf --height 90% --layout=reverse --query="$LBUFFER" --border-label ' History (Ctrl+R) ' | sed 's/^ *//')
   [[ -n "$selected" ]] && LBUFFER=$selected
   zle reset-prompt
 }
@@ -282,8 +283,7 @@ zle -N fzf-history-selection
 bindkey '^R' fzf-history-selection
 
 export FZF_DEFAULT_OPTS="--style default \
-    --preview 'fzf-preview.sh {}' \
-    --bind 'focus:transform-header:file --brief {}' --height 90% --layout=default --border --color=hl:#2dd4bf"
+    --height 90% --layout=default --border --color=hl:#2dd4bf"
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#0f0f0f,bg+:#2e2e2e
   --color=hl:#87afd7,hl+:#afd7ff,info:#d7d787,marker:#87af87
