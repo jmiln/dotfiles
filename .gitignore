@@ -12,5 +12,6 @@ vim/autoload/
 # Do the same for nvim
 nvim/undodir/*
 nvim/lazy-lock.json
-nvim/plugged/*
-nvim/plugin/packer_compiled.lua
+
+# Written by install_scripts/install-packages.sh
+install_progress_log.txt

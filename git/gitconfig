@@ -11,9 +11,6 @@
     #                   fg        bg
     plus-style =      "#e0e0e0" "#003800"
     plus-emph-style = "#c0c0c0" "#005e00"
-[pager]
-    diff = delta --line-numbers
-    show = delta --line-numbers
 [interactive]
     diffFilter = delta --color-only
 [merge]

@@ -87,7 +87,6 @@ alias .inputrc="$EDITOR $HOME/.inputrc"
 alias .nvim="$EDITOR $HOME/.config/nvim/init.lua"
 alias .profile="$EDITOR $HOME/.profile"
 alias .tmux="$EDITOR $HOME/.config/tmux/tmux.conf"
-alias .vimrc="$EDITOR $HOME/.vimrc"
 
 alias xs="cd" # For when I mistype
 

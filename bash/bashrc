@@ -109,8 +109,12 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
+if [ -f ~/.config/scripts/.aliases ]; then
+    . ~/.config/scripts/.aliases
+fi
+
+if [ -f ~/.config/scripts/.functions ]; then
+    . ~/.config/scripts/.functions
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -136,4 +140,4 @@ if which tmux 2>&1 >/dev/null; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"

@@ -29,42 +29,19 @@ function updateFnmPack() {
 }
 
 
-# Various C compiler functions
-
 #------------------------------------------------------
 #---------- Various C compiler functions ---------- {{{
 #------------------------------------------------------
-function c() {
-    gcc -g -o ${1} ${1}.c
-}
-
-function cm() {
-    gcc -g -o ${1} ${1}.c -lm
-}
-
-function cmall() {
-    gcc -Wall -pedantic -g  -o ${1} ${1}.c -lm
-}
-
-function call() {
-    gcc -Wall -pedantic -g  -o ${1} ${1}.c
-}
-
-function c99() {
-    gcc -std=c99 -g -o ${1} ${1}.c
-}
-
-function cm99() {
-    gcc -std=c99 -g -o ${1} ${1}.c -lm
-}
-
-function c99all() {
-    gcc -Wall -pedantic -g -std=c99 -o ${1} ${1}.c
-}
-
-function cm99all() {
-    gcc -Wall -pedantic -g -std=c99 -o ${1} ${1}.c -lm
-}
+# Usage: c foo (or c foo.c) builds foo.c into ./foo
+# m = link libm, all = -Wall -pedantic, 99 = -std=c99
+c()       { gcc -g                          -o "${1%.c}" "${1%.c}.c"; }
+cm()      { gcc -g                          -o "${1%.c}" "${1%.c}.c" -lm; }
+call()    { gcc -g -Wall -pedantic          -o "${1%.c}" "${1%.c}.c"; }
+cmall()   { gcc -g -Wall -pedantic          -o "${1%.c}" "${1%.c}.c" -lm; }
+c99()     { gcc -g -std=c99                 -o "${1%.c}" "${1%.c}.c"; }
+cm99()    { gcc -g -std=c99                 -o "${1%.c}" "${1%.c}.c" -lm; }
+c99all()  { gcc -g -std=c99 -Wall -pedantic -o "${1%.c}" "${1%.c}.c"; }
+cm99all() { gcc -g -std=c99 -Wall -pedantic -o "${1%.c}" "${1%.c}.c" -lm; }
 
 
 #---------------------------------------
@@ -80,23 +57,26 @@ function :h { vim +":h $1" +'wincmd o' +'nnoremap q :q!<CR>' ;}
 #---------- Number Conversions ---------- {{{
 #--------------------------------------------
 
+# bc only reads uppercase hex digits
+_upper() { printf '%s' "$*" | tr '[:lower:]' '[:upper:]'; }
+
 # Hex to Decimal
-h2d(){ echo "ibase=16; $@"|bc }
+h2d() { echo "ibase=16; $(_upper "$@")" | bc; }
 
 # Decimal to Hex
-d2h(){ echo "obase=16; $@"|bc }
+d2h() { echo "obase=16; $*" | bc; }
 
-# Deximal to Binary
-d2b(){ echo "obase=2; $@"| bc }
+# Decimal to Binary
+d2b() { echo "obase=2; $*" | bc; }
 
 # Binary to Decimal
-b2d(){ echo "ibase=2; $@"| bc }
+b2d() { echo "ibase=2; $*" | bc; }
 
 # Hex to Binary
-h2b(){ echo "obase=2; ibase=16; ${(U)@}" | bc }
+h2b() { echo "obase=2; ibase=16; $(_upper "$@")" | bc; }
 
 # Binary to Hex
-b2h(){ echo "obase=16; ibase=2; $@" | bc }
+b2h() { echo "obase=16; ibase=2; $*" | bc; }
 
 
 #--------------------------------------------
@@ -123,15 +103,19 @@ m-ip() {
 #---------- File Manipulation ---------- {{{
 #-------------------------------------------
 
-function swap() { # Swap 2 filenames around, if they exist
+function swap() { # Swap 2 files or directories around, if they exist
     [ $# -ne 2 ] && echo "swap: 2 arguments needed" && return 1
     [ ! -e "$1" ] && echo "swap: $1 does not exist" && return 1
     [ ! -e "$2" ] && echo "swap: $2 does not exist" && return 1
 
-    local TMPFILE=$(mktemp)
-    command mv "$1" "$TMPFILE"
-    command mv "$2" "$1"
-    command mv "$TMPFILE" "$2"
+    # Atomic on coreutils 9.5+; older mv lacks --exchange, so fall back to a 3-step rename
+    command mv --exchange -T -- "$1" "$2" 2>/dev/null && return 0
+
+    # Next to $1 rather than in /tmp, so it's a rename on the same filesystem instead of a copy
+    local tmp="$1.swap.$$"
+    command mv -T -- "$1" "$tmp" &&
+        command mv -T -- "$2" "$1" &&
+        command mv -T -- "$tmp" "$2"
 }
 
 

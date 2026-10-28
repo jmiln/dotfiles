@@ -1,23 +1,6 @@
-Directions:
+Personal dotfiles. Clone to ~/dotfiles.
 
-Run install-packages.sh
-Run createLinks.sh
+Linux setup: see install_scripts/README.md
+ - Run ./install_scripts/createLinks.sh first, then ./install_scripts/install-packages.sh
 
-Tmux plugin manager:
- - https://github.com/tmux-plugins/tpm#installation
-
-FNM [Fast Node Manager](https://github.com/Schniz/fnm):
- - https://github.com/Schniz/fnm?tab=readme-ov-file#installation
- - Run `fnm install lts` or `fnm install <version#>` 
-
-Generally after node is installed, I install biome and ncu
- - npm i -g @biomejs/biome npm-check-updates
-
-For Eza, manual installation or homebrew may be required, if you want a recent version, as the apt one is rather old
- - https://github.com/eza-community/eza
-
-Neovim:
- - [Bob](https://github.com/MordechaiHadad/bob):
-  * Version manager for nvim, similar to nvm or fnm
-  * Installation: https://github.com/MordechaiHadad/bob?tab=readme-ov-file#-installation
-   - Either via Cargo (Rust), or with a downloadable zip
+Windows setup: see windows/README.md
