@@ -296,7 +296,3 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --marker=">" --pointer="◆" --separator="─" --scrollbar="│"'
 export FZF_TMUX_OPTS=" -p90%,90% "
 
-# Lets gpg ask for the passphrase in this terminal, which pass and docker-credential-pass rely on
-export GPG_TTY=$TTY
-gpg-connect-agent updatestartuptty /bye >/dev/null
-
