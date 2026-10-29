@@ -76,3 +76,9 @@ Write-Host "`nSetting DOTFILES env var to: $dotfilesPath" -ForegroundColor Green
 
 # Refresh the current session's variable so the profile can use it immediately
 $env:DOTFILES = $dotfilesPath
+
+# nvim on Windows defaults to %LOCALAPPDATA%\nvim; this makes it read the ~\.config\nvim link above
+$xdgConfigHome = "$env:USERPROFILE\.config"
+Write-Host "Setting XDG_CONFIG_HOME env var to: $xdgConfigHome" -ForegroundColor Green
+[Environment]::SetEnvironmentVariable("XDG_CONFIG_HOME", $xdgConfigHome, "User")
+$env:XDG_CONFIG_HOME = $xdgConfigHome

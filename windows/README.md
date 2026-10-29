@@ -13,6 +13,8 @@
         - The `../nvim` dir goes to `$HOME\.config\nvim`
         - The `../alacritty` dir goes to `$APPDATA\alacritty`
         - The `../npmrc` file goes to `$HOME\.npmrc`
+        - Sets the user env vars `DOTFILES` and `XDG_CONFIG_HOME` (`$HOME\.config`, so nvim reads
+          its config from there). Open a new terminal afterwards to pick them up.
 
     * Admin permissions required for:
         - CreateLinks script (creates symlinks/junctions)
