@@ -94,6 +94,7 @@ declare -A LINKS=(
     ["$DOTFILES_DIR/alacritty"]="$HOME/.config/alacritty"
     ["$DOTFILES_DIR/aliases"]="$HOME/.config/scripts/.aliases"
     ["$DOTFILES_DIR/bash/bashrc"]="$HOME/.bashrc"
+    ["$DOTFILES_DIR/biome/biome.json"]="$HOME/.config/biome/biome.json"
     ["$DOTFILES_DIR/btop.conf"]="$HOME/.config/btop/btop.conf"
     ["$DOTFILES_DIR/functions"]="$HOME/.config/scripts/.functions"
     ["$DOTFILES_DIR/git/gitconfig"]="$HOME/.gitconfig"
