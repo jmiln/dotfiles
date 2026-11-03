@@ -37,7 +37,25 @@ if [[ "$TODO_FILE" == "$GLOBAL_TODO" ]]; then
 fi
 
 # Create pane and open editor
-tmux display-popup -E -w 95% -h 95% -d "$PANE_PATH" \
-    -b rounded \
-    -T "#[fg=orange,bold]$LABEL#[default]" \
-    "$EDITOR $TODO_FILE"
+# tmux display-popup -E -w 95% -h 95% -d "$PANE_PATH" \
+#     -b rounded \
+#     -T "#[fg=orange,bold]$LABEL#[default]" \
+#     "$EDITOR $TODO_FILE"
+
+# Create pane and open editor
+# tmux display-popup -E -w 95% -h 95% -d "$PANE_PATH" -b rounded -T "#[fg=orange,bold]$LABEL#[default]" "$EDITOR $TODO_FILE"
+FLOATING_PANE_MIN_VERSION="3.8"
+SERVER_VERSION="$(tmux display-message -p '#{version}')"
+
+if printf '%s\n' "$FLOATING_PANE_MIN_VERSION" "${SERVER_VERSION#next-}" | sort -V -C; then
+    PANE_ID="$(tmux new-pane -P -F '#{pane_id}' -x 95% -y 95% -B heavy -c "$PANE_PATH" \
+        "$EDITOR" "$TODO_FILE" \; move-pane -P centre)"
+
+    # nvim's 'title' option overwrites pane_title, so -T can't hold the label
+    tmux set-option -p -t "$PANE_ID" pane-border-format "#[fg=orange,bold]$LABEL#[default]"
+else
+    tmux display-popup -E -w 95% -h 95% -d "$PANE_PATH" \
+        -b rounded \
+        -T "#[fg=orange,bold]$LABEL#[default]" \
+        "$EDITOR $TODO_FILE"
+fi
