@@ -48,7 +48,7 @@ FLOATING_PANE_MIN_VERSION="3.8"
 SERVER_VERSION="$(tmux display-message -p '#{version}')"
 
 if printf '%s\n' "$FLOATING_PANE_MIN_VERSION" "${SERVER_VERSION#next-}" | sort -V -C; then
-    PANE_ID="$(tmux new-pane -P -F '#{pane_id}' -x 95% -y 95% -B heavy -c "$PANE_PATH" \
+    PANE_ID="$(tmux new-pane -A -P -F '#{pane_id}' -x 95% -y 95% -B heavy -c "$PANE_PATH" \
         "$EDITOR" "$TODO_FILE" \; move-pane -P centre)"
 
     # nvim's 'title' option overwrites pane_title, so -T can't hold the label
